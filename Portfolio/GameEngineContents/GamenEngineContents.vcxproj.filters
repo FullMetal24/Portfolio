@@ -2,70 +2,58 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="PuyoPuyo.cpp" />
-    <ClCompile Include="TitleLevel.cpp">
-      <Filter>Level</Filter>
+    <ClCompile Include="Puyo.cpp">
+      <Filter>Actor</Filter>
     </ClCompile>
-    <ClCompile Include="PlayLevel.cpp">
-      <Filter>Level</Filter>
-    </ClCompile>
-    <ClCompile Include="TitleLogo.cpp">
-      <Filter>Title</Filter>
+    <ClCompile Include="Enemy.cpp">
+      <Filter>Actor</Filter>
     </ClCompile>
     <ClCompile Include="Player.cpp">
-      <Filter>Play</Filter>
+      <Filter>Actor</Filter>
     </ClCompile>
-    <ClCompile Include="Monster.cpp">
-      <Filter>Play</Filter>
-    </ClCompile>
-    <ClCompile Include="EndingCredit.cpp">
-      <Filter>Ending</Filter>
-    </ClCompile>
-    <ClCompile Include="EndingLevel.cpp">
+    <ClCompile Include="GameOver.cpp">
       <Filter>Level</Filter>
     </ClCompile>
-    <ClCompile Include="TitleBackGround.cpp">
-      <Filter>Title</Filter>
+    <ClCompile Include="MainMenu.cpp">
+      <Filter>Level</Filter>
+    </ClCompile>
+    <ClCompile Include="Play.cpp">
+      <Filter>Level</Filter>
+    </ClCompile>
+    <ClCompile Include="Title.cpp">
+      <Filter>Level</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PuyoPuyo.h" />
-    <ClInclude Include="TitleLevel.h">
-      <Filter>Level</Filter>
+    <ClInclude Include="Puyo.h">
+      <Filter>Actor</Filter>
     </ClInclude>
-    <ClInclude Include="PlayLevel.h">
-      <Filter>Level</Filter>
-    </ClInclude>
-    <ClInclude Include="TitleLogo.h">
-      <Filter>Title</Filter>
+    <ClInclude Include="Enemy.h">
+      <Filter>Actor</Filter>
     </ClInclude>
     <ClInclude Include="Player.h">
-      <Filter>Play</Filter>
+      <Filter>Actor</Filter>
     </ClInclude>
-    <ClInclude Include="Monster.h">
-      <Filter>Play</Filter>
-    </ClInclude>
-    <ClInclude Include="EndingCredit.h">
-      <Filter>Ending</Filter>
-    </ClInclude>
-    <ClInclude Include="EndingLevel.h">
+    <ClInclude Include="GameOver.h">
       <Filter>Level</Filter>
     </ClInclude>
-    <ClInclude Include="TitleBackGround.h">
-      <Filter>Title</Filter>
+    <ClInclude Include="MainMenu.h">
+      <Filter>Level</Filter>
+    </ClInclude>
+    <ClInclude Include="Play.h">
+      <Filter>Level</Filter>
+    </ClInclude>
+    <ClInclude Include="Title.h">
+      <Filter>Level</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <Filter Include="Actor">
+      <UniqueIdentifier>{1bec5220-afb7-4394-bc66-5dcc39d4dad3}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Level">
-      <UniqueIdentifier>{d83f65f2-ebc4-49e1-ad37-03cfbd62d271}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Title">
-      <UniqueIdentifier>{7e5b5621-05a2-4785-bce7-7720338e8e8d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Play">
-      <UniqueIdentifier>{36c604d7-94d7-494e-8c59-a89bcd3200a1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Ending">
-      <UniqueIdentifier>{ca9a90cf-c377-48ad-b10e-eb32b761c23d}</UniqueIdentifier>
+      <UniqueIdentifier>{507a191b-14c6-4e68-a4a8-04eedd81eb54}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

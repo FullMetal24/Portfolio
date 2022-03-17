@@ -2,7 +2,6 @@
 #include <GameEngineBase/GameEngineDebug.h>
 #include <GameEngineBase/GameEngineWindow.h>
 #include <GameEngineContents/PuyoPuyo.h>
-#include <GameEngineContents1/MyGame.h>
 
 int __stdcall WinMain(_In_ HINSTANCE hInstance,
     _In_opt_ HINSTANCE hPrevInstance,

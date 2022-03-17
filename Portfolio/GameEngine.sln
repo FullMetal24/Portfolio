@@ -21,10 +21,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GameApp", "GameApp\GameApp.
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GameEngineContents", "GameEngineContents\GamenEngineContents.vcxproj", "{1F6FF1C9-0DDF-4199-BDE3-74AD986564FD}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GameEngineContents1", "GameEngineContents1\GameEngineContents1.vcxproj", "{7159D840-CFD4-42EE-B307-BC1A8EE71BF1}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "개인", "개인", "{CE2204EF-A618-4FAD-8451-01768AADE489}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -65,14 +61,6 @@ Global
 		{1F6FF1C9-0DDF-4199-BDE3-74AD986564FD}.Release|x64.Build.0 = Release|x64
 		{1F6FF1C9-0DDF-4199-BDE3-74AD986564FD}.Release|x86.ActiveCfg = Release|Win32
 		{1F6FF1C9-0DDF-4199-BDE3-74AD986564FD}.Release|x86.Build.0 = Release|Win32
-		{7159D840-CFD4-42EE-B307-BC1A8EE71BF1}.Debug|x64.ActiveCfg = Debug|x64
-		{7159D840-CFD4-42EE-B307-BC1A8EE71BF1}.Debug|x64.Build.0 = Debug|x64
-		{7159D840-CFD4-42EE-B307-BC1A8EE71BF1}.Debug|x86.ActiveCfg = Debug|Win32
-		{7159D840-CFD4-42EE-B307-BC1A8EE71BF1}.Debug|x86.Build.0 = Debug|Win32
-		{7159D840-CFD4-42EE-B307-BC1A8EE71BF1}.Release|x64.ActiveCfg = Release|x64
-		{7159D840-CFD4-42EE-B307-BC1A8EE71BF1}.Release|x64.Build.0 = Release|x64
-		{7159D840-CFD4-42EE-B307-BC1A8EE71BF1}.Release|x86.ActiveCfg = Release|Win32
-		{7159D840-CFD4-42EE-B307-BC1A8EE71BF1}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -82,7 +70,6 @@ Global
 		{83161800-5D2E-4619-BDB6-824F181A0287} = {C0146F90-A78F-4575-A578-FD262977C303}
 		{5318E2A9-A104-4050-B301-5B285F19E0FF} = {74A5EE07-C786-4822-BF12-E7A506609190}
 		{1F6FF1C9-0DDF-4199-BDE3-74AD986564FD} = {D3D4142D-BEE1-4419-9DBE-9D99EAB78207}
-		{7159D840-CFD4-42EE-B307-BC1A8EE71BF1} = {CE2204EF-A618-4FAD-8451-01768AADE489}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {FFE4766F-4418-4E12-A281-6D53C419099A}
