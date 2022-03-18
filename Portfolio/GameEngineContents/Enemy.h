@@ -1,6 +1,7 @@
 #pragma once
 #include "GameEngine/GameEngineActor.h"
 
+//AI
 class Enemy : public GameEngineActor
 {
 public:

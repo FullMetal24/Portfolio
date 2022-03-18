@@ -152,12 +152,20 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="CharacterSelect.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="GameOver.h" />
     <ClInclude Include="MainMenu.h" />
-    <ClInclude Include="Play.h" />
+    <ClInclude Include="PlayGame.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Puyo.h" />
+    <ClInclude Include="PuyoPair.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="PuyoPuyo.h">
       <SubType>
       </SubType>
@@ -165,12 +173,20 @@
     <ClInclude Include="Title.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CharacterSelect.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="GameOver.cpp" />
     <ClCompile Include="MainMenu.cpp" />
-    <ClCompile Include="Play.cpp" />
+    <ClCompile Include="PlayGame.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Puyo.cpp" />
+    <ClCompile Include="PuyoPair.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="PuyoPuyo.cpp">
       <SubType>
       </SubType>

@@ -37,6 +37,7 @@ public:
 	GameEngineImageManager& operator=(GameEngineImageManager&& _Other) noexcept = delete;
 
 	GameEngineImage* Create(const std::string& _Name, float4 _Scale);
+	GameEngineImage* Create(const std::string& _Name, HDC _DC);
 
 protected:
 

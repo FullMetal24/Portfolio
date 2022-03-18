@@ -2,50 +2,62 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="PuyoPuyo.cpp" />
-    <ClCompile Include="Puyo.cpp">
-      <Filter>Actor</Filter>
-    </ClCompile>
-    <ClCompile Include="Enemy.cpp">
-      <Filter>Actor</Filter>
-    </ClCompile>
-    <ClCompile Include="Player.cpp">
-      <Filter>Actor</Filter>
-    </ClCompile>
     <ClCompile Include="GameOver.cpp">
       <Filter>Level</Filter>
     </ClCompile>
     <ClCompile Include="MainMenu.cpp">
       <Filter>Level</Filter>
     </ClCompile>
-    <ClCompile Include="Play.cpp">
+    <ClCompile Include="PlayGame.cpp">
       <Filter>Level</Filter>
     </ClCompile>
     <ClCompile Include="Title.cpp">
       <Filter>Level</Filter>
     </ClCompile>
+    <ClCompile Include="CharacterSelect.cpp">
+      <Filter>Level</Filter>
+    </ClCompile>
+    <ClCompile Include="Puyo.cpp">
+      <Filter>Actor\Puyo</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Actor\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy.cpp">
+      <Filter>Actor\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="PuyoPair.cpp">
+      <Filter>Actor\Puyo</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PuyoPuyo.h" />
-    <ClInclude Include="Puyo.h">
-      <Filter>Actor</Filter>
-    </ClInclude>
-    <ClInclude Include="Enemy.h">
-      <Filter>Actor</Filter>
-    </ClInclude>
-    <ClInclude Include="Player.h">
-      <Filter>Actor</Filter>
-    </ClInclude>
     <ClInclude Include="GameOver.h">
       <Filter>Level</Filter>
     </ClInclude>
     <ClInclude Include="MainMenu.h">
       <Filter>Level</Filter>
     </ClInclude>
-    <ClInclude Include="Play.h">
+    <ClInclude Include="PlayGame.h">
       <Filter>Level</Filter>
     </ClInclude>
     <ClInclude Include="Title.h">
       <Filter>Level</Filter>
+    </ClInclude>
+    <ClInclude Include="CharacterSelect.h">
+      <Filter>Level</Filter>
+    </ClInclude>
+    <ClInclude Include="Puyo.h">
+      <Filter>Actor\Puyo</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Actor\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy.h">
+      <Filter>Actor\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="PuyoPair.h">
+      <Filter>Actor\Puyo</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -54,6 +66,15 @@
     </Filter>
     <Filter Include="Level">
       <UniqueIdentifier>{507a191b-14c6-4e68-a4a8-04eedd81eb54}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\Puyo">
+      <UniqueIdentifier>{b06c5114-af39-4a99-af9f-2d08b6d7273e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\Player">
+      <UniqueIdentifier>{874b91bf-ad0b-47e4-ae83-621b74a1b900}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\Enemy">
+      <UniqueIdentifier>{6e019613-4a06-4aa9-8dc1-f36c300dd52c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
