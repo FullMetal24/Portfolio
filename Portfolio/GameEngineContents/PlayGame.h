@@ -18,6 +18,6 @@ public:
 protected:
 
 private:
-
+	//Plyer와 선택한 Enemy를 동적할당(Enemy 타입, 이미지 넘겨주기?)
 };
 

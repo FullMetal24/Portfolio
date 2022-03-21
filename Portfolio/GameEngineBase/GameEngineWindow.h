@@ -2,6 +2,7 @@
 #include <Windows.h>
 #include <string>
 #include "GameEngineMath.h"
+#include "GameEngineDebug.h"
 
 class GameEngineWindow
 {

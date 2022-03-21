@@ -18,7 +18,7 @@
       <Filter>Level</Filter>
     </ClCompile>
     <ClCompile Include="Puyo.cpp">
-      <Filter>Actor\Puyo</Filter>
+      <Filter>Actor\Level\PlayGame\Puyo</Filter>
     </ClCompile>
     <ClCompile Include="Player.cpp">
       <Filter>Actor\Player</Filter>
@@ -27,7 +27,10 @@
       <Filter>Actor\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="PuyoPair.cpp">
-      <Filter>Actor\Puyo</Filter>
+      <Filter>Actor\Level\PlayGame\Puyo</Filter>
+    </ClCompile>
+    <ClCompile Include="BackGround.cpp">
+      <Filter>Actor\Level</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -48,7 +51,7 @@
       <Filter>Level</Filter>
     </ClInclude>
     <ClInclude Include="Puyo.h">
-      <Filter>Actor\Puyo</Filter>
+      <Filter>Actor\Level\PlayGame\Puyo</Filter>
     </ClInclude>
     <ClInclude Include="Player.h">
       <Filter>Actor\Player</Filter>
@@ -57,7 +60,10 @@
       <Filter>Actor\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="PuyoPair.h">
-      <Filter>Actor\Puyo</Filter>
+      <Filter>Actor\Level\PlayGame\Puyo</Filter>
+    </ClInclude>
+    <ClInclude Include="BackGround.h">
+      <Filter>Actor\Level</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -67,14 +73,20 @@
     <Filter Include="Level">
       <UniqueIdentifier>{507a191b-14c6-4e68-a4a8-04eedd81eb54}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Actor\Puyo">
-      <UniqueIdentifier>{b06c5114-af39-4a99-af9f-2d08b6d7273e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Actor\Player">
       <UniqueIdentifier>{874b91bf-ad0b-47e4-ae83-621b74a1b900}</UniqueIdentifier>
     </Filter>
     <Filter Include="Actor\Enemy">
       <UniqueIdentifier>{6e019613-4a06-4aa9-8dc1-f36c300dd52c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\Level">
+      <UniqueIdentifier>{53746573-7fc9-449a-811f-fc5af85f7715}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\Level\PlayGame">
+      <UniqueIdentifier>{175c2f27-c6d5-44f3-970f-a14faee0eabd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\Level\PlayGame\Puyo">
+      <UniqueIdentifier>{b06c5114-af39-4a99-af9f-2d08b6d7273e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

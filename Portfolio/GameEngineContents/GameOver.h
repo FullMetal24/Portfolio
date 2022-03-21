@@ -4,18 +4,16 @@
 class GameOver : public GameEngineLevel
 {
 public:
-	// constrcuter destructer
 	GameOver();
 	~GameOver();
 
-	// delete Function
 	GameOver(const GameOver& _Other) = delete;
 	GameOver(GameOver&& _Other) noexcept = delete;
 	GameOver& operator=(const GameOver& _Other) = delete;
 	GameOver& operator=(GameOver&& _Other) noexcept = delete;
 
-	void Loading() override;
-	void Update()  override;
+	void Loading() override; 
+	void Update()  override; //재시작 키 입력 감지(PlayGame or mainmenu)
 
 protected:
 

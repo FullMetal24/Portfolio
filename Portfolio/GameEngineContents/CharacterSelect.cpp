@@ -8,3 +8,15 @@ CharacterSelect::~CharacterSelect()
 {
 }
 
+void CharacterSelect::Loading()
+{
+}
+
+
+void CharacterSelect::Update()
+{
+
+}
+
+
+

@@ -23,5 +23,8 @@ public:
 protected:
 
 private:
+	//PuyoPair* CurrnetPuyo;
+	//PuyoPair* NextPuyo;
+
 };
 

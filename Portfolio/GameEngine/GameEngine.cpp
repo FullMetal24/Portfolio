@@ -50,6 +50,9 @@ void GameEngine::WindowCreate()
 void GameEngine::EngineInit()
 {
     UserContents_->GameInit();
+
+    // 백버퍼를 만들어 낸다.
+    WindowMainImage_ = GameEngineImageManager::GetInst()->Create("WindowMain", GameEngineWindow::GetHDC());
     BackBufferImage_ = GameEngineImageManager::GetInst()->Create("BackBuffer", GameEngineWindow::GetScale());
 }
 
@@ -84,6 +87,8 @@ void GameEngine::EngineLoop()
     CurrentLevel_->Update();
     CurrentLevel_->ActorUpdate();
     CurrentLevel_->ActorRender();
+
+    WindowMainImage_->BitCopy(BackBufferImage_);
 }
 
 void GameEngine::EngineEnd()
