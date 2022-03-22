@@ -2,7 +2,7 @@
 #include <GameEngine/GameEngine.h>
 
 
-class PuyoPuyo : public GameEngine
+class PuyoPuyo: public GameEngine
 {
 
 public:

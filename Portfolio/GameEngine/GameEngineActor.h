@@ -19,13 +19,6 @@ public:
 	GameEngineActor& operator=(const GameEngineActor& _Other) = delete;
 	GameEngineActor& operator=(GameEngineActor&& _Other) noexcept = delete;
 
-protected:
-	virtual void Start() = 0; //생성자에서 못할 부분을 대신함
-	virtual void Update() {};
-	virtual void Render() {};
-
-	void DebugRectRender();
-
 	inline float4 GetPosition()
 	{
 		return Position_;
@@ -46,6 +39,13 @@ protected:
 		Scale_ = _Value;
 	}
 
+protected:
+	virtual void Start() = 0; //생성자에서 못할 부분을 대신함
+	virtual void Update() {};
+	virtual void Render() {};
+
+	void DebugRectRender();
+
 private:
 	float4	Position_;
 	float4	Scale_;
@@ -56,10 +56,14 @@ private:
 		Level_ = _Level;
 	}
 
+	void Rendering();
+
 public:
-	GameEngineActor* CreateRenderer(const std::string& _Image, RenderPivot _PivotType = RenderPivot::CENTER, const float4& _PivotPos = {0,0});
+	GameEngineRenderer* CreateRenderer(const std::string& _Image, RenderPivot _PivotType = RenderPivot::CENTER, const float4& _PivotPos = {0,0});
 
 private:
 	std::list<GameEngineRenderer*> RenderList_;
+	std::list<GameEngineRenderer*>::iterator StartRenderIter;
+	std::list<GameEngineRenderer*>::iterator EndRenderIter;
 };
 

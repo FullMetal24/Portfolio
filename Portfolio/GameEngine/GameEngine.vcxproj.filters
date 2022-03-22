@@ -23,12 +23,12 @@
     <ClInclude Include="GameEngineEnum.h">
       <Filter>Global</Filter>
     </ClInclude>
+    <ClInclude Include="GameEngineActorSubObject.h">
+      <Filter>Object\Actor\SubObject</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameEngine.cpp" />
-    <ClCompile Include="GameEngineLevel.cpp">
-      <Filter>Object</Filter>
-    </ClCompile>
     <ClCompile Include="GameEngineActor.cpp">
       <Filter>Object\Actor</Filter>
     </ClCompile>
@@ -43,6 +43,12 @@
     </ClCompile>
     <ClCompile Include="GameEngineRenderer.cpp">
       <Filter>Object\Actor\SubObject</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineActorSubObject.cpp">
+      <Filter>Object\Actor\SubObject</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineLevel.cpp">
+      <Filter>Object</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

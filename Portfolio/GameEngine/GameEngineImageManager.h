@@ -26,11 +26,9 @@ public:
 	}
 
 public:
-	// constrcuter destructer
 	GameEngineImageManager();
 	~GameEngineImageManager();
 
-	// delete Function
 	GameEngineImageManager(const GameEngineImageManager& _Other) = delete;
 	GameEngineImageManager(GameEngineImageManager&& _Other) noexcept = delete;
 	GameEngineImageManager& operator=(const GameEngineImageManager& _Other) = delete;

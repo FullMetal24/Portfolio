@@ -13,6 +13,9 @@ public:
 	BackGround& operator=(BackGround&& _Other) noexcept = delete;
 
 	void Start() override;
+	void Render() override;
+	void Update() override;
+
 
 protected:
 

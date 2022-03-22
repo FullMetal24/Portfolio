@@ -88,5 +88,17 @@
     <Filter Include="Actor\Level\PlayGame\Puyo">
       <UniqueIdentifier>{b06c5114-af39-4a99-af9f-2d08b6d7273e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Actor\Level\Title">
+      <UniqueIdentifier>{0ad2dd8f-5758-4d03-8453-b164e2cf51bf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\Level\GameOver">
+      <UniqueIdentifier>{cb445b6b-e71c-455a-81b6-31b0f18ec51f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\Level\Mainmenu">
+      <UniqueIdentifier>{f18dbdd0-01dc-43fc-8af8-47e8056c873b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\Level\ChracterSelect">
+      <UniqueIdentifier>{7e4fc7f9-393b-4e12-b085-8ec1c06e38db}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>

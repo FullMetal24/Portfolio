@@ -7,13 +7,18 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
     {
     case WM_DESTROY:
         GameEngineWindow::GetInst().off();
-        return DefWindowProc(hWnd, message, wParam, lParam);
+        return 0;
+
+    case WM_CLOSE:
+        GameEngineWindow::GetInst().off();
+        return 0;
+
     case WM_PAINT:
     {
         PAINTSTRUCT ps;
         HDC hdc = BeginPaint(hWnd, &ps);
         EndPaint(hWnd, &ps);
-        return DefWindowProcW(hWnd, message, wParam, lParam);
+        return 0;
     }
     }
 

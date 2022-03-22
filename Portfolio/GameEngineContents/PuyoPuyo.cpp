@@ -18,9 +18,10 @@ PuyoPuyo::~PuyoPuyo()
 
 void PuyoPuyo::GameInit()
 {
-	GameEngineWindow::GetInst().SetWindowScaleAndPosition({ 100, 100 }, {1280, 720});
+	GameEngineWindow::GetInst().SetWindowScaleAndPosition({ 100, 100 }, {1280, 896});
 
 	GameEngineImageManager::GetInst()->Load("C:\\Users\\Isaac\\Portfolio\\Portfolio\\APIResources\\CompanyLogo.bmp", "CompanyLogo.bmp");
+	GameEngineImageManager::GetInst()->Load("C:\\Users\\Isaac\\Portfolio\\Portfolio\\APIResources\\GameLogo.bmp", "GameLogo.bmp");
 
 	CreateLevel<Title>("Title"); 
 	CreateLevel<MainMenu>("MainMenu");
