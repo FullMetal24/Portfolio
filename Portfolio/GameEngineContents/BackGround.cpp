@@ -16,11 +16,14 @@ BackGround::~BackGround()
 void BackGround::Start()
 {
 	SetPosition(GameEngineWindow::GetScale().Half());
-	//SetScale({ 100, 100 });
+	SetScale({ 100, 100 });
+
+	CreateRenderer("OVER.bmp");
 }
 
 void BackGround::Render()
 {
+
 	//GameEngineImage* FindeImage = GameEngineImageManager::GetInst()->Find("CompanyLogo.bmp");
 
 	//if (nullptr == FindeImage)

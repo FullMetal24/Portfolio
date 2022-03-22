@@ -20,7 +20,7 @@ GameEngineRenderer::~GameEngineRenderer()
 
 void GameEngineRenderer::SetImage(const std::string& _Name)
 {
-	GameEngineImage* FindeImage = GameEngineImageManager::GetInst()->Find("CompanyLogo.bmp");
+	GameEngineImage* FindeImage = GameEngineImageManager::GetInst()->Find(_Name);
 
 	if (nullptr == FindeImage)
 	{
@@ -35,7 +35,6 @@ void GameEngineRenderer::SetImage(const std::string& _Name)
 
 void GameEngineRenderer::Render()
 {
-
 	if (nullptr == Image_)
 	{
 		MsgBoxAssert("렌더러에 이미지가 세팅되어 있지 않으면 렌더링이 안됩니다.");

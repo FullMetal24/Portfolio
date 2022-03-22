@@ -178,7 +178,8 @@ void GameEngineImage::TransCopy(GameEngineImage* _Other, const float4& _CopyPos,
 
 void GameEngineImage::ImageScaleCheck()
 {
+	//DC에 연결된 GDI 오브젝트 중 비트맵 객체의 핸들값을 얻는다.
 	HBITMAP CurrentBitMap = (HBITMAP)GetCurrentObject(ImageDC_, OBJ_BITMAP);
-	GetObject(BitMap_, sizeof(BITMAP), &Info_);
+	GetObject(BitMap_, sizeof(BITMAP), &Info_); //비트맵 정보를 얻어온다
 }
 

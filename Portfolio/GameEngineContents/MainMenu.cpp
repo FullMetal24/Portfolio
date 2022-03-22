@@ -1,4 +1,6 @@
 #include "MainMenu.h"
+#include "BackGround.h"
+
 
 MainMenu::MainMenu() 
 {

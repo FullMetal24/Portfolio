@@ -1,16 +1,15 @@
 #pragma once
 #include "GameEngineActor.h"
 
+//렌더러에게 엑터를 알려주기 위한 클래스
 class GameEngineActorSubObject
 {
 	friend GameEngineActor;
 
 public:
-	// constrcuter destructer
 	GameEngineActorSubObject();
 	~GameEngineActorSubObject();
 
-	// delete Function
 	GameEngineActorSubObject(const GameEngineActorSubObject& _Other) = delete;
 	GameEngineActorSubObject(GameEngineActorSubObject&& _Other) noexcept = delete;
 	GameEngineActorSubObject& operator=(const GameEngineActorSubObject& _Other) = delete;

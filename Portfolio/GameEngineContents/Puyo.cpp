@@ -16,7 +16,7 @@ void Puyo::Start()
 	SetPosition(GameEngineWindow::GetScale().Half());
 	SetScale({ 100, 100 });
 
-	CreateRenderer("CompanyLogo.bmp");
+	CreateRenderer("GameLogo.bmp");
 }
 
 void Puyo::Update()

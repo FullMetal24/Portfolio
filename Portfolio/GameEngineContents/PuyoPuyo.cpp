@@ -22,6 +22,9 @@ void PuyoPuyo::GameInit()
 
 	GameEngineImageManager::GetInst()->Load("C:\\Users\\Isaac\\Portfolio\\Portfolio\\APIResources\\CompanyLogo.bmp", "CompanyLogo.bmp");
 	GameEngineImageManager::GetInst()->Load("C:\\Users\\Isaac\\Portfolio\\Portfolio\\APIResources\\GameLogo.bmp", "GameLogo.bmp");
+	GameEngineImageManager::GetInst()->Load("C:\\Users\\Isaac\\Portfolio\\Portfolio\\APIResources\\Stage.bmp", "Stage.bmp");
+	GameEngineImageManager::GetInst()->Load("C:\\Users\\Isaac\\Portfolio\\Portfolio\\APIResources\\VS1.bmp", "VS1.bmp");
+	GameEngineImageManager::GetInst()->Load("C:\\Users\\Isaac\\Portfolio\\Portfolio\\APIResources\\OVER.bmp", "OVER.bmp");
 
 	CreateLevel<Title>("Title"); 
 	CreateLevel<MainMenu>("MainMenu");
@@ -29,7 +32,7 @@ void PuyoPuyo::GameInit()
 	CreateLevel<PlayGame>("PlayGame");
 	CreateLevel<GameOver>("GameOver");
 
-	ChangeLevel("Title"); //생성한 타이틀 씬을 현재 씬으로 바꾼다
+	ChangeLevel("PlayGame"); //생성한 타이틀 씬을 현재 씬으로 바꾼다
 }
 
 void PuyoPuyo::GameLoop()
