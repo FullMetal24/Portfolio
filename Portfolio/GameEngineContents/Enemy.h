@@ -1,8 +1,9 @@
 #pragma once
 #include "GameEngine/GameEngineActor.h"
+#include <list>
 
-//AI
-class Enemy : public GameEngineActor
+class Puyo;
+class Enemy : public GameEngineActor //AI
 {
 public:
 	// constrcuter destructer
@@ -22,6 +23,8 @@ public:
 protected:
 
 private:
+
+	std::list<std::list<Puyo*>> EnemyMap_;
 
 };
 

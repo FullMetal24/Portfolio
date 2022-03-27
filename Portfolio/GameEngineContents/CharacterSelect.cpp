@@ -1,5 +1,5 @@
 #include "CharacterSelect.h"
-#include "BackGround.h"
+#include "CS_BackGround.h"
 
 CharacterSelect::CharacterSelect() 
 {
@@ -11,7 +11,7 @@ CharacterSelect::~CharacterSelect()
 
 void CharacterSelect::Loading()
 {
-	CreateActor<BackGround>("VS1", 0);
+	CreateActor<CS_BackGround>(0);
 
 }
 
@@ -23,3 +23,7 @@ void CharacterSelect::Update()
 
 
 
+void CharacterSelect::LevelChangeStart()
+{
+	//CreateActor<BackGround>("BackGround", 0);
+}

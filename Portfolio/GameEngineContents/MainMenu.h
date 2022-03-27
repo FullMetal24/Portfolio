@@ -1,5 +1,7 @@
 #pragma once
 #include "GameEngine/GameEngineLevel.h"
+#include "Menus.h"
+#include <vector>
 
 class MainMenu : public GameEngineLevel
 {
@@ -15,13 +17,15 @@ public:
 	void Loading() override; 
 	void Update()  override;
 
-	//카메라 좌우 이동
+
 	//카방클 5개 레벨 고르기
 	//enum문을 통해 고른 씬으로 이동
 
 protected:
 
 private:
+	std::vector<Menus> Menus_;
+	Menus CurrentMenu_;
 
 };
 

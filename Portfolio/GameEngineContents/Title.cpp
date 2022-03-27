@@ -1,6 +1,6 @@
 #include "Title.h"
-#include "Puyo.h"
-#include "BackGround.h"
+#include "BlueLightning.h"
+#include "CompanyLogo.h"
 #include "GameEngine/GameEngineLevel.h"
 
 Title::Title() 
@@ -13,10 +13,8 @@ Title::~Title()
 
 void Title::Loading()
 {
-	//CreateActor<Puyo>("CompanyLogo", 0);
-	CreateActor<Puyo>("GameLogo", 0);
-
-	//CreateActor<Puyo>("Puyo", 0); //뿌요 같은 경우 해당 조건이 되면 함수를 호출해서 다시 Crate
+	CreateActor<CompanyLogo>(1);
+	CreateActor<BlueLightning>(0); 
 }
 
 void Title::Update()

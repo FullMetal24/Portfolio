@@ -1,6 +1,7 @@
 #include "GameEngineImageManager.h"
 #include <GameEngineBase/GameEngineDebug.h>
 #include <GameEngineBase/GameEngineString.h>
+#include <GameEngineBase/GameEngineDirectory.h>
 
 //바로 동적할당을 하였다.
 GameEngineImageManager* GameEngineImageManager::Inst_ = new GameEngineImageManager();
@@ -91,8 +92,9 @@ GameEngineImage* GameEngineImageManager::Create(const std::string& _Name, HDC _D
 
 GameEngineImage* GameEngineImageManager::Load(const std::string& _Path)
 {
+	GameEnginePath NewPath = GameEnginePath(_Path);
 
-	return nullptr;
+	return Load(_Path, NewPath.GetFileName());
 }
 
 GameEngineImage* GameEngineImageManager::Load(const std::string& _Path, const std::string& _Name)

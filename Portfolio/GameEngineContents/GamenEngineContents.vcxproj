@@ -98,6 +98,7 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>..\;</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -113,6 +114,7 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>..\;</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -128,6 +130,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>..\;</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -143,6 +146,7 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>..\;</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -152,7 +156,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="BackGround.h">
+    <ClInclude Include="ArleFace.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="BlueLightning.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Carbuncle.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="CarbuncleCoin.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -160,11 +176,55 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="CharacterSelectWindow.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="ChineseCharacter.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="ChracterBackground.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="CompanyLogo.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="CS_BackGround.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Enemy.h" />
+    <ClInclude Include="EnemyWindow.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="GameName.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="GameOver.h" />
+    <ClInclude Include="KnockdownPlayer.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="MainMenu.h" />
-    <ClInclude Include="PlayGame.h" />
+    <ClInclude Include="Menus.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="MM_BackGround.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Player.h" />
+    <ClInclude Include="PlayerWindow.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="InGame.h" />
     <ClInclude Include="Puyo.h" />
     <ClInclude Include="PuyoPair.h">
       <SubType>
@@ -174,10 +234,38 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="Red_Puyo.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Stage.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="StageTop.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Title.h" />
+    <ClInclude Include="YellowLightning.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="BackGround.cpp">
+    <ClCompile Include="ArleFace.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="BlueLightning.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Carbuncle.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="CarbuncleCoin.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -185,11 +273,55 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="CharacterSelectWindow.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="ChineseCharacter.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="ChracterBackground.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="CompanyLogo.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="CS_BackGround.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="EnemyWindow.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="GameName.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="GameOver.cpp" />
+    <ClCompile Include="KnockdownPlayer.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="MainMenu.cpp" />
-    <ClCompile Include="PlayGame.cpp" />
+    <ClCompile Include="Menus.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="MM_BackGround.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="PlayerWindow.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="InGame.cpp" />
     <ClCompile Include="Puyo.cpp" />
     <ClCompile Include="PuyoPair.cpp">
       <SubType>
@@ -199,7 +331,23 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="Red_Puyo.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Stage.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="StageTop.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Title.cpp" />
+    <ClCompile Include="YellowLightning.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GameEngineBase\GameEngineBase.vcxproj">

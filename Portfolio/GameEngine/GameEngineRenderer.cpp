@@ -1,7 +1,7 @@
 #include "GameEngineRenderer.h"
 #include "GameEngineImageManager.h"
 #include <GameEngineBase/GameEngineDebug.h>
-#include <GameEngine/GameEngine.h>
+#include "GameEngine.h"
 
 
 #pragma comment(lib, "msimg32.lib")
@@ -18,6 +18,21 @@ GameEngineRenderer::~GameEngineRenderer()
 {
 }
 
+
+void GameEngineRenderer::SetImageScale()
+{
+	if (nullptr == Image_)
+	{
+		MsgBoxAssert("존재하지 않는 이미지로 크기를 조절하려고 했습니다.");
+		return;
+	}
+
+	ScaleMode_ = RenderScaleMode::Image;
+	RenderScale_ = Image_->GetScale(); //이미지 크기대로 크기 지정
+	RenderImageScale_ = Image_->GetScale();
+}
+
+
 void GameEngineRenderer::SetImage(const std::string& _Name)
 {
 	GameEngineImage* FindeImage = GameEngineImageManager::GetInst()->Find(_Name);
@@ -32,7 +47,6 @@ void GameEngineRenderer::SetImage(const std::string& _Name)
 }
 
 
-
 void GameEngineRenderer::Render()
 {
 	if (nullptr == Image_)
@@ -42,31 +56,30 @@ void GameEngineRenderer::Render()
 	}
 	
 	float4 RenderPos = GetActor()->GetPosition() + RenderPivot_;
-	float4 RenderScale = RenderScale_;
-
-	switch (ScaleMode_)
-	{
-	case RenderScaleMode::Image:
-		RenderScale = Image_->GetScale();
-		break;
-	case RenderScaleMode::User:
-		break;
-	default:
-		break; 
-	}
 
 	switch (PivotType_)
 	{
-	case RenderPivot::CENTER:
-		GameEngine::BackBufferImage()->TransCopyCenterScale(Image_, RenderPos, RenderScale_, TransColor_);
-		break;												
-	case RenderPivot::BOT:									
-		GameEngine::BackBufferImage()->TransCopyCenterScale(Image_, RenderPos, RenderScale_, TransColor_);
-		break;
-	default:
-		break;
+		case RenderPivot::CENTER:
+			GameEngine::BackBufferImage()->TransCopy(Image_, RenderPos - RenderScale_.Half(), RenderScale_, RenderImagePivot_, RenderImageScale_, TransColor_);
+			break;												
+		case RenderPivot::BOT:									
+			//GameEngine::BackBufferImage()->TransCopyCenterScale(Image_, RenderPos, RenderScale_, TransColor_);
+			break;
+		default:
+			break;
 	}
-
-	
 }
 
+void GameEngineRenderer::SetIndex(size_t _Index)
+{
+	if (false == Image_->IsCut())
+	{
+		MsgBoxAssert("이미지를 부분적으로 사용할 수 있게 잘려있지 않은 이미지입니다.");
+		return;
+	}
+
+	RenderImagePivot_ = Image_->GetCutPivot(_Index);
+	RenderScale_ = Image_->GetCutScale(_Index);
+	RenderImageScale_ = Image_->GetCutScale(_Index);
+
+}

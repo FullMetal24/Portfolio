@@ -8,3 +8,19 @@ PuyoPair::~PuyoPair()
 {
 }
 
+void PuyoPair::Start()
+{
+
+}
+
+void PuyoPair::Update()
+{
+
+}
+
+
+
+void PuyoPair::Rotate()
+{
+
+}

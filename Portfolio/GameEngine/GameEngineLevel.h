@@ -18,18 +18,8 @@ public:
 	GameEngineLevel& operator=(const GameEngineLevel& _Other) = delete;
 	GameEngineLevel& operator=(GameEngineLevel&& _Other) noexcept = delete;
 
-protected:
-	virtual void Loading() = 0; //만들어지면서 리소스나 엑터를 만들 때
-	virtual void Update() = 0; //레벨 수준의 업데이트
-
-	//이전 레벨이 다음 레벨이 되면서 다음 레벨이 호출
-	virtual void LevelChangeStart() {};
-	//이전 레벨이 다음 레벨이 되면서 이전 레벨이 호출
-	virtual void LevelChangeEnd() {};
-
-protected:
 	template<typename ActorType>
-	ActorType* CreateActor(const std::string& _Name, int _Order)
+	ActorType* CreateActor(int _Order = 0, const std::string& _Name = "")
 	{
 		ActorType* NewActor = new ActorType();
 		GameEngineActor* StartActor = NewActor;
@@ -42,8 +32,17 @@ protected:
 		std::list<GameEngineActor*>& Group = AllActor_[_Order]; 
 		Group.push_back(NewActor);
 
-		return nullptr;
+		return NewActor;
 	}
+
+protected:
+	virtual void Loading() = 0; //만들어지면서 리소스나 엑터를 만들 때
+	virtual void Update() = 0; //레벨 수준의 업데이트
+
+	//이전 레벨이 다음 레벨이 되면서 다음 레벨이 호출
+	virtual void LevelChangeStart() {};
+	//이전 레벨이 다음 레벨이 되면서 이전 레벨이 호출
+	virtual void LevelChangeEnd() {};
 
 private:
 	std::map<int, std::list<GameEngineActor*>> AllActor_;
@@ -51,6 +50,7 @@ private:
 
 	void ActorUpdate();
 	void ActorRender();
+	void ActorRealse();
 };
 
 //왜 엑터들을 리스트로 관리하는 걸까?

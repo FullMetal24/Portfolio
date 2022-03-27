@@ -1,9 +1,14 @@
 #pragma once
 #include "GameEngine/GameEngineActor.h"
-#include "PuyoPair.h"
+#include <list>
+#include "Puyo.h"
 
+
+class PuyoPair;
 class Player : public GameEngineActor
 {
+	friend Puyo;
+
 public:
 	Player();
 	~Player();
@@ -17,14 +22,24 @@ public:
 	void Update() override;
 	void Render() override;
 
+	void AddPuyo();
+
 	//뿌요들 리스트, 벡터?로 관리?
 	//게임 끝나면 전부 삭제
 
 protected:
 
 private:
-	//PuyoPair* CurrnetPuyo;
-	//PuyoPair* NextPuyo;
+
+	//std::list<std::list<Puyo*>> PlayerMap_; //생성되는 건 뿌요페어지만 저장은 두 뿌요로 나누어 저장한다.
+
+	Puyo* PlayerMap_[6][13];
+	
+	PuyoPair* CurrnetPair_;
+	PuyoPair* NextPair_;
+	PuyoPair* NextNextPair_;
+
+	Puyo* Visited_[];
 
 };
 
