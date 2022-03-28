@@ -132,6 +132,9 @@ void GameEngine::EngineLoop()
    
         NextLevel_ = nullptr;
         GameEngineTime::GetInst()->Reset();
+
+        Rectangle(WindowMainImage_->ImageDC(), 0, 0, WindowMainImage_->GetScale().ix(), WindowMainImage_->GetScale().iy());
+        Rectangle(BackBufferImage_->ImageDC(), 0, 0, BackBufferImage_->GetScale().ix(), BackBufferImage_->GetScale().iy());
     }
 
     if (nullptr == CurrentLevel_)

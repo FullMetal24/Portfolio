@@ -44,6 +44,7 @@ void GameEngineRenderer::SetImage(const std::string& _Name)
 	}
 
 	Image_ = FindeImage;
+	SetImageScale();
 }
 
 
@@ -70,7 +71,7 @@ void GameEngineRenderer::Render()
 	}
 }
 
-void GameEngineRenderer::SetIndex(size_t _Index)
+void GameEngineRenderer::SetIndex(size_t _Index, float4 _Scale)
 {
 	if (false == Image_->IsCut())
 	{
@@ -79,7 +80,17 @@ void GameEngineRenderer::SetIndex(size_t _Index)
 	}
 
 	RenderImagePivot_ = Image_->GetCutPivot(_Index);
-	RenderScale_ = Image_->GetCutScale(_Index);
+
+	if (-1.0f == _Scale.x || -1.0f == _Scale.y)
+	{
+		RenderScale_ = Image_->GetCutScale(_Index);
+	}
+
+	else //자른 크기 그대로 렌더를 안해도 됨
+	{
+		RenderScale_ = _Scale; //새 크기
+	}
+
 	RenderImageScale_ = Image_->GetCutScale(_Index);
 
 }

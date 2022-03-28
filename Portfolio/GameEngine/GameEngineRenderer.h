@@ -43,10 +43,10 @@ public:
 	inline void SetScale(const float4& _Scale)
 	{
 		ScaleMode_ = RenderScaleMode::User;
-		RenderScale_ = _Scale;
+		RenderScale_ = _Scale; 
 	}
 
-	void SetIndex(size_t _Index);
+	void SetIndex(size_t _Index, float4 _Scale = {-1.0f, -1.0f });
 
 protected:
 	void Render();
@@ -57,9 +57,9 @@ private:
 	RenderScaleMode ScaleMode_;
 
 	float4 RenderPivot_;
-	float4 RenderScale_; //그려낼 크기
+	float4 RenderScale_; //화면 상에 그려낼 크기
 
-	float4 RenderImagePivot_;
+	float4 RenderImagePivot_; //이미지에서 잘라내는 크기
 	float4 RenderImageScale_;
 
 	unsigned int TransColor_;

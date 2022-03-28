@@ -35,20 +35,47 @@ public:
 	void Down();
 	void Left();
 	void Right();
-	void CheckSearch();
+	bool IsLaunding();
 
 	//inline bool GetLaundiung()
 	//{
 	//	return IsLanding_;
 	//}
 
+	inline int GetX()
+	{
+		return X_;
+	}
+
+	inline int GetY()
+	{
+		return Y_;
+	}
+
+	inline void SetX(int _X)
+	{
+		X_ = _X;
+	}
+
+	inline void SetY(int _Y)
+	{
+		Y_ = _Y;
+	}
+
+
 protected:
 
 private:
 	Color PuyoColor_;
+	bool IsVisited_;
+	int X_;
+	int Y_;
+
 	bool IsLaunding_;
+
 	//색
 	//뿌요페어를 알아선 안됨
 	//하지만 뿌요벡터는 알아야 한다.
+
 };
 

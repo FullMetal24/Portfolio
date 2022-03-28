@@ -3,12 +3,10 @@
 #include <list>
 #include "Puyo.h"
 
-
+class Puyo;
 class PuyoPair;
 class Player : public GameEngineActor
 {
-	friend Puyo;
-
 public:
 	Player();
 	~Player();
@@ -21,6 +19,9 @@ public:
 	void Start() override;
 	void Update() override;
 	void Render() override;
+
+	void PuyoInput();
+	bool IsLanding();
 
 	void AddPuyo();
 
@@ -39,7 +40,8 @@ private:
 	PuyoPair* NextPair_;
 	PuyoPair* NextNextPair_;
 
-	Puyo* Visited_[];
-
+	Puyo* Visited_;
+	
+	int RotationCount;
 };
 

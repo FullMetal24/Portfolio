@@ -32,15 +32,7 @@ public:
 		return SecondPuyo_;
 	};
 
-	inline int GetX()
-	{
-		return X_;
-	}
 
-	inline int GetY()
-	{
-		return Y_;
-	}
 
 protected:
 
@@ -48,7 +40,5 @@ private:
 	Puyo*  CenterPuyo_;
 	Puyo*  SecondPuyo_;
 
-	int X_;
-	int Y_;
 };
 
