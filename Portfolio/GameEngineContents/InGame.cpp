@@ -11,6 +11,17 @@ InGame::InGame()
 
 InGame::~InGame()
 {
+	if (nullptr != Player_)
+	{
+		delete Player_;
+		Player_ = nullptr;
+	}
+
+	if (nullptr != CurrentEnemy_)
+	{
+		delete CurrentEnemy_;
+		CurrentEnemy_ = nullptr;
+	}
 }
 
 void InGame::Loading()
@@ -33,24 +44,19 @@ void InGame::Loading()
 	Stages_[1]->CreateRenderer("Stage3.bmp");
 
 	
-	//리시버로 크기 정하기
+	Player_ = new Player();
+	CurrentEnemy_ = new Enemy();
 
-	//Stages_[0] = new Stage();
 
-	
-	/*Stages_[0].SetPosition(GameEngineWindow::GetScale().Half());
-	Stages_[0].CreateRenderer("Stage1.bmp");
+	Player_->Start();
+	CurrentEnemy_->Start();
 
-	Stages_[1].SetPosition(GameEngineWindow::GetScale().Half() + (float4::DOWN * 100));
-	Stages_[1].CreateRenderer("Stage2.bmp");
-
-	Stages_[2].SetPosition(GameEngineWindow::GetScale().Half() + (float4::DOWN * 200));
-	Stages_[2].CreateRenderer("Stage3.bmp");*/
 }
 
 void InGame::Update()
 {
-
+	Player_->Update();
+	CurrentEnemy_->Update();
 }
 
 void InGame::LevelChangeStart()

@@ -3,6 +3,7 @@
 #include <list>
 
 class Puyo;
+class PuyoPair;
 class Enemy : public GameEngineActor //AI
 {
 public:
@@ -18,11 +19,24 @@ public:
 	void Update() override;
 	void Render() override;
 
+	void AddPuyo();
+
 protected:
 
 private:
 
 	Puyo* EnemyMap_[6][13];
+
+	PuyoPair* CurrnetPair_;
+	PuyoPair* NextPair_;
+	PuyoPair* NextNextPair_;
+
+	Puyo* Visited_;
+
+	int RotationCount;
 	int Score_;
+
+	bool CreatePuyo_;
+
 };
 

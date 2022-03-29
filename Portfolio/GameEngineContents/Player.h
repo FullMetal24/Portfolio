@@ -44,5 +44,7 @@ private:
 	
 	int RotationCount;
 	int Score_;
+
+	bool CreatePuyo_;
 };
 

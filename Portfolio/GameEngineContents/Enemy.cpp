@@ -1,4 +1,6 @@
 #include "Enemy.h"
+#include "PuyoPair.h"
+#include "Puyo.h"
 
 Enemy::Enemy() 
 {
@@ -32,4 +34,15 @@ void Enemy::Update()
 void Enemy::Render()
 {
 
+}
+
+void Enemy::AddPuyo()
+{
+	EnemyMap_[CurrnetPair_->GetCenterPuyo()->GetX()][CurrnetPair_->GetCenterPuyo()->GetY()] = CurrnetPair_->GetCenterPuyo();
+	EnemyMap_[CurrnetPair_->GetSecondPuyo()->GetX()][CurrnetPair_->GetSecondPuyo()->GetX()] = CurrnetPair_->GetSecondPuyo();
+
+	if (nullptr != EnemyMap_[CurrnetPair_->GetCenterPuyo()->GetX()][CurrnetPair_->GetCenterPuyo()->GetY() + 1])
+	{
+		EnemyMap_[CurrnetPair_->GetCenterPuyo()->GetX()][CurrnetPair_->GetCenterPuyo()->GetY()] = CurrnetPair_->GetCenterPuyo();
+	}
 }

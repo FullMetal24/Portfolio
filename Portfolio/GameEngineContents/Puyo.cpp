@@ -40,9 +40,9 @@ void Puyo::Start()
 	//	break;
 	//}
 
-	GameEngineRenderer* Renderer = CreateRenderer();
-	Renderer->CreateAnimation("Kirby_Walk_Right.bmp", "Right", 0, 3, 0.1f, true);
-	Renderer->ChangeAnimation("Right");
+	GameEngineRenderer* Renderer = CreateRenderer(); //애니메이션 렌더러
+	Renderer->CreateAnimation("Puyo2.bmp", "Puyo2", 0, 39, 1.0f, true);
+	Renderer->ChangeAnimation("Puyo2");
 }
 
 void Puyo::Update()

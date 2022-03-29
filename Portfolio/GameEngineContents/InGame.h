@@ -41,7 +41,8 @@ private:
 	Stage* Stages_[3]; //굳이 스테이지 말고 렌더러여도 된다.
 		
 	//Plyer와 선택한 Enemy를 동적할당(Enemy 타입, 이미지 넘겨주기?)
-	Player	Player_;
+
+	Player*	Player_;
 	Enemy* CurrentEnemy_;
 
 	GameEngineRenderer* StageName_; //스테이지 이미지 (렌더러가 나을듯함
