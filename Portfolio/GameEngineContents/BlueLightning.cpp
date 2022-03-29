@@ -11,7 +11,7 @@ BlueLightning::~BlueLightning()
 
 void BlueLightning::Start()
 {
-	CreateRenderer("Puyo1.bmp");
+	//CreateRenderer("Puyo1.bmp");
 
 }
 

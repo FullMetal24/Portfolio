@@ -35,8 +35,11 @@ void PuyoPuyo::GameInit()
 		GameEngineImageManager::GetInst()->Load(AllImageFileList[i].GetFullPath());
 	}
 
-	GameEngineImage* Image = GameEngineImageManager::GetInst()->Find("Puyo1.bmp");
-	Image->Cut({32, 32});
+	GameEngineImage* Image = GameEngineImageManager::GetInst()->Find("Kirby_Walk_Right.bmp");
+	Image->CutCount(4, 1);
+
+	//GameEngineImage* Image = GameEngineImageManager::GetInst()->Find(".bmp");
+	//Image->Cut({32, 32});
 
 	CreateLevel<Title>("Title"); 
 	CreateLevel<MainMenu>("MainMenu");

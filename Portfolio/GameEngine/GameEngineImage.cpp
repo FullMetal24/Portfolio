@@ -167,6 +167,12 @@ void GameEngineImage::TransCopy(GameEngineImage* _Other, const float4& _CopyPos,
 	);
 }
 
+void GameEngineImage::CutCount(int _x, int _y)
+{
+	float4 Scale = { GetScale().x / _x, GetScale().y / _y };
+	Cut(Scale);
+}
+
 void GameEngineImage::Cut(const float4& _CutScale)
 {
 	if (0 != GetScale().ix() % _CutScale.ix())

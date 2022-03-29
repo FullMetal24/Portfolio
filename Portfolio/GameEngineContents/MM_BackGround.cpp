@@ -10,7 +10,9 @@ MM_BackGround::~MM_BackGround()
 
 void MM_BackGround::Start()
 {
-	CreateRenderer("Puyo2.bmp");
+	SetPosition(GameEngineWindow::GetScale().Half() + (float4::UP * 300));
+
+	CreateRenderer("MENU_RO.bmp");
 
 }
 

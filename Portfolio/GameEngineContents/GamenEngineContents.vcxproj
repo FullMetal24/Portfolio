@@ -206,6 +206,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="GameOver.h" />
+    <ClInclude Include="GO_BackGround.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="KnockdownPlayer.h">
       <SubType>
       </SubType>
@@ -303,6 +307,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="GameOver.cpp" />
+    <ClCompile Include="GO_BackGround.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="KnockdownPlayer.cpp">
       <SubType>
       </SubType>

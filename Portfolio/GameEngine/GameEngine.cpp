@@ -62,7 +62,7 @@ void GameEngine::EngineInit()
         GameEngineInput::GetInst()->CreateKey("Title", 'T');
         GameEngineInput::GetInst()->CreateKey("Mainmenu", 'M');
         GameEngineInput::GetInst()->CreateKey("ChracterSelect", 'C');
-        GameEngineInput::GetInst()->CreateKey("PlayGame", 'P');
+        GameEngineInput::GetInst()->CreateKey("InGame", 'I');
         GameEngineInput::GetInst()->CreateKey("GameOver", 'G');
     }
 }
@@ -101,7 +101,7 @@ void GameEngine::EngineLoop()
         UserContents_->ChangeLevel("ChracterSelect"); //생성한 타이틀 씬을 현재 씬으로 바꾼다
     }
 
-    if (GameEngineInput::GetInst()->IsDown("PlayGame"))
+    if (GameEngineInput::GetInst()->IsDown("InGame"))
     {
         UserContents_->ChangeLevel("InGame"); //생성한 타이틀 씬을 현재 씬으로 바꾼다
     }

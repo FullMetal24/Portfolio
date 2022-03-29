@@ -86,6 +86,9 @@
     <ClCompile Include="Menus.cpp">
       <Filter>Actor\Level\Mainmenu\Menu</Filter>
     </ClCompile>
+    <ClCompile Include="GO_BackGround.cpp">
+      <Filter>Actor\Level\GameOver\BackGround</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PuyoPuyo.h" />
@@ -172,6 +175,9 @@
     </ClInclude>
     <ClInclude Include="Menus.h">
       <Filter>Actor\Level\Mainmenu\Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="GO_BackGround.h">
+      <Filter>Actor\Level\GameOver\BackGround</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

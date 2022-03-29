@@ -43,5 +43,6 @@ private:
 	Puyo* Visited_;
 	
 	int RotationCount;
+	int Score_;
 };
 

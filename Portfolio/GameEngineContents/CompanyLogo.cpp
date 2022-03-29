@@ -13,7 +13,7 @@ void CompanyLogo::Start()
 {
 	SetPosition(GameEngineWindow::GetScale().Half());
 
-	CreateRenderer("PuyoName.bmp");
+	CreateRenderer("OP_COMPANYLOGO.bmp");
 
 }
 

@@ -6,11 +6,9 @@ class Puyo;
 class Enemy : public GameEngineActor //AI
 {
 public:
-	// constrcuter destructer
 	Enemy();
 	~Enemy();
 
-	// delete Function
 	Enemy(const Enemy& _Other) = delete;
 	Enemy(Enemy&& _Other) noexcept = delete;
 	Enemy& operator=(const Enemy& _Other) = delete;
@@ -24,7 +22,7 @@ protected:
 
 private:
 
-	std::list<std::list<Puyo*>> EnemyMap_;
-
+	Puyo* EnemyMap_[6][13];
+	int Score_;
 };
 

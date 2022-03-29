@@ -16,7 +16,8 @@ public:
 
 	void Loading() override; 
 	void Update()  override;
-
+	void LevelChangeStart() override;
+	void LevelChangeEnd() override;
 
 	//카방클 5개 레벨 고르기
 	//enum문을 통해 고른 씬으로 이동

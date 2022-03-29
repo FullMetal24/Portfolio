@@ -54,6 +54,19 @@ GameEngineRenderer* GameEngineActor::CreateRenderer(const std::string& _Image, R
 	return NewRenderer;
 }
 
+GameEngineRenderer* GameEngineActor::CreateRenderer(RenderPivot _PivotType, const float4& _PivotPos)
+{
+	GameEngineRenderer* NewRenderer = new GameEngineRenderer();
+
+	NewRenderer->SetActor(this);
+	NewRenderer->SetPivot(_PivotPos);
+	NewRenderer->SetType(_PivotType);
+
+	RenderList_.push_back(NewRenderer);
+	return NewRenderer;
+}
+
+
 void GameEngineActor::Renderering()
 {
 	StartRenderIter = RenderList_.begin();

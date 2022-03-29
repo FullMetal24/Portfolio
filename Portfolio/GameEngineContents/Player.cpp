@@ -9,6 +9,17 @@ Player::Player()
 
 Player::~Player() 
 {
+	for (size_t x = 0; x < 6; x++)
+	{
+		for (size_t y = 0; y < 13; y++)
+		{
+			if (nullptr != PlayerMap_[x][y])
+			{
+				delete PlayerMap_[x][y];
+				PlayerMap_[x][y] = nullptr;
+			}
+		}
+	}
 }
 
 void Player::Start()

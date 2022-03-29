@@ -12,7 +12,7 @@ KnockdownPlayer::~KnockdownPlayer()
 
 void KnockdownPlayer::Start()
 {
-	CreateRenderer("Puyo3.bmp");
+	//CreateRenderer("Puyo3.bmp");
 
 }
 

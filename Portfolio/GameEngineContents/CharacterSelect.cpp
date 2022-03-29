@@ -22,8 +22,12 @@ void CharacterSelect::Update()
 }
 
 
-
 void CharacterSelect::LevelChangeStart()
 {
-	//CreateActor<BackGround>("BackGround", 0);
+
+}
+
+void CharacterSelect::LevelChangeEnd()
+{
+
 }

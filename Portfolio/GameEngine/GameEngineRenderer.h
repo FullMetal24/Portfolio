@@ -1,6 +1,7 @@
 #pragma once
 #include "GameEngineActorSubObject.h"
 #include "GameEngineEnum.h"
+#include <map>
 
 class GameEngineImage;
 class GameEngineRenderer: public GameEngineActorSubObject
@@ -48,11 +49,19 @@ public:
 
 	void SetIndex(size_t _Index, float4 _Scale = {-1.0f, -1.0f });
 
+	inline GameEngineImage* GetImage()
+	{
+		return Image_;
+	}
+
 protected:
 	void Render();
 
 private:
-	GameEngineImage* Image_;
+	friend class FrameAnimation;
+
+private:
+	GameEngineImage* Image_; //그려낼 이미지
 	RenderPivot PivotType_;
 	RenderScaleMode ScaleMode_;
 
@@ -63,5 +72,52 @@ private:
 	float4 RenderImageScale_;
 
 	unsigned int TransColor_;
+
+
+private:
+	class FrameAnimation
+	{
+	public:
+		GameEngineRenderer* Renderer;
+		GameEngineImage* _Image;
+		int CurrentFrame_;
+		int StartFrame_;
+		int EndFrame_;
+		float CurrentInterTime_;
+		float InterTime_;
+		bool Loop_;
+
+	public:
+		FrameAnimation()
+			: _Image(nullptr)
+			, CurrentFrame_(-1)
+			, StartFrame_(-1)
+			, EndFrame_(-1)
+			, CurrentInterTime_(0.1f)
+			, InterTime_(0.1f)
+			, Loop_(true)
+		{
+
+		}
+
+	public:
+		void Reset()
+		{
+			CurrentFrame_ = StartFrame_;
+			CurrentInterTime_ = InterTime_;
+		}
+
+		void Update();
+	};
+
+public:
+	void CreateAnimation(const std::string& _Image, const std::string& _Name, int _StartIndex, int _EndIndex, float _InterTime, bool Loop = true);
+
+	void ChangeAnimation(const std::string& _Name);
+
+private:
+	std::map<std::string, FrameAnimation> Animations_;
+	FrameAnimation* CurrentAnimation_;
+
 };
 

@@ -11,7 +11,7 @@ CS_BackGround::~CS_BackGround()
 
 void CS_BackGround::Start()
 {
-	CreateRenderer("Puyo4.bmp");
+	//CreateRenderer("Puyo4.bmp");
 
 }
 
