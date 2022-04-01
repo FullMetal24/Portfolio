@@ -3,14 +3,17 @@
 #include "Player.h"
 #include "Enemy.h"
 #include <GameEngine/GameEngineActor.h>
+#include <GameEngineBase/GameEngineWindow.h>
 #include "Stage.h"
 
 InGame::InGame() 
-{
-}
+	: Player_(nullptr)
+	, CurrentEnemy_(nullptr)
+{ 
+} 
 
 InGame::~InGame()
-{
+{ 
 	if (nullptr != Player_)
 	{
 		delete Player_;
@@ -32,25 +35,11 @@ void InGame::Loading()
 	Stages_[0]->CreateRenderer("Stage1.bmp");
 
 
-	Stages_[1] = CreateActor<Stage>();
-
-	Stages_[1]->SetPosition(GameEngineWindow::GetScale().Half());
-	Stages_[1]->CreateRenderer("Stage2.bmp");
-
-
-	Stages_[1] = CreateActor<Stage>();
-
-	Stages_[1]->SetPosition(GameEngineWindow::GetScale().Half());
-	Stages_[1]->CreateRenderer("Stage3.bmp");
-
-	
 	Player_ = new Player();
 	CurrentEnemy_ = new Enemy();
 
-
 	Player_->Start();
 	CurrentEnemy_->Start();
-
 }
 
 void InGame::Update()

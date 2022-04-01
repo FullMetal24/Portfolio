@@ -20,29 +20,25 @@ void Puyo::Start()
 
 	//랜덤으로 색을 지정하고 그걸로 구별해내서 뿌요를 없애면 되지 않을까?
 	//위에서 난수 생성해서 컬러 지정
-	//switch (PuyoColor_)
-	//{
-	//case Color::RED:
-	//	CreateRenderer("Puyo.bmp");
-	//	break;
-	//case Color::BLUE:
-	//	CreateRenderer("Puyo.bmp");
-	//	break;
-	//case Color::GREEN:
-	//	CreateRenderer("Puyo.bmp");
-	//	break;
-	//case Color::YELLO:
-	//	CreateRenderer("Puyo.bmp");
+	switch (PuyoColor_)
+	{
+	case Color::RED:
+		CreateRenderer("Puyo.bmp");
+		break;
+	case Color::BLUE:
+		CreateRenderer("Puyo.bmp");
+		break;
+	case Color::GREEN:
+		CreateRenderer("Puyo.bmp");
+		break;
+	case Color::YELLO:
+		CreateRenderer("Puyo.bmp");
 
-	//	break;
-	//case Color::PURPLE:
-	//	CreateRenderer("Puyo.bmp");
-	//	break;
-	//}
-
-	GameEngineRenderer* Renderer = CreateRenderer(); //애니메이션 렌더러
-	Renderer->CreateAnimation("Puyo2.bmp", "Puyo2", 0, 39, 1.0f, true);
-	Renderer->ChangeAnimation("Puyo2");
+		break;
+	case Color::PURPLE:
+		CreateRenderer("Puyo.bmp");
+		break;
+	}
 }
 
 void Puyo::Update()

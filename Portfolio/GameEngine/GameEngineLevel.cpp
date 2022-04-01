@@ -1,7 +1,9 @@
 #include "GameEngineLevel.h"
 #include "GameEngineActor.h"
 
+
 GameEngineLevel::GameEngineLevel()
+	: CameraPos_(float4::ZERO)
 {
 }
 
@@ -27,9 +29,7 @@ GameEngineLevel::~GameEngineLevel()
 			(*StartActor) = nullptr;
 		}
 	}
-
 }
-
 
 void GameEngineLevel::ActorUpdate()
 {
@@ -53,7 +53,6 @@ void GameEngineLevel::ActorUpdate()
 		for (; StartActor != EndActor; ++StartActor)
 		{
 			(*StartActor)->ReleaseUpdate();
-
 			if (false == (*StartActor)->IsUpdate())
 			{
 				continue;
@@ -63,6 +62,8 @@ void GameEngineLevel::ActorUpdate()
 		}
 	}
 }
+
+
 void GameEngineLevel::ActorRender()
 {
 	std::map<int, std::list<GameEngineActor*>>::iterator GroupStart;
@@ -88,13 +89,13 @@ void GameEngineLevel::ActorRender()
 			{
 				continue;
 			}
-
 			(*StartActor)->Renderering();
 		}
 
 
 		StartActor = Group.begin();
 		EndActor = Group.end();
+
 
 		for (; StartActor != EndActor; ++StartActor)
 		{
@@ -108,14 +109,13 @@ void GameEngineLevel::ActorRender()
 	}
 }
 
-void GameEngineLevel::ActorRealse()
+void GameEngineLevel::ActorRelease()
 {
 	std::map<int, std::list<GameEngineActor*>>::iterator GroupStart;
 	std::map<int, std::list<GameEngineActor*>>::iterator GroupEnd;
 
 	std::list<GameEngineActor*>::iterator StartActor;
 	std::list<GameEngineActor*>::iterator EndActor;
-
 
 	GroupStart = AllActor_.begin();
 	GroupEnd = AllActor_.end();
@@ -126,18 +126,16 @@ void GameEngineLevel::ActorRealse()
 
 		StartActor = Group.begin();
 		EndActor = Group.end();
-
 		for (; StartActor != EndActor; )
 		{
 			if (true == (*StartActor)->IsDeath())
 			{
 				delete* StartActor;
-
 				StartActor = Group.erase(StartActor);
 				continue;
 			}
 
-			++StartActor; //리스트의 사용법
+			++StartActor;
 		}
 	}
 }

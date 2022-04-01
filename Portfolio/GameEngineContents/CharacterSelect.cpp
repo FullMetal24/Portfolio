@@ -1,5 +1,7 @@
 #include "CharacterSelect.h"
 #include "CS_BackGround.h"
+#include <GameEngine/GameEngineRenderer.h>
+#include <GameEngineBase/GameEngineWindow.h>
 
 CharacterSelect::CharacterSelect() 
 {
@@ -11,8 +13,10 @@ CharacterSelect::~CharacterSelect()
 
 void CharacterSelect::Loading()
 {
-	CreateActor<CS_BackGround>(0);
+	GameEngineActor* Actor_ = CreateActor<CS_BackGround>();
+	Actor_->SetPosition(GameEngineWindow::GetScale().Half());
 
+	Actor_->CreateRenderer("CS_BACKGROUND.bmp");
 }
 
 

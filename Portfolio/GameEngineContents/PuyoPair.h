@@ -24,7 +24,7 @@ public:
 
 	inline Puyo* GetCenterPuyo()
 	{
-		return CenterPuyo_;
+ 		return CenterPuyo_;
 	};
 
 	inline Puyo* GetSecondPuyo()

@@ -3,25 +3,27 @@
 #include "GameEngineEnum.h"
 #include <map>
 
+
+// 설명 : 그리는걸 도와주는 클래스
 class GameEngineImage;
-class GameEngineRenderer: public GameEngineActorSubObject
+class GameEngineRenderer : public GameEngineActorSubObject
 {
 	friend GameEngineActor;
 
 public:
+	// constrcuter destructer
 	GameEngineRenderer();
 	~GameEngineRenderer();
 
+	// delete Function
 	GameEngineRenderer(const GameEngineRenderer& _Other) = delete;
 	GameEngineRenderer(GameEngineRenderer&& _Other) noexcept = delete;
 	GameEngineRenderer& operator=(const GameEngineRenderer& _Other) = delete;
 	GameEngineRenderer& operator=(GameEngineRenderer&& _Other) noexcept = delete;
 
-	void SetImage(const std::string& _Name);
-
-	inline void SetType(const RenderPivot& _Type)
+	inline void SetTransColor(unsigned int _Color)
 	{
-		PivotType_ = _Type;
+		TransColor_ = _Color;
 	}
 
 	inline void SetPivot(const float4& _Pos)
@@ -29,9 +31,9 @@ public:
 		RenderPivot_ = _Pos;
 	}
 
-	inline void SetColor(const int& _Color)
+	inline void SetPivotType(const RenderPivot& _Type)
 	{
-		TransColor_ = _Color;
+		PivotType_ = _Type;
 	}
 
 	inline void SetScaleMode(const RenderScaleMode& _Mode)
@@ -39,20 +41,25 @@ public:
 		ScaleMode_ = _Mode;
 	}
 
+	// 렌더러 스케일 뿐 아니라 이미지 스케일도 같이 맞춰줌
 	void SetImageScale();
 
 	inline void SetScale(const float4& _Scale)
 	{
 		ScaleMode_ = RenderScaleMode::User;
-		RenderScale_ = _Scale; 
+		RenderScale_ = _Scale;
 	}
-
-	void SetIndex(size_t _Index, float4 _Scale = {-1.0f, -1.0f });
 
 	inline GameEngineImage* GetImage()
 	{
 		return Image_;
 	}
+
+	void SetImage(const std::string& _Name);
+	
+	void SetIndex(size_t _Index, const float4& _Scale = {-1, -1});
+
+
 
 protected:
 	void Render();
@@ -60,26 +67,27 @@ protected:
 private:
 	friend class FrameAnimation;
 
-private:
-	GameEngineImage* Image_; //그려낼 이미지
-	RenderPivot PivotType_;
+	GameEngineImage* Image_;
+	RenderPivot PivotType_; 
 	RenderScaleMode ScaleMode_;
-
 	float4 RenderPivot_;
-	float4 RenderScale_; //화면 상에 그려낼 크기
-
-	float4 RenderImagePivot_; //이미지에서 잘라내는 크기
+	float4 RenderScale_;
 	float4 RenderImageScale_;
-
+	float4 RenderImagePivot_;
 	unsigned int TransColor_;
 
+	bool IsCameraEffect_;
+
+
+
+///////////////////////////////////////////////////////////////// 애니메이션
 
 private:
 	class FrameAnimation
 	{
 	public:
-		GameEngineRenderer* Renderer;
-		GameEngineImage* _Image;
+		GameEngineRenderer* Renderer_;
+		GameEngineImage* Image_;
 		int CurrentFrame_;
 		int StartFrame_;
 		int EndFrame_;
@@ -88,36 +96,41 @@ private:
 		bool Loop_;
 
 	public:
-		FrameAnimation()
-			: _Image(nullptr)
-			, CurrentFrame_(-1)
-			, StartFrame_(-1)
-			, EndFrame_(-1)
-			, CurrentInterTime_(0.1f)
-			, InterTime_(0.1f)
-			, Loop_(true)
+		FrameAnimation() 
+			: Renderer_(nullptr),
+			Image_(nullptr),
+			CurrentFrame_(-1),
+			StartFrame_(-1),
+			EndFrame_(-1),
+			CurrentInterTime_(0.1f),
+			InterTime_(0.1f),
+			Loop_(true)
+
 		{
 
 		}
 
 	public:
-		void Reset()
+		void Update();
+
+		void Reset() 
 		{
 			CurrentFrame_ = StartFrame_;
 			CurrentInterTime_ = InterTime_;
 		}
-
-		void Update();
 	};
 
 public:
-	void CreateAnimation(const std::string& _Image, const std::string& _Name, int _StartIndex, int _EndIndex, float _InterTime, bool Loop = true);
+	void CreateAnimation(const std::string& _Image, const std::string& _Name, int _StartIndex, int _EndIndex, float _InterTime, bool _Loop = true);
 
+	// 옵션을 
 	void ChangeAnimation(const std::string& _Name);
+
 
 private:
 	std::map<std::string, FrameAnimation> Animations_;
 	FrameAnimation* CurrentAnimation_;
+	
+
 
 };
-

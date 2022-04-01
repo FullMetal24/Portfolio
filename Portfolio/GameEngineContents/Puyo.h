@@ -1,14 +1,6 @@
 #pragma once
-#include "GameEngine/GameEngineActor.h"
-
-enum class Color
-{
-	RED,
-	BLUE,
-	GREEN,
-	YELLO,
-	PURPLE
-};
+#include <GameEngine/GameEngineActor.h>
+#include "GlobalEnum.h"
 
 
 class Puyo : public GameEngineActor

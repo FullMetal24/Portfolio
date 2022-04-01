@@ -45,7 +45,7 @@ private:
 	Player*	Player_;
 	Enemy* CurrentEnemy_;
 
-	GameEngineRenderer* StageName_; //스테이지 이미지 (렌더러가 나을듯함
+	GameEngineRenderer* Stage_; //스테이지 이미지 (렌더러가 나을듯함
 
 	int StageClear_;
 };

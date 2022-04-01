@@ -24,12 +24,12 @@ Player::~Player()
 
 void Player::Start()
 {
-	if (false == GameEngineInput::GetInst()->IsKey("PlayerLeft"))
+	if (false == GameEngineInput::GetInst()->IsKey("PuyoLeft"))
 	{
-		GameEngineInput::GetInst()->CreateKey("PlayerLeft", VK_LEFT);
-		GameEngineInput::GetInst()->CreateKey("PlayerRight", VK_RIGHT);
-		GameEngineInput::GetInst()->CreateKey("PlayerDown", VK_DOWN);
-		GameEngineInput::GetInst()->CreateKey("Rotate", VK_SPACE);
+		GameEngineInput::GetInst()->CreateKey("PuyoLeft", VK_LEFT);
+		GameEngineInput::GetInst()->CreateKey("PuyoRight", VK_RIGHT);
+		GameEngineInput::GetInst()->CreateKey("PuyoDown", VK_DOWN);
+		GameEngineInput::GetInst()->CreateKey("PuyoRotate", VK_SPACE);
 	}
 }
 
@@ -50,7 +50,7 @@ void Player::Render()
 
 void Player::PuyoInput()
 {
-	if (true == GameEngineInput::GetInst()->IsPress("PlayerLeft"))
+	if (true == GameEngineInput::GetInst()->IsPress("PuyoLeft"))
 	{
 		//뿌요좌표에서의 이동처리
 		//일단 "초기값"을 정해줘야 하는데 그건 나중에 하자
@@ -66,13 +66,13 @@ void Player::PuyoInput()
 		CurrnetPair_->GetSecondPuyo()->Left();
 	}
 
-	if (true == GameEngineInput::GetInst()->IsPress("PlayerRight"))
+	if (true == GameEngineInput::GetInst()->IsPress("PuyoRight"))
 	{
 		CurrnetPair_->GetCenterPuyo()->Right();
 		CurrnetPair_->GetSecondPuyo()->Right();
 	}
 
-	if (true == GameEngineInput::GetInst()->IsPress("PlayerDown"))
+	if (true == GameEngineInput::GetInst()->IsPress("PuyoDown"))
 	{
 		CurrnetPair_->GetCenterPuyo()->Down();
 		CurrnetPair_->GetSecondPuyo()->Down();
@@ -81,7 +81,7 @@ void Player::PuyoInput()
 		//아니다 여기 업데이트에서 처리해주면 되려나
 	}
 
-	if (true == GameEngineInput::GetInst()->IsPress("Rotate"))
+	if (true == GameEngineInput::GetInst()->IsPress("PuyoRotate"))
 	{
 		CurrnetPair_->Rotate();
 

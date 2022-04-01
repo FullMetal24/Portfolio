@@ -1,7 +1,6 @@
 #pragma once
 #include <GameEngine/GameEngine.h>
 
-
 class PuyoPuyo: public GameEngine
 {
 
@@ -21,6 +20,5 @@ public:
 protected:
 
 private:
-
 };
 

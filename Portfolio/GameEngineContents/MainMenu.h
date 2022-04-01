@@ -1,8 +1,11 @@
 #pragma once
 #include "GameEngine/GameEngineLevel.h"
-#include "Menus.h"
+#include "GameEngineContents/GlobalEnum.h"
+#include "CarbuncleMenu.h"
 #include <vector>
 
+class GameEngineRenderer;
+class GameEngineActor;
 class MainMenu : public GameEngineLevel
 {
 public:
@@ -19,14 +22,13 @@ public:
 	void LevelChangeStart() override;
 	void LevelChangeEnd() override;
 
-	//카방클 5개 레벨 고르기
-	//enum문을 통해 고른 씬으로 이동
-
 protected:
 
 private:
-	std::vector<Menus> Menus_;
-	Menus CurrentMenu_;
-
+	std::vector<GameEngineActor*> Menus_;
+	std::vector<std::vector<GameEngineActor*>> BackGrounds_;
+	std::vector<GameEngineRenderer*> Actors_;
+	
+	int MenuCount_;
 };
 

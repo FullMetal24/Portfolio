@@ -83,11 +83,11 @@
     <ClCompile Include="StageTop.cpp">
       <Filter>Actor\Level\ChracterSelect\BackGround</Filter>
     </ClCompile>
-    <ClCompile Include="Menus.cpp">
-      <Filter>Actor\Level\Mainmenu\Menu</Filter>
-    </ClCompile>
     <ClCompile Include="GO_BackGround.cpp">
       <Filter>Actor\Level\GameOver\BackGround</Filter>
+    </ClCompile>
+    <ClCompile Include="CarbuncleMenu.cpp">
+      <Filter>Actor\Level\Mainmenu\Menu</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -173,11 +173,14 @@
     <ClInclude Include="StageTop.h">
       <Filter>Actor\Level\ChracterSelect\BackGround</Filter>
     </ClInclude>
-    <ClInclude Include="Menus.h">
-      <Filter>Actor\Level\Mainmenu\Menu</Filter>
-    </ClInclude>
     <ClInclude Include="GO_BackGround.h">
       <Filter>Actor\Level\GameOver\BackGround</Filter>
+    </ClInclude>
+    <ClInclude Include="GlobalEnum.h">
+      <Filter>Global</Filter>
+    </ClInclude>
+    <ClInclude Include="CarbuncleMenu.h">
+      <Filter>Actor\Level\Mainmenu\Menu</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -234,6 +237,9 @@
     </Filter>
     <Filter Include="Actor\Level\InGame\BackGround">
       <UniqueIdentifier>{407f18c6-c601-42e4-b535-af41ea1f654b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Global">
+      <UniqueIdentifier>{fcd60428-59f3-4220-a9f5-53f1f410f542}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

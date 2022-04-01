@@ -6,7 +6,6 @@
 GameEngineActor::GameEngineActor()
 	: Level_(nullptr)
 {
-	// delete this;
 }
 
 GameEngineActor::~GameEngineActor()
@@ -27,10 +26,7 @@ GameEngineActor::~GameEngineActor()
 
 void GameEngineActor::DebugRectRender()
 {
-	// 선생님은 기본적으로 중앙을 기준으로하는걸 좋아합니다.
-
 	GameEngineRect DebugRect(Position_, Scale_);
-
 
 	Rectangle(
 		GameEngine::BackBufferDC(),
@@ -41,31 +37,36 @@ void GameEngineActor::DebugRectRender()
 	);
 }
 
-GameEngineRenderer* GameEngineActor::CreateRenderer(const std::string& _Image, RenderPivot _PivotType, const float4& _PivotPos)
-{
-	GameEngineRenderer* NewRenderer = new GameEngineRenderer();
-
-	NewRenderer->SetActor(this);
-	NewRenderer->SetImage(_Image);
-	NewRenderer->SetPivot(_PivotPos);
-	NewRenderer->SetType(_PivotType);
-
-	RenderList_.push_back(NewRenderer);
-	return NewRenderer;
-}
-
 GameEngineRenderer* GameEngineActor::CreateRenderer(RenderPivot _PivotType, const float4& _PivotPos)
 {
 	GameEngineRenderer* NewRenderer = new GameEngineRenderer();
 
 	NewRenderer->SetActor(this);
 	NewRenderer->SetPivot(_PivotPos);
-	NewRenderer->SetType(_PivotType);
+	NewRenderer->SetPivotType(_PivotType);
+
+	RenderList_.push_back(NewRenderer);
+	return NewRenderer;
+
+}
+
+
+GameEngineRenderer* GameEngineActor::CreateRenderer(
+	const std::string& _Image,
+	RenderPivot _PivotType,
+	const float4& _PivotPos
+)
+{
+	GameEngineRenderer* NewRenderer = new GameEngineRenderer();
+
+	NewRenderer->SetActor(this);
+	NewRenderer->SetImage(_Image);
+	NewRenderer->SetPivot(_PivotPos);
+	NewRenderer->SetPivotType(_PivotType);
 
 	RenderList_.push_back(NewRenderer);
 	return NewRenderer;
 }
-
 
 void GameEngineActor::Renderering()
 {
@@ -78,7 +79,10 @@ void GameEngineActor::Renderering()
 	}
 }
 
-GameEngineRenderer* GameEngineActor::CreateRendererToScale(const std::string& _Image, const float4& _Scale, RenderPivot _PivotType, const float4& _PivotPos)
+GameEngineRenderer* GameEngineActor::CreateRendererToScale(
+	const std::string& _Image, const float4& _Scale,
+	RenderPivot _PivotType /*= RenderPivot::CENTER*/, const float4& _PivotPos /*= { 0,0 }*/
+)
 {
 	GameEngineRenderer* NewRenderer = new GameEngineRenderer();
 
@@ -86,7 +90,7 @@ GameEngineRenderer* GameEngineActor::CreateRendererToScale(const std::string& _I
 	NewRenderer->SetImage(_Image);
 	NewRenderer->SetScale(_Scale);
 	NewRenderer->SetPivot(_PivotPos);
-	NewRenderer->SetType(_PivotType);
+	NewRenderer->SetPivotType(_PivotType);
 
 	RenderList_.push_back(NewRenderer);
 	return NewRenderer;

@@ -56,15 +56,6 @@ void GameEngine::EngineInit()
     // 백버퍼를 만들어 낸다.
     WindowMainImage_ = GameEngineImageManager::GetInst()->Create("WindowMain", GameEngineWindow::GetHDC());
     BackBufferImage_ = GameEngineImageManager::GetInst()->Create("BackBuffer", GameEngineWindow::GetScale());
-
-    if (false == GameEngineInput::GetInst()->IsKey("Title"))
-    {
-        GameEngineInput::GetInst()->CreateKey("Title", 'T');
-        GameEngineInput::GetInst()->CreateKey("Mainmenu", 'M');
-        GameEngineInput::GetInst()->CreateKey("ChracterSelect", 'C');
-        GameEngineInput::GetInst()->CreateKey("InGame", 'I');
-        GameEngineInput::GetInst()->CreateKey("GameOver", 'G');
-    }
 }
 
 
@@ -86,31 +77,6 @@ void GameEngine::EngineLoop()
     GameEngineInput::GetInst()->Update();
     GameEngineTime::GetInst()->Update();
 
-    if (GameEngineInput::GetInst()->IsDown("Title"))
-    {
-        UserContents_->ChangeLevel("Title"); //생성한 타이틀 씬을 현재 씬으로 바꾼다
-    }
- 
-    if (GameEngineInput::GetInst()->IsDown("Mainmenu"))
-    {
-        UserContents_->ChangeLevel("MainMenu"); //생성한 타이틀 씬을 현재 씬으로 바꾼다
-    }
-
-    if (GameEngineInput::GetInst()->IsDown("ChracterSelect"))
-    {
-        UserContents_->ChangeLevel("ChracterSelect"); //생성한 타이틀 씬을 현재 씬으로 바꾼다
-    }
-
-    if (GameEngineInput::GetInst()->IsDown("InGame"))
-    {
-        UserContents_->ChangeLevel("InGame"); //생성한 타이틀 씬을 현재 씬으로 바꾼다
-    }
-
-    if (GameEngineInput::GetInst()->IsDown("GameOver"))
-    {
-        UserContents_->ChangeLevel("GameOver"); //생성한 타이틀 씬을 현재 씬으로 바꾼다
-    }
-
     //엔진 수준에서 매 프레임 체크
     UserContents_->GameLoop();
 
@@ -119,7 +85,6 @@ void GameEngine::EngineLoop()
     {
         if (nullptr != CurrentLevel_)
         {
-
             CurrentLevel_->LevelChangeEnd();
         }
 
@@ -133,6 +98,7 @@ void GameEngine::EngineLoop()
         NextLevel_ = nullptr;
         GameEngineTime::GetInst()->Reset();
 
+        //씬 이동 시 화면 클리어
         Rectangle(WindowMainImage_->ImageDC(), 0, 0, WindowMainImage_->GetScale().ix(), WindowMainImage_->GetScale().iy());
         Rectangle(BackBufferImage_->ImageDC(), 0, 0, BackBufferImage_->GetScale().ix(), BackBufferImage_->GetScale().iy());
     }
@@ -172,3 +138,5 @@ void GameEngine::EngineEnd()
     GameEngineInput::Destroy();
     GameEngineWindow::Destroy();
 }
+
+

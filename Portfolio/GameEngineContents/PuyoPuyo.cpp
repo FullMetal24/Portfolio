@@ -23,31 +23,24 @@ void PuyoPuyo::GameInit()
 	GameEngineWindow::GetInst().SetWindowScaleAndPosition({ 100, 100 }, {1280, 896});
 
 	GameEngineDirectory ResourecesDir;
-
 	ResourecesDir.MoveParent("Portfolio");
 	ResourecesDir.Move("APIResources");
 
-	//이 경로의 모든 파일을 모은다
+	//이미지 파일 저장
 	std::vector<GameEngineFile> AllImageFileList = ResourecesDir.GetAllFile("Bmp");
 
 	for (size_t i = 0; i < AllImageFileList.size(); i++)
 	{
 		GameEngineImageManager::GetInst()->Load(AllImageFileList[i].GetFullPath());
-	}
-
-	GameEngineImage* Image = GameEngineImageManager::GetInst()->Find("Puyo2.bmp");
-	Image->CutCount(20, 2);
-
-	//GameEngineImage* Image = GameEngineImageManager::GetInst()->Find(".bmp");
-	//Image->Cut({32, 32});
+	};
 
 	CreateLevel<Title>("Title"); 
 	CreateLevel<MainMenu>("MainMenu");
-	CreateLevel<CharacterSelect>("ChracterSelect");
+	CreateLevel<CharacterSelect>("CharacterSelect");
 	CreateLevel<InGame>("InGame");
 	CreateLevel<GameOver>("GameOver");
 
-	ChangeLevel("Title"); //생성한 타이틀 씬을 현재 씬으로 바꾼다
+	ChangeLevel("Title");
 }
 
 void PuyoPuyo::GameLoop()
@@ -56,4 +49,6 @@ void PuyoPuyo::GameLoop()
 
 void PuyoPuyo::GameEnd()
 {
+
+
 }

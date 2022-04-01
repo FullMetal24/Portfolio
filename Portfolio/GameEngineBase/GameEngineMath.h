@@ -1,12 +1,14 @@
 #pragma once
 
+// 설명 :
 class GameEngineMath
 {
-//생성 안할 거임
 private:
+	// constrcuter destructer
 	GameEngineMath();
 	~GameEngineMath();
 
+	// delete Function
 	GameEngineMath(const GameEngineMath& _Other) = delete;
 	GameEngineMath(GameEngineMath&& _Other) noexcept = delete;
 	GameEngineMath& operator=(const GameEngineMath& _Other) = delete;
@@ -25,6 +27,7 @@ public:
 	static float4 RIGHT;
 	static float4 UP;
 	static float4 DOWN;
+	static float4 ZERO;
 
 public:
 	float x;
@@ -33,9 +36,9 @@ public:
 	float w;
 
 public:
-	bool IsZero2D()
+	bool IsZero2D() const
 	{
-		return x == 0.0f && z == 0.0f;
+		return x == 0.0f && y == 0.0f;
 	}
 
 public:
@@ -59,7 +62,6 @@ public:
 		return static_cast<int>(w);
 	}
 
-	//절반 크기
 	int hix() const
 	{
 		return static_cast<int>(x * 0.5f);
@@ -77,32 +79,43 @@ public:
 
 	float4 Half() const
 	{
-		return { x * 0.5f, y * 0.5f, z * 0.5f, 1.0f };
+		return { x * 0.5f, y * 0.5f , z * 0.5f, 1.0f };
 	}
 
 	float4 operator-(const float4& _Other) const
 	{
-		return float4{ x - _Other.x, y - _Other.y, z - _Other.z, 1.0f };
+		return { x - _Other.x, y - _Other.y, z - _Other.z, 1.0f };
 	}
 
 	float4 operator+(const float4& _Other) const
 	{
-		return float4{ x + _Other.x, y + _Other.y, z + _Other.z, 1.0f };
+		return { x + _Other.x, y + _Other.y, z + _Other.z, 1.0f };
 	}
+
+	float4 operator*(const float _Value) const
+	{
+		return { x * _Value, y * _Value, z * _Value, 1.0f };
+	}
+
 
 	float4& operator+=(const float4& _Other)
 	{
 		x += _Other.x;
 		y += _Other.y;
 		z += _Other.z;
-		
+
 		return *this;
 	}
 
-	float4 operator*(const float _Value) const
+	float4& operator-=(const float4& _Other)
 	{
-		return float4{ x * _Value, y * _Value, z * _Value, w};
+		x -= _Other.x;
+		y -= _Other.y;
+		z -= _Other.z;
+
+		return *this;
 	}
+
 
 public:
 	float4()
@@ -123,7 +136,10 @@ public:
 	float4(float _x, float _y, float _z, float _w)
 		: x(_x), y(_y), z(_z), w(_w)
 	{
+
 	}
+
+
 
 };
 
@@ -154,10 +170,9 @@ public:
 		return Pos.iy() + Scale.hiy();
 	}
 
-
 public:
 	GameEngineRect(float4 _Pos, float4 _Scale)
-		:Pos(_Pos)
+		: Pos(_Pos)
 		, Scale(_Scale)
 	{
 
