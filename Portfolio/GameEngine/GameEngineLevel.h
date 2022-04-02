@@ -1,14 +1,19 @@
 #pragma once
 #include <list>
 #include <map>
+#include <vector>
 #include <GameEngineBase/GameEngineNameObject.h>
 #include <GameEngineBase/GameEngineMath.h>
 
 class GameEngine;
 class GameEngineActor;
+class GameEngineCollision;
 class GameEngineLevel : public GameEngineNameObject
 {
 	friend GameEngine;
+	friend GameEngineActor;
+	friend GameEngineCollision;
+
 public:
 	// constrcuter destructer
 	GameEngineLevel();
@@ -53,7 +58,7 @@ public:
 		return NewActor;
 	}
 
-	inline float4 GetCameraPos() 
+	inline float4 GetCameraPos()
 	{
 		return CameraPos_;
 	}
@@ -63,9 +68,9 @@ public:
 		CameraPos_ += _Value;
 	}
 
-	inline void SetCameraPos(const float4& _Value )
+	inline void SetCameraPos(const float4& _Value)
 	{
-		CameraPos_  = _Value;
+		CameraPos_ = _Value;
 	}
 
 
@@ -88,5 +93,13 @@ private:
 
 	void ActorUpdate();
 	void ActorRender();
+	void CollisionDebugRender();
 	void ActorRelease();
+
+private:
+	// 삭제는 액터가 하지만 실제 사용은 Level
+	// 여기서 함부로 GameEngineCollision*을 delete 하는 일이 있으면 안된다.,
+	std::map<std::string, std::list<GameEngineCollision*>> AllCollision_;
+
+	void AddCollision(const std::string& _GroupName, GameEngineCollision* _Collision);
 };

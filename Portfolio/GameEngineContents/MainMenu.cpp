@@ -23,80 +23,9 @@ void MainMenu::Loading()
 {
 	//GameEngineActor* SelectMenu = CreateActor<MM_BackGround>(3);
 	//SelectMenu->SetPosition({ GameEngineWindow::GetScale().Half().x, 100 });
-	//GameEngineRenderer* SelectMenuRenderer = SelectMenu->CreateRenderer("MENU_RO.bmp");
-
-	GameEngineImage* Image = GameEngineImageManager::GetInst()->Find("MENU_SD0R.bmp");
-	Image->CutCount(4, 1);
-
-	GameEngineImage* Image1 = GameEngineImageManager::GetInst()->Find("MENU_SD5L.bmp");
-	Image1->CutCount(4, 1);
-
-	std::vector<GameEngineActor*> FirstLine;
-	std::vector<GameEngineActor*> SecondLine;
-	std::vector<GameEngineActor*> ThirdLine;
-	std::vector<GameEngineActor*> LastLine;
-
-	float Offset;
-	Offset = 220.f;
-
-	for (int i = 0; i < 10; i++)
-	{
-		GameEngineActor* Actor = CreateActor<MM_BackGround>(1);
-		float4 Pos(GameEngineWindow::GetScale().x - (i * Offset), (GameEngineWindow::GetScale().Half().y / 4.f));
-		Actor->SetPosition(Pos);
-
-		GameEngineRenderer* Renderer = Actor->CreateRenderer();
-		Renderer->CreateAnimation("MENU_SD0R.bmp", "MENU_SD0R", 0, 3, 0.1f, true);
-		Renderer->ChangeAnimation("MENU_SD0R");
-
-
-		FirstLine.push_back(Actor);
-	}
-
-	for (int i = 0; i < 10; i++)
-	{
-		GameEngineActor* Actor = CreateActor<MM_BackGround>(1);
-		float4 Pos(GameEngineWindow::GetScale().x - (i * Offset), (GameEngineWindow::GetScale().Half().y / 4.f) + 224);
-		Actor->SetPosition(Pos);
-
-		GameEngineRenderer* Renderer = Actor->CreateRenderer();
-		Renderer->CreateAnimation("MENU_SD5L.bmp", "MENU_SD5L", 0, 3, 0.1f, true);
-		Renderer->ChangeAnimation("MENU_SD5L");
-
-		SecondLine.push_back(Actor);
-	}
-
-	for (int i = 0; i < 10; i++)
-	{
-		GameEngineActor* Actor = CreateActor<MM_BackGround>(1);
-		float4 Pos(GameEngineWindow::GetScale().x - (i * Offset), (GameEngineWindow::GetScale().Half().y / 4.f) + 224 * 2);
-		Actor->SetPosition(Pos);
-
-		GameEngineRenderer* Renderer = Actor->CreateRenderer();
-		Renderer->CreateAnimation("MENU_SD0R.bmp", "MENU_SD0R", 0, 3, 0.1f, true);
-		Renderer->ChangeAnimation("MENU_SD0R");
-
-		ThirdLine.push_back(Actor);
-	}
-
-	for (int i = 0; i < 10; i++)
-	{
-		GameEngineActor* Actor = CreateActor<MM_BackGround>(1);
-		float4 Pos(GameEngineWindow::GetScale().x - (i * Offset), (GameEngineWindow::GetScale().Half().y / 4.f) + 224 * 3);
-		Actor->SetPosition(Pos);
-
-		GameEngineRenderer* Renderer = Actor->CreateRenderer();
-		Renderer->CreateAnimation("MENU_SD5L.bmp", "MENU_SD5L", 0, 3, 0.1f, true);
-		Renderer->ChangeAnimation("MENU_SD5L");
-
-		LastLine.push_back(Actor);
-	}
-
-	BackGrounds_.push_back(FirstLine);
-	BackGrounds_.push_back(SecondLine);
-	BackGrounds_.push_back(ThirdLine);
-	BackGrounds_.push_back(LastLine);
-
+	//GameEngineRenderer* SelectMenuRenderer = SelectMenu->CreateRenderer("MM_SELECT.bmp");
+	
+	BackgourndInit();
 
 	{
 		//카방클 메뉴
@@ -179,19 +108,19 @@ void MainMenu::Update()
 		switch (MenuCount_)
 		{
 			case static_cast<int>(MenuType::ALONE):
-				GameEngine::GlobalEngine().ChangeLevel("CharacterSelect");
+				GameEngine::GetInst().ChangeLevel("EnemySelect");
 				break;
 			case static_cast<int>(MenuType::TOGETHER):
-				GameEngine::GlobalEngine().ChangeLevel("Title");
+				GameEngine::GetInst().ChangeLevel("Title");
 				break;
 			case static_cast<int>(MenuType::TRAINING):
-				GameEngine::GlobalEngine().ChangeLevel("Title");
+				GameEngine::GetInst().ChangeLevel("Title");
 				break;
 			case static_cast<int>(MenuType::PUZZLE):
-				GameEngine::GlobalEngine().ChangeLevel("Title");
+				GameEngine::GetInst().ChangeLevel("Title");
 				break;
 			case static_cast<int>(MenuType::OPTION):
-				GameEngine::GlobalEngine().ChangeLevel("Title");
+				GameEngine::GetInst().ChangeLevel("Title");
 				break;
 			default:
 				MenuCount_ = 0;
@@ -200,33 +129,34 @@ void MainMenu::Update()
 	}
 
 
-	//리스트가 나을까?
-
+	//백그라운드 엑터들은 크기가 없다.
+	//게다가 렌더러 정보도 알 수가 없다.
 	for (int i = 0; i < BackGrounds_.size(); ++i)
 	{
 		for (int j = 0; j < BackGrounds_[i].size(); j++)
 		{
 			if (0 == i || 2 == i) //0, 2라인
 			{
-				BackGrounds_[i][j]->SetPosition(BackGrounds_[i][j]->GetPosition() + (float4::RIGHT * GameEngineTime::GetDeltaTime() * 100.f));
+				BackGrounds_[i][j]->SetPosition(BackGrounds_[i][j]->GetPosition() + (float4::RIGHT * GameEngineTime::GetDeltaTime() * 200.f));
 
-				//if (GameEngineWindow::GetScale().x < BackGrounds_[i][j]->GetPosition().x)
-				//{
-				//	BackGrounds_[i][j]->SetPosition({ 0.0f - BackGrounds_[i][j]->GetScale().x, BackGrounds_[i][j]->GetPosition().y});
-				//}
+				if (GameEngineWindow::GetScale().x + 500.f < BackGrounds_[i][j]->GetPosition().x)
+				{
+					BackGrounds_[i][j]->SetPosition({ 0.0f, BackGrounds_[i][j]->GetPosition().y});
+				}
 			}
 
 			if (1 == i || 3 == i) //1, 3라인
 			{
-				BackGrounds_[i][j]->SetPosition(BackGrounds_[i][j]->GetPosition() + (float4::LEFT * GameEngineTime::GetDeltaTime() * 100.f));
+				BackGrounds_[i][j]->SetPosition(BackGrounds_[i][j]->GetPosition() + (float4::LEFT * GameEngineTime::GetDeltaTime() * 200.f));
 
-				//if (0.0f > BackGrounds_[i][j]->GetPosition().x) //벗어나는 위치
-				//{
-				//	BackGrounds_[i][j]->SetPosition({ GameEngineWindow::GetScale().x + BackGrounds_[i][j]->GetScale().x , BackGrounds_[i][j]->GetPosition().y }); //다시 붙여주는 위치
-				//}
+				if (0.0f - 500.f > BackGrounds_[i][j]->GetPosition().x) //벗어나는 위치
+				{
+					BackGrounds_[i][j]->SetPosition({ GameEngineWindow::GetScale().x, BackGrounds_[i][j]->GetPosition().y }); //다시 붙여주는 위치
+				}
 			}
 		}
 	}
+
 }
 
 void MainMenu::LevelChangeStart()
@@ -236,6 +166,81 @@ void MainMenu::LevelChangeStart()
 
 void MainMenu::LevelChangeEnd()
 {
+}
+
+void MainMenu::BackgourndInit()
+{
+	GameEngineImage* Image = GameEngineImageManager::GetInst()->Find("MM_SD0R.bmp");
+	Image->CutCount(4, 1);
+
+	GameEngineImage* Image1 = GameEngineImageManager::GetInst()->Find("MM_SD5L.bmp");
+	Image1->CutCount(4, 1);
+
+	std::vector<GameEngineActor*> FirstLine;
+	std::vector<GameEngineActor*> SecondLine;
+	std::vector<GameEngineActor*> ThirdLine;
+	std::vector<GameEngineActor*> LastLine;
+
+	float Offset;
+	Offset = 220.f;
+
+	for (int i = 0; i < 10; i++)
+	{
+		GameEngineActor* Actor = CreateActor<MM_BackGround>(1);
+		float4 Pos(GameEngineWindow::GetScale().x - (i * Offset), (GameEngineWindow::GetScale().Half().y / 4.f));
+		Actor->SetPosition(Pos);
+
+		GameEngineRenderer* Renderer = Actor->CreateRenderer();
+		Renderer->CreateAnimation("MM_SD0R.bmp", "MM_SD0R", 0, 3, 0.1f, true);
+		Renderer->ChangeAnimation("MM_SD0R");
+
+		FirstLine.push_back(Actor);
+	}
+
+	for (int i = 0; i < 10; i++)
+	{
+		GameEngineActor* Actor = CreateActor<MM_BackGround>(1);
+		float4 Pos(GameEngineWindow::GetScale().x - (i * Offset), (GameEngineWindow::GetScale().Half().y / 4.f) + 224);
+		Actor->SetPosition(Pos);
+
+		GameEngineRenderer* Renderer = Actor->CreateRenderer();
+		Renderer->CreateAnimation("MM_SD5L.bmp", "MM_SD5L", 0, 3, 0.1f, true);
+		Renderer->ChangeAnimation("MM_SD5L");
+
+		SecondLine.push_back(Actor);
+	}
+
+	for (int i = 0; i < 10; i++)
+	{
+		GameEngineActor* Actor = CreateActor<MM_BackGround>(1);
+		float4 Pos(GameEngineWindow::GetScale().x - (i * Offset), (GameEngineWindow::GetScale().Half().y / 4.f) + 224 * 2);
+		Actor->SetPosition(Pos);
+
+		GameEngineRenderer* Renderer = Actor->CreateRenderer();
+		Renderer->CreateAnimation("MM_SD0R.bmp", "MM_SD0R", 0, 3, 0.1f, true);
+		Renderer->ChangeAnimation("MM_SD0R");
+
+		ThirdLine.push_back(Actor);
+	}
+
+	for (int i = 0; i < 10; i++)
+	{
+		GameEngineActor* Actor = CreateActor<MM_BackGround>(1);
+		float4 Pos(GameEngineWindow::GetScale().x - (i * Offset), (GameEngineWindow::GetScale().Half().y / 4.f) + 224 * 3);
+		Actor->SetPosition(Pos);
+
+		GameEngineRenderer* Renderer = Actor->CreateRenderer();
+		Renderer->CreateAnimation("MM_SD5L.bmp", "MM_SD5L", 0, 3, 0.1f, true);
+		Renderer->ChangeAnimation("MM_SD5L");
+
+		LastLine.push_back(Actor);
+	}
+
+	BackGrounds_.push_back(FirstLine);
+	BackGrounds_.push_back(SecondLine);
+	BackGrounds_.push_back(ThirdLine);
+	BackGrounds_.push_back(LastLine);
+
 }
 
 

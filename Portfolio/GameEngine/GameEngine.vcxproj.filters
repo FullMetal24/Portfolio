@@ -26,6 +26,9 @@
     <ClInclude Include="GameEngineActorSubObject.h">
       <Filter>Object\Actor\SubObject</Filter>
     </ClInclude>
+    <ClInclude Include="GameEngineCollision.h">
+      <Filter>Object\Actor\SubObject</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameEngine.cpp" />
@@ -49,6 +52,9 @@
     </ClCompile>
     <ClCompile Include="GameEngineLevel.cpp">
       <Filter>Object</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineCollision.cpp">
+      <Filter>Object\Actor\SubObject</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

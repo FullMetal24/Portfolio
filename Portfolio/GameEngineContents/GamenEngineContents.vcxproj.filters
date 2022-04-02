@@ -14,7 +14,7 @@
     <ClCompile Include="Title.cpp">
       <Filter>Level</Filter>
     </ClCompile>
-    <ClCompile Include="CharacterSelect.cpp">
+    <ClCompile Include="EnemySelect.cpp">
       <Filter>Level</Filter>
     </ClCompile>
     <ClCompile Include="Puyo.cpp">
@@ -104,7 +104,7 @@
     <ClInclude Include="Title.h">
       <Filter>Level</Filter>
     </ClInclude>
-    <ClInclude Include="CharacterSelect.h">
+    <ClInclude Include="EnemySelect.h">
       <Filter>Level</Filter>
     </ClInclude>
     <ClInclude Include="Puyo.h">

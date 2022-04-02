@@ -22,6 +22,8 @@ public:
 	void LevelChangeStart() override;
 	void LevelChangeEnd() override;
 
+	void BackgourndInit();
+
 protected:
 
 private:

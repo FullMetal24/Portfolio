@@ -13,7 +13,6 @@ CompanyLogo::~CompanyLogo()
 void CompanyLogo::Start()
 {
 	SetPosition(GameEngineWindow::GetScale().Half());
-	GameEngineRenderer* Renderer1 = CreateRenderer("OP_COMPANYLOGO.bmp");
 }
 
 void CompanyLogo::Update()

@@ -32,7 +32,7 @@ void InGame::Loading()
 	Stages_[0] = CreateActor<Stage>();
 
 	Stages_[0]->SetPosition(GameEngineWindow::GetScale().Half());
-	Stages_[0]->CreateRenderer("Stage1.bmp");
+	Stages_[0]->CreateRenderer("IG_STAGE1.bmp");
 
 
 	Player_ = new Player();

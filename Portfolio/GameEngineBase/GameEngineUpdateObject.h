@@ -8,7 +8,7 @@ public:
 	virtual ~GameEngineUpdateObject();
 
 	GameEngineUpdateObject(const GameEngineUpdateObject& _Other) = delete;
-	GameEngineUpdateObject(GameEngineUpdateObject&& _Other) noexcept = delete;
+	GameEngineUpdateObject(GameEngineUpdateObject&& _Other) noexcept = delete; 
 	GameEngineUpdateObject& operator=(const GameEngineUpdateObject& _Other) = delete;
 	GameEngineUpdateObject& operator=(GameEngineUpdateObject&& _Other) noexcept = delete;
 
@@ -22,9 +22,14 @@ public:
 		IsUpdate_ = false;
 	}
 
-	virtual bool IsUpdate()
+	inline virtual bool IsUpdate()
 	{
 		return IsUpdate_ && false == IsDeath_;
+	}
+
+	inline virtual bool IsDeath()
+	{
+		return IsDeath_;
 	}
 
 	inline void Death()
@@ -39,26 +44,22 @@ public:
 			return;
 		}
 
-		DeathTime_ = GameEngineTime::GetDeltaTime();
+		DeathTime_ -= GameEngineTime::GetDeltaTime();
 
 		if (0.0f >= DeathTime_)
 		{
-			DeathTime_ = true;
+			IsDeath_ = true;
 		}
 	}
 
 	inline void Death(float _Time)
 	{
-		DeathTime_ = _Time;
 		IsReleaseUpdate_ = true;
-	}
-	
-	inline bool IsDeath()
-	{
-		return IsDeath_;
+		DeathTime_ = _Time;
 	}
 
-protected:
+
+
 
 private:
 	bool IsReleaseUpdate_;
