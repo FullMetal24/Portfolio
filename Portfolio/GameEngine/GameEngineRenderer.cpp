@@ -96,6 +96,7 @@ void GameEngineRenderer::SetIndex(size_t _Index, const float4& _Scale)
 		MsgBoxAssert("이미지를 부분적으로 사용할수 있게 잘려지있지 않은 이미지 입니다.");
 		return;
 	}
+
 	if (_Scale.x <= 0 || _Scale.y <= 0)
 	{
 		RenderScale_ = Image_->GetCutScale(_Index);

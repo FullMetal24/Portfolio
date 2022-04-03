@@ -17,24 +17,15 @@ public:
 	void LevelChangeStart() override;
 	void LevelChangeEnd() override;
 
+	void InitBackground();
 	void ChangeBackground();
 
 protected:
 
 private:
-	GameEngineActor* CompanyLogo_;
-	GameEngineActor* Puyo_;
-	GameEngineActor* Background_;
-	GameEngineActor* Carbuncle_;
-	GameEngineActor* Roll_;
-	GameEngineActor* Background1_;
-	GameEngineActor* Roll1_;
-	GameEngineActor* AREL_;
-	GameEngineActor* Finger_;
-	GameEngineActor* Roll2_;
+	GameEngineActor* TitleActors_[16];
 
 	int TransCount_;
-
 	float TransTime;
 };
 
