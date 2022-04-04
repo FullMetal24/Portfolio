@@ -11,6 +11,7 @@ enum class TitileOrder
 {
     LINE_3,
     ROLL_3,
+    COIN_2,
     COIN_1,
     ARLE_BACK,
     ARLE_FACE,
@@ -89,6 +90,11 @@ void Title::Update()
         TitleActors_[(int)TitileOrder::LINE_3]->SetMove(float4::DOWN * 1300.f * GameEngineTime::GetDeltaTime());
     }
 
+    if (7 == TransCount_ && TitleActors_[(int)TitileOrder::COIN_1]->GetPosition().y + 200.f > GameEngineWindow::GetScale().Half().y)
+    {
+        TitleActors_[(int)TitileOrder::COIN_1]->SetMove(float4::UP * 600.f * GameEngineTime::GetDeltaTime());
+    }
+
 }
 
 void Title::LevelChangeStart()
@@ -101,7 +107,7 @@ void Title::LevelChangeEnd()
 
 void Title::InitBackground()
 {
-    for (int i = 0; i < 16; i++)
+    for (int i = 0; i < 17; i++)
     {
         //역순
         TitleActors_[i] = CreateActor<CompanyLogo>(i);
@@ -153,10 +159,13 @@ void Title::InitBackground()
     GameEngineImage* CoinImage = GameEngineImageManager::GetInst()->Find("TT_CARCOIN.bmp");
     CoinImage->CutCount(11, 1);
 
-    GameEngineRenderer* Renderer1 = TitleActors_[(int)TitileOrder::COIN_1]->CreateRenderer();
-    Renderer1->CreateAnimation("TT_CARCOIN.bmp", "TT_CARCOIN", 0, 10, 0.1f, true);
-    Renderer1->ChangeAnimation("TT_CARCOIN");
-    Renderer1->SetTransColor(RGB(255, 255, 255));
+    GameEngineRenderer* CoinRenderer = TitleActors_[(int)TitileOrder::COIN_1]->CreateRenderer();
+    TitleActors_[(int)TitileOrder::COIN_1]->SetPosition({ GameEngineWindow::GetScale().Half().x, GameEngineWindow::GetScale().y + CoinImage->GetScale().y / 2});
+    CoinRenderer->CreateAnimation("TT_CARCOIN.bmp", "TT_CARCOIN", 0, 10, 0.07f, true);
+    CoinRenderer->ChangeAnimation("TT_CARCOIN");
+    CoinRenderer->SetTransColor(RGB(0, 0, 0));
+
+    TitleActors_[(int)TitileOrder::COIN_2]->CreateRenderer("TT_COIN.bmp");
 }
 
 void Title::ChangeBackground()
@@ -222,18 +231,9 @@ void Title::ChangeBackground()
         TransTime = 0.0f;
     }
 
-    //else if (10.0f < TransTime && 6 == TransCount_)
-    //{
-    //    TitleActors_[(int)TitileOrder::ROLL_3]->Death();
-    //    TitleActors_[(int)TitileOrder::LINE_3]->Death();
-
-    //    ++TransCount_;
-    //    TransTime = 0.0f;
-    //}
-
-    //컴퍼니 로고 3초
-    //뿌요 번개 노랑 검정
-    //카방클 파랑 
-    //아르르
-    //게임 로고
+    else if (2.0f < TransTime && 6 == TransCount_)
+    {
+        ++TransCount_;
+        TransTime = 0.0f;
+    }
 }

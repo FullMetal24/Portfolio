@@ -23,7 +23,7 @@ public:
 protected:
 
 private:
-	GameEngineActor* TitleActors_[16];
+	GameEngineActor* TitleActors_[17];
 
 	int TransCount_;
 	float TransTime;

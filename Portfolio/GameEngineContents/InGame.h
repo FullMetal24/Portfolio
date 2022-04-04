@@ -8,8 +8,11 @@
 
 class Enemy;
 class PuyoPair;
+class EnemySelect;
 class InGame : public GameEngineLevel
 {
+	friend EnemySelect;
+
 public:
 	InGame();
 	~InGame();
@@ -50,6 +53,7 @@ private:
 	int StageClear_;
 };
 	
+
 //스테이지 
 //스테이지 내부 멤버에 렌더러를 여러 개 두고 따로 로딩하는 형식이 좋을까?
 //렌더러를 인게임에 두고 하는 방법은 어떨까

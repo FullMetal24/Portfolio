@@ -1,9 +1,9 @@
 #include "PuyoPuyo.h"
-#include "GameOver.h"
 #include "Title.h"
+#include "MainMenu.h"
 #include "InGame.h"
 #include "EnemySelect.h"
-#include "MainMenu.h"
+#include "GameOver.h"
 #include <GameEngineBase/GameEngineWindow.h>
 #include <GameEngineBase/GameEngineDirectory.h>
 #include <GameEngineBase/GameEngineFile.h>
