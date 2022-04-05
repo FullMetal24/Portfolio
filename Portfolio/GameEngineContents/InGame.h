@@ -42,11 +42,12 @@ private:
 	//부모 뿌요를 넣고 자식(레드 블루) 뿌요들을 삭제 관리
 	//std::vector<Stage*> Stages;
 	Stage* Stages_[3]; //굳이 스테이지 말고 렌더러여도 된다.
+	Enemy* CurrentEnemy_;
 		
 	//Plyer와 선택한 Enemy를 동적할당(Enemy 타입, 이미지 넘겨주기?)
 
 	Player*	Player_;
-	Enemy* CurrentEnemy_;
+
 
 	GameEngineRenderer* Stage_; //스테이지 이미지 (렌더러가 나을듯함
 

@@ -1,16 +1,21 @@
 #pragma once
+#include <string>
 #include "GameEngineTime.h"
+
 
 class GameEngineUpdateObject
 {
 public:
+	// constrcuter destructer
 	GameEngineUpdateObject();
-	virtual ~GameEngineUpdateObject();
+	~GameEngineUpdateObject();
 
+	// delete Function
 	GameEngineUpdateObject(const GameEngineUpdateObject& _Other) = delete;
-	GameEngineUpdateObject(GameEngineUpdateObject&& _Other) noexcept = delete; 
+	GameEngineUpdateObject(GameEngineUpdateObject&& _Other) noexcept = delete;
 	GameEngineUpdateObject& operator=(const GameEngineUpdateObject& _Other) = delete;
 	GameEngineUpdateObject& operator=(GameEngineUpdateObject&& _Other) noexcept = delete;
+
 
 	inline void On()
 	{
@@ -32,7 +37,8 @@ public:
 		return IsDeath_;
 	}
 
-	inline void Death()
+
+	inline 	void Death()
 	{
 		IsDeath_ = true;
 	}
@@ -58,14 +64,26 @@ public:
 		DeathTime_ = _Time;
 	}
 
+	inline int GetOrder()
+	{
+		return Order_;
+	}
+
+	virtual inline void SetOrder(int _Order)
+	{
+		Order_ = _Order;
+	}
+
 
 
 
 private:
+	int Order_;
 	bool IsReleaseUpdate_;
 	float DeathTime_;
 
 	bool IsUpdate_;
 	bool IsDeath_;
+
 };
 

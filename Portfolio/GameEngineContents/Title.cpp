@@ -63,7 +63,6 @@ void Title::Update()
         GameEngine::GetInst().ChangeLevel("MainMenu");
     }
     
-
     if (2 == TransCount_)
     {
         TitleActors_[(int)TitileOrder::ROLL_1]->SetMove(float4::DOWN * 200.f * GameEngineTime::GetDeltaTime());

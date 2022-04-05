@@ -24,6 +24,17 @@ public:
 	}
 
 	static HDC BackBufferDC();
+
+	//내가 만든 함수
+	static GameEngineLevel* GetCurrentLevel()
+	{
+		return CurrentLevel_;
+	}
+
+	static GameEngineLevel* GetNextLevel()
+	{
+		return NextLevel_;
+	}
 		 
 	virtual void GameInit() = 0;
 	virtual void GameLoop() = 0;
@@ -51,7 +62,7 @@ public:
 		return *UserContents_;
 	}
 
-	void ChangeLevel(const std::string& _Name); //이게 왜 꼭 여기 있어야 할까?
+	void ChangeLevel(const std::string& _Name);
 
 protected:
 	template<typename LevelType>

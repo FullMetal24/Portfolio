@@ -3,13 +3,13 @@
 enum class RenderPivot
 {
 	CENTER,
-	BOT
+	BOT,
 };
 
 enum class RenderScaleMode
 {
 	Image,
-	User
+	User,
 };
 
 enum class CollisionType
@@ -18,4 +18,9 @@ enum class CollisionType
 	Circle,
 	Rect,
 	Max
+};
+
+enum class EngineMax
+{
+	RENDERORDERMAX = 2147483647,
 };

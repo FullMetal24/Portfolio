@@ -21,10 +21,32 @@ public:
 
 	void AddPuyo();
 
+	GameEngineActor* GetProfile()
+	{
+   		return MyProfile_;
+	}
+
+	GameEngineActor* GetIcon()
+	{
+		return MyIcon_;
+	}
+	
+	void SetProfile(GameEngineActor* _Profile)
+	{
+		MyProfile_ = _Profile;
+	}
+
+	void SetIcon(GameEngineActor* _Icon)
+	{
+		MyIcon_ = _Icon;
+	}
+
 protected:
 
 private:
-
+	GameEngineActor* MyProfile_;
+	GameEngineActor* MyIcon_;
+	
 	Puyo* EnemyMap_[6][13];
 
 	PuyoPair* CurrnetPair_;

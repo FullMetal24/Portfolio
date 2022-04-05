@@ -5,8 +5,6 @@
 #include <GameEngineBase/GameEngineDebug.h>
 #include <GameEngineBase/GameEngineTime.h>
 
-// 
-// 11111111 00000000 11111111
 
 #pragma comment(lib, "msimg32.lib")
 
@@ -41,7 +39,6 @@ void GameEngineRenderer::SetImageScale()
 void GameEngineRenderer::SetImage(const std::string& _Name)
 {
 	GameEngineImage* FindImage = GameEngineImageManager::GetInst()->Find(_Name);
-
 	if (nullptr == FindImage)
 	{
 		MsgBoxAssertString(_Name + "존재하지 않는 이미지를 랜더러에 세팅하려고 했습니다.");
@@ -89,19 +86,18 @@ void GameEngineRenderer::Render()
 	}
 }
 
-void GameEngineRenderer::SetIndex(size_t _Index, const float4& _Scale)
+void GameEngineRenderer::SetIndex(size_t _Index, const float4& _Scale /*= {-1, -1}*/)
 {
 	if (false == Image_->IsCut())
 	{
 		MsgBoxAssert("이미지를 부분적으로 사용할수 있게 잘려지있지 않은 이미지 입니다.");
 		return;
 	}
-
 	if (_Scale.x <= 0 || _Scale.y <= 0)
 	{
 		RenderScale_ = Image_->GetCutScale(_Index);
 	}
-	else 
+	else
 	{
 		RenderScale_ = _Scale;
 	}
@@ -132,7 +128,7 @@ void GameEngineRenderer::CreateAnimation(
 	int _StartIndex,
 	int _EndIndex,
 	float _InterTime,
-	bool _Loop) 
+	bool _Loop /*= true*/)
 {
 	GameEngineImage* FindImage = GameEngineImageManager::GetInst()->Find(_Image);
 
@@ -148,6 +144,8 @@ void GameEngineRenderer::CreateAnimation(
 		return;
 	}
 
+	//FrameAnimation Animation;
+	//Animation.insert(std::make_pair(, FrameAnimation()));
 	FrameAnimation& NewAnimation = Animations_[_Name];
 	NewAnimation.Renderer_ = this;
 	NewAnimation.Image_ = FindImage;
@@ -161,7 +159,7 @@ void GameEngineRenderer::CreateAnimation(
 
 }
 
-void GameEngineRenderer::FrameAnimation::Update() 
+void GameEngineRenderer::FrameAnimation::Update()
 {
 	CurrentInterTime_ -= GameEngineTime::GetInst()->GetDeltaTime();
 	if (0 >= CurrentInterTime_)
@@ -175,7 +173,7 @@ void GameEngineRenderer::FrameAnimation::Update()
 			{
 				CurrentFrame_ = StartFrame_;
 			}
-			else 
+			else
 			{
 				CurrentFrame_ = EndFrame_;
 			}
@@ -185,4 +183,24 @@ void GameEngineRenderer::FrameAnimation::Update()
 
 	Renderer_->Image_ = Image_;
 	Renderer_->SetIndex(CurrentFrame_);
+}
+
+void GameEngineRenderer::SetOrder(int _Order)
+{
+	if (nullptr == GetActor())
+	{
+		MsgBoxAssert("액터가 세팅되지 않습니다.");
+	}
+
+	if (nullptr == GetActor()->GetLevel())
+	{
+		MsgBoxAssert("레벨이 세팅되지 않았습니다.");
+	}
+
+	if (_Order == GetOrder())
+	{
+		return;
+	}
+
+	GetActor()->GetLevel()->ChangeRenderOrder(this, _Order);
 }

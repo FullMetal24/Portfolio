@@ -1,18 +1,19 @@
 #pragma once
 #include <list>
 #include <map>
-#include <vector>
 #include <GameEngineBase/GameEngineNameObject.h>
 #include <GameEngineBase/GameEngineMath.h>
 
 class GameEngine;
 class GameEngineActor;
 class GameEngineCollision;
+class GameEngineRenderer;
 class GameEngineLevel : public GameEngineNameObject
 {
 	friend GameEngine;
 	friend GameEngineActor;
 	friend GameEngineCollision;
+	friend GameEngineRenderer;
 
 public:
 	// constrcuter destructer
@@ -33,6 +34,7 @@ public:
 	{
 		ActorType* NewActor = new ActorType();
 		GameEngineActor* StartActor = NewActor;
+		NewActor->SetOrder(_Order);
 		NewActor->SetName(_Name);
 		NewActor->SetLevel(this);
 		StartActor->Start();
@@ -95,6 +97,14 @@ private:
 	void ActorRender();
 	void CollisionDebugRender();
 	void ActorRelease();
+
+private:
+	std::map<int, std::list<GameEngineRenderer*>> AllRenderer_;
+
+	void AddRenderer(GameEngineRenderer* _Renderer);
+
+	void ChangeRenderOrder(GameEngineRenderer* _Renderer, int _NewOrder);
+
 
 private:
 	// 삭제는 액터가 하지만 실제 사용은 Level

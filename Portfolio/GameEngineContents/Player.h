@@ -33,7 +33,7 @@ protected:
 private:
 
 	//std::list<std::list<Puyo*>> PlayerMap_; //생성되는 건 뿌요페어지만 저장은 두 뿌요로 나누어 저장한다.
-
+	GameEngineActor* MyProfile_;
 	Puyo* PlayerMap_[6][13];
 	
 	PuyoPair* CurrnetPair_;

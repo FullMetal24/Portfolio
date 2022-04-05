@@ -9,6 +9,7 @@ class GameEngineImage;
 class GameEngineRenderer : public GameEngineActorSubObject
 {
 	friend GameEngineActor;
+	friend GameEngineLevel;
 
 public:
 	// constrcuter destructer
@@ -56,9 +57,21 @@ public:
 	}
 
 	void SetImage(const std::string& _Name);
-	
-	void SetIndex(size_t _Index, const float4& _Scale = {-1, -1});
 
+	// 
+	void SetIndex(size_t _Index, const float4& _Scale = { -1, -1 });
+
+	void CameraEffectOff()
+	{
+		IsCameraEffect_ = false;
+	}
+
+	void CameraEffectOn()
+	{
+		IsCameraEffect_ = true;
+	}
+
+	void SetOrder(int _Order) override;
 
 
 protected:
@@ -67,8 +80,9 @@ protected:
 private:
 	friend class FrameAnimation;
 
+	bool IsCameraEffect_;
 	GameEngineImage* Image_;
-	RenderPivot PivotType_; 
+	RenderPivot PivotType_; // 센터 / bot
 	RenderScaleMode ScaleMode_;
 	float4 RenderPivot_;
 	float4 RenderScale_;
@@ -76,11 +90,11 @@ private:
 	float4 RenderImagePivot_;
 	unsigned int TransColor_;
 
-	bool IsCameraEffect_;
 
 
 
-///////////////////////////////////////////////////////////////// 애니메이션
+
+	///////////////////////////////////////////////////////////////// 애니메이션
 
 private:
 	class FrameAnimation
@@ -96,9 +110,8 @@ private:
 		bool Loop_;
 
 	public:
-		FrameAnimation() 
-			: Renderer_(nullptr),
-			Image_(nullptr),
+		FrameAnimation()
+			: Image_(nullptr),
 			CurrentFrame_(-1),
 			StartFrame_(-1),
 			EndFrame_(-1),
@@ -113,7 +126,7 @@ private:
 	public:
 		void Update();
 
-		void Reset() 
+		void Reset()
 		{
 			CurrentFrame_ = StartFrame_;
 			CurrentInterTime_ = InterTime_;
@@ -123,14 +136,12 @@ private:
 public:
 	void CreateAnimation(const std::string& _Image, const std::string& _Name, int _StartIndex, int _EndIndex, float _InterTime, bool _Loop = true);
 
-	// 옵션을 
 	void ChangeAnimation(const std::string& _Name);
 
 
 private:
 	std::map<std::string, FrameAnimation> Animations_;
 	FrameAnimation* CurrentAnimation_;
-	
 
 
 };

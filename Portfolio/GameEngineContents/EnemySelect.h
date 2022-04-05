@@ -1,10 +1,10 @@
 #pragma once
 #include "GameEngine/GameEngineLevel.h"
 
+class Enemy;
 class GameEngineRenderer;
 class EnemySelect : public GameEngineLevel
 {
-
 public:
 	EnemySelect();
 	~EnemySelect();
@@ -20,15 +20,19 @@ public:
 	void LevelChangeEnd() override;
 
 	void TopPositionInit();
+	void EnemyInit();
 	void SelectEnemy();
 
 protected:
 
 
 private:
-	GameEngineActor* Top[6];
+	Enemy* Enemys_[8];
 
-	GameEngineRenderer* TopRenderer[6];
+	float RouletteSpeed;
+
+	GameEngineActor* Top_[6];
+	GameEngineRenderer* TopRenderer_[6];
 	//고른 캐릭터를 PlayGame에 전달해야함
 };
 
