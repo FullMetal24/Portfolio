@@ -162,6 +162,7 @@ void GameEngineRenderer::CreateAnimation(
 void GameEngineRenderer::FrameAnimation::Update()
 {
 	CurrentInterTime_ -= GameEngineTime::GetInst()->GetDeltaTime();
+
 	if (0 >= CurrentInterTime_)
 	{
 		CurrentInterTime_ = InterTime_;
@@ -179,7 +180,6 @@ void GameEngineRenderer::FrameAnimation::Update()
 			}
 		}
 	}
-
 
 	Renderer_->Image_ = Image_;
 	Renderer_->SetIndex(CurrentFrame_);

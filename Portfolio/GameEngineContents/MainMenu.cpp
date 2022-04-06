@@ -21,46 +21,8 @@ MainMenu::~MainMenu()
 
 void MainMenu::Loading()
 {
-	//GameEngineActor* SelectMenu = CreateActor<MM_BackGround>(3);
-	//SelectMenu->SetPosition({ GameEngineWindow::GetScale().Half().x, 100 });
-	//GameEngineRenderer* SelectMenuRenderer = SelectMenu->CreateRenderer("MM_SELECT.bmp");
-	
+	MenuInit();
 	BackgourndInit();
-
-	{
-		//카방클 메뉴
-
-		GameEngineActor* Menu1 = CreateActor<MM_BackGround>(1);
-		Menu1->SetPosition(float4{ Menu1->GetPosition().x + 250.f, GameEngineWindow::GetScale().Half().y });
-		GameEngineRenderer* Menu1_Renerer = Menu1->CreateRenderer("MENU_1.bmp");
-		Menu1_Renerer->SetTransColor(RGB(255, 255, 255));
-
-		GameEngineActor* Menu2 = CreateActor<MM_BackGround>(1);
-		Menu2->SetPosition(float4{ Menu1->GetPosition().x + Menu1_Renerer->GetImage()->GetScale().x, GameEngineWindow::GetScale().Half().y });
-		GameEngineRenderer* Menu2_Renerer = Menu2->CreateRenderer("1-1.bmp");
-		Menu2_Renerer->SetTransColor(RGB(255, 255, 255));
-
-		GameEngineActor* Menu3 = CreateActor<MM_BackGround>(1);
-		Menu3->SetPosition(float4{ Menu2->GetPosition().x + Menu2_Renerer->GetImage()->GetScale().x, GameEngineWindow::GetScale().Half().y });
-		GameEngineRenderer* Menu3_Renerer = Menu3->CreateRenderer("2.bmp");
-		Menu3_Renerer->SetTransColor(RGB(255, 255, 255));
-
-		GameEngineActor* Menu4 = CreateActor<MM_BackGround>(1);
-		Menu4->SetPosition(float4{ Menu3->GetPosition().x + Menu3_Renerer->GetImage()->GetScale().x, GameEngineWindow::GetScale().Half().y });
-		GameEngineRenderer* Menu4_Renerer = Menu4->CreateRenderer("3.bmp");
-		Menu4_Renerer->SetTransColor(RGB(255, 255, 255));
-
-		GameEngineActor* Menu5 = CreateActor<MM_BackGround>(1);
-		Menu5->SetPosition(float4{ Menu4->GetPosition().x + Menu4_Renerer->GetImage()->GetScale().x, GameEngineWindow::GetScale().Half().y });
-		GameEngineRenderer* Menu5_Renerer = Menu5->CreateRenderer("4.bmp");
-		Menu5_Renerer->SetTransColor(RGB(255, 255, 255));
-
-		Menus_.push_back(Menu1);
-		Menus_.push_back(Menu2);
-		Menus_.push_back(Menu3);
-		Menus_.push_back(Menu4);
-		Menus_.push_back(Menu5);
-	}
 
 	//입력 초기화
 	if (false == GameEngineInput::GetInst()->IsKey("ManiMenu_Right"))
@@ -73,61 +35,7 @@ void MainMenu::Loading()
 
 void MainMenu::Update()
 {
-	if (GameEngineInput::GetInst()->IsDown("ManiMenu_Right"))
-	{
-		if (MenuCount_ < static_cast<int>(MenuType::OPTION))
-		{
-			//카방클 좌로 이동
-			for (int i = 0; i < Menus_.size(); ++i)
-			{
-				float4 Offset = (Menus_[i]->GetPosition() + (float4::LEFT * 200.f));
-				Menus_[i]->SetPosition(Offset);
-			}
-
-			++MenuCount_;
-		}
-	}
-
-	if (GameEngineInput::GetInst()->IsDown("ManiMenu_Left"))
-	{
-		if (MenuCount_ > static_cast<int>(MenuType::ALONE))
-		{
-			//카방클 우로 이동
-			for (int i = 0; i < Menus_.size(); ++i)
-			{
-				float4 Offset = (Menus_[i]->GetPosition() + (float4::RIGHT * 200.f));
-				Menus_[i]->SetPosition(Offset);
-			}
-
-			--MenuCount_;
-		}
-	}
-
-	if (GameEngineInput::GetInst()->IsDown("ManiMenu_Select"))
-	{
-		switch (MenuCount_)
-		{
-			case static_cast<int>(MenuType::ALONE):
-				GameEngine::GetInst().ChangeLevel("EnemySelect");
-				break;
-			case static_cast<int>(MenuType::TOGETHER):
-				GameEngine::GetInst().ChangeLevel("Title");
-				break;
-			case static_cast<int>(MenuType::TRAINING):
-				GameEngine::GetInst().ChangeLevel("Title");
-				break;
-			case static_cast<int>(MenuType::PUZZLE):
-				GameEngine::GetInst().ChangeLevel("Title");
-				break;
-			case static_cast<int>(MenuType::OPTION):
-				GameEngine::GetInst().ChangeLevel("Title");
-				break;
-			default:
-				MenuCount_ = 0;
-				break;
-		}
-	}
-
+	MenuUpdate();
 
 	//백그라운드 엑터들은 크기가 없다.
 	//게다가 렌더러 정보도 알 수가 없다.
@@ -166,6 +74,80 @@ void MainMenu::LevelChangeStart()
 
 void MainMenu::LevelChangeEnd()
 {
+
+}
+
+void MainMenu::MenuInit()
+{
+	GameEngineActor* SelectMenu = CreateActor<MM_BackGround>(3);
+	SelectMenu->SetPosition({ GameEngineWindow::GetScale().Half().x, 150 });
+	GameEngineRenderer* SelectMenuRenderer = SelectMenu->CreateRenderer("MM_SELECT-1.bmp");
+
+
+	GameEngineImage* Image = GameEngineImageManager::GetInst()->Find("MENU_1.bmp");
+	Image->CutCount(3, 1);
+
+	GameEngineImage* Image1 = GameEngineImageManager::GetInst()->Find("MENU_2.bmp");
+	Image1->CutCount(3, 1);
+
+	GameEngineImage* Image2 = GameEngineImageManager::GetInst()->Find("MENU_3.bmp");
+	Image2->CutCount(3, 1);
+
+	GameEngineImage* Image3 = GameEngineImageManager::GetInst()->Find("MENU_4.bmp");
+	Image3->CutCount(3, 1);
+
+	GameEngineImage* Image4 = GameEngineImageManager::GetInst()->Find("MENU_5.bmp");
+	Image4->CutCount(3, 1);
+
+
+	//카방클 메뉴
+	{
+		GameEngineActor* Menu1 = CreateActor<MM_BackGround>(3);
+		Menu1->SetPosition({ Menu1->GetPosition().x + 250.f, GameEngineWindow::GetScale().Half().y + 100.f});
+		GameEngineRenderer* Menu1_Renerer = Menu1->CreateRenderer();
+		Menu1_Renerer->CreateAnimation("MENU_1.bmp", "MENU_1", 0, 2, 1.f, true);
+		Menu1_Renerer->ChangeAnimation("MENU_1");
+		Menu1_Renerer->SetTransColor(RGB(255, 255, 255));
+
+
+		GameEngineActor* Menu2 = CreateActor<MM_BackGround>(3);
+		Menu2->SetPosition({ Menu1->GetPosition().x + 320.f, GameEngineWindow::GetScale().Half().y + 100.f });
+		GameEngineRenderer* Menu2_Renerer = Menu2->CreateRenderer();
+		Menu2_Renerer->CreateAnimation("MENU_2.bmp", "MENU_2", 0, 2, 1.f, false);
+		Menu2_Renerer->ChangeAnimation("MENU_2");
+		Menu2_Renerer->SetTransColor(RGB(255, 255, 255));
+
+
+		GameEngineActor* Menu3 = CreateActor<MM_BackGround>(3);
+		Menu3->SetPosition({ Menu2->GetPosition().x + 320.f, GameEngineWindow::GetScale().Half().y + 100.f});
+		GameEngineRenderer* Menu3_Renerer = Menu3->CreateRenderer();
+		Menu3_Renerer->CreateAnimation("MENU_3.bmp", "MENU_3", 0, 2, 1.f, false);
+		Menu3_Renerer->ChangeAnimation("MENU_3");
+		Menu3_Renerer->SetTransColor(RGB(255, 255, 255));
+
+
+		GameEngineActor* Menu4 = CreateActor<MM_BackGround>(3);
+		Menu4->SetPosition({ Menu3->GetPosition().x + 320.f, GameEngineWindow::GetScale().Half().y + 100.f });
+		GameEngineRenderer* Menu4_Renerer = Menu4->CreateRenderer();
+		Menu4_Renerer->CreateAnimation("MENU_4.bmp", "MENU_4", 0, 2, 1.f, false);
+		Menu4_Renerer->ChangeAnimation("MENU_4");
+		Menu4_Renerer->SetTransColor(RGB(255, 255, 255));
+
+
+		GameEngineActor* Menu5 = CreateActor<MM_BackGround>(3);
+		Menu5->SetPosition({ Menu4->GetPosition().x + 320.f, GameEngineWindow::GetScale().Half().y + 100.f });
+		GameEngineRenderer* Menu5_Renerer = Menu5->CreateRenderer();
+		Menu5_Renerer->CreateAnimation("MENU_5.bmp", "MENU_5", 0, 2, 1.f, false);
+		Menu5_Renerer->ChangeAnimation("MENU_5");
+		Menu5_Renerer->SetTransColor(RGB(255, 255, 255));
+
+
+		Menus_.push_back(Menu1);
+		Menus_.push_back(Menu2);
+		Menus_.push_back(Menu3);
+		Menus_.push_back(Menu4);
+		Menus_.push_back(Menu5);
+	}
 }
 
 void MainMenu::BackgourndInit()
@@ -191,7 +173,7 @@ void MainMenu::BackgourndInit()
 		Actor->SetPosition(Pos);
 
 		GameEngineRenderer* Renderer = Actor->CreateRenderer();
-		Renderer->CreateAnimation("MM_SD0R.bmp", "MM_SD0R", 0, 3, 0.1f, true);
+		Renderer->CreateAnimation("MM_SD0R.bmp", "MM_SD0R", 0, 3, 0.3f, true);
 		Renderer->ChangeAnimation("MM_SD0R");
 
 		FirstLine.push_back(Actor);
@@ -204,7 +186,7 @@ void MainMenu::BackgourndInit()
 		Actor->SetPosition(Pos);
 
 		GameEngineRenderer* Renderer = Actor->CreateRenderer();
-		Renderer->CreateAnimation("MM_SD5L.bmp", "MM_SD5L", 0, 3, 0.1f, true);
+		Renderer->CreateAnimation("MM_SD5L.bmp", "MM_SD5L", 0, 3, 0.3f, true);
 		Renderer->ChangeAnimation("MM_SD5L");
 
 		SecondLine.push_back(Actor);
@@ -217,7 +199,7 @@ void MainMenu::BackgourndInit()
 		Actor->SetPosition(Pos);
 
 		GameEngineRenderer* Renderer = Actor->CreateRenderer();
-		Renderer->CreateAnimation("MM_SD0R.bmp", "MM_SD0R", 0, 3, 0.1f, true);
+		Renderer->CreateAnimation("MM_SD0R.bmp", "MM_SD0R", 0, 3, 0.3f, true);
 		Renderer->ChangeAnimation("MM_SD0R");
 
 		ThirdLine.push_back(Actor);
@@ -230,7 +212,7 @@ void MainMenu::BackgourndInit()
 		Actor->SetPosition(Pos);
 
 		GameEngineRenderer* Renderer = Actor->CreateRenderer();
-		Renderer->CreateAnimation("MM_SD5L.bmp", "MM_SD5L", 0, 3, 0.1f, true);
+		Renderer->CreateAnimation("MM_SD5L.bmp", "MM_SD5L", 0, 3, 0.3f, true);
 		Renderer->ChangeAnimation("MM_SD5L");
 
 		LastLine.push_back(Actor);
@@ -240,6 +222,65 @@ void MainMenu::BackgourndInit()
 	BackGrounds_.push_back(SecondLine);
 	BackGrounds_.push_back(ThirdLine);
 	BackGrounds_.push_back(LastLine);
+
+}
+
+void MainMenu::MenuUpdate()
+{
+	if (GameEngineInput::GetInst()->IsDown("ManiMenu_Right"))
+	{
+		if (MenuCount_ < static_cast<int>(MenuType::OPTION))
+		{
+			//카방클 좌로 이동
+			for (int i = 0; i < Menus_.size(); ++i)
+			{
+				float4 Offset = (Menus_[i]->GetPosition() + (float4::LEFT * 200.f));
+				Menus_[i]->SetPosition(Offset);
+			}
+
+			++MenuCount_;
+		}
+	}
+
+	if (GameEngineInput::GetInst()->IsDown("ManiMenu_Left"))
+	{
+		if (MenuCount_ > static_cast<int>(MenuType::ALONE))
+		{
+			//카방클 우로 이동
+			for (int i = 0; i < Menus_.size(); ++i)
+			{
+				float4 Offset = (Menus_[i]->GetPosition() + (float4::RIGHT * 200.f));
+				Menus_[i]->SetPosition(Offset);
+			}
+
+			--MenuCount_;
+		}
+	}
+
+	if (GameEngineInput::GetInst()->IsDown("ManiMenu_Select"))
+	{
+		switch (MenuCount_)
+		{
+		case static_cast<int>(MenuType::ALONE):
+			GameEngine::GetInst().ChangeLevel("EnemySelect");
+			break;
+		case static_cast<int>(MenuType::TOGETHER):
+			GameEngine::GetInst().ChangeLevel("Title");
+			break;
+		case static_cast<int>(MenuType::TRAINING):
+			GameEngine::GetInst().ChangeLevel("Title");
+			break;
+		case static_cast<int>(MenuType::PUZZLE):
+			GameEngine::GetInst().ChangeLevel("Title");
+			break;
+		case static_cast<int>(MenuType::OPTION):
+			GameEngine::GetInst().ChangeLevel("Title");
+			break;
+		default:
+			MenuCount_ = 0;
+			break;
+		}
+	}
 
 }
 

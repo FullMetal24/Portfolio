@@ -80,8 +80,7 @@ private:
 
 	/////////////////////////////////////////////////// Render
 public:
-	GameEngineRenderer* CreateRenderer(RenderPivot _PivotType, const float4& _PivotPos);
-	
+
 	// 벡터의 값
 	GameEngineRenderer* CreateRenderer(int _Order = static_cast<int>(EngineMax::RENDERORDERMAX), RenderPivot _PivotType = RenderPivot::CENTER, const float4 & _PivotPos = {0,0});
 
@@ -89,7 +88,9 @@ public:
 	// 디폴트 인자는 선언에서만 지정 가능합니다.
 	GameEngineRenderer* CreateRenderer(const std::string& _Image, int _Order = static_cast<int>(EngineMax::RENDERORDERMAX),RenderPivot _PivotType = RenderPivot::CENTER, const float4& _PivotPos = {0,0});
 
-	GameEngineRenderer* CreateRenderer(const std::string& _Image, RenderPivot _PivotType, const float4& _PivotPos);
+	//GameEngineRenderer* CreateRenderer(const std::string& _Image, RenderPivot _PivotType, const float4& _PivotPos);
+	//GameEngineRenderer* CreateRenderer(RenderPivot _PivotType, const float4& _PivotPos);
+
 
 	GameEngineRenderer* CreateRendererToScale(const std::string& _Image, const float4& _Scale, int _Order = static_cast<int>(EngineMax::RENDERORDERMAX) ,RenderPivot _PivotType = RenderPivot::CENTER, const float4& _PivotPos = { 0,0 });
 

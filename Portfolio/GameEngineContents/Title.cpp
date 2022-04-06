@@ -45,7 +45,7 @@ Title::~Title()
 //하나의 엑터에 여러 개의 렌더러 부여
 void Title::Loading()
 {
-    InitBackground();
+    BackgroundInit();
 
     //입력 초기화
     if (false == GameEngineInput::GetInst()->IsKey("Title"))
@@ -104,7 +104,7 @@ void Title::LevelChangeEnd()
 {
 }
 
-void Title::InitBackground()
+void Title::BackgroundInit()
 {
     for (int i = 0; i < 17; i++)
     {
@@ -114,17 +114,17 @@ void Title::InitBackground()
 
     TitleActors_[(int)TitileOrder::COMPANYLOGO]->CreateRenderer("TT_COMPANYLOGO.bmp");
 
-    GameEngineRenderer* PuyoRenderer = TitleActors_[(int)TitileOrder::PUYO]->CreateRenderer("TT_PUYO.bmp", RenderPivot::CENTER, { 100, 100 });
+    GameEngineRenderer* PuyoRenderer = TitleActors_[(int)TitileOrder::PUYO]->CreateRenderer("TT_PUYO.bmp", (int)TitileOrder::PUYO, RenderPivot::CENTER, { 100, 100 });
     PuyoRenderer->SetTransColor(RGB(255, 255, 255));
 
-    GameEngineRenderer* EyeRenderer = TitleActors_[(int)TitileOrder::PUYO_EYE]->CreateRenderer("TT_PUYO_EYE.bmp", RenderPivot::CENTER, { 100, 100 });
+    GameEngineRenderer* EyeRenderer = TitleActors_[(int)TitileOrder::PUYO_EYE]->CreateRenderer("TT_PUYO_EYE.bmp", (int)TitileOrder::PUYO_EYE, RenderPivot::CENTER, { 100, 100 });
     PuyoRenderer->SetTransColor(RGB(255, 255, 255));
 
     TitleActors_[(int)TitileOrder::PUYO_BACK]->CreateRenderer("TT_BACK.bmp");
     GameEngineRenderer* RollRenderer = TitleActors_[(int)TitileOrder::ROLL_1]->CreateRenderer("TT_ROLL.bmp");
     TitleActors_[(int)TitileOrder::ROLL_1]->SetPosition({ TitleActors_[(int)TitileOrder::ROLL_1]->GetPosition().x, TitleActors_[(int)TitileOrder::ROLL_1]->GetPosition().y - 200.f });
     RollRenderer->SetTransColor(RGB(0, 0, 0));
-    TitleActors_[(int)TitileOrder::LINE_1]->CreateRenderer("TT_LINE.bmp", RenderPivot::BOT, {0 , 400});
+    TitleActors_[(int)TitileOrder::LINE_1]->CreateRenderer("TT_LINE.bmp", (int)TitileOrder::LINE_1, RenderPivot::BOT, {0 , 500});
 
     GameEngineImage* Image = GameEngineImageManager::GetInst()->Find("TT_CARBUNCLE.bmp");
     Image->CutCount(5, 1);
@@ -139,8 +139,7 @@ void Title::InitBackground()
 
     GameEngineRenderer* RollRenderer2 = TitleActors_[(int)TitileOrder::ROLL_2]->CreateRenderer("TT_ROLL.bmp");
     RollRenderer2->SetTransColor(RGB(0, 0, 0));
-    TitleActors_[(int)TitileOrder::LINE_2]->CreateRenderer("TT_LINE.bmp");
-    TitleActors_[(int)TitileOrder::LINE_2]->CreateRenderer("TT_LINE.bmp", RenderPivot::BOT, { 0 , 400 });
+    TitleActors_[(int)TitileOrder::LINE_2]->CreateRenderer("TT_LINE.bmp", (int)TitileOrder::LINE_2, RenderPivot::BOT, { 0 , 500 });
 
     TitleActors_[(int)TitileOrder::ARLE_FACE]->CreateRenderer("TT_ARLE_FACE.bmp")->SetTransColor(RGB(255, 255, 255));
     GameEngineRenderer* FingerRenderer = TitleActors_[(int)TitileOrder::ARLE_FINGER]->CreateRenderer("TT_ARLE_FINGER.bmp");

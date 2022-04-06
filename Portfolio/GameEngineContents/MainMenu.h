@@ -22,7 +22,10 @@ public:
 	void LevelChangeStart() override;
 	void LevelChangeEnd() override;
 
+	void MenuInit();
 	void BackgourndInit();
+
+	void MenuUpdate();
 
 protected:
 

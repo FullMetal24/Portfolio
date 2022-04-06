@@ -83,7 +83,7 @@ void GameEngineLevel::ActorRender()
 			EndRenderer = Group.end();
 			for (; StartRenderer != EndRenderer; ++StartRenderer)
 			{
-				if (false == (*StartRenderer)->IsUpdate())
+ 				if (false == (*StartRenderer)->IsUpdate())
 				{
 					continue;
 				}
@@ -154,6 +154,33 @@ void GameEngineLevel::CollisionDebugRender()
 
 void GameEngineLevel::ActorRelease()
 {
+	// 콜리전은 레벨도 관리하고 있으므로
+	{
+		std::map<int, std::list<GameEngineRenderer*>>::iterator GroupStart = AllRenderer_.begin();
+		std::map<int, std::list<GameEngineRenderer*>>::iterator GroupEnd = AllRenderer_.end();
+
+		std::list<GameEngineRenderer*>::iterator StartRenderer;
+		std::list<GameEngineRenderer*>::iterator EndRenderer;
+
+
+		for (; GroupStart != GroupEnd; ++GroupStart)
+		{
+			std::list<GameEngineRenderer*>& Group = GroupStart->second;
+			StartRenderer = Group.begin();
+			EndRenderer = Group.end();
+			for (; StartRenderer != EndRenderer; )
+			{
+				if (false == (*StartRenderer)->IsDeath())
+				{
+					++StartRenderer;
+					continue;
+				}
+
+				StartRenderer = Group.erase(StartRenderer);
+			}
+		}
+	}
+
 	// 콜리전은 레벨도 관리하고 있으므로
 	{
 		std::map<std::string, std::list<GameEngineCollision*>>::iterator GroupStart = AllCollision_.begin();

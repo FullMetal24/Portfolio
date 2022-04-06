@@ -69,11 +69,11 @@ GameEngineRenderer* GameEngineActor::CreateRenderer(
 	NewRenderer->SetActor(this);
 	if (_Order != static_cast<int>(EngineMax::RENDERORDERMAX))
 	{
-		NewRenderer->SetOrder(_Order);
+		NewRenderer->GameEngineUpdateObject::SetOrder(_Order);
 	}
 	else
 	{
-		NewRenderer->SetOrder(GetOrder());
+		NewRenderer->GameEngineUpdateObject::SetOrder(GetOrder());
 	}
 	NewRenderer->SetPivot(_PivotPos);
 	NewRenderer->SetPivotType(_PivotType);
@@ -106,7 +106,7 @@ GameEngineRenderer* GameEngineActor::CreateRenderer(
 	NewRenderer->SetImage(_Image);
 	NewRenderer->SetPivot(_PivotPos);
 	NewRenderer->SetPivotType(_PivotType);
-	GetLevel()->AddRenderer(NewRenderer);
+	GetLevel()->AddRenderer(NewRenderer); //
 
 	RenderList_.push_back(NewRenderer);
 	return NewRenderer;
@@ -141,31 +141,6 @@ GameEngineRenderer* GameEngineActor::CreateRendererToScale(
 	return NewRenderer;
 }
 
-GameEngineRenderer* GameEngineActor::CreateRenderer(RenderPivot _PivotType, const float4& _PivotPos)
-{
-	GameEngineRenderer* NewRenderer = new GameEngineRenderer();
-
-	NewRenderer->SetActor(this);
-	// NewRenderer->SetImage(_Image);
-	NewRenderer->SetPivot(_PivotPos);
-	NewRenderer->SetPivotType(_PivotType);
-
-	RenderList_.push_back(NewRenderer);
-	return NewRenderer;
-}
-
-GameEngineRenderer* GameEngineActor::CreateRenderer(const std::string& _Image, RenderPivot _PivotType, const float4& _PivotPos)
-{
-	GameEngineRenderer* NewRenderer = new GameEngineRenderer();
-
-	NewRenderer->SetActor(this);
-	NewRenderer->SetImage(_Image);
-	NewRenderer->SetPivot(_PivotPos);
-	NewRenderer->SetPivotType(_PivotType);
-
-	RenderList_.push_back(NewRenderer);
-	return NewRenderer;
-}
 
 GameEngineCollision* GameEngineActor::CreateCollision(const std::string& _GroupName, float4 _Scale, float4 _Pivot /*= { 0, 0 }*/)
 {
@@ -194,6 +169,7 @@ void GameEngineActor::Release()
 			}
 
 			delete (*StartIter);
+			(*StartIter) = nullptr;
 			StartIter = RenderList_.erase(StartIter);
 		}
 	}
@@ -211,6 +187,7 @@ void GameEngineActor::Release()
 			}
 
 			delete (*StartIter);
+			(*StartIter) = nullptr;
 			StartIter = CollisionList_.erase(StartIter);
 		}
 	}

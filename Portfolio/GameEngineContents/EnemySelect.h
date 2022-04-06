@@ -1,8 +1,10 @@
 #pragma once
 #include "GameEngine/GameEngineLevel.h"
+#include "EnemyRoulette.h"
 
 class Enemy;
 class GameEngineRenderer;
+class EnemyRoulette;
 class EnemySelect : public GameEngineLevel
 {
 public:
@@ -21,6 +23,9 @@ public:
 
 	void TopPositionInit();
 	void EnemyInit();
+	void FrameInit();
+
+	void PlayRoulette();
 	void SelectEnemy();
 
 protected:
@@ -28,8 +33,16 @@ protected:
 
 private:
 	Enemy* Enemys_[8];
+	//Enemy* EnemyRenderers_[8];
+	GameEngineRenderer* CurrentEnemy_;
+	//EnemyRoulette* EnemyRoulette_;
 
-	float RouletteSpeed;
+	float RouletteSpeed_;
+	float SpeedLimit_;
+	int RouletteIndex_;
+	int LimitForce_;
+
+	bool IsSelect_;
 
 	GameEngineActor* Top_[6];
 	GameEngineRenderer* TopRenderer_[6];

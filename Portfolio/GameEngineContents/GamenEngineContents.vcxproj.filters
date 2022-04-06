@@ -66,22 +66,22 @@
       <Filter>Actor\Level\Mainmenu\BackGround</Filter>
     </ClCompile>
     <ClCompile Include="CS_BackGround.cpp">
-      <Filter>Actor\Level\ChracterSelect\BackGround</Filter>
+      <Filter>Actor\Level\EnemySelect\BackGround</Filter>
     </ClCompile>
     <ClCompile Include="CharacterSelectWindow.cpp">
-      <Filter>Actor\Level\ChracterSelect</Filter>
+      <Filter>Actor\Level\EnemySelect</Filter>
     </ClCompile>
     <ClCompile Include="PlayerWindow.cpp">
-      <Filter>Actor\Level\ChracterSelect</Filter>
+      <Filter>Actor\Level\EnemySelect</Filter>
     </ClCompile>
-    <ClCompile Include="EnemyWindow.cpp">
-      <Filter>Actor\Level\ChracterSelect</Filter>
+    <ClCompile Include="EnemyRoulette.cpp">
+      <Filter>Actor\Level\EnemySelect</Filter>
     </ClCompile>
     <ClCompile Include="KnockdownPlayer.cpp">
       <Filter>Actor\Level\GameOver</Filter>
     </ClCompile>
     <ClCompile Include="StageTop.cpp">
-      <Filter>Actor\Level\ChracterSelect\BackGround</Filter>
+      <Filter>Actor\Level\EnemySelect\BackGround</Filter>
     </ClCompile>
     <ClCompile Include="GO_BackGround.cpp">
       <Filter>Actor\Level\GameOver\BackGround</Filter>
@@ -156,22 +156,22 @@
       <Filter>Actor\Level\Mainmenu\BackGround</Filter>
     </ClInclude>
     <ClInclude Include="CS_BackGround.h">
-      <Filter>Actor\Level\ChracterSelect\BackGround</Filter>
+      <Filter>Actor\Level\EnemySelect\BackGround</Filter>
     </ClInclude>
     <ClInclude Include="CharacterSelectWindow.h">
-      <Filter>Actor\Level\ChracterSelect</Filter>
+      <Filter>Actor\Level\EnemySelect</Filter>
     </ClInclude>
     <ClInclude Include="PlayerWindow.h">
-      <Filter>Actor\Level\ChracterSelect</Filter>
+      <Filter>Actor\Level\EnemySelect</Filter>
     </ClInclude>
-    <ClInclude Include="EnemyWindow.h">
-      <Filter>Actor\Level\ChracterSelect</Filter>
+    <ClInclude Include="EnemyRoulette.h">
+      <Filter>Actor\Level\EnemySelect</Filter>
     </ClInclude>
     <ClInclude Include="KnockdownPlayer.h">
       <Filter>Actor\Level\GameOver</Filter>
     </ClInclude>
     <ClInclude Include="StageTop.h">
-      <Filter>Actor\Level\ChracterSelect\BackGround</Filter>
+      <Filter>Actor\Level\EnemySelect\BackGround</Filter>
     </ClInclude>
     <ClInclude Include="GO_BackGround.h">
       <Filter>Actor\Level\GameOver\BackGround</Filter>
@@ -202,9 +202,6 @@
     <Filter Include="Actor\Level\Mainmenu">
       <UniqueIdentifier>{f18dbdd0-01dc-43fc-8af8-47e8056c873b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Actor\Level\ChracterSelect">
-      <UniqueIdentifier>{7e4fc7f9-393b-4e12-b085-8ec1c06e38db}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Actor\Level\Title\BackGround">
       <UniqueIdentifier>{425a0ca4-2305-4af9-9215-c266e78bc7d7}</UniqueIdentifier>
     </Filter>
@@ -213,9 +210,6 @@
     </Filter>
     <Filter Include="Actor\Level\GameOver\BackGround">
       <UniqueIdentifier>{a3c97aed-4763-4fb4-be92-5b9e19c77b44}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Actor\Level\ChracterSelect\BackGround">
-      <UniqueIdentifier>{9a87a68e-71b0-4010-bd8f-7eb4bc3576b4}</UniqueIdentifier>
     </Filter>
     <Filter Include="Actor\Level\Title\GameLogo">
       <UniqueIdentifier>{a6e7591f-0a15-42ae-a985-bab7dceb9fea}</UniqueIdentifier>
@@ -240,6 +234,12 @@
     </Filter>
     <Filter Include="Global">
       <UniqueIdentifier>{fcd60428-59f3-4220-a9f5-53f1f410f542}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\Level\EnemySelect">
+      <UniqueIdentifier>{7e4fc7f9-393b-4e12-b085-8ec1c06e38db}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\Level\EnemySelect\BackGround">
+      <UniqueIdentifier>{9a87a68e-71b0-4010-bd8f-7eb4bc3576b4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

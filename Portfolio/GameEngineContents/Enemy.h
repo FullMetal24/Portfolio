@@ -4,6 +4,7 @@
 
 class Puyo;
 class PuyoPair;
+class GameEngineRenderer;
 class Enemy : public GameEngineActor //AI
 {
 public:
@@ -21,22 +22,22 @@ public:
 
 	void AddPuyo();
 
-	GameEngineActor* GetProfile()
+	GameEngineRenderer* GetProfile()
 	{
    		return MyProfile_;
 	}
 
-	GameEngineActor* GetIcon()
+	GameEngineRenderer* GetIcon()
 	{
 		return MyIcon_;
 	}
 	
-	void SetProfile(GameEngineActor* _Profile)
+	void SetProfile(GameEngineRenderer* _Profile)
 	{
 		MyProfile_ = _Profile;
 	}
 
-	void SetIcon(GameEngineActor* _Icon)
+	void SetIcon(GameEngineRenderer* _Icon)
 	{
 		MyIcon_ = _Icon;
 	}
@@ -44,8 +45,8 @@ public:
 protected:
 
 private:
-	GameEngineActor* MyProfile_;
-	GameEngineActor* MyIcon_;
+	GameEngineRenderer* MyProfile_;
+	GameEngineRenderer* MyIcon_;
 	
 	Puyo* EnemyMap_[6][13];
 

@@ -17,13 +17,14 @@ public:
 	void LevelChangeStart() override;
 	void LevelChangeEnd() override;
 
-	void InitBackground();
+	void BackgroundInit();
 	void ChangeBackground();
 
 protected:
 
 private:
 	GameEngineActor* TitleActors_[17];
+	 
 
 	int TransCount_;
 	float TransTime;
