@@ -1,4 +1,5 @@
 #pragma once
+#include <math.h>
 
 // 설명 :
 class GameEngineMath
@@ -82,9 +83,47 @@ public:
 		return { x * 0.5f, y * 0.5f , z * 0.5f, 1.0f };
 	}
 
+	float Len2D() const
+	{
+		// sqrtf 제곱근 구해줍니다.
+		return sqrtf((x * x) + (y * y));
+	}
+
+	void Normal2D()
+	{
+		float Len = Len2D();
+		if (0 == Len)
+		{
+			return;
+		}
+
+		x /= Len;
+		y /= Len;
+
+		// sqrtf 제곱근 구해줍니다.
+		return;
+	}
+
+	void Range2D(float _Max)
+	{
+		Normal2D();
+
+		x *= _Max;
+		y *= _Max;
+		return;
+	}
+
+
+
+
 	float4 operator-(const float4& _Other) const
 	{
 		return { x - _Other.x, y - _Other.y, z - _Other.z, 1.0f };
+	}
+
+	float4 operator-() const
+	{
+		return { -x, -y, -z, 1.0f };
 	}
 
 	float4 operator+(const float4& _Other) const
@@ -96,6 +135,8 @@ public:
 	{
 		return { x * _Value, y * _Value, z * _Value, 1.0f };
 	}
+
+
 
 
 	float4& operator+=(const float4& _Other)
@@ -112,6 +153,25 @@ public:
 		x -= _Other.x;
 		y -= _Other.y;
 		z -= _Other.z;
+
+		return *this;
+	}
+
+	float4& operator*=(const float _Other)
+	{
+		x *= _Other;
+		y *= _Other;
+		z *= _Other;
+
+		return *this;
+	}
+
+
+	float4& operator*=(const float4& _Other)
+	{
+		x *= _Other.x;
+		y *= _Other.y;
+		z *= _Other.z;
 
 		return *this;
 	}
