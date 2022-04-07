@@ -1,6 +1,6 @@
 #pragma once
 #include "GameEngine/GameEngineLevel.h"
-#include "GameEngineContents/GlobalEnum.h"
+#include "ContentsEnum.h"
 #include "CarbuncleMenu.h"
 #include <vector>
 

@@ -167,7 +167,7 @@
     <ClInclude Include="GO_BackGround.h">
       <Filter>Actor\Level\GameOver\BackGround</Filter>
     </ClInclude>
-    <ClInclude Include="GlobalEnum.h">
+    <ClInclude Include="ContentsEnum.h">
       <Filter>Global</Filter>
     </ClInclude>
     <ClInclude Include="CarbuncleMenu.h">

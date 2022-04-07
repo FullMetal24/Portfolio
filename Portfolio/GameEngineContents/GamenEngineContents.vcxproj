@@ -210,7 +210,7 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="GameOver.h" />
-    <ClInclude Include="GlobalEnum.h" />
+    <ClInclude Include="ContentsEnum.h" />
     <ClInclude Include="GO_BackGround.h">
       <SubType>
       </SubType>

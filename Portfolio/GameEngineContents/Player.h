@@ -2,13 +2,12 @@
 #include "GameEngine/GameEngineActor.h"
 #include <list>
 #include "Puyo.h"
-//#include "InGame.h"	
+#include "ContentsEnum.h"
 
 class Puyo;
 class PuyoPair;
 class Player : public GameEngineActor
 {
-	//friend InGame;
 
 public:
 	Player();
@@ -39,6 +38,8 @@ private:
 	PuyoPair* CurrentPair_;
 	PuyoPair* NextPair_;
 	PuyoPair* NextNextPair_;
+
+	PuyoDir PuyoDir_;
 
 	int CenterX_;
 	int CenterY_;

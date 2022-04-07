@@ -1,14 +1,5 @@
 #pragma once
 
-enum class Color
-{
-	RED,
-	BLUE,
-	GREEN,
-	YELLO,
-	PURPLE
-};
-
 
 enum class LevelType
 {
@@ -28,4 +19,23 @@ enum class MenuType
 	PUZZLE,
 	OPTION,
 	END
+};
+
+
+
+enum class Color
+{
+	RED,
+	BLUE,
+	GREEN,
+	YELLO,
+	PURPLE
+};
+
+enum class PuyoDir
+{
+	LEFT,
+	RIGHT,
+	DOWN,
+	UP
 };

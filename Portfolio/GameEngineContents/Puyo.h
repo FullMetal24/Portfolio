@@ -1,6 +1,6 @@
 #pragma once
 #include <GameEngine/GameEngineActor.h>
-#include "GlobalEnum.h"
+#include "ContentsEnum.h"
 
 
 class Puyo : public GameEngineActor
