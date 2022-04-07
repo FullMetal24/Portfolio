@@ -39,15 +39,15 @@ public:
 		return SecondPuyo_;
 	};
 
-	inline void SetCenterPuyo(GameEngineActor* _Puyo)
-	{
-		CenterPuyo_->SetMyActor_(_Puyo);
-	};
+	//inline void SetCenterPuyo(GameEngineActor* _Puyo)
+	//{
+	//	CenterPuyo_->SetMyActor_(_Puyo);
+	//};
 
-	inline void SetSecondPuyo(GameEngineActor* _Puyo)
-	{
-		SecondPuyo_->SetMyActor_(_Puyo);
-	};
+	//inline void SetSecondPuyo(GameEngineActor* _Puyo)
+	//{
+	//	SecondPuyo_->SetMyActor_(_Puyo);
+	//};
 
 
 protected:

@@ -67,8 +67,8 @@ PuyoPair* InGame::CreatePuyoPair()
 	//인게임에서 저장하고 있다고 전부 지우는 편이 맞는듯
 	PuyoPair* NewPair = new PuyoPair();
 
-	NewPair->SetCenterPuyo(CreateActor<Puyo>());
-	NewPair->SetCenterPuyo(CreateActor<Puyo>());
+	//NewPair->SetCenterPuyo(CreateActor<Puyo>());
+	//NewPair->SetCenterPuyo(CreateActor<Puyo>());
 
 	NewPair->GetCenterPuyo()->CreateRenderer("IG_RED_PUYO_1.bmp");
 	NewPair->GetSecondPuyo()->CreateRenderer("IG_RED_PUYO_1.bmp");
