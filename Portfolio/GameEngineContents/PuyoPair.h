@@ -39,6 +39,17 @@ public:
 		return SecondPuyo_;
 	};
 
+	inline void SetCenterPuyo(Puyo* _Puyo)
+	{
+		CenterPuyo_ = _Puyo;
+	};
+
+	inline void SetSecondPuyo(Puyo* _Puyo)
+	{
+		SecondPuyo_ = _Puyo;
+	};
+
+
 	//inline void SetCenterPuyo(GameEngineActor* _Puyo)
 	//{
 	//	CenterPuyo_->SetMyActor_(_Puyo);
@@ -49,6 +60,11 @@ public:
 	//	SecondPuyo_->SetMyActor_(_Puyo);
 	//};
 
+	//void operator=(const PuyoPair* _Other)
+	//{
+	//	this->CenterPuyo_ = _Other->CenterPuyo_;
+	//	this->SecondPuyo_ = _Other->SecondPuyo_;
+	//}
 
 protected:
 

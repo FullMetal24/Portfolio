@@ -5,26 +5,21 @@
 #include "InGame.h"
 
 Player::Player() 
-	: CreatePair_(true)
+	: CenterX_(0)
+	, CenterY_(0)
+	, SecondX_(0)
+	, SecondY_(0)
+	, DownMoveDis_(60.0f)
+	, SideMoveDis_(65.0f)
 {
 }
 
 Player::~Player() 
 {
-	for (size_t x = 0; x < 6; x++)
-	{
-		for (size_t y = 0; y < 13; y++)
-		{
-			if (nullptr != PlayerMap_[x][y])
-			{
-				delete PlayerMap_[x][y];
-				PlayerMap_[x][y] = nullptr;
-			}
-		}
-	}
+
 }
 
-void Player::Start()
+void Player::Start() 
 {
 	if (false == GameEngineInput::GetInst()->IsKey("PuyoLeft"))
 	{
@@ -35,128 +30,145 @@ void Player::Start()
 	}
 }
 
-void Player::Update()
-{
-	PairInput();
-
-	//뿌요들이 바닥에 갔는지도 확인해야하며, 착지하고서 배열에 넣어주는 편이 좋다.
-	//넣기 전에 요소 위치만 비교하면 되니까 굳이 배열에 넣을 필요는 없고
-	//넣은 다음에 탐색 함수를 호출...
-
-	//결론: 착지를 했는지 체크하는 함수를 만들자.
-}
 
 void Player::Render()
 {
-
 }
 
-void Player::PairInput()
+void Player::Update()
 {
-	if (true == GameEngineInput::GetInst()->IsPress("PuyoLeft"))
+	if (true == GameEngineInput::GetInst()->IsDown("PuyoLeft"))
 	{
-		//뿌요좌표에서의 이동처리
-		//일단 "초기값"을 정해줘야 하는데 그건 나중에 하자
-		CurrnetPair_->GetCenterPuyo()->SetX(CurrnetPair_->GetCenterPuyo()->GetX() + 1);
-		CurrnetPair_->GetCenterPuyo()->SetY(CurrnetPair_->GetCenterPuyo()->GetY() + 1);
-
-		CurrnetPair_->GetSecondPuyo()->SetX(CurrnetPair_->GetSecondPuyo()->GetX() + 1);
-		CurrnetPair_->GetSecondPuyo()->SetY(CurrnetPair_->GetSecondPuyo()->GetY() + 1);
-
-		//위에서 true를 반환해줘야만 뿌요가 이미지 상에서 움직일 수 있다
-		//갈 수 있을지 없을지는 각 뿌요가 정한다?<-이렇게 안하는 편이 구조적으로 괜찮을듯
-		CurrnetPair_->GetCenterPuyo()->Left();
-		CurrnetPair_->GetSecondPuyo()->Left();
+		MoveLeft();
 	}
 
-	if (true == GameEngineInput::GetInst()->IsPress("PuyoRight"))
+	if (true == GameEngineInput::GetInst()->IsDown("PuyoRight"))
 	{
-		CurrnetPair_->GetCenterPuyo()->Right();
-		CurrnetPair_->GetSecondPuyo()->Right();
+		MoveRight();
 	}
 
-	if (true == GameEngineInput::GetInst()->IsPress("PuyoDown"))
+	if (true == GameEngineInput::GetInst()->IsDown("PuyoDown"))
 	{
-		CurrnetPair_->GetCenterPuyo()->Down();
-		CurrnetPair_->GetSecondPuyo()->Down();
-
-		//다운도 결국 뿌요에서 알아야 한다..
-		//아니다 여기 업데이트에서 처리해주면 되려나
+		MoveDown();
 	}
 
-	if (true == GameEngineInput::GetInst()->IsPress("PuyoRotate"))
+	if (true == GameEngineInput::GetInst()->IsDown("PuyoRotate"))
 	{
-		CurrnetPair_->Rotate();
+		Rotate();
+	}
+}
 
-		//방향 우선순위
-		//<- 0
-		//↓  1
-		//-> 2
-		//↑  3
+void Player::MoveLeft()
+{
+	if (0 <= CenterX_ - 1 && nullptr == PlayerMap_[CenterY_][CenterX_ - 1])
+	{
+		PlayerMap_[CenterY_][CenterX_ - 1] = CurrentPair_->GetCenterPuyo();
+		PlayerMap_[CenterY_][CenterX_] = nullptr;
 
-		//세컨드가 위
-		//센터가 아래
+		CurrentPair_->GetCenterPuyo()->SetMove(float4::LEFT * SideMoveDis_);
+		CurrentPair_->GetCenterPuyo()->SetX(CenterX_ - 1);
+		CenterX_ = CurrentPair_->GetCenterPuyo()->GetX();
+	}
+
+	if (0 <= SecondX_ - 1 && nullptr == PlayerMap_[SecondY_][SecondX_ - 1])
+	{
+		PlayerMap_[SecondY_][SecondX_ - 1] = CurrentPair_->GetSecondPuyo();
+		PlayerMap_[SecondY_][SecondX_] = nullptr;
+
+		CurrentPair_->GetSecondPuyo()->SetMove(float4::LEFT * SideMoveDis_);
+		CurrentPair_->GetSecondPuyo()->SetX(SecondX_ - 1);
+		SecondX_ = CurrentPair_->GetSecondPuyo()->GetX();
+	}
+}
+
+void Player::MoveRight()
+{
+	if (5 >= CenterX_ + 1 && nullptr == PlayerMap_[CenterY_][CenterX_ + 1])
+	{
+		PlayerMap_[CenterY_][CenterX_ + 1] = CurrentPair_->GetCenterPuyo();
+		PlayerMap_[CenterY_][CenterX_] = nullptr;
+
+		CurrentPair_->GetCenterPuyo()->SetMove(float4::RIGHT * SideMoveDis_);
+		CurrentPair_->GetCenterPuyo()->SetX(CenterX_ + 1);
+		CenterX_ = CurrentPair_->GetCenterPuyo()->GetX();
+	}
+
+	if (5 >= SecondX_ + 1 && nullptr == PlayerMap_[SecondY_][SecondX_ + 1])
+	{
+		PlayerMap_[SecondY_][SecondX_ + 1] = CurrentPair_->GetSecondPuyo();
+		PlayerMap_[SecondY_][SecondX_] = nullptr;
 		
-		//이미지적인 처리도 해야함...
-
-		//어느 방향이동이든 센터를 중심으로 체크한다.
-		if (nullptr != PlayerMap_[CurrnetPair_->GetCenterPuyo()->GetX() - 1][CurrnetPair_->GetCenterPuyo()->GetY()]) 
-		{
-			//주먹구구식으로 하는 건가(이게 규칙적인거가??
-			CurrnetPair_->GetSecondPuyo()->SetX(CurrnetPair_->GetCenterPuyo()->GetX() - 1);
-			CurrnetPair_->GetSecondPuyo()->SetY(CurrnetPair_->GetCenterPuyo()->GetY());
-		}
-
-		else if (nullptr != PlayerMap_[CurrnetPair_->GetCenterPuyo()->GetX() + 1][CurrnetPair_->GetCenterPuyo()->GetY()])
-		{
-			//주먹구구식으로 하는 건가(이게 규칙적인거가??
-			CurrnetPair_->GetSecondPuyo()->SetX(CurrnetPair_->GetCenterPuyo()->GetX() + 1);
-			CurrnetPair_->GetSecondPuyo()->SetY(CurrnetPair_->GetCenterPuyo()->GetY());
-		}
-
-		else if (nullptr != PlayerMap_[CurrnetPair_->GetCenterPuyo()->GetX()][CurrnetPair_->GetCenterPuyo()->GetY() - 1]) //위 
-		{
-			//주먹구구식으로 하는 건가(이게 규칙적인거가??
-			CurrnetPair_->GetSecondPuyo()->SetX(CurrnetPair_->GetCenterPuyo()->GetX());
-			CurrnetPair_->GetSecondPuyo()->SetY(CurrnetPair_->GetCenterPuyo()->GetY() - 1);
-		}
-
-		else if (nullptr != PlayerMap_[CurrnetPair_->GetCenterPuyo()->GetX() + 1][CurrnetPair_->GetCenterPuyo()->GetY() + 1]) //아래
-		{
-			//주먹구구식으로 하는 건가(이게 규칙적인거가??
-			CurrnetPair_->GetSecondPuyo()->SetX(CurrnetPair_->GetCenterPuyo()->GetX());
-			CurrnetPair_->GetSecondPuyo()->SetY(CurrnetPair_->GetCenterPuyo()->GetY() - 1);
-		}
+		CurrentPair_->GetSecondPuyo()->SetMove(float4::RIGHT * SideMoveDis_);
+		CurrentPair_->GetSecondPuyo()->SetX(SecondX_ + 1);
+		SecondX_ = CurrentPair_->GetSecondPuyo()->GetX();
 	}
 }
 
-bool Player::IsLanding() //이건 뿌요에서 해줘야 할 거 같다
+void Player::MoveDown()
 {
-	//이건 센터뿌요만 되는 함수다...
-	if (nullptr != PlayerMap_[CurrnetPair_->GetCenterPuyo()->GetX()][CurrnetPair_->GetCenterPuyo()->GetY() + 1])
+	int Y = CenterY_;
+
+	Puyo* Puyo_ = PlayerMap_[CenterY_ + 1][CenterX_];
+
+	if (14 >= CenterY_ + 1 && nullptr == PlayerMap_[CenterY_ + 1][CenterX_])
 	{
+		PlayerMap_[CenterY_ + 1][CenterX_] = CurrentPair_->GetCenterPuyo();
+		PlayerMap_[CenterY_][CenterX_] = nullptr;
 
+		CurrentPair_->GetCenterPuyo()->SetMove(float4::DOWN * DownMoveDis_);
+		CurrentPair_->GetCenterPuyo()->SetY(CenterY_ + 1);
+		CenterY_ = CurrentPair_->GetCenterPuyo()->GetY();
 	}
 
-	return false;
-}
-
-void Player::AddPuyo()
-{
-	int x = 6;
-
-	//PlayerMap_
-	PlayerMap_[CurrnetPair_->GetCenterPuyo()->GetX()][CurrnetPair_->GetCenterPuyo()->GetY()] = CurrnetPair_->GetCenterPuyo();
-	PlayerMap_[CurrnetPair_->GetSecondPuyo()->GetX()][CurrnetPair_->GetSecondPuyo()->GetX()] = CurrnetPair_->GetSecondPuyo();
-
-	if (nullptr != PlayerMap_[CurrnetPair_->GetCenterPuyo()->GetX()][CurrnetPair_->GetCenterPuyo()->GetY() + 1]) 
+	if (14 >= SecondY_ + 1 && nullptr == PlayerMap_[SecondY_ + 1][SecondX_])
 	{
-		PlayerMap_[CurrnetPair_->GetCenterPuyo()->GetX()][CurrnetPair_->GetCenterPuyo()->GetY()] = CurrnetPair_->GetCenterPuyo();
+		PlayerMap_[SecondY_ + 1][SecondX_] = CurrentPair_->GetSecondPuyo();
+		PlayerMap_[SecondY_][SecondX_] = nullptr;
+
+		CurrentPair_->GetSecondPuyo()->SetMove(float4::DOWN * DownMoveDis_);
+		CurrentPair_->GetSecondPuyo()->SetY(SecondY_ + 1);
+		SecondY_ = CurrentPair_->GetSecondPuyo()->GetY();
 	}
 }
 
-
-void Delete()
+void Player::Rotate()
 {
-	//
+
+}
+
+
+
+
+
+////////////////////////뿌요 추가
+
+void Player::AddPuyo(Puyo* _Puyo)
+{
+	PlayerMap_[0][0] = _Puyo;
+}
+
+void Player::AddPuyoPair(PuyoPair* _Pair)
+{
+	CurrentPair_ = _Pair;
+
+	Puyo* CenterPuyo = _Pair->GetCenterPuyo();
+	Puyo* SecondPuyo = _Pair->GetSecondPuyo();
+
+	CurrentPair_->SetCenterPuyo(CenterPuyo);
+	CurrentPair_->SetSecondPuyo(SecondPuyo);
+
+	PlayerMap_[1][2] = CurrentPair_->GetCenterPuyo();
+	PlayerMap_[0][2] = CurrentPair_->GetSecondPuyo();
+
+	CurrentPair_->GetCenterPuyo()->SetY(1);
+	CurrentPair_->GetCenterPuyo()->SetX(2);
+
+	CenterX_ = CurrentPair_->GetCenterPuyo()->GetX();
+	CenterY_ = CurrentPair_->GetCenterPuyo()->GetY();
+
+	CurrentPair_->GetSecondPuyo()->SetY(0);
+	CurrentPair_->GetSecondPuyo()->SetX(2);
+
+	SecondX_ = CurrentPair_->GetSecondPuyo()->GetX();
+	SecondY_ = CurrentPair_->GetSecondPuyo()->GetY();
 }

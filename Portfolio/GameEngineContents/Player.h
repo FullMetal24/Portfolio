@@ -2,11 +2,14 @@
 #include "GameEngine/GameEngineActor.h"
 #include <list>
 #include "Puyo.h"
+//#include "InGame.h"	
 
 class Puyo;
 class PuyoPair;
 class Player : public GameEngineActor
 {
+	//friend InGame;
+
 public:
 	Player();
 	~Player();
@@ -20,32 +23,30 @@ public:
 	void Update() override;
 	void Render() override;
 
-	void PairInput();
-	bool IsLanding();
+	void MoveLeft();
+	void MoveRight();
+	void MoveDown();
+	void Rotate();
 
-	void AddPuyo();
-
-	//뿌요들 리스트, 벡터?로 관리?
-	//게임 끝나면 전부 삭제
+	void AddPuyo(Puyo* _Puyo);
+	void AddPuyoPair(PuyoPair* _Pair);
 
 protected:
 
 private:
+	Puyo* PlayerMap_[15][6];
 
-	//std::list<std::list<Puyo*>> PlayerMap_; //생성되는 건 뿌요페어지만 저장은 두 뿌요로 나누어 저장한다.
-	//std::list<PuyoPair*> PlayerPuyo_;
-	GameEngineActor* MyProfile_;
-	Puyo* PlayerMap_[6][13];
-	
-	PuyoPair* CurrnetPair_;
+	PuyoPair* CurrentPair_;
 	PuyoPair* NextPair_;
 	PuyoPair* NextNextPair_;
 
-	Puyo* Visited_;
-	
-	int RotationCount;
-	int Score_;
+	int CenterX_;
+	int CenterY_;
 
-	bool CreatePair_;
+	int SecondX_;
+	int SecondY_;
+
+	float DownMoveDis_;
+	float SideMoveDis_;
 };
 

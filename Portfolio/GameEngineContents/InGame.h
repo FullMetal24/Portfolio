@@ -31,7 +31,7 @@ public:
 		EnemyProfile_ = _Enemy;
 	}
 
-	PuyoPair* CreatePuyoPair();
+	void CreatePuyoPair(bool _IsPlayer);
 
 protected:
 

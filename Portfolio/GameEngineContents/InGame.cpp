@@ -20,17 +20,7 @@ InGame::InGame()
 
 InGame::~InGame()
 { 
-	if (nullptr != Player_)
-	{
-		delete Player_;
-		Player_ = nullptr;
-	}
 
-	if (nullptr != FSM_)
-	{
-		delete FSM_;
-		FSM_ = nullptr;
-	}
 }
 
 void InGame::Loading()
@@ -44,37 +34,40 @@ void InGame::Loading()
 	GameEngineActor* ActorNext = CreateActor<Stage>(3);
 	ActorNext->CreateRenderer("IG_NEXT.bmp")->SetPivot({GameEngineWindow::GetScale().Half().x, GameEngineWindow::GetScale().Half().y - 360.f });
 	
-	Player_ = new Player();
-	Player_->Start();
+	Player_ = CreateActor<Player>();
+	FSM_ = CreateActor<FSM>();
 
-	FSM_ = new FSM();
-	FSM_->Start();
+	CreatePuyoPair(true);
 }
 
 void InGame::Update()
 {
-	if (true == IsStart_)
-	{
-		Player_->Update();
-		FSM_->Update();
-		IsStart_ = false;
-	}
+	
 }
 
 
-PuyoPair* InGame::CreatePuyoPair()
+void InGame::CreatePuyoPair(bool _IsPlayer)
 {
-	//인게임에서 저장하고 있다고 전부 지우는 편이 맞는듯
-	PuyoPair* NewPair = new PuyoPair();
+	//센터 뿌요
+	PuyoPair* NewPuyoPair = CreateActor<PuyoPair>();
 
-	//NewPair->SetCenterPuyo(CreateActor<Puyo>());
-	//NewPair->SetCenterPuyo(CreateActor<Puyo>());
+	Puyo* CenterPuyo = NewPuyoPair->GetCenterPuyo();
+	CenterPuyo = CreateActor<Puyo>(1);
+	CenterPuyo->SetPosition({ 220.f, -30.f });
+	CenterPuyo->CreateRenderer("IG_RED_PUYO_1.bmp");
+	NewPuyoPair->SetCenterPuyo(CenterPuyo);
 
-	NewPair->GetCenterPuyo()->CreateRenderer("IG_RED_PUYO_1.bmp");
-	NewPair->GetSecondPuyo()->CreateRenderer("IG_RED_PUYO_1.bmp");
-	NewPair->Start();
-	return NewPair; 
+	//세컨드 뿌요
+	Puyo* ScecondPuyo = NewPuyoPair->GetSecondPuyo();
+	ScecondPuyo = CreateActor<Puyo>(1);
+	ScecondPuyo->SetPosition({ 220.f, -90.f });
+	 
+	ScecondPuyo->CreateRenderer("IG_RED_PUYO_2.bmp");
+	NewPuyoPair->SetSecondPuyo(ScecondPuyo);
+
+	Player_->AddPuyoPair(NewPuyoPair);
 }
+
 
 
 void InGame::LevelChangeStart()

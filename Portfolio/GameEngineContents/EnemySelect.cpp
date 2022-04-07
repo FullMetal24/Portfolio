@@ -13,7 +13,7 @@ EnemySelect::EnemySelect()
 	: RouletteSpeed_(0.1f)
 	, RouletteIndex_(0)
 	, SpeedLimit_(0.01f)
-	, LevelChangeCount_(3.0f)
+	, LevelChangeCount_(2.0f)
 {
 }
 
@@ -163,10 +163,8 @@ void EnemySelect::Update()
 		{
 			GameEngine::GetInst().ChangeLevel("InGame");
 
-			InGame* InGame_ = nullptr;
-
 			GameEngineLevel* NextLevel = GameEngine::GetNextLevel();
-			InGame_ = dynamic_cast<InGame*>(NextLevel);
+			InGame* InGame_ = dynamic_cast<InGame*>(NextLevel);
 
 			//나중에 에네미가 자기 프레임애니메이션도 갖고 있도록 하자
 			InGame_->SetEnemy(MyEnemy_->GetProfile());
