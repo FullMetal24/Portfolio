@@ -4,8 +4,9 @@
 #include <map>
 
 
-// 설명 : 그리는걸 도와주는 클래스
+// 설명 : 
 class GameEngineImage;
+class GameEngineFolderImage;
 class GameEngineRenderer : public GameEngineActorSubObject
 {
 	friend GameEngineActor;
@@ -42,7 +43,7 @@ public:
 		ScaleMode_ = _Mode;
 	}
 
-	// 렌더러 스케일 뿐 아니라 이미지 스케일도 같이 맞춰줌
+	// 렌더러 스케일과 이미지 스케일을 같이 맞춰줌, SetImage()에서 호출하여 사용한다.
 	void SetImageScale();
 
 	inline void SetScale(const float4& _Scale)
@@ -58,8 +59,12 @@ public:
 
 	void SetImage(const std::string& _Name);
 
-	// 
-	void SetIndex(size_t _Index, const float4& _Scale = { -1, -1 });
+	void SetImage(GameEngineImage* _Image)
+	{
+		Image_ = _Image;
+	}
+
+	void SetIndex(size_t _Index, float4 _Scale = { -1.0f, -1.0f });
 
 	void CameraEffectOff()
 	{
@@ -73,41 +78,47 @@ public:
 
 	void SetOrder(int _Order) override;
 
-
 protected:
+	// EngineImage의 TransCopy 로 이미지를 백버퍼에 그린다.
 	void Render();
 
 private:
 	friend class FrameAnimation;
 
-	bool IsCameraEffect_;
 	GameEngineImage* Image_;
-	RenderPivot PivotType_; // 센터 / bot
-	RenderScaleMode ScaleMode_;
-	float4 RenderPivot_;
-	float4 RenderScale_;
-	float4 RenderImageScale_;
-	float4 RenderImagePivot_;
-	unsigned int TransColor_;
+	RenderPivot PivotType_;		// 센터 bot 등, 이미지 어느곳을 중심으로 출력할것인가
+	RenderScaleMode ScaleMode_;	// ENUM(Image, User), 엔진이 정의해준 기본값으로 쓸것인가, 프로그래머가 정의한 USER값으로 쓸것인가.
 
+	// 화면에서 출력할 좌표와 크기
+	float4 RenderPivot_;		// 그려질 DC의 시작점
+	float4 RenderScale_;		// 어느 크기로 그릴것인가.
 
+	// 이미지에서 잘라낼 좌표와 크기
+	float4 RenderImagePivot_;	// 복사받으려는 이미지 시작 좌표
+	float4 RenderImageScale_;	// 복사받으려는 이미지 한칸의 크기
 
+	unsigned int TransColor_;	// TransParents 에서 쓸 제외할 RGB 값
 
+	bool IsCameraEffect_;		// 해당 렌더러가 카메라의 영향을 받는가 안받는가, EX) UI 는 카메라의 영향을 안받는다.
 
-	///////////////////////////////////////////////////////////////// 애니메이션
-
+	//////////////////////////////////////////////////
+	//// Animation
+	//////////////////////////////////////////////////
 private:
-	class FrameAnimation
+	class FrameAnimation : public GameEngineNameObject
 	{
 	public:
 		GameEngineRenderer* Renderer_;
 		GameEngineImage* Image_;
+		GameEngineFolderImage* FolderImage_;
+
 		int CurrentFrame_;
 		int StartFrame_;
 		int EndFrame_;
 		float CurrentInterTime_;
 		float InterTime_;
-		bool Loop_;
+		bool Loop_ = false;
+		bool IsEnd;
 
 	public:
 		FrameAnimation()
@@ -118,30 +129,38 @@ private:
 			CurrentInterTime_(0.1f),
 			InterTime_(0.1f),
 			Loop_(true)
-
 		{
-
 		}
 
 	public:
+
 		void Update();
 
+		// 처음 재생상태로 만드는것.
 		void Reset()
 		{
+			IsEnd = false;
 			CurrentFrame_ = StartFrame_;
 			CurrentInterTime_ = InterTime_;
+
 		}
 	};
 
 public:
+	// 애니메이션을 만든다.
 	void CreateAnimation(const std::string& _Image, const std::string& _Name, int _StartIndex, int _EndIndex, float _InterTime, bool _Loop = true);
 
+	void CreateFolderAnimation(const std::string& _Image, const std::string& _Name, int _StartIndex, int _EndIndex, float _InterTime, bool _Loop = true);
+
+	// 애니메이션을 재생한다.
 	void ChangeAnimation(const std::string& _Name);
 
+	bool IsEndAnimation();
+
+	bool IsAnimationName(const std::string& _Name);
 
 private:
 	std::map<std::string, FrameAnimation> Animations_;
 	FrameAnimation* CurrentAnimation_;
-
 
 };

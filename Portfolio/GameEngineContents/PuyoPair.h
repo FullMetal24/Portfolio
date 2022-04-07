@@ -2,6 +2,7 @@
 #include <GameEngine/GameEngineActor.h>
 
 class Puyo;
+//뿌요페어는 결국 뿌요를 두 개로 묶은 클래스다
 class PuyoPair : public GameEngineActor
 {
 public:
@@ -22,6 +23,12 @@ public:
 	//방향 변환(세컨드 뿌요만 방향전환.
 	void Rotate();
 
+
+	inline PuyoPair* GetPuyoPair()
+	{
+		return this;
+	}
+
 	inline Puyo* GetCenterPuyo()
 	{
  		return CenterPuyo_;
@@ -32,6 +39,15 @@ public:
 		return SecondPuyo_;
 	};
 
+	inline void SetCenterPuyo(GameEngineActor* _Puyo)
+	{
+		CenterPuyo_->SetMyActor_(_Puyo);
+	};
+
+	inline void SetSecondPuyo(GameEngineActor* _Puyo)
+	{
+		SecondPuyo_->SetMyActor_(_Puyo);
+	};
 
 
 protected:

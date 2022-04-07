@@ -20,7 +20,8 @@ public:
 	void Update() override;
 	void Render() override;
 
-	void AddPuyo();
+
+
 
 	GameEngineRenderer* GetProfile()
 	{
@@ -47,19 +48,7 @@ protected:
 private:
 	GameEngineRenderer* MyProfile_;
 	GameEngineRenderer* MyIcon_;
-	
-	Puyo* EnemyMap_[6][13];
-
-	PuyoPair* CurrnetPair_;
-	PuyoPair* NextPair_;
-	PuyoPair* NextNextPair_;
-
-	Puyo* Visited_;
-
-	int RotationCount;
-	int Score_;
-
-	bool CreatePuyo_;
+	GameEngineRenderer* MyName_;
 
 };
 

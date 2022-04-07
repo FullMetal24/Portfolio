@@ -13,6 +13,7 @@ EnemySelect::EnemySelect()
 	: RouletteSpeed_(0.1f)
 	, RouletteIndex_(0)
 	, SpeedLimit_(0.01f)
+	, LevelChangeCount_(3.0f)
 {
 }
 
@@ -22,14 +23,20 @@ EnemySelect::~EnemySelect()
 
 void EnemySelect::Loading()
 {
-	GameEngineActor* Actor_ = CreateActor<CS_BackGround>(0);
-	Actor_->SetPosition(GameEngineWindow::GetScale().Half());
-	Actor_->CreateRenderer("ES_BACK.bmp");
+	GameEngineActor* Background = CreateActor<CS_BackGround>(1);
+	Background->SetPosition(GameEngineWindow::GetScale().Half());
+	Background->CreateRenderer("ES_BACK.bmp");
 
-	GameEngineActor* Enemys_ = CreateActor<CS_BackGround>(3);
-	Enemys_->SetPosition({ GameEngineWindow::GetScale().Half().x, GameEngineWindow::GetScale().Half().y + 300.f });
-	Enemys_->CreateRenderer("ES_ENEMIES.bmp");
+	GameEngineActor* Enemys = CreateActor<CS_BackGround>(4);
+	Enemys->SetPosition({ GameEngineWindow::GetScale().Half().x, GameEngineWindow::GetScale().Half().y + 300.f });
+	Enemys->CreateRenderer("ES_ENEMIES.bmp");
 
+	GameEngineActor* ArleProfile = CreateActor<CS_BackGround>(4);
+	ArleProfile->CreateRenderer("ES_ARLE_PROFILE.bmp")->SetPivot({ 210.f, 190.f });
+
+	GameEngineActor* SelectEnemy = CreateActor<CS_BackGround>(4);
+	SelectEnemy->CreateRenderer("ES_SELECT_ENEMY.bmp")->SetPivot(GameEngineWindow::GetScale().Half());
+		
 	//EnemyRoulette_ = CreateActor<EnemyRoulette>(0);
 
 	TopPositionInit();
@@ -47,7 +54,7 @@ void EnemySelect::TopPositionInit()
 {
 	for (int i = 0; i < 6; ++i)
 	{
-		Top_[i] = CreateActor<CS_BackGround>(1);
+		Top_[i] = CreateActor<CS_BackGround>(2);
 		Top_[i]->SetPosition({ GameEngineWindow::GetScale().Half().x , GameEngineWindow::GetScale().y - 150.f });
 	}
 
@@ -86,7 +93,7 @@ void EnemySelect::EnemyInit()
 	Enemys_[1]->SetIcon(Enemys_[1]->CreateRenderer("SELECT_L1.bmp"));
 	Enemys_[1]->GetIcon()->SetPivot({ Offset_ + Enemys_[0]->GetIcon()->GetImage()->GetScale().x, 748.f});
 
-	Offset_ += Enemys_[0]->GetIcon()->GetImage()->GetScale().x;
+	Offset_ += Enemys_[0]->GetIcon()->GetImage()->GetScale().x - 3.f;
 
 	Enemys_[2]->SetProfile(Enemys_[2]->CreateRenderer("LV3.bmp"));
 	Enemys_[2]->GetProfile()->SetPivot({ 1070.f, 190.f });
@@ -107,7 +114,7 @@ void EnemySelect::EnemyInit()
 	Enemys_[4]->SetIcon(Enemys_[4]->CreateRenderer("SELECT_L4.bmp"));
 	Enemys_[4]->GetIcon()->SetPivot({ Offset_ + Enemys_[3]->GetIcon()->GetImage()->GetScale().x, 748.f });
 
-	Offset_ += Enemys_[3]->GetIcon()->GetImage()->GetScale().x;
+	Offset_ += Enemys_[3]->GetIcon()->GetImage()->GetScale().x - 1.f;
 
 	Enemys_[5]->SetProfile(Enemys_[5]->CreateRenderer("LV6.bmp"));
 	Enemys_[5]->GetProfile()->SetPivot({ 1070.f, 190.f });
@@ -121,7 +128,7 @@ void EnemySelect::EnemyInit()
 	Enemys_[6]->SetIcon(Enemys_[6]->CreateRenderer("SELECT_L6.bmp"));
 	Enemys_[6]->GetIcon()->SetPivot({ Offset_ + Enemys_[5]->GetIcon()->GetImage()->GetScale().x, 748.f });
 
-	Offset_ += Enemys_[5]->GetIcon()->GetImage()->GetScale().x;
+	Offset_ += Enemys_[5]->GetIcon()->GetImage()->GetScale().x - 3.f;
 
 	Enemys_[7]->SetProfile(Enemys_[7]->CreateRenderer("LV8.bmp"));
 	Enemys_[7]->GetProfile()->SetPivot({ 1070.f, 190.f });
@@ -132,7 +139,7 @@ void EnemySelect::EnemyInit()
 
 void EnemySelect::FrameInit()
 {
-	GameEngineActor* Frame = CreateActor<CS_BackGround>(0);
+	GameEngineActor* Frame = CreateActor<CS_BackGround>(1);
 	Frame->SetPosition(GameEngineWindow::GetScale().Half());
 	GameEngineRenderer* PlayerFrame = Frame->CreateRenderer("ES_FRAME.bmp");
 	PlayerFrame->SetPivot({ -430.f, -150.f }); //Player
@@ -146,8 +153,30 @@ void EnemySelect::FrameInit()
 
 void EnemySelect::Update()
 {
-	SelectEnemy();
 	PlayRoulette();
+
+	if (true == IsSelect_)
+	{
+		LevelChangeCount_ -= GameEngineTime::GetDeltaTime();
+
+		if (0.0f > LevelChangeCount_)
+		{
+			GameEngine::GetInst().ChangeLevel("InGame");
+
+			InGame* InGame_ = nullptr;
+
+			GameEngineLevel* NextLevel = GameEngine::GetNextLevel();
+			InGame_ = dynamic_cast<InGame*>(NextLevel);
+
+			//나중에 에네미가 자기 프레임애니메이션도 갖고 있도록 하자
+			InGame_->SetEnemy(MyEnemy_->GetProfile());
+		}
+	}
+	
+	if (GameEngineInput::GetInst()->IsDown("EnemySelect"))
+	{
+		IsKeyDown_ = true;
+	}
 }
 
 
@@ -175,12 +204,15 @@ void EnemySelect::PlayRoulette()
 			LimitForce_ += 1;
 			SpeedLimit_ += GameEngineTime::GetDeltaTime() * LimitForce_;
 
-			if (1.f < SpeedLimit_)
+			if (1.f < SpeedLimit_ || true == IsKeyDown_)
 			{
-				IsSelect_ = true;
+  				IsSelect_ = true;
 				Enemys_[RouletteIndex_]->GetProfile()->SetOrder(8);
 				Enemys_[RouletteIndex_]->GetIcon()->SetOrder(8);
+
+				MyEnemy_ = Enemys_[RouletteIndex_];
 			}
+
 			break;
 		}
 
@@ -188,20 +220,6 @@ void EnemySelect::PlayRoulette()
 		break;
 	}
 
-}
-
-
-void EnemySelect::SelectEnemy()
-{
-	if (true == GameEngineInput::GetInst()->IsDown("EnemySelect"))
-	{
-		GameEngine::GetInst().ChangeLevel("InGame");
-
-		//GameEngineLevel* NextLevel = GameEngine::GetNextLevel();
-		//InGame* InGame_ = dynamic_cast<InGame*>(NextLevel);
-
-		//InGame_->CurrentEnemy_;
-	}
 }
 
 void EnemySelect::LevelChangeStart()

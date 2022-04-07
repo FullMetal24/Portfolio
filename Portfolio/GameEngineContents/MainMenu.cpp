@@ -173,7 +173,7 @@ void MainMenu::BackgourndInit()
 		Actor->SetPosition(Pos);
 
 		GameEngineRenderer* Renderer = Actor->CreateRenderer();
-		Renderer->CreateAnimation("MM_SD0R.bmp", "MM_SD0R", 0, 3, 0.3f, true);
+		Renderer->CreateAnimation("MM_SD0R.bmp", "MM_SD0R", 0, 3, 0.1f, true);
 		Renderer->ChangeAnimation("MM_SD0R");
 
 		FirstLine.push_back(Actor);
@@ -186,7 +186,7 @@ void MainMenu::BackgourndInit()
 		Actor->SetPosition(Pos);
 
 		GameEngineRenderer* Renderer = Actor->CreateRenderer();
-		Renderer->CreateAnimation("MM_SD5L.bmp", "MM_SD5L", 0, 3, 0.3f, true);
+		Renderer->CreateAnimation("MM_SD5L.bmp", "MM_SD5L", 0, 3, 0.1f, true);
 		Renderer->ChangeAnimation("MM_SD5L");
 
 		SecondLine.push_back(Actor);

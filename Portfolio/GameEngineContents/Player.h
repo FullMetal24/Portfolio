@@ -20,7 +20,7 @@ public:
 	void Update() override;
 	void Render() override;
 
-	void PuyoInput();
+	void PairInput();
 	bool IsLanding();
 
 	void AddPuyo();
@@ -33,6 +33,7 @@ protected:
 private:
 
 	//std::list<std::list<Puyo*>> PlayerMap_; //생성되는 건 뿌요페어지만 저장은 두 뿌요로 나누어 저장한다.
+	//std::list<PuyoPair*> PlayerPuyo_;
 	GameEngineActor* MyProfile_;
 	Puyo* PlayerMap_[6][13];
 	
@@ -45,6 +46,6 @@ private:
 	int RotationCount;
 	int Score_;
 
-	bool CreatePuyo_;
+	bool CreatePair_;
 };
 

@@ -83,7 +83,7 @@ void GameEngineLevel::ActorRender()
 			EndRenderer = Group.end();
 			for (; StartRenderer != EndRenderer; ++StartRenderer)
 			{
- 				if (false == (*StartRenderer)->IsUpdate())
+				if (false == (*StartRenderer)->IsUpdate())
 				{
 					continue;
 				}
@@ -242,7 +242,6 @@ void GameEngineLevel::ActorRelease()
 			}
 		}
 	}
-
 }
 
 

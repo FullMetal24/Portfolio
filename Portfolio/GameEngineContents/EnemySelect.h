@@ -26,7 +26,6 @@ public:
 	void FrameInit();
 
 	void PlayRoulette();
-	void SelectEnemy();
 
 protected:
 
@@ -34,18 +33,23 @@ protected:
 private:
 	Enemy* Enemys_[8];
 	//Enemy* EnemyRenderers_[8];
-	GameEngineRenderer* CurrentEnemy_;
+	Enemy* MyEnemy_;
 	//EnemyRoulette* EnemyRoulette_;
 
 	float RouletteSpeed_;
 	float SpeedLimit_;
+	float LevelChangeCount_;
+
 	int RouletteIndex_;
 	int LimitForce_;
 
 	bool IsSelect_;
+	bool IsKeyDown_;
 
 	GameEngineActor* Top_[6];
 	GameEngineRenderer* TopRenderer_[6];
 	//고른 캐릭터를 PlayGame에 전달해야함
+
+
 };
 

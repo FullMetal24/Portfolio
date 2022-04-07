@@ -68,12 +68,6 @@
     <ClCompile Include="CS_BackGround.cpp">
       <Filter>Actor\Level\EnemySelect\BackGround</Filter>
     </ClCompile>
-    <ClCompile Include="CharacterSelectWindow.cpp">
-      <Filter>Actor\Level\EnemySelect</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerWindow.cpp">
-      <Filter>Actor\Level\EnemySelect</Filter>
-    </ClCompile>
     <ClCompile Include="EnemyRoulette.cpp">
       <Filter>Actor\Level\EnemySelect</Filter>
     </ClCompile>
@@ -88,6 +82,9 @@
     </ClCompile>
     <ClCompile Include="CarbuncleMenu.cpp">
       <Filter>Actor\Level\Mainmenu\Menu</Filter>
+    </ClCompile>
+    <ClCompile Include="FSM.cpp">
+      <Filter>Actor\Level\InGame\Enemy</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -158,12 +155,6 @@
     <ClInclude Include="CS_BackGround.h">
       <Filter>Actor\Level\EnemySelect\BackGround</Filter>
     </ClInclude>
-    <ClInclude Include="CharacterSelectWindow.h">
-      <Filter>Actor\Level\EnemySelect</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerWindow.h">
-      <Filter>Actor\Level\EnemySelect</Filter>
-    </ClInclude>
     <ClInclude Include="EnemyRoulette.h">
       <Filter>Actor\Level\EnemySelect</Filter>
     </ClInclude>
@@ -181,6 +172,9 @@
     </ClInclude>
     <ClInclude Include="CarbuncleMenu.h">
       <Filter>Actor\Level\Mainmenu\Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="FSM.h">
+      <Filter>Actor\Level\InGame\Enemy</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

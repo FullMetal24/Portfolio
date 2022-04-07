@@ -2,8 +2,10 @@
 #include "GameEngineBase/GameEngineInput.h"
 #include "Puyo.h"
 #include "PuyoPair.h"
+#include "InGame.h"
 
 Player::Player() 
+	: CreatePair_(true)
 {
 }
 
@@ -35,7 +37,8 @@ void Player::Start()
 
 void Player::Update()
 {
-	PuyoInput();
+	PairInput();
+
 	//뿌요들이 바닥에 갔는지도 확인해야하며, 착지하고서 배열에 넣어주는 편이 좋다.
 	//넣기 전에 요소 위치만 비교하면 되니까 굳이 배열에 넣을 필요는 없고
 	//넣은 다음에 탐색 함수를 호출...
@@ -48,7 +51,7 @@ void Player::Render()
 
 }
 
-void Player::PuyoInput()
+void Player::PairInput()
 {
 	if (true == GameEngineInput::GetInst()->IsPress("PuyoLeft"))
 	{

@@ -54,10 +54,23 @@ public:
 		Y_ = _Y;
 	}
 
+	//진짜 움직임은 SetMove에서 
+
+	inline GameEngineActor* GetMyActor_()
+	{
+		return MyActor_;
+	}
+
+	inline void SetMyActor_(GameEngineActor* _Actor)
+	{
+		MyActor_ = _Actor;
+	}
 
 protected:
 
 private:
+	GameEngineActor* MyActor_;
+
 	Color PuyoColor_;
 	bool IsVisited_;
 	int X_;

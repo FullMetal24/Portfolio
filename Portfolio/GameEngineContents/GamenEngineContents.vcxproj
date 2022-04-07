@@ -180,10 +180,6 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="CharacterSelectWindow.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
     <ClInclude Include="ChineseCharacter.h">
       <SubType>
       </SubType>
@@ -202,6 +198,10 @@
     </ClInclude>
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="EnemyRoulette.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="FSM.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -225,10 +225,6 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="Player.h" />
-    <ClInclude Include="PlayerWindow.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
     <ClInclude Include="InGame.h" />
     <ClInclude Include="Puyo.h" />
     <ClInclude Include="PuyoPair.h">
@@ -282,10 +278,6 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="CharacterSelectWindow.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
     <ClCompile Include="ChineseCharacter.cpp">
       <SubType>
       </SubType>
@@ -304,6 +296,10 @@
     </ClCompile>
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyRoulette.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="FSM.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -326,10 +322,6 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="Player.cpp" />
-    <ClCompile Include="PlayerWindow.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
     <ClCompile Include="InGame.cpp" />
     <ClCompile Include="Puyo.cpp" />
     <ClCompile Include="PuyoPair.cpp">

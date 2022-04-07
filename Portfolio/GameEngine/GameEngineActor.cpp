@@ -77,7 +77,6 @@ GameEngineRenderer* GameEngineActor::CreateRenderer(
 	}
 	NewRenderer->SetPivot(_PivotPos);
 	NewRenderer->SetPivotType(_PivotType);
-
 	GetLevel()->AddRenderer(NewRenderer);
 	RenderList_.push_back(NewRenderer);
 	return NewRenderer;
@@ -85,12 +84,7 @@ GameEngineRenderer* GameEngineActor::CreateRenderer(
 }
 
 
-GameEngineRenderer* GameEngineActor::CreateRenderer(
-	const std::string& _Image,
-	int _Order, /*= static_cast<int>(EngineMax::RENDERORDERMAX)*/
-	RenderPivot _PivotType /*= RenderPivot::CENTER*/,
-	const float4& _PivotPos /*= { 0,0 }*/
-)
+GameEngineRenderer* GameEngineActor::CreateRenderer(const std::string& _Image, int _Order, RenderPivot _PivotType, const float4& _PivotPos)
 {
 	GameEngineRenderer* NewRenderer = new GameEngineRenderer();
 
@@ -106,7 +100,7 @@ GameEngineRenderer* GameEngineActor::CreateRenderer(
 	NewRenderer->SetImage(_Image);
 	NewRenderer->SetPivot(_PivotPos);
 	NewRenderer->SetPivotType(_PivotType);
-	GetLevel()->AddRenderer(NewRenderer); //
+	GetLevel()->AddRenderer(NewRenderer); 
 
 	RenderList_.push_back(NewRenderer);
 	return NewRenderer;

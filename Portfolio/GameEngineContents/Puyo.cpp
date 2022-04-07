@@ -15,30 +15,28 @@ Puyo::~Puyo()
 
 void Puyo::Start()
 {
-	SetPosition(GameEngineWindow::GetScale().Half());
-	SetScale({ 100, 100 });
+	//뿌요는 렌더러를 가질 수 없음
 
 	//랜덤으로 색을 지정하고 그걸로 구별해내서 뿌요를 없애면 되지 않을까?
 	//위에서 난수 생성해서 컬러 지정
-	switch (PuyoColor_)
-	{
-	case Color::RED:
-		CreateRenderer("Puyo.bmp");
-		break;
-	case Color::BLUE:
-		CreateRenderer("Puyo.bmp");
-		break;
-	case Color::GREEN:
-		CreateRenderer("Puyo.bmp");
-		break;
-	case Color::YELLO:
-		CreateRenderer("Puyo.bmp");
-
-		break;
-	case Color::PURPLE:
-		CreateRenderer("Puyo.bmp");
-		break;
-	}
+	//switch (PuyoColor_)
+	//{
+	//case Color::RED:
+	//	CreateRenderer("IG_RED_PUYO_1.bmp");
+	//	break;
+	//case Color::BLUE:
+	//	CreateRenderer("IG_RED_PUYO_4.bmp");
+	//	break;
+	//case Color::GREEN:
+	//	CreateRenderer("IG_RED_PUYO_5.bmp");
+	//	break;
+	//case Color::YELLO:
+	//	CreateRenderer("IG_RED_PUYO_2.bmp");
+	//	break;
+	//case Color::PURPLE:
+	//	CreateRenderer("IG_RED_PUYO_3.bmp");
+	//	break;
+	//}
 }
 
 void Puyo::Update()
