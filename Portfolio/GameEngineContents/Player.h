@@ -48,5 +48,9 @@ private:
 
 	float DownMoveDis_;
 	float SideMoveDis_;
+
+	float DownTime;
+	float JedgementTime_;
+	//나중에 착지 판정 타임 추가
 };
 

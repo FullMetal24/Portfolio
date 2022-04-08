@@ -13,6 +13,7 @@ Player::Player()
 	, SecondY_(0)
 	, DownMoveDis_(30.0f) 
 	, SideMoveDis_(65.0f)
+	, DownTime(0.5f)
 {
 }
 
@@ -42,38 +43,34 @@ void Player::Update()
 	if (true == GameEngineInput::GetInst()->IsDown("PuyoLeft"))
 	{
 		MoveLeft();
-		SecondX_;
-		SecondY_;
-		CenterX_;
-		CenterY_;
 	}
 
 	if (true == GameEngineInput::GetInst()->IsDown("PuyoRight"))
 	{
 		MoveRight();
-		SecondX_;
-		SecondY_;
-		CenterX_;
-		CenterY_;
 	}
 
 	if (true == GameEngineInput::GetInst()->IsDown("PuyoDown"))
 	{
    		MoveDown();
-  		SecondX_;
-		SecondY_;
-		CenterX_;
-		CenterY_;
 	}
 
 	if (true == GameEngineInput::GetInst()->IsDown("PuyoRotate"))
 	{
    		Rotate();
- 		SecondX_;
-		SecondY_;
-		CenterX_;
-		CenterY_;
 	}
+
+
+	
+	DownTime -= GameEngineTime::GetDeltaTime();
+
+	if (0.0f >= DownTime && true == CurrentPair_->GetCenterPuyo()->GetLandiung()
+		|| 0.0f >= DownTime && true == CurrentPair_->GetSecondPuyo()->GetLandiung())
+	{
+		MoveDown();
+		DownTime = 0.5f;
+	}
+
 }
 
 void Player::MoveLeft()
@@ -220,7 +217,16 @@ void Player::MoveDown()
 			CurrentPair_->GetSecondPuyo()->SetY(SecondY_ + 1);
 			SecondY_ = CurrentPair_->GetSecondPuyo()->GetY();
 		}
+	}
 
+	if (CenterY_ >= 28 || nullptr != PlayerMap_[CenterY_ + 2][CenterX_])
+	{
+		CurrentPair_->GetCenterPuyo()->SetLanding(false);
+	}
+	
+	else if (CenterY_ >= 28 || nullptr != PlayerMap_[SecondY_ + 2][SecondX_])
+	{
+		CurrentPair_->GetSecondPuyo()->SetLanding(false);
 	}
 }
 

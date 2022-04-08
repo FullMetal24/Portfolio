@@ -6,6 +6,7 @@
 #include <GameEngineBase/GameEngineTime.h>
 
 Puyo::Puyo() 
+	:  IsLanding_(true)
 {
 }
 
@@ -46,16 +47,4 @@ void Puyo::Left()
 void Puyo::Right()
 {
 	SetPosition(GetPosition() + (float4::RIGHT * GameEngineTime::GetDeltaTime()));
-}
-
-
-
-bool Puyo::IsLaunding() //매 프레임 호출? 일단 보류(다운 라이트 등에 넣어도 될듯
-{
-	//근데 여기서 확인하려면 Player를 알아야 한다.....
-	//얘가 플레이어를 알아도 될까?
-	//여기서 만들지 않을 거면 플레이어에서 두 개 만들어야 한다.
-
-
-	return false;
 }

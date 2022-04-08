@@ -27,12 +27,17 @@ public:
 	void Down();
 	void Left();
 	void Right();
-	bool IsLaunding();
 
-	//inline bool GetLaundiung()
-	//{
-	//	return IsLanding_;
-	//}
+	inline bool GetLandiung()
+	{
+		return IsLanding_;
+	}
+
+	inline void SetLanding(bool _Land)
+	{
+		IsLanding_ = _Land;
+	}
+
 
 	inline int GetX()
 	{
@@ -76,7 +81,7 @@ private:
 	int X_;
 	int Y_;
 
-	bool IsLaunding_;
+	bool IsLanding_;
 
 	//색
 	//뿌요페어를 알아선 안됨
