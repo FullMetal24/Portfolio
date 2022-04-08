@@ -32,7 +32,7 @@ public:
 protected:
 
 private:
-	Puyo* PlayerMap_[15][6];
+	Puyo* PlayerMap_[30][6];
 
 	PuyoPair* CurrentPair_;
 	PuyoPair* NextPair_;
