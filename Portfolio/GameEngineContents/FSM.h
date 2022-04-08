@@ -18,10 +18,27 @@ public:
 	void Update() override;
 	void Render() override;
 
+	void AddPuyoPair(PuyoPair* _Pair);
 
 protected:
 
 private:
+	Puyo* PlayerMap_[15][6];
+
+	PuyoPair* CurrentPair_;
+	PuyoPair* NextPair_;
+	PuyoPair* NextNextPair_;
+
+	PuyoDir PuyoDir_;
+
+	int CenterX_;
+	int CenterY_;
+
+	int SecondX_;
+	int SecondY_;
+
+	float DownMoveDis_;
+	float SideMoveDis_;
 
 
 };

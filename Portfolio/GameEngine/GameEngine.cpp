@@ -4,6 +4,7 @@
 #include "GameEngineImageManager.h"
 #include <GameEngineBase/GameEngineInput.h>
 #include <GameEngineBase/GameEngineTime.h>
+#include <GameEngineBase/GameEngineSound.h>
 
 std::map<std::string, GameEngineLevel*> GameEngine::AllLevel_;
 GameEngineLevel* GameEngine::CurrentLevel_ = nullptr;
@@ -93,6 +94,7 @@ void GameEngine::EngineLoop()
         MsgBoxAssert("Level is nullptr => GameEngine Loop Error");
     }
 
+    GameEngineSound::Update();
     GameEngineInput::GetInst()->Update(GameEngineTime::GetInst()->GetDeltaTime());
 
     // 레벨수준 시간제한이 있는 게임이라면
@@ -124,6 +126,7 @@ void GameEngine::EngineEnd()
     }
 
 
+    GameEngineSound::AllResourcesDestroy();
     GameEngineImageManager::Destroy();
     GameEngineInput::Destroy();
     GameEngineTime::Destroy();

@@ -133,7 +133,6 @@ void Player::MoveDown()
 }
 
 
-//RotateIndex 필요Enum
 void Player::Rotate()
 {
 	switch (PuyoDir_)
@@ -218,11 +217,6 @@ void Player::Rotate()
 
 
 ////////////////////////뿌요 추가
-
-void Player::AddPuyo(Puyo* _Puyo)
-{
-	PlayerMap_[0][0] = _Puyo;
-}
 
 void Player::AddPuyoPair(PuyoPair* _Pair)
 {

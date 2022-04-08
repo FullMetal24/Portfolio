@@ -21,7 +21,7 @@ class GameEngineRandom
 	//std::uniform_int_distribution<int> Uniform;
 
 public:
-	// 
+	//난수 생성기
 	int RandomInt(int _Min, int _Max)
 	{
 		std::uniform_int_distribution<int> Uniform(_Min, _Max);

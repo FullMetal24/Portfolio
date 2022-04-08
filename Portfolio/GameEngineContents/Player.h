@@ -27,7 +27,6 @@ public:
 	void MoveDown();
 	void Rotate();
 
-	void AddPuyo(Puyo* _Puyo);
 	void AddPuyoPair(PuyoPair* _Pair);
 
 protected:
