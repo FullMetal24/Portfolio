@@ -61,14 +61,19 @@ public:
 
 	//진짜 움직임은 SetMove에서 
 
-	inline GameEngineActor* GetMyActor_()
+	inline GameEngineActor* GetMyActor()
 	{
 		return MyActor_;
 	}
 
-	inline void SetMyActor_(GameEngineActor* _Actor)
+	inline void SetMyActor(GameEngineActor* _Actor)
 	{
 		MyActor_ = _Actor;
+	}
+
+	inline void SetColor(Color _Color)
+	{
+		PuyoColor_ = _Color;
 	}
 
 protected:

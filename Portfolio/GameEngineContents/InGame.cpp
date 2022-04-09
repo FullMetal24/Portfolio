@@ -2,6 +2,8 @@
 #include <GameEngineBase/GameEngineWindow.h>
 #include <GameEngineBase/GameEngineRandom.h>
 #include <GameEngine/GameEngineActor.h>
+#include <iostream>
+#include <random>
 #include "PuyoPair.h"
 #include "Puyo.h"
 #include "FSM.h"
@@ -12,6 +14,7 @@ InGame::InGame()
 	, FSM_(nullptr)
 	, EnemyProfile_(nullptr)
 	, Stage_(nullptr)
+	, RandomColor_{}
 	, StageClear_(0)
 	, IsStart_(true) //일단 트루
 { 
@@ -36,16 +39,27 @@ void InGame::Loading()
 	Player_ = CreateActor<Player>();
 	FSM_ = CreateActor<FSM>();
 
-	CreatePuyoPair(true);
+	Player_->SetCurrentPair(CreatePuyoPair());
+	Player_->SetNextPair(CreatePuyoPair());
+	Player_->SetNextNextPair(CreatePuyoPair());
+
+	Player_->CurrentPairInit();
+
+	//FSM_->CurrentPair_ = CreatePuyoPair();
+	//FSM_->NextPair_ = CreatePuyoPair();
+	//FSM_->NextNextPair_ = CreatePuyoPair();
 }
 
 void InGame::Update()
 {
-	
+	if (true == Player_->GetAllLanding())
+	{
+		Player_->AddPuyoPair(CreatePuyoPair());
+	}
 }
 
 
-void InGame::CreatePuyoPair(bool _IsPlayer)
+PuyoPair* InGame::CreatePuyoPair()
 {
 	PuyoPair* NewPuyoPair = CreateActor<PuyoPair>();
 
@@ -57,66 +71,65 @@ void InGame::CreatePuyoPair(bool _IsPlayer)
 	ScecondPuyo = CreateActor<Puyo>(1);
 	NewPuyoPair->SetSecondPuyo(ScecondPuyo);
 
-	GameEngineRandom Ran;
-	int number = Ran.RandomInt(0, 5);
+	int number = RandomColor_.RandomInt(0, 4);
 
 	switch (number)
 	{
 	case static_cast<int>(Color::RED):
 		CenterPuyo->CreateRenderer("IG_RED_PUYO_1.bmp");
+		CenterPuyo->SetColor(Color::RED);
 		break;
 	case static_cast<int>(Color::BLUE):
 		CenterPuyo->CreateRenderer("IG_RED_PUYO_4.bmp");
+		CenterPuyo->SetColor(Color::BLUE);
 		break;
 	case static_cast<int>(Color::GREEN):
 		CenterPuyo->CreateRenderer("IG_RED_PUYO_5.bmp");
+		CenterPuyo->SetColor(Color::GREEN);
 		break;
 	case static_cast<int>(Color::YELLO):
 		CenterPuyo->CreateRenderer("IG_RED_PUYO_2.bmp");
+		CenterPuyo->SetColor(Color::YELLO);
 		break;
 	case static_cast<int>(Color::PURPLE):
 		CenterPuyo->CreateRenderer("IG_RED_PUYO_3.bmp");
+		CenterPuyo->SetColor(Color::PURPLE);
 		break;
 	}
 
-	number = Ran.RandomInt(0, 5);
+	number = RandomColor_.RandomInt(0, 4);
 
 	switch (number)
 	{
 	case static_cast<int>(Color::RED):
 		ScecondPuyo->CreateRenderer("IG_RED_PUYO_1.bmp");
+		ScecondPuyo->SetColor(Color::RED);
 		break;
 	case static_cast<int>(Color::BLUE):
 		ScecondPuyo->CreateRenderer("IG_RED_PUYO_4.bmp");
+		ScecondPuyo->SetColor(Color::BLUE);
 		break;
 	case static_cast<int>(Color::GREEN):
 		ScecondPuyo->CreateRenderer("IG_RED_PUYO_5.bmp");
+		ScecondPuyo->SetColor(Color::GREEN);
 		break;
 	case static_cast<int>(Color::YELLO):
 		ScecondPuyo->CreateRenderer("IG_RED_PUYO_2.bmp");
+		ScecondPuyo->SetColor(Color::YELLO);
 		break;
 	case static_cast<int>(Color::PURPLE):
 		ScecondPuyo->CreateRenderer("IG_RED_PUYO_3.bmp");
+		ScecondPuyo->SetColor(Color::PURPLE);
 		break;
 	}
 
-	if (true == _IsPlayer)
+	if (nullptr == NewPuyoPair)
 	{
-		CenterPuyo->SetPosition({ 220.f, -30.f });
-		ScecondPuyo->SetPosition({ 220.f, -90.f });
-
-		Player_->AddPuyoPair(NewPuyoPair);
+		return nullptr;
 	}
 
-	else
-	{
-		CenterPuyo->SetPosition({ 620.f, -30.f });
-		ScecondPuyo->SetPosition({ 620.f, -90.f });
-
-		FSM_->AddPuyoPair(NewPuyoPair);
-	}
+	return NewPuyoPair;
 }
-
 
 
 void InGame::LevelChangeStart()

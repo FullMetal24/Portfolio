@@ -6,6 +6,7 @@ class Puyo;
 class PuyoPair;
 class FSM : public GameEngineActor
 {
+
 public:
 	FSM();
 	~FSM();

@@ -8,7 +8,6 @@ class Puyo;
 class PuyoPair;
 class Player : public GameEngineActor
 {
-
 public:
 	Player();
 	~Player();
@@ -27,9 +26,30 @@ public:
 	void MoveDown();
 	void Rotate();
 
+	void CurrentPairInit();
 	void AddPuyoPair(PuyoPair* _Pair);
 
 	void LandCheck();
+
+	inline void SetCurrentPair(PuyoPair* _Current)
+	{
+		CurrentPair_ = _Current;
+	}
+
+	inline void SetNextPair(PuyoPair* _Next)
+	{
+		NextPair_ = _Next;
+	}
+
+	inline void SetNextNextPair(PuyoPair* _NextNext)
+	{
+		NextNextPair_ = _NextNext;
+	}
+
+	inline bool GetAllLanding()
+	{
+		return IsAllLanding_;
+	}
 
 protected:
 
@@ -52,7 +72,10 @@ private:
 	float SideMoveDis_;
 
 	float DownTime;
-	float JedgementTime_;
-	//나중에 착지 판정 타임 추가
+	float JedgementTime_; //판정 시간
+
+	bool IsStart_;
+	bool IsAllLanding_;
+	bool IsLose_;
 };
 
