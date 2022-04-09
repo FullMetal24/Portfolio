@@ -89,98 +89,106 @@ void Player::Update()
 
 void Player::MoveLeft()
 {
-	if (SecondX_ < CenterX_)
+	if (false == CurrentPair_->GetCenterPuyo()->GetLandiung() 
+		&& false == CurrentPair_->GetSecondPuyo()->GetLandiung())
 	{
-		if (0 <= SecondX_ - 1 && nullptr == PlayerMap_[SecondY_][SecondX_ - 1])
+		if (SecondX_ < CenterX_)
 		{
-			PlayerMap_[SecondY_][SecondX_ - 1] = CurrentPair_->GetSecondPuyo();
-			PlayerMap_[SecondY_][SecondX_] = nullptr;
+			if (0 <= SecondX_ - 1 && nullptr == PlayerMap_[SecondY_][SecondX_ - 1] && nullptr == PlayerMap_[SecondY_ + 1][SecondX_ - 1])
+			{
+				PlayerMap_[SecondY_][SecondX_ - 1] = CurrentPair_->GetSecondPuyo();
+				PlayerMap_[SecondY_][SecondX_] = nullptr;
 
-			CurrentPair_->GetSecondPuyo()->SetMove(float4::LEFT * SideMoveDis_);
-			CurrentPair_->GetSecondPuyo()->SetX(SecondX_ - 1);
-			SecondX_ = CurrentPair_->GetSecondPuyo()->GetX();
+				CurrentPair_->GetSecondPuyo()->SetMove(float4::LEFT * SideMoveDis_);
+				CurrentPair_->GetSecondPuyo()->SetX(SecondX_ - 1);
+				SecondX_ = CurrentPair_->GetSecondPuyo()->GetX();
+			}
+
+			if (0 <= CenterX_ - 1 && nullptr == PlayerMap_[CenterY_][CenterX_ - 1] && nullptr == PlayerMap_[CenterY_ + 3][CenterX_ - 1])
+			{
+				PlayerMap_[CenterY_][CenterX_ - 1] = CurrentPair_->GetCenterPuyo();
+				PlayerMap_[CenterY_][CenterX_] = nullptr;
+
+				CurrentPair_->GetCenterPuyo()->SetMove(float4::LEFT * SideMoveDis_);
+				CurrentPair_->GetCenterPuyo()->SetX(CenterX_ - 1);
+				CenterX_ = CurrentPair_->GetCenterPuyo()->GetX();
+			}
 		}
 
-		if (0 <= CenterX_ - 1 && nullptr == PlayerMap_[CenterY_][CenterX_ - 1])
+		else
 		{
-			PlayerMap_[CenterY_][CenterX_ - 1] = CurrentPair_->GetCenterPuyo();
-			PlayerMap_[CenterY_][CenterX_] = nullptr;
+			if (0 <= CenterX_ - 1 && nullptr == PlayerMap_[CenterY_][CenterX_ - 1] && nullptr == PlayerMap_[CenterY_ + 1][CenterX_ - 1])
+			{
+				PlayerMap_[CenterY_][CenterX_ - 1] = CurrentPair_->GetCenterPuyo();
+				PlayerMap_[CenterY_][CenterX_] = nullptr;
 
-			CurrentPair_->GetCenterPuyo()->SetMove(float4::LEFT * SideMoveDis_);
-			CurrentPair_->GetCenterPuyo()->SetX(CenterX_ - 1);
-			CenterX_ = CurrentPair_->GetCenterPuyo()->GetX();
-		}
-	}
-	
-	else
-	{
-		if (0 <= CenterX_ - 1 && nullptr == PlayerMap_[CenterY_][CenterX_ - 1])
-		{
-			PlayerMap_[CenterY_][CenterX_ - 1] = CurrentPair_->GetCenterPuyo();
-			PlayerMap_[CenterY_][CenterX_] = nullptr;
+				CurrentPair_->GetCenterPuyo()->SetMove(float4::LEFT * SideMoveDis_);
+				CurrentPair_->GetCenterPuyo()->SetX(CenterX_ - 1);
+				CenterX_ = CurrentPair_->GetCenterPuyo()->GetX();
+			}
 
-			CurrentPair_->GetCenterPuyo()->SetMove(float4::LEFT * SideMoveDis_);
-			CurrentPair_->GetCenterPuyo()->SetX(CenterX_ - 1);
-			CenterX_ = CurrentPair_->GetCenterPuyo()->GetX();
-		}
+			if (0 <= SecondX_ - 1 && nullptr == PlayerMap_[SecondY_][SecondX_ - 1] && nullptr == PlayerMap_[SecondY_ + 3][SecondX_ - 1])
+			{
+				PlayerMap_[SecondY_][SecondX_ - 1] = CurrentPair_->GetSecondPuyo();
+				PlayerMap_[SecondY_][SecondX_] = nullptr;
 
-		if (0 <= SecondX_ - 1  && nullptr == PlayerMap_[SecondY_][SecondX_ - 1])
-		{
-			PlayerMap_[SecondY_][SecondX_ - 1] = CurrentPair_->GetSecondPuyo();
-			PlayerMap_[SecondY_][SecondX_] = nullptr;
-
-			CurrentPair_->GetSecondPuyo()->SetMove(float4::LEFT * SideMoveDis_);
-			CurrentPair_->GetSecondPuyo()->SetX(SecondX_ - 1);
-			SecondX_ = CurrentPair_->GetSecondPuyo()->GetX();
+				CurrentPair_->GetSecondPuyo()->SetMove(float4::LEFT * SideMoveDis_);
+				CurrentPair_->GetSecondPuyo()->SetX(SecondX_ - 1);
+				SecondX_ = CurrentPair_->GetSecondPuyo()->GetX();
+			}
 		}
 	}
 }
 
 void Player::MoveRight()
 {
-	if (SecondX_ < CenterX_)
+	if (false == CurrentPair_->GetCenterPuyo()->GetLandiung()
+		&& false == CurrentPair_->GetSecondPuyo()->GetLandiung())
 	{
-		if (5 >= CenterX_ + 1 && nullptr == PlayerMap_[CenterY_][CenterX_ + 1])
+		if (SecondX_ < CenterX_)
 		{
-			PlayerMap_[CenterY_][CenterX_ + 1] = CurrentPair_->GetCenterPuyo();
-			PlayerMap_[CenterY_][CenterX_] = nullptr;
+			if (5 >= CenterX_ + 1 && nullptr == PlayerMap_[CenterY_][CenterX_ + 1] && nullptr == PlayerMap_[CenterY_ + 1][CenterX_ + 1])
+			{
+				PlayerMap_[CenterY_][CenterX_ + 1] = CurrentPair_->GetCenterPuyo();
+				PlayerMap_[CenterY_][CenterX_] = nullptr;
 
-			CurrentPair_->GetCenterPuyo()->SetMove(float4::RIGHT * SideMoveDis_);
-			CurrentPair_->GetCenterPuyo()->SetX(CenterX_ + 1);
-			CenterX_ = CurrentPair_->GetCenterPuyo()->GetX();
+				CurrentPair_->GetCenterPuyo()->SetMove(float4::RIGHT * SideMoveDis_);
+				CurrentPair_->GetCenterPuyo()->SetX(CenterX_ + 1);
+				CenterX_ = CurrentPair_->GetCenterPuyo()->GetX();
+			}
+
+			if (5 >= SecondX_ + 1 && nullptr == PlayerMap_[SecondY_][SecondX_ + 1] && nullptr == PlayerMap_[SecondY_ + 3][SecondX_ + 1])
+			{
+				PlayerMap_[SecondY_][SecondX_ + 1] = CurrentPair_->GetSecondPuyo();
+				PlayerMap_[SecondY_][SecondX_] = nullptr;
+
+				CurrentPair_->GetSecondPuyo()->SetMove(float4::RIGHT * SideMoveDis_);
+				CurrentPair_->GetSecondPuyo()->SetX(SecondX_ + 1);
+				SecondX_ = CurrentPair_->GetSecondPuyo()->GetX();
+			}
 		}
 
-		if (5 >= SecondX_ + 1 && nullptr == PlayerMap_[SecondY_][SecondX_ + 1])
+		else
 		{
-			PlayerMap_[SecondY_][SecondX_ + 1] = CurrentPair_->GetSecondPuyo();
-			PlayerMap_[SecondY_][SecondX_] = nullptr;
+			if (5 >= SecondX_ + 1 && nullptr == PlayerMap_[SecondY_][SecondX_ + 1] && nullptr == PlayerMap_[SecondY_ + 1][SecondX_ + 1])
+			{
+				PlayerMap_[SecondY_][SecondX_ + 1] = CurrentPair_->GetSecondPuyo();
+				PlayerMap_[SecondY_][SecondX_] = nullptr;
 
-			CurrentPair_->GetSecondPuyo()->SetMove(float4::RIGHT * SideMoveDis_);
-			CurrentPair_->GetSecondPuyo()->SetX(SecondX_ + 1);
-			SecondX_ = CurrentPair_->GetSecondPuyo()->GetX();
-		}
-	}
+				CurrentPair_->GetSecondPuyo()->SetMove(float4::RIGHT * SideMoveDis_);
+				CurrentPair_->GetSecondPuyo()->SetX(SecondX_ + 1);
+				SecondX_ = CurrentPair_->GetSecondPuyo()->GetX();
+			}
 
-	else
-	{
-	 	if (5 >= SecondX_ + 1 && nullptr == PlayerMap_[SecondY_][SecondX_ + 1])
-		{
- 			PlayerMap_[SecondY_][SecondX_ + 1] = CurrentPair_->GetSecondPuyo();
-			PlayerMap_[SecondY_][SecondX_] = nullptr;
+			if (5 >= CenterX_ + 1 && nullptr == PlayerMap_[CenterY_][CenterX_ + 1] && nullptr == PlayerMap_[CenterY_ + 3][CenterX_ + 1])
+			{
+				PlayerMap_[CenterY_][CenterX_ + 1] = CurrentPair_->GetCenterPuyo();
+				PlayerMap_[CenterY_][CenterX_] = nullptr;
 
-			CurrentPair_->GetSecondPuyo()->SetMove(float4::RIGHT * SideMoveDis_);
-			CurrentPair_->GetSecondPuyo()->SetX(SecondX_ + 1);
-			SecondX_ = CurrentPair_->GetSecondPuyo()->GetX();
-		}
-
-		if (5 >= CenterX_ + 1 && nullptr == PlayerMap_[CenterY_][CenterX_ + 1])
-		{
-			PlayerMap_[CenterY_][CenterX_ + 1] = CurrentPair_->GetCenterPuyo();
-			PlayerMap_[CenterY_][CenterX_] = nullptr;
-
-			CurrentPair_->GetCenterPuyo()->SetMove(float4::RIGHT * SideMoveDis_);
-			CurrentPair_->GetCenterPuyo()->SetX(CenterX_ + 1);
-			CenterX_ = CurrentPair_->GetCenterPuyo()->GetX();
+				CurrentPair_->GetCenterPuyo()->SetMove(float4::RIGHT * SideMoveDis_);
+				CurrentPair_->GetCenterPuyo()->SetX(CenterX_ + 1);
+				CenterX_ = CurrentPair_->GetCenterPuyo()->GetX();
+			}
 		}
 	}
 }
@@ -190,7 +198,7 @@ void Player::MoveDown()
 	if (SecondY_ > CenterY_)
 	{
 		if (28 >= SecondY_ + 1 && nullptr == PlayerMap_[SecondY_ + 2][SecondX_])
- 		{
+		{
 			PlayerMap_[SecondY_ + 1][SecondX_] = CurrentPair_->GetSecondPuyo();
 			PlayerMap_[SecondY_][SecondX_] = nullptr;
 
@@ -232,7 +240,6 @@ void Player::MoveDown()
 			SecondY_ = CurrentPair_->GetSecondPuyo()->GetY();
 		}
 	}
-
  }
 
 
@@ -303,7 +310,7 @@ void Player::Rotate()
 			SecondY_ = CenterY_;
 			SecondX_ = CenterX_ + 1;
 
-			if (5 < SecondX_ || nullptr != PlayerMap_[CenterY_ + 1][CenterX_ + 1])
+			if (5 < SecondX_ || nullptr != PlayerMap_[CenterY_ + 1][CenterX_ + 1] || nullptr != PlayerMap_[CenterY_ + 2][CenterX_ + 1])
 			{
 				CurrentPair_->GetCenterPuyo()->SetPosition(CurrentPair_->GetCenterPuyo()->GetPosition() - float4{ 60.0f, 0.0f });
 				SecondX_ -= 1;
@@ -318,8 +325,6 @@ void Player::Rotate()
 				}
 			}
 
-
-
 			PlayerMap_[CenterY_][CenterX_ + 1] = CurrentPair_->GetSecondPuyo();
 			CurrentPair_->GetSecondPuyo()->SetPosition(CurrentPair_->GetCenterPuyo()->GetPosition() + float4{ 60.0f, 0.0f });
 			PuyoDir_ = PuyoDir::RIGHT;
@@ -333,7 +338,7 @@ void Player::Rotate()
 			SecondY_ = CenterY_;
 			SecondX_ = CenterX_ - 1;
 
-			if (0 > SecondX_ || nullptr != PlayerMap_[CenterY_ + 1][CenterX_ - 1])
+			if (0 > SecondX_ || nullptr != PlayerMap_[CenterY_ + 1][CenterX_ - 1] || nullptr != PlayerMap_[CenterY_ + 2][CenterX_ - 1])
 			{
 				CurrentPair_->GetCenterPuyo()->SetPosition(CurrentPair_->GetCenterPuyo()->GetPosition() + float4{ 60.0f, 0.0f });
 				SecondX_ += 1;
