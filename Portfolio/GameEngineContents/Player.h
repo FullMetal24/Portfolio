@@ -29,6 +29,8 @@ public:
 
 	void AddPuyoPair(PuyoPair* _Pair);
 
+	void LandCheck();
+
 protected:
 
 private:

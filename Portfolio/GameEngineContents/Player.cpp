@@ -64,11 +64,13 @@ void Player::Update()
 	
 	DownTime -= GameEngineTime::GetDeltaTime();
 
-	if (0.0f >= DownTime && true == CurrentPair_->GetCenterPuyo()->GetLandiung()
-		|| 0.0f >= DownTime && true == CurrentPair_->GetSecondPuyo()->GetLandiung())
+	if (0.0f >= DownTime && false == CurrentPair_->GetCenterPuyo()->GetLandiung()
+		|| 0.0f >= DownTime && false == CurrentPair_->GetSecondPuyo()->GetLandiung())
 	{
 		MoveDown();
 		DownTime = 0.5f;
+	
+		LandCheck();
 	}
 
 }
@@ -219,16 +221,7 @@ void Player::MoveDown()
 		}
 	}
 
-	if (CenterY_ >= 28 || nullptr != PlayerMap_[CenterY_ + 2][CenterX_])
-	{
-		CurrentPair_->GetCenterPuyo()->SetLanding(false);
-	}
-	
-	else if (CenterY_ >= 28 || nullptr != PlayerMap_[SecondY_ + 2][SecondX_])
-	{
-		CurrentPair_->GetSecondPuyo()->SetLanding(false);
-	}
-}
+ }
 
 
 void Player::Rotate()
@@ -347,4 +340,46 @@ void Player::AddPuyoPair(PuyoPair* _Pair)
 
 	SecondX_ = CurrentPair_->GetSecondPuyo()->GetX();
 	SecondY_ = CurrentPair_->GetSecondPuyo()->GetY();
+}
+
+void Player::LandCheck()
+{
+	//¼¾ÅÍ »Ñ¿ä
+	{
+		if (CenterY_ >= 28)
+		{
+			CurrentPair_->GetCenterPuyo()->SetLanding(true);
+		}
+
+		if (CurrentPair_->GetSecondPuyo() != PlayerMap_[CenterY_ + 2][CenterX_]
+			&& nullptr != PlayerMap_[CenterY_ + 2][CenterX_])
+		{
+			CurrentPair_->GetCenterPuyo()->SetLanding(true);
+		}
+
+		if (true == CurrentPair_->GetSecondPuyo()->GetLandiung())
+		{
+			CurrentPair_->GetCenterPuyo()->SetLanding(true);
+		}
+	}
+
+
+	//¼¼ÄÁµå »Ñ¿ä
+	{
+		if (SecondY_ >= 28)
+		{
+			CurrentPair_->GetSecondPuyo()->SetLanding(true);
+		}
+
+		if (CurrentPair_->GetCenterPuyo() != PlayerMap_[SecondY_ + 2][SecondX_]
+			&& nullptr != PlayerMap_[SecondY_ + 2][SecondX_])
+		{
+			CurrentPair_->GetSecondPuyo()->SetLanding(true);
+		}
+
+		if (true == CurrentPair_->GetCenterPuyo()->GetLandiung())
+		{
+			CurrentPair_->GetSecondPuyo()->SetLanding(true);
+		}
+	}
 }

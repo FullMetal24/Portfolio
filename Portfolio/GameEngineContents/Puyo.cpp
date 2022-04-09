@@ -6,7 +6,7 @@
 #include <GameEngineBase/GameEngineTime.h>
 
 Puyo::Puyo() 
-	:  IsLanding_(true)
+	:  IsLanding_(false)
 {
 }
 
