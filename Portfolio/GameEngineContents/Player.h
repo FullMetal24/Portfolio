@@ -26,6 +26,11 @@ public:
 	void MoveDown();
 	void Rotate();
 
+	void RotateLeft();
+	void RotateRight();
+	void RotateUp();
+	void RotateDown();
+
 	void CurrentPairInit();
 	void AddPuyoPair(PuyoPair* _Pair);
 
