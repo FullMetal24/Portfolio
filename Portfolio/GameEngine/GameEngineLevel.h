@@ -1,8 +1,16 @@
 #pragma once
 #include <list>
 #include <map>
+#include <vector>
 #include <GameEngineBase/GameEngineNameObject.h>
 #include <GameEngineBase/GameEngineMath.h>
+
+class GameEngineActor;
+struct ChangeOrderItem
+{
+	GameEngineActor* TargetObject; // 이녀석을
+	int ChangeOrder; // 이렇게 바꿔라.
+};
 
 class GameEngine;
 class GameEngineActor;
@@ -34,7 +42,7 @@ public:
 	{
 		ActorType* NewActor = new ActorType();
 		GameEngineActor* StartActor = NewActor;
-		NewActor->SetOrder(_Order);
+		NewActor->GameEngineUpdateObject::SetOrder(_Order);
 		NewActor->SetName(_Name);
 		NewActor->SetLevel(this);
 		StartActor->Start();
@@ -91,6 +99,8 @@ private:
 	// std::vector로 관리하는게 더 좋다고 생각..
 	std::map<int, std::list<GameEngineActor*>> AllActor_;
 
+	std::vector<ChangeOrderItem> ChangeOrderList;
+
 	float4 CameraPos_;
 
 	void ActorUpdate();
@@ -102,6 +112,8 @@ private:
 	std::map<int, std::list<GameEngineRenderer*>> AllRenderer_;
 
 	void AddRenderer(GameEngineRenderer* _Renderer);
+
+	void ChangeUpdateOrder(GameEngineActor* _Actor, int _Oreder);
 
 	void ChangeRenderOrder(GameEngineRenderer* _Renderer, int _NewOrder);
 

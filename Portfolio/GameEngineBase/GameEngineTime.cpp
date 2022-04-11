@@ -3,29 +3,27 @@
 
 GameEngineTime* GameEngineTime::Inst_ = new GameEngineTime();
 
-GameEngineTime::GameEngineTime() 
+
+GameEngineTime::GameEngineTime()
 {
 }
 
-GameEngineTime::~GameEngineTime() 
+GameEngineTime::~GameEngineTime()
 {
-
 }
 
 void GameEngineTime::Reset()
 {
-	QueryPerformanceCounter(reinterpret_cast<LARGE_INTEGER*>(&CurrentCount));
-	QueryPerformanceCounter(reinterpret_cast<LARGE_INTEGER*>(&PrevCount));
-	QueryPerformanceFrequency(reinterpret_cast<LARGE_INTEGER*>(&SecondCount));
+	QueryPerformanceCounter(reinterpret_cast<LARGE_INTEGER*>(&PrevCount_));
+	QueryPerformanceCounter(reinterpret_cast<LARGE_INTEGER*>(&CurrentCount_));
+	QueryPerformanceFrequency(reinterpret_cast<LARGE_INTEGER*>(&SecondCount_));
 	Update();
 }
 
 void GameEngineTime::Update()
 {
-	QueryPerformanceCounter(reinterpret_cast<LARGE_INTEGER*>(&CurrentCount));
-
-	RealDeltaTime_ = (static_cast<double>(CurrentCount) - static_cast<double>(PrevCount)) / static_cast<double>(SecondCount);
-	PrevCount = CurrentCount; 
-
+	QueryPerformanceCounter(reinterpret_cast<LARGE_INTEGER*>(&CurrentCount_));
+	RealDeltaTime_ = (static_cast<double>(CurrentCount_) - static_cast<double>(PrevCount_)) / static_cast<double>(SecondCount_);
+	PrevCount_ = CurrentCount_;
 	DeltaTime_ = static_cast<float>(RealDeltaTime_);
 }

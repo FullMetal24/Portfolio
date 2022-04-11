@@ -66,7 +66,7 @@ void GameEngineRenderer::Render()
 
 
 	float4 RenderPos = GetActor()->GetPosition() + RenderPivot_;
-	
+
 	if (true == IsCameraEffect_)	// 
 	{
 		RenderPos -= GetActor()->GetLevel()->GetCameraPos();
@@ -111,7 +111,7 @@ void GameEngineRenderer::SetIndex(size_t _Index, float4 _Scale)
 	RenderImageScale_ = Image_->GetCutScale(_Index);			// 
 }
 
-	// Animation
+// Animation
 void GameEngineRenderer::CreateAnimation(
 	const std::string& _Image,
 	const std::string& _Name,
@@ -136,6 +136,7 @@ void GameEngineRenderer::CreateAnimation(
 	FrameAnimation& NewAnimation = Animations_[_Name];
 
 	NewAnimation.SetName(_Name);
+	NewAnimation.TimeKey = 0;
 	NewAnimation.Renderer_ = this;
 	NewAnimation.Image_ = FindImage;
 	NewAnimation.CurrentFrame_ = _StartIndex;
@@ -165,6 +166,7 @@ void GameEngineRenderer::CreateFolderAnimation(const std::string& _Image, const 
 	FrameAnimation& NewAnimation = Animations_[_Name];
 
 	NewAnimation.SetName(_Name);
+	NewAnimation.TimeKey = 0;
 	NewAnimation.Renderer_ = this;
 	NewAnimation.FolderImage_ = FindImage;
 	NewAnimation.CurrentFrame_ = _StartIndex;
@@ -174,6 +176,35 @@ void GameEngineRenderer::CreateFolderAnimation(const std::string& _Image, const 
 	NewAnimation.InterTime_ = _InterTime;
 	NewAnimation.Loop_ = _Loop;
 
+}
+
+void GameEngineRenderer::CreateFolderAnimationTimeKey(const std::string& _Image, const std::string& _Name, int _TimeScaleKey, int _StartIndex, int _EndIndex, float _InterTime, bool _Loop)
+{
+	GameEngineImage* FindImage = GameEngineImageManager::GetInst()->Find(_Image);
+	if (nullptr == FindImage)
+	{
+		MsgBoxAssertString(_Name + "존재하지 않는 이미지로 애니메이션을 만들려고 했습니다.");
+		return;
+	}
+
+	if (Animations_.end() != Animations_.find(_Name))
+	{
+		MsgBoxAssert("이미 존재하는 애니메이션을 또 만들려고 했습니다.");
+		return;
+	}
+
+	FrameAnimation& NewAnimation = Animations_[_Name];
+
+	NewAnimation.SetName(_Name);
+	NewAnimation.Renderer_ = this;
+	NewAnimation.TimeKey = _TimeScaleKey;
+	NewAnimation.Image_ = FindImage;
+	NewAnimation.CurrentFrame_ = _StartIndex;
+	NewAnimation.StartFrame_ = _StartIndex;
+	NewAnimation.EndFrame_ = _EndIndex;
+	NewAnimation.CurrentInterTime_ = _InterTime;
+	NewAnimation.InterTime_ = _InterTime;
+	NewAnimation.Loop_ = _Loop;
 }
 
 void GameEngineRenderer::ChangeAnimation(const std::string& _Name)
@@ -193,7 +224,7 @@ void GameEngineRenderer::ChangeAnimation(const std::string& _Name)
 void GameEngineRenderer::FrameAnimation::Update()
 {
 	IsEnd = false;
-	CurrentInterTime_ -= GameEngineTime::GetInst()->GetDeltaTime();
+	CurrentInterTime_ -= GameEngineTime::GetInst()->GetDeltaTime(TimeKey);
 	if (0 >= CurrentInterTime_)
 	{
 		CurrentInterTime_ = InterTime_;
@@ -219,7 +250,7 @@ void GameEngineRenderer::FrameAnimation::Update()
 		Renderer_->Image_ = Image_;		// 렌더러에게 이 애니메이션 만들때 세팅했떤 이미지를 세팅해준다.
 		Renderer_->SetIndex(CurrentFrame_);	// 렌더러에게 인덱스도 세팅해준다. 즉, 해당 애니메이션 이미지의 몇번째 칸(Index) 세팅해주면 렌더러는 알아서 출력한다.
 	}
-	else if(nullptr != FolderImage_)
+	else if (nullptr != FolderImage_)
 	{
 		Renderer_->Image_ = FolderImage_->GetImage(CurrentFrame_);		// 렌더러에게 이 애니메이션 만들때 세팅했떤 이미지를 세팅해준다.
 		Renderer_->SetImageScale();	// 렌더러에게 인덱스도 세팅해준다. 즉, 해당 애니메이션 이미지의 몇번째 칸(Index) 세팅해주면 렌더러는 알아서 출력한다.
@@ -227,7 +258,6 @@ void GameEngineRenderer::FrameAnimation::Update()
 }
 
 
-//부모의 SetOrder 함수를 재정의하여 동적으로 렌더 순서를 바꾼다.
 void GameEngineRenderer::SetOrder(int _Order)
 {
 	if (nullptr == GetActor())
@@ -248,7 +278,7 @@ void GameEngineRenderer::SetOrder(int _Order)
 	GetActor()->GetLevel()->ChangeRenderOrder(this, _Order);
 }
 
-bool GameEngineRenderer::IsEndAnimation() 
+bool GameEngineRenderer::IsEndAnimation()
 {
 	return CurrentAnimation_->IsEnd;
 }

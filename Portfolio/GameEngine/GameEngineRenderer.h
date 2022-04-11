@@ -46,6 +46,11 @@ public:
 	// 렌더러 스케일과 이미지 스케일을 같이 맞춰줌, SetImage()에서 호출하여 사용한다.
 	void SetImageScale();
 
+	inline void SetImage(GameEngineImage* _Image)
+	{
+		Image_ = _Image;
+	}
+
 	inline void SetScale(const float4& _Scale)
 	{
 		ScaleMode_ = RenderScaleMode::User;
@@ -58,11 +63,6 @@ public:
 	}
 
 	void SetImage(const std::string& _Name);
-
-	void SetImage(GameEngineImage* _Image)
-	{
-		Image_ = _Image;
-	}
 
 	void SetIndex(size_t _Index, float4 _Scale = { -1.0f, -1.0f });
 
@@ -112,6 +112,7 @@ private:
 		GameEngineImage* Image_;
 		GameEngineFolderImage* FolderImage_;
 
+		int TimeKey;
 		int CurrentFrame_;
 		int StartFrame_;
 		int EndFrame_;
@@ -151,6 +152,8 @@ public:
 	void CreateAnimation(const std::string& _Image, const std::string& _Name, int _StartIndex, int _EndIndex, float _InterTime, bool _Loop = true);
 
 	void CreateFolderAnimation(const std::string& _Image, const std::string& _Name, int _StartIndex, int _EndIndex, float _InterTime, bool _Loop = true);
+
+	void CreateFolderAnimationTimeKey(const std::string& _Image, const std::string& _Name, int _TimeScaleKey, int _StartIndex, int _EndIndex, float _InterTime, bool _Loop = true);
 
 	// 애니메이션을 재생한다.
 	void ChangeAnimation(const std::string& _Name);
