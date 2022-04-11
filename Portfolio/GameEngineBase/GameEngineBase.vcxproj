@@ -65,8 +65,17 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="ThirdParty\inc\fmod_codec.h" />
+    <ClInclude Include="ThirdParty\inc\fmod_common.h" />
+    <ClInclude Include="ThirdParty\inc\fmod_dsp.h" />
+    <ClInclude Include="ThirdParty\inc\fmod_dsp_effects.h" />
+    <ClInclude Include="ThirdParty\inc\fmod_errors.h" />
+    <ClInclude Include="ThirdParty\inc\fmod_output.h" />
+    <None Include="ThirdParty\inc\fmod.cs" />
     <None Include="ThirdParty\inc\fmod.h" />
     <None Include="ThirdParty\inc\fmod.hpp" />
+    <None Include="ThirdParty\inc\fmod_dsp.cs" />
+    <None Include="ThirdParty\inc\fmod_errors.cs" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameEngineDebug.cpp">

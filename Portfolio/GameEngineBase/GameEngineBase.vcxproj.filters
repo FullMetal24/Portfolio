@@ -75,6 +75,24 @@
     <ClInclude Include="GameEngineSound.h">
       <Filter>Resources</Filter>
     </ClInclude>
+    <ClInclude Include="ThirdParty\inc\fmod_dsp.h">
+      <Filter>ThirdParty\inc</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\inc\fmod_dsp_effects.h">
+      <Filter>ThirdParty\inc</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\inc\fmod_errors.h">
+      <Filter>ThirdParty\inc</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\inc\fmod_output.h">
+      <Filter>ThirdParty\inc</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\inc\fmod_codec.h">
+      <Filter>ThirdParty\inc</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\inc\fmod_common.h">
+      <Filter>ThirdParty\inc</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameEngineDebug.cpp">
@@ -136,6 +154,15 @@
       <Filter>ThirdParty\inc</Filter>
     </None>
     <None Include="ThirdParty\inc\fmod.hpp">
+      <Filter>ThirdParty\inc</Filter>
+    </None>
+    <None Include="ThirdParty\inc\fmod_dsp.cs">
+      <Filter>ThirdParty\inc</Filter>
+    </None>
+    <None Include="ThirdParty\inc\fmod_errors.cs">
+      <Filter>ThirdParty\inc</Filter>
+    </None>
+    <None Include="ThirdParty\inc\fmod.cs">
       <Filter>ThirdParty\inc</Filter>
     </None>
   </ItemGroup>
