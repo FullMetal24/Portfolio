@@ -36,6 +36,9 @@ void InGame::Loading()
 	GameEngineActor* ActorNext = CreateActor<Stage>(3);
 	ActorNext->CreateRenderer("IG_NEXT.bmp")->SetPivot({GameEngineWindow::GetScale().Half().x, GameEngineWindow::GetScale().Half().y - 360.f });
 	
+	GameEngineActor* PlayerName_ = CreateActor<Stage>(1);
+	PlayerName_->CreateRenderer("IG_ARLENAME.bmp")->SetPivot({ GameEngineWindow::GetScale().Half().x - 96.f, GameEngineWindow::GetScale().Half().y - 290.f });
+
 	Player_ = CreateActor<Player>();
 	FSM_ = CreateActor<FSM>();
 
@@ -52,7 +55,7 @@ void InGame::Loading()
 
 void InGame::Update()
 {
-	if (true == Player_->GetAllLanding())
+	if (true == Player_->GetAllLanding() && false == Player_->GetLose())
 	{
 		Player_->AddPuyoPair(CreatePuyoPair());
 	}

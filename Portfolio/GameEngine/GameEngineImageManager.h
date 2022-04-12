@@ -67,4 +67,3 @@ private:
 	std::map<std::string, GameEngineFolderImage*> AllFolderRes;
 
 };
-

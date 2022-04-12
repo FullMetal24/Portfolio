@@ -36,53 +36,15 @@ void MainMenu::Loading()
 void MainMenu::Update()
 {
 	MenuUpdate();
-
-	//백그라운드 엑터들은 크기가 없다.
-	//게다가 렌더러 정보도 알 수가 없다.
-	for (int i = 0; i < BackGrounds_.size(); ++i)
-	{
-		for (int j = 0; j < BackGrounds_[i].size(); j++)
-		{
-			if (0 == i || 2 == i) //0, 2라인
-			{
-				BackGrounds_[i][j]->SetPosition(BackGrounds_[i][j]->GetPosition() + (float4::RIGHT * GameEngineTime::GetDeltaTime() * 200.f));
-
-				if (GameEngineWindow::GetScale().x + 500.f < BackGrounds_[i][j]->GetPosition().x)
-				{
-					BackGrounds_[i][j]->SetPosition({ 0.0f, BackGrounds_[i][j]->GetPosition().y});
-				}
-			}
-
-			if (1 == i || 3 == i) //1, 3라인
-			{
-				BackGrounds_[i][j]->SetPosition(BackGrounds_[i][j]->GetPosition() + (float4::LEFT * GameEngineTime::GetDeltaTime() * 200.f));
-
-				if (0.0f - 500.f > BackGrounds_[i][j]->GetPosition().x) //벗어나는 위치
-				{
-					BackGrounds_[i][j]->SetPosition({ GameEngineWindow::GetScale().x, BackGrounds_[i][j]->GetPosition().y }); //다시 붙여주는 위치
-				}
-			}
-		}
-	}
-
+	BackgroundUpdate();
 }
 
-void MainMenu::LevelChangeStart()
-{
-	MenuCount_ = 0;
-}
-
-void MainMenu::LevelChangeEnd()
-{
-
-}
 
 void MainMenu::MenuInit()
 {
 	GameEngineActor* SelectMenu = CreateActor<MM_BackGround>(3);
 	SelectMenu->SetPosition({ GameEngineWindow::GetScale().Half().x, 150 });
-	GameEngineRenderer* SelectMenuRenderer = SelectMenu->CreateRenderer("MM_SELECT-1.bmp");
-
+	GameEngineRenderer* SelectMenuRenderer = SelectMenu->CreateRenderer("MM_SELECT_1.bmp");
 
 	GameEngineImage* Image = GameEngineImageManager::GetInst()->Find("MENU_1.bmp");
 	Image->CutCount(3, 1);
@@ -152,16 +114,16 @@ void MainMenu::MenuInit()
 
 void MainMenu::BackgourndInit()
 {
-	GameEngineImage* Image = GameEngineImageManager::GetInst()->Find("MM_SD0R.bmp");
-	Image->CutCount(4, 1);
+	Back_ = GameEngineImageManager::GetInst()->Find("MM_SD0R.bmp");
+	Back_->CutCount(4, 1);
 
 	GameEngineImage* Image1 = GameEngineImageManager::GetInst()->Find("MM_SD5L.bmp");
 	Image1->CutCount(4, 1);
 
-	std::vector<GameEngineActor*> FirstLine;
-	std::vector<GameEngineActor*> SecondLine;
-	std::vector<GameEngineActor*> ThirdLine;
-	std::vector<GameEngineActor*> LastLine;
+	std::list<GameEngineActor*> FirstLine;
+	std::list<GameEngineActor*> SecondLine;
+	std::list<GameEngineActor*> ThirdLine;
+	std::list<GameEngineActor*> LastLine;
 
 	float Offset;
 	Offset = 220.f;
@@ -222,7 +184,6 @@ void MainMenu::BackgourndInit()
 	BackGrounds_.push_back(SecondLine);
 	BackGrounds_.push_back(ThirdLine);
 	BackGrounds_.push_back(LastLine);
-
 }
 
 void MainMenu::MenuUpdate()
@@ -234,8 +195,7 @@ void MainMenu::MenuUpdate()
 			//카방클 좌로 이동
 			for (int i = 0; i < Menus_.size(); ++i)
 			{
-				float4 Offset = (Menus_[i]->GetPosition() + (float4::LEFT * 200.f));
-				Menus_[i]->SetPosition(Offset);
+				Menus_[i]->SetPosition(Menus_[i]->GetPosition() + (float4::LEFT * 200.f));
 			}
 
 			++MenuCount_;
@@ -246,11 +206,10 @@ void MainMenu::MenuUpdate()
 	{
 		if (MenuCount_ > static_cast<int>(MenuType::ALONE))
 		{
-			//카방클 우로 이동
+			//카방클 우로 이동 
 			for (int i = 0; i < Menus_.size(); ++i)
 			{
-				float4 Offset = (Menus_[i]->GetPosition() + (float4::RIGHT * 200.f));
-				Menus_[i]->SetPosition(Offset);
+				Menus_[i]->SetPosition(Menus_[i]->GetPosition() + (float4::RIGHT * 200.f));
 			}
 
 			--MenuCount_;
@@ -284,4 +243,54 @@ void MainMenu::MenuUpdate()
 
 }
 
+void MainMenu::BackgroundUpdate()
+{
+	for (int i = 0; i < BackGrounds_.size(); ++i)
+	{
+		std::list<GameEngineActor*>::iterator StartIter = BackGrounds_[i].begin();
+		std::list<GameEngineActor*>::iterator EndIter = BackGrounds_[i].end();
 
+		if (0 == i || 2 == i)
+		{
+			for (; StartIter != EndIter; ++StartIter)
+			{
+				//(*StartIter)->SetPosition((*StartIter)->GetPosition() + (float4::RIGHT * GameEngineTime::GetDeltaTime() * 200.f));
+
+				//if (GameEngineWindow::GetScale().x < (*StartIter)->GetPosition().x)
+				//{
+
+				//}
+			}
+		}
+
+		if (1 == i || 3 == i) //1, 3라인
+		{
+			for (; StartIter != EndIter; ++StartIter)
+			{
+				//(*StartIter)->SetPosition((*StartIter)->GetPosition() + (float4::LEFT * GameEngineTime::GetDeltaTime() * 2.f));
+
+				//if (0.0f > (*StartIter)->GetPosition().x)
+				//{
+				//	GameEngineActor* NextActor = BackGrounds_[i].back();
+				//	(*StartIter)->SetPosition(NextActor->GetPosition());
+				//	BackGrounds_[i].push_back(*StartIter);
+				//}
+			}
+		}
+
+	}
+
+
+}
+
+
+
+void MainMenu::LevelChangeStart()
+{
+	MenuCount_ = 0;
+}
+
+void MainMenu::LevelChangeEnd()
+{
+
+}

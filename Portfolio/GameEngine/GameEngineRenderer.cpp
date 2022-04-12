@@ -17,6 +17,7 @@ GameEngineRenderer::GameEngineRenderer()
 	, TransColor_(RGB(255, 0, 255))
 	, RenderImagePivot_({ 0,0 })
 	, IsCameraEffect_(true)
+	, Alpha_(255)
 {
 }
 
@@ -35,6 +36,7 @@ void GameEngineRenderer::SetImageScale()
 	ScaleMode_ = RenderScaleMode::Image;
 	RenderScale_ = Image_->GetScale();		// 화면 출력 크기, 이미지 크기로
 	RenderImageScale_ = Image_->GetScale();	// 실제 이미지를,  이미지 크기로
+	RenderImagePivot_ = float4::ZERO;
 }
 
 void GameEngineRenderer::SetImage(const std::string& _Name)
@@ -76,13 +78,30 @@ void GameEngineRenderer::Render()
 	switch (PivotType_)
 	{
 	case RenderPivot::CENTER:
-		GameEngine::BackBufferImage()->TransCopy(Image_, RenderPos - RenderScale_.Half(), RenderScale_, RenderImagePivot_, RenderImageScale_, TransColor_);
+		if (Alpha_ == 255)
+		{
+			GameEngine::BackBufferImage()->TransCopy(Image_, RenderPos - RenderScale_.Half(), RenderScale_, RenderImagePivot_, RenderImageScale_, TransColor_);
+		}
+		else 
+		{
+			GameEngine::BackBufferImage()->AlphaCopy(Image_, RenderPos - RenderScale_.Half(), RenderScale_, RenderImagePivot_, RenderImageScale_, Alpha_);
+		}
 		break;
 	case RenderPivot::BOT:
 	{
 		float4 Scale = RenderScale_.Half();
 		Scale.y *= 2;
-		GameEngine::BackBufferImage()->TransCopy(Image_, RenderPos - Scale, RenderScale_, RenderImagePivot_, RenderImageScale_, TransColor_);
+
+		if (Alpha_ == 255)
+		{
+			GameEngine::BackBufferImage()->TransCopy(Image_, RenderPos - Scale, RenderScale_, RenderImagePivot_, RenderImageScale_, TransColor_);
+		}
+		else 
+		{
+			GameEngine::BackBufferImage()->AlphaCopy(Image_, RenderPos - Scale, RenderScale_, RenderImagePivot_, RenderImageScale_, Alpha_);
+		}
+
+
 		break;
 	}
 	default:
@@ -178,7 +197,7 @@ void GameEngineRenderer::CreateFolderAnimation(const std::string& _Image, const 
 
 }
 
-void GameEngineRenderer::CreateFolderAnimationTimeKey(const std::string& _Image, const std::string& _Name, int _TimeScaleKey, int _StartIndex, int _EndIndex, float _InterTime, bool _Loop)
+void GameEngineRenderer::CreateFolderAnimationTimeKey(const std::string& _Image, const std::string& _Name, int _TimeScaleKey, int _StartIndex, int _EndIndex, float _InterTime, bool _Loop /*= true*/)
 {
 	GameEngineImage* FindImage = GameEngineImageManager::GetInst()->Find(_Image);
 	if (nullptr == FindImage)
@@ -217,7 +236,18 @@ void GameEngineRenderer::ChangeAnimation(const std::string& _Name)
 		return;
 	}
 
+	if (nullptr != CurrentAnimation_
+		&& CurrentAnimation_->GetNameConstPtr() == _Name)
+	{
+		return;
+	}
+
 	CurrentAnimation_ = &FindIter->second;	//FrameAnimation은 값형이다.
+
+	if (nullptr != CurrentAnimation_)
+	{
+		CurrentAnimation_->Reset();
+	}
 
 }
 

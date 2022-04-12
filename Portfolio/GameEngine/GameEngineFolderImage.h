@@ -5,7 +5,6 @@
 #include <Windows.h>
 #include <vector>
 
-// Ό³Έν :
 class GameEngineFolderImage : public GameEngineNameObject
 {
 public:
@@ -29,4 +28,3 @@ public:
 private:
 	std::vector<GameEngineImage*> Images_;
 };
-

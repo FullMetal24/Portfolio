@@ -40,14 +40,10 @@ Title::~Title()
 {
 }
 
-//스크롤 배경을 두 개 만들어야 한다...
-//오더가 처움부터 정해져서 바꿀 수가 없다.
-//하나의 엑터에 여러 개의 렌더러 부여
 void Title::Loading()
 {
     BackgroundInit();
 
-    //입력 초기화
     if (false == GameEngineInput::GetInst()->IsKey("Title"))
     {
         GameEngineInput::GetInst()->CreateKey("Title", VK_SPACE);
@@ -92,6 +88,12 @@ void Title::Update()
     if (7 == TransCount_ && TitleActors_[(int)TitileOrder::COIN_1]->GetPosition().y + 200.f > GameEngineWindow::GetScale().Half().y)
     {
         TitleActors_[(int)TitileOrder::COIN_1]->SetMove(float4::UP * 600.f * GameEngineTime::GetDeltaTime());
+
+        if (TitleActors_[(int)TitileOrder::COIN_1]->GetPosition().y + 200.f <= GameEngineWindow::GetScale().Half().y)
+        {
+            TitleActors_[(int)TitileOrder::COIN_1]->Death();
+            TitleActors_[(int)TitileOrder::COIN_2]->SetPosition(TitleActors_[(int)TitileOrder::COIN_1]->GetPosition());
+        }
     }
 
 }
@@ -115,15 +117,13 @@ void Title::BackgroundInit()
     TitleActors_[(int)TitileOrder::COMPANYLOGO]->CreateRenderer("TT_COMPANYLOGO.bmp");
 
     GameEngineRenderer* PuyoRenderer = TitleActors_[(int)TitileOrder::PUYO]->CreateRenderer("TT_PUYO.bmp", (int)TitileOrder::PUYO, RenderPivot::CENTER, { 100, 100 });
-    PuyoRenderer->SetTransColor(RGB(255, 255, 255));
 
     GameEngineRenderer* EyeRenderer = TitleActors_[(int)TitileOrder::PUYO_EYE]->CreateRenderer("TT_PUYO_EYE.bmp", (int)TitileOrder::PUYO_EYE, RenderPivot::CENTER, { 100, 100 });
-    PuyoRenderer->SetTransColor(RGB(255, 255, 255));
 
     TitleActors_[(int)TitileOrder::PUYO_BACK]->CreateRenderer("TT_BACK.bmp");
     GameEngineRenderer* RollRenderer = TitleActors_[(int)TitileOrder::ROLL_1]->CreateRenderer("TT_ROLL.bmp");
-    TitleActors_[(int)TitileOrder::ROLL_1]->SetPosition({ TitleActors_[(int)TitileOrder::ROLL_1]->GetPosition().x, TitleActors_[(int)TitileOrder::ROLL_1]->GetPosition().y - 200.f });
     RollRenderer->SetTransColor(RGB(0, 0, 0));
+    TitleActors_[(int)TitileOrder::ROLL_1]->SetPosition({ TitleActors_[(int)TitileOrder::ROLL_1]->GetPosition().x, TitleActors_[(int)TitileOrder::ROLL_1]->GetPosition().y - 200.f });
     TitleActors_[(int)TitileOrder::LINE_1]->CreateRenderer("TT_LINE.bmp", (int)TitileOrder::LINE_1, RenderPivot::BOT, {0 , 500});
 
     GameEngineImage* Image = GameEngineImageManager::GetInst()->Find("TT_CARBUNCLE.bmp");
@@ -133,18 +133,16 @@ void Title::BackgroundInit()
     TitleActors_[(int)TitileOrder::CARBUNCLE]->SetMove({ -241, -20 });
     Renderer->CreateAnimation("TT_CARBUNCLE.bmp", "TT_CARBUNCLE", 0, 4, 0.1f, true);
     Renderer->ChangeAnimation("TT_CARBUNCLE");
-    Renderer->SetTransColor(RGB(255, 255, 255));
 
     TitleActors_[(int)TitileOrder::CARBUNCLE_BACK]->CreateRenderer("TT_BACK.bmp");
 
-    GameEngineRenderer* RollRenderer2 = TitleActors_[(int)TitileOrder::ROLL_2]->CreateRenderer("TT_ROLL.bmp");
+    GameEngineRenderer* RollRenderer2 = TitleActors_[(int)TitileOrder::ROLL_2]->CreateRenderer("TT_ROLL.bmp"); 
     RollRenderer2->SetTransColor(RGB(0, 0, 0));
     TitleActors_[(int)TitileOrder::LINE_2]->CreateRenderer("TT_LINE.bmp", (int)TitileOrder::LINE_2, RenderPivot::BOT, { 0 , 500 });
 
-    TitleActors_[(int)TitileOrder::ARLE_FACE]->CreateRenderer("TT_ARLE_FACE.bmp")->SetTransColor(RGB(255, 255, 255));
+    TitleActors_[(int)TitileOrder::ARLE_FACE]->CreateRenderer("TT_ARLE_FACE.bmp");
     GameEngineRenderer* FingerRenderer = TitleActors_[(int)TitileOrder::ARLE_FINGER]->CreateRenderer("TT_ARLE_FINGER.bmp");
     TitleActors_[(int)TitileOrder::ARLE_FINGER]->SetPosition({ GameEngineWindow::GetScale().x / 2.7f, GameEngineWindow::GetScale().y + FingerRenderer->GetImage()->GetScale().y / 2});
-    FingerRenderer->SetTransColor(RGB(255, 255, 255));
     TitleActors_[(int)TitileOrder::ARLE_BACK]->CreateRenderer("TT_BACK.bmp");
 
     //페이드 인 아웃
@@ -152,16 +150,13 @@ void Title::BackgroundInit()
     RollRenderer3->SetTransColor(RGB(0, 0, 0));
     TitleActors_[(int)TitileOrder::LINE_3]->CreateRenderer("TT_LINE.bmp");
 
-
-
     GameEngineImage* CoinImage = GameEngineImageManager::GetInst()->Find("TT_CARCOIN.bmp");
     CoinImage->CutCount(11, 1);
 
     GameEngineRenderer* CoinRenderer = TitleActors_[(int)TitileOrder::COIN_1]->CreateRenderer();
     TitleActors_[(int)TitileOrder::COIN_1]->SetPosition({ GameEngineWindow::GetScale().Half().x, GameEngineWindow::GetScale().y + CoinImage->GetScale().y / 2});
-    CoinRenderer->CreateAnimation("TT_CARCOIN.bmp", "TT_CARCOIN", 0, 10, 0.07f, true);
+    CoinRenderer->CreateAnimation("TT_CARCOIN.bmp", "TT_CARCOIN", 0, 10, 0.05f, true);
     CoinRenderer->ChangeAnimation("TT_CARCOIN");
-    CoinRenderer->SetTransColor(RGB(0, 0, 0));
 
     TitleActors_[(int)TitileOrder::COIN_2]->CreateRenderer("TT_COIN.bmp");
 }
@@ -218,7 +213,6 @@ void Title::ChangeBackground()
         TransTime = 0.0f;
     }
 
-    //카운트가 3일 때 2초 동안의 유예가 있음
     else if (2.0f < TransTime && 5 == TransCount_)
     {
         TitleActors_[(int)TitileOrder::ARLE_FACE]->Death();

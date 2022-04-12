@@ -27,7 +27,7 @@ public:
 	// Bitmap Scale
 	inline float4 GetScale()
 	{
-  		return float4(static_cast<float>(Info_.bmWidth), static_cast<float>(Info_.bmHeight));
+		return float4(static_cast<float>(Info_.bmWidth), static_cast<float>(Info_.bmHeight));
 	}
 
 	inline HDC ImageDC()
@@ -50,6 +50,10 @@ public:
 
 	// Trans 이걸로 통일
 	void TransCopy(GameEngineImage* _Other, const float4& _CopyPos,
+		const float4& _CopyScale,
+		const float4& _OtherPivot, const float4& _OtherScale, unsigned int _TransColor);
+
+	void AlphaCopy(GameEngineImage* _Other, const float4& _CopyPos,
 		const float4& _CopyScale,
 		const float4& _OtherPivot, const float4& _OtherScale, unsigned int _TransColor);
 
@@ -83,7 +87,7 @@ public:
 		CutScale_.push_back(_CutScale);
 	}
 
-	inline int GetImagePixel(const float4& _Pos) 
+	inline int GetImagePixel(const float4& _Pos)
 	{
 		return GetImagePixel(_Pos.ix(), _Pos.iy());
 	}
@@ -105,4 +109,3 @@ private:
 
 	void ImageScaleCheck();
 };
-

@@ -13,9 +13,6 @@
     <Filter Include="Math">
       <UniqueIdentifier>{d46e331f-37aa-4960-a32e-e4ad3e7a0f34}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Sound">
-      <UniqueIdentifier>{c47acfdd-cfab-498f-874c-0b70197d0461}</UniqueIdentifier>
-    </Filter>
     <Filter Include="String">
       <UniqueIdentifier>{86b7c29f-bba3-4d70-ad4a-7d7ba6db581d}</UniqueIdentifier>
     </Filter>

@@ -22,6 +22,11 @@ public:
 
 	void AddPuyoPair(PuyoPair* _Pair);
 
+	inline bool GetLose()
+	{
+		return IsLose_;
+	}
+	
 protected:
 
 private:
@@ -42,7 +47,7 @@ private:
 	float DownMoveDis_;
 	float SideMoveDis_;
 
-
+	bool IsLose_;
 };
 
 

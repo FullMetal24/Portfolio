@@ -3,9 +3,11 @@
 #include "ContentsEnum.h"
 #include "CarbuncleMenu.h"
 #include <vector>
+#include <list>
 
 class GameEngineRenderer;
 class GameEngineActor;
+class GameEngineImage;
 class MainMenu : public GameEngineLevel
 {
 public:
@@ -26,14 +28,18 @@ public:
 	void BackgourndInit();
 
 	void MenuUpdate();
+	void BackgroundUpdate();
 
 protected:
 
 private:
 	std::vector<GameEngineActor*> Menus_;
-	std::vector<std::vector<GameEngineActor*>> BackGrounds_;
+
+	std::vector<std::list<GameEngineActor*>> BackGrounds_;
 	std::vector<GameEngineRenderer*> Actors_;
 	
+	GameEngineImage* Back_;
+
 	int MenuCount_;
 };
 

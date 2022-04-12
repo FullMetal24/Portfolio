@@ -33,7 +33,7 @@ bool GameEngineFolderImage::Load(const std::string& _Path)
 	for (size_t i = 0; i < PlayerImageFileList.size(); ++i)
 	{
 		GameEngineImage* Image = new GameEngineImage();
-		
+
 		if (false == Image->Load(PlayerImageFileList[i].GetFullPath()))
 		{
 			MsgBoxAssert("폴더 이미지 로드중 실패한 이미지가 존재합니다.");

@@ -52,6 +52,11 @@ public:
 		return IsAllLanding_;
 	}
 
+	inline bool GetLose()
+	{
+		return IsLose_;
+	}
+
 protected:
 
 private:

@@ -5,20 +5,15 @@
 #include <vector>
 
 
-
-
-// 설명 : 그리는걸 도와주는 클래스
 class GameEngineImage;
 class GameEngineCollision : public GameEngineActorSubObject
 {
 	friend GameEngineActor;
 
 public:
-	// constrcuter destructer
 	GameEngineCollision();
 	~GameEngineCollision();
 
-	// delete Function
 	GameEngineCollision(const GameEngineCollision& _Other) = delete;
 	GameEngineCollision(GameEngineCollision&& _Other) noexcept = delete;
 	GameEngineCollision& operator=(const GameEngineCollision& _Other) = delete;

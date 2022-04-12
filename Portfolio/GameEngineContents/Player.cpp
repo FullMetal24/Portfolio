@@ -483,6 +483,13 @@ void Player::CurrentPairInit()
 
 void Player::AddPuyoPair(PuyoPair* _Pair)
 {
+	if (nullptr != PlayerMap_[4][2])
+	{
+		IsLose_ = true; 
+
+		return;
+	}
+
 	//깊은 복사? 얕은 복사?
 	//nullptr로 해줘야 하나? 
 	CurrentPair_ = NextPair_;

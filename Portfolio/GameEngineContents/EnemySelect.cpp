@@ -10,7 +10,7 @@
 #include "Enemy.h"
 
 EnemySelect::EnemySelect() 
-	: RouletteSpeed_(0.1f)
+	: RouletteSpeed_(1.0f)
 	, RouletteIndex_(0)
 	, SpeedLimit_(0.01f)
 	, LevelChangeCount_(2.0f)
@@ -36,8 +36,6 @@ void EnemySelect::Loading()
 
 	GameEngineActor* SelectEnemy = CreateActor<CS_BackGround>(4);
 	SelectEnemy->CreateRenderer("ES_SELECT_ENEMY.bmp")->SetPivot(GameEngineWindow::GetScale().Half());
-		
-	//EnemyRoulette_ = CreateActor<EnemyRoulette>(0);
 
 	TopPositionInit();
 	EnemyInit();
@@ -81,7 +79,7 @@ void EnemySelect::EnemyInit()
 	}
 
 	float Offset_;
-	Offset_ = GameEngineWindow::GetScale().Half().x - 305.f;
+	Offset_ = GameEngineWindow::GetScale().Half().x - 320.f;
 
 	Enemys_[0]->SetProfile(Enemys_[0]->CreateRenderer("LV1.bmp"));
 	Enemys_[0]->GetProfile()->SetPivot({1070.f, 190.f});
@@ -91,49 +89,49 @@ void EnemySelect::EnemyInit()
 	Enemys_[1]->SetProfile(Enemys_[1]->CreateRenderer("LV2.bmp"));
 	Enemys_[1]->GetProfile()->SetPivot({ 1070.f, 190.f });
 	Enemys_[1]->SetIcon(Enemys_[1]->CreateRenderer("SELECT_L1.bmp"));
-	Enemys_[1]->GetIcon()->SetPivot({ Offset_ + Enemys_[0]->GetIcon()->GetImage()->GetScale().x, 748.f});
+	Enemys_[1]->GetIcon()->SetPivot({ Offset_ + Enemys_[0]->GetIcon()->GetImage()->GetScale().x, 749.f});
 
-	Offset_ += Enemys_[0]->GetIcon()->GetImage()->GetScale().x - 3.f;
+	Offset_ += Enemys_[0]->GetIcon()->GetImage()->GetScale().x;
 
 	Enemys_[2]->SetProfile(Enemys_[2]->CreateRenderer("LV3.bmp"));
 	Enemys_[2]->GetProfile()->SetPivot({ 1070.f, 190.f });
 	Enemys_[2]->SetIcon(Enemys_[2]->CreateRenderer("SELECT_L2.bmp"));
-	Enemys_[2]->GetIcon()->SetPivot({ Offset_ + Enemys_[1]->GetIcon()->GetImage()->GetScale().x, 748.f });
+	Enemys_[2]->GetIcon()->SetPivot({ Offset_ + Enemys_[1]->GetIcon()->GetImage()->GetScale().x, 749.f });
 
 	Offset_ += Enemys_[1]->GetIcon()->GetImage()->GetScale().x;
 
 	Enemys_[3]->SetProfile(Enemys_[3]->CreateRenderer("LV4.bmp"));
 	Enemys_[3]->GetProfile()->SetPivot({ 1070.f, 190.f });
 	Enemys_[3]->SetIcon(Enemys_[3]->CreateRenderer("SELECT_L3.bmp"));
-	Enemys_[3]->GetIcon()->SetPivot({ Offset_ + Enemys_[2]->GetIcon()->GetImage()->GetScale().x, 748.f });
+	Enemys_[3]->GetIcon()->SetPivot({ Offset_ + Enemys_[2]->GetIcon()->GetImage()->GetScale().x, 749.f });
 
-	Offset_ += Enemys_[2]->GetIcon()->GetImage()->GetScale().x;
+	Offset_ += Enemys_[2]->GetIcon()->GetImage()->GetScale().x + 2;
 
 	Enemys_[4]->SetProfile(Enemys_[4]->CreateRenderer("LV5.bmp"));
 	Enemys_[4]->GetProfile()->SetPivot({ 1070.f, 190.f });
 	Enemys_[4]->SetIcon(Enemys_[4]->CreateRenderer("SELECT_L4.bmp"));
-	Enemys_[4]->GetIcon()->SetPivot({ Offset_ + Enemys_[3]->GetIcon()->GetImage()->GetScale().x, 748.f });
+	Enemys_[4]->GetIcon()->SetPivot({ Offset_ + Enemys_[3]->GetIcon()->GetImage()->GetScale().x, 749.f });
 
-	Offset_ += Enemys_[3]->GetIcon()->GetImage()->GetScale().x - 1.f;
+	Offset_ += Enemys_[3]->GetIcon()->GetImage()->GetScale().x;
 
 	Enemys_[5]->SetProfile(Enemys_[5]->CreateRenderer("LV6.bmp"));
 	Enemys_[5]->GetProfile()->SetPivot({ 1070.f, 190.f });
 	Enemys_[5]->SetIcon(Enemys_[5]->CreateRenderer("SELECT_L5.bmp"));
-	Enemys_[5]->GetIcon()->SetPivot({ Offset_ + Enemys_[4]->GetIcon()->GetImage()->GetScale().x, 748.f });
+	Enemys_[5]->GetIcon()->SetPivot({ Offset_ + Enemys_[4]->GetIcon()->GetImage()->GetScale().x, 749.f });
 
 	Offset_ += Enemys_[4]->GetIcon()->GetImage()->GetScale().x;
 
 	Enemys_[6]->SetProfile(Enemys_[6]->CreateRenderer("LV7.bmp"));
 	Enemys_[6]->GetProfile()->SetPivot({ 1070.f, 190.f });
 	Enemys_[6]->SetIcon(Enemys_[6]->CreateRenderer("SELECT_L6.bmp"));
-	Enemys_[6]->GetIcon()->SetPivot({ Offset_ + Enemys_[5]->GetIcon()->GetImage()->GetScale().x, 748.f });
+	Enemys_[6]->GetIcon()->SetPivot({ Offset_ + Enemys_[5]->GetIcon()->GetImage()->GetScale().x, 749.f });
 
-	Offset_ += Enemys_[5]->GetIcon()->GetImage()->GetScale().x - 3.f;
+	Offset_ += Enemys_[5]->GetIcon()->GetImage()->GetScale().x + 1;
 
 	Enemys_[7]->SetProfile(Enemys_[7]->CreateRenderer("LV8.bmp"));
 	Enemys_[7]->GetProfile()->SetPivot({ 1070.f, 190.f });
 	Enemys_[7]->SetIcon(Enemys_[7]->CreateRenderer("SELECT_L7.bmp"));
-	Enemys_[7]->GetIcon()->SetPivot({ Offset_ + Enemys_[6]->GetIcon()->GetImage()->GetScale().x, 748.f });
+	Enemys_[7]->GetIcon()->SetPivot({ Offset_ + Enemys_[6]->GetIcon()->GetImage()->GetScale().x, 749.f });
 }
 
 
