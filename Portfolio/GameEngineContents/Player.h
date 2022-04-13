@@ -26,6 +26,8 @@ public:
 	void MoveDown();
 	void Rotate();
 
+	void SearchPuyo();
+	void DestroyPuyo();
 
 	void CurrentPairInit();
 	void AddPuyoPair(PuyoPair* _Pair);

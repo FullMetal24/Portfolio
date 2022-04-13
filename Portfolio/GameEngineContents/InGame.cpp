@@ -134,7 +134,6 @@ PuyoPair* InGame::CreatePuyoPair()
 	return NewPuyoPair;
 }
 
-
 void InGame::LevelChangeStart()
 {
 	if (nullptr != EnemyProfile_)

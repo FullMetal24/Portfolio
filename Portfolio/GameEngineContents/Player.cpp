@@ -447,6 +447,28 @@ void Player::Rotate()
 	}
  }
 
+ void Player::SearchPuyo()
+ {
+	 //커런트 페어에서 한번 
+	 //한번 부셔졌다면 다시 한번 더 탐색
+
+	 if (true) //커런트페어가 착지 상태일 때 한번 호출되면 된다.
+	 {
+		 for (int y = 0; y < 30; y++)
+		 {
+			 for (int x = 0; x < 6; x++)
+			 {
+				 
+			 }
+		 }
+	 }
+ }
+
+ void Player::DestroyPuyo()
+ {
+
+ }
+
 
 
 ////////////////////////뿌요 추가
