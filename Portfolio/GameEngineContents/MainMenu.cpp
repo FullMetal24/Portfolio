@@ -51,37 +51,55 @@ void MainMenu::MenuInit()
 
 	//밝은 카방클 
 	{
-		GameEngineImage* Image = GameEngineImageManager::GetInst()->Find("MENU_1.bmp");
+		GameEngineImage* Image = GameEngineImageManager::GetInst()->Find("MM_MENU_1_IDLE.bmp");
 		Image->CutCount(3, 1);
 
-		GameEngineImage* Image1 = GameEngineImageManager::GetInst()->Find("MENU_2.bmp");
+		GameEngineImage* Image1 = GameEngineImageManager::GetInst()->Find("MM_MENU_2_IDLE.bmp");
 		Image1->CutCount(3, 1);
 
-		GameEngineImage* Image2 = GameEngineImageManager::GetInst()->Find("MENU_3.bmp");
+		GameEngineImage* Image2 = GameEngineImageManager::GetInst()->Find("MM_MENU_3_IDLE.bmp");
 		Image2->CutCount(3, 1);
 
-		GameEngineImage* Image3 = GameEngineImageManager::GetInst()->Find("MENU_4.bmp");
+		GameEngineImage* Image3 = GameEngineImageManager::GetInst()->Find("MM_MENU_4_IDLE.bmp");
 		Image3->CutCount(3, 1);
 
-		GameEngineImage* Image4 = GameEngineImageManager::GetInst()->Find("MENU_5.bmp");
+		GameEngineImage* Image4 = GameEngineImageManager::GetInst()->Find("MM_MENU_5_IDLE.bmp");
 		Image4->CutCount(3, 1);
 	}
 
-	//어둔 카방클
+	//어둔 카방클(Idle)
 	{
-		GameEngineImage* Image = GameEngineImageManager::GetInst()->Find("MM_1-1.bmp");
+		GameEngineImage* Image = GameEngineImageManager::GetInst()->Find("MM_MENU_1_IDLE_DARK.bmp");
 		Image->CutCount(3, 1);
 
-		GameEngineImage* Image1 = GameEngineImageManager::GetInst()->Find("MM_2.bmp");
+		GameEngineImage* Image1 = GameEngineImageManager::GetInst()->Find("MM_MENU_2_IDLE_DARK.bmp");
 		Image1->CutCount(4, 1);
 
-		GameEngineImage* Image2 = GameEngineImageManager::GetInst()->Find("MM_3.bmp");
+		GameEngineImage* Image2 = GameEngineImageManager::GetInst()->Find("MM_MENU_3_IDLE_DARK.bmp");
 		Image2->CutCount(4, 1);
 
-		GameEngineImage* Image3 = GameEngineImageManager::GetInst()->Find("MM_4.bmp");
+		GameEngineImage* Image3 = GameEngineImageManager::GetInst()->Find("MM_MENU_4_IDLE_DARK.bmp");
 		Image3->CutCount(4, 1);
 
-		GameEngineImage* Image4 = GameEngineImageManager::GetInst()->Find("MM_5.bmp");
+		GameEngineImage* Image4 = GameEngineImageManager::GetInst()->Find("MM_MENU_5_IDLE_DARK.bmp");
+		Image4->CutCount(4, 1);
+	}
+
+	//어둔 카방클(Close)
+	{
+		GameEngineImage* Image = GameEngineImageManager::GetInst()->Find("MM_MENU_1_CLOSE.bmp");
+		Image->CutCount(3, 1);
+
+		GameEngineImage* Image1 = GameEngineImageManager::GetInst()->Find("MM_MENU_2_CLOSE.bmp");
+		Image1->CutCount(4, 1);
+
+		GameEngineImage* Image2 = GameEngineImageManager::GetInst()->Find("MM_MENU_3_CLOSE.bmp");
+		Image2->CutCount(4, 1);
+
+		GameEngineImage* Image3 = GameEngineImageManager::GetInst()->Find("MM_MENU_4_CLOSE.bmp");
+		Image3->CutCount(4, 1);
+
+		GameEngineImage* Image4 = GameEngineImageManager::GetInst()->Find("MM_MENU_5_CLOSE.bmp");
 		Image4->CutCount(4, 1);
 	}
 
@@ -98,9 +116,10 @@ void MainMenu::MenuInit()
 		GameEngineActor* Menu1 = CreateActor<MM_BackGround>(3);
 		Menu1->SetPosition({ Menu1->GetPosition().x + 250.f, GameEngineWindow::GetScale().Half().y + 100.f });
 		GameEngineRenderer* Menu1_Renerer = Menu1->CreateRenderer();
-		Menu1_Renerer->CreateAnimation("MENU_1.bmp", "MENU_1", 0, 2, 0.5f, true);
-		Menu1_Renerer->CreateAnimation("MM_1-1.bmp", "MM_1-1", 0, 2, 0.1f, true);
-		Menu1_Renerer->ChangeAnimation("MENU_1");
+		Menu1_Renerer->CreateAnimation("MM_MENU_1_IDLE.bmp", "MM_MENU_1_IDLE", 0, 2, 0.5f, true);
+		Menu1_Renerer->CreateAnimation("MM_MENU_1_IDLE_DARK.bmp", "MM_MENU_1_IDLE_DARK", 0, 2, 0.1f, true);
+		Menu1_Renerer->CreateAnimation("MM_MENU_1_CLOSE.bmp", "MM_MENU_1_CLOSE", 0, 2, 0.1f, true);
+		Menu1_Renerer->ChangeAnimation("MM_MENU_1_IDLE");
 
 		//화살표
 		{
@@ -128,7 +147,8 @@ void MainMenu::MenuInit()
 		Menu2->SetPosition({ Menu1->GetPosition().x + 320.f, GameEngineWindow::GetScale().Half().y + 100.f });
 		GameEngineRenderer* Menu2_Renerer = Menu2->CreateRenderer();
 		Menu2_Renerer->CreateAnimation("MENU_2.bmp", "MENU_2", 0, 2, 0.5f, false);
-		Menu2_Renerer->CreateAnimation("MM_2.bmp", "MM_2", 0, 3, 0.1f, false);
+		Menu1_Renerer->CreateAnimation("MM_MENU_2_IDLE_DARK.bmp", "MM_MENU_2_IDLE_DARK", 0, 2, 0.1f, true);
+		Menu1_Renerer->CreateAnimation("MM_MENU_2_CLOSE.bmp", "MM_MENU_2_CLOSE", 0, 2, 0.1f, true);
 		Menu2_Renerer->ChangeAnimation("MENU_2");
 
 		{
@@ -156,7 +176,8 @@ void MainMenu::MenuInit()
 		Menu3->SetPosition({ Menu2->GetPosition().x + 320.f, GameEngineWindow::GetScale().Half().y + 100.f});
 		GameEngineRenderer* Menu3_Renerer = Menu3->CreateRenderer();
 		Menu3_Renerer->CreateAnimation("MENU_3.bmp", "MENU_3", 0, 2, 0.5f, false);
-		Menu3_Renerer->ChangeAnimation("MENU_3");
+		Menu1_Renerer->CreateAnimation("MM_MENU_3_IDLE_DARK.bmp", "MM_MENU_3_IDLE_DARK", 0, 2, 0.1f, true);
+		Menu1_Renerer->CreateAnimation("MM_MENU_3_CLOSE.bmp", "MM_MENU_3_CLOSE", 0, 2, 0.1f, true);
 		Menu3_Renerer->PauseOn();
 
 		{
@@ -185,7 +206,8 @@ void MainMenu::MenuInit()
 		Menu4->SetPosition({ Menu3->GetPosition().x + 320.f, GameEngineWindow::GetScale().Half().y + 100.f });
 		GameEngineRenderer* Menu4_Renerer = Menu4->CreateRenderer();
 		Menu4_Renerer->CreateAnimation("MENU_4.bmp", "MENU_4", 0, 2, 0.5f, false);
-		Menu4_Renerer->ChangeAnimation("MENU_4");
+		Menu1_Renerer->CreateAnimation("MM_MENU_4_IDLE_DARK.bmp", "MM_MENU_4_IDLE_DARK", 0, 2, 0.1f, true);
+		Menu1_Renerer->CreateAnimation("MM_MENU_4_CLOSE.bmp", "MM_MENU_4_CLOSE", 0, 2, 0.1f, true);
 		Menu4_Renerer->PauseOn();
 
 
@@ -215,7 +237,8 @@ void MainMenu::MenuInit()
 		Menu5->SetPosition({ Menu4->GetPosition().x + 320.f, GameEngineWindow::GetScale().Half().y + 100.f });
 		GameEngineRenderer* Menu5_Renerer = Menu5->CreateRenderer();
 		Menu5_Renerer->CreateAnimation("MENU_5.bmp", "MENU_5", 0, 2, 0.5f, false);
-		Menu5_Renerer->ChangeAnimation("MENU_5");
+		Menu1_Renerer->CreateAnimation("MM_MENU_5_IDLE_DARK.bmp", "MM_MENU_5_IDLE_DARK", 0, 2, 0.1f, true);
+		Menu1_Renerer->CreateAnimation("MM_MENU_5_CLOSE.bmp", "MM_MENU_5_CLOSE", 0, 2, 0.1f, true);
 		Menu5_Renerer->PauseOn();
 
 		Menus_.push_back(Menu1);
@@ -316,8 +339,8 @@ void MainMenu::MenuUpdate()
 			for (int i = 0; i < Menus_.size(); ++i)
 			{
 				Menus_[i]->SetPosition(Menus_[i]->GetPosition() + (float4::LEFT * 200.f));
-				MenuRenderers_[0]->ChangeAnimation("MM_1-1");
-				MenuRenderers_[1]->ChangeAnimation("MM_2");
+				//MenuRenderers_[0]->ChangeAnimation("MM_1-1");
+				//MenuRenderers_[1]->ChangeAnimation("MM_2");
 			}
 
 			for (int i = 0; i < Arrows_.size(); ++i)
