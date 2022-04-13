@@ -115,6 +115,7 @@ void MainMenu::MenuInit()
 	{
 		GameEngineActor* Menu1 = CreateActor<MM_BackGround>(3);
 		Menu1->SetPosition({ Menu1->GetPosition().x + 250.f, GameEngineWindow::GetScale().Half().y + 100.f });
+
 		GameEngineRenderer* Menu1_Renerer = Menu1->CreateRenderer();
 		Menu1_Renerer->CreateAnimation("MM_MENU_1_IDLE.bmp", "MM_MENU_1_IDLE", 0, 2, 0.5f, true);
 		Menu1_Renerer->CreateAnimation("MM_MENU_1_IDLE_DARK.bmp", "MM_MENU_1_IDLE_DARK", 0, 2, 0.1f, true);
@@ -146,10 +147,10 @@ void MainMenu::MenuInit()
 		GameEngineActor* Menu2 = CreateActor<MM_BackGround>(3);
 		Menu2->SetPosition({ Menu1->GetPosition().x + 320.f, GameEngineWindow::GetScale().Half().y + 100.f });
 		GameEngineRenderer* Menu2_Renerer = Menu2->CreateRenderer();
-		Menu2_Renerer->CreateAnimation("MENU_2.bmp", "MENU_2", 0, 2, 0.5f, false);
-		Menu1_Renerer->CreateAnimation("MM_MENU_2_IDLE_DARK.bmp", "MM_MENU_2_IDLE_DARK", 0, 2, 0.1f, true);
-		Menu1_Renerer->CreateAnimation("MM_MENU_2_CLOSE.bmp", "MM_MENU_2_CLOSE", 0, 2, 0.1f, true);
-		Menu2_Renerer->ChangeAnimation("MENU_2");
+		Menu2_Renerer->CreateAnimation("MM_MENU_2_IDLE.bmp", "MM_MENU_2_IDLE", 0, 2, 0.5f, false);
+		Menu2_Renerer->CreateAnimation("MM_MENU_2_IDLE_DARK.bmp", "MM_MENU_2_IDLE_DARK", 0, 2, 0.1f, true);
+		Menu2_Renerer->CreateAnimation("MM_MENU_2_CLOSE.bmp", "MM_MENU_2_CLOSE", 0, 2, 0.1f, true);
+		Menu2_Renerer->ChangeAnimation("MM_MENU_2_IDLE");
 
 		{
 			GameEngineActor* RightArrow = CreateActor<MM_BackGround>(4);
@@ -175,9 +176,10 @@ void MainMenu::MenuInit()
 		GameEngineActor* Menu3 = CreateActor<MM_BackGround>(3);
 		Menu3->SetPosition({ Menu2->GetPosition().x + 320.f, GameEngineWindow::GetScale().Half().y + 100.f});
 		GameEngineRenderer* Menu3_Renerer = Menu3->CreateRenderer();
-		Menu3_Renerer->CreateAnimation("MENU_3.bmp", "MENU_3", 0, 2, 0.5f, false);
-		Menu1_Renerer->CreateAnimation("MM_MENU_3_IDLE_DARK.bmp", "MM_MENU_3_IDLE_DARK", 0, 2, 0.1f, true);
-		Menu1_Renerer->CreateAnimation("MM_MENU_3_CLOSE.bmp", "MM_MENU_3_CLOSE", 0, 2, 0.1f, true);
+		Menu3_Renerer->CreateAnimation("MM_MENU_3_IDLE.bmp", "MM_MENU_3_IDLE", 0, 2, 0.5f, false);
+		Menu3_Renerer->CreateAnimation("MM_MENU_3_IDLE_DARK.bmp", "MM_MENU_3_IDLE_DARK", 0, 2, 0.1f, true);
+		Menu3_Renerer->CreateAnimation("MM_MENU_3_CLOSE.bmp", "MM_MENU_3_CLOSE", 0, 2, 0.1f, true);
+		Menu3_Renerer->ChangeAnimation("MM_MENU_3_IDLE");
 		Menu3_Renerer->PauseOn();
 
 		{
@@ -205,9 +207,10 @@ void MainMenu::MenuInit()
 		GameEngineActor* Menu4 = CreateActor<MM_BackGround>(3);
 		Menu4->SetPosition({ Menu3->GetPosition().x + 320.f, GameEngineWindow::GetScale().Half().y + 100.f });
 		GameEngineRenderer* Menu4_Renerer = Menu4->CreateRenderer();
-		Menu4_Renerer->CreateAnimation("MENU_4.bmp", "MENU_4", 0, 2, 0.5f, false);
-		Menu1_Renerer->CreateAnimation("MM_MENU_4_IDLE_DARK.bmp", "MM_MENU_4_IDLE_DARK", 0, 2, 0.1f, true);
-		Menu1_Renerer->CreateAnimation("MM_MENU_4_CLOSE.bmp", "MM_MENU_4_CLOSE", 0, 2, 0.1f, true);
+		Menu4_Renerer->CreateAnimation("MM_MENU_4_IDLE.bmp", "MM_MENU_4_IDLE", 0, 2, 0.5f, false);
+		Menu4_Renerer->CreateAnimation("MM_MENU_4_IDLE_DARK.bmp", "MM_MENU_4_IDLE_DARK", 0, 2, 0.1f, true);
+		Menu4_Renerer->CreateAnimation("MM_MENU_4_CLOSE.bmp", "MM_MENU_4_CLOSE", 0, 2, 0.1f, true);
+		Menu4_Renerer->ChangeAnimation("MM_MENU_4_IDLE");
 		Menu4_Renerer->PauseOn();
 
 
@@ -236,9 +239,10 @@ void MainMenu::MenuInit()
 		GameEngineActor* Menu5 = CreateActor<MM_BackGround>(3);
 		Menu5->SetPosition({ Menu4->GetPosition().x + 320.f, GameEngineWindow::GetScale().Half().y + 100.f });
 		GameEngineRenderer* Menu5_Renerer = Menu5->CreateRenderer();
-		Menu5_Renerer->CreateAnimation("MENU_5.bmp", "MENU_5", 0, 2, 0.5f, false);
-		Menu1_Renerer->CreateAnimation("MM_MENU_5_IDLE_DARK.bmp", "MM_MENU_5_IDLE_DARK", 0, 2, 0.1f, true);
-		Menu1_Renerer->CreateAnimation("MM_MENU_5_CLOSE.bmp", "MM_MENU_5_CLOSE", 0, 2, 0.1f, true);
+		Menu5_Renerer->CreateAnimation("MM_MENU_5_IDLE.bmp", "MM_MENU_5_IDLE", 0, 2, 0.5f, false);
+		Menu5_Renerer->CreateAnimation("MM_MENU_5_IDLE_DARK.bmp", "MM_MENU_5_IDLE_DARK", 0, 2, 0.1f, true);
+		Menu5_Renerer->CreateAnimation("MM_MENU_5_CLOSE.bmp", "MM_MENU_5_CLOSE", 0, 2, 0.1f, true);
+		Menu5_Renerer->ChangeAnimation("MM_MENU_5_IDLE");
 		Menu5_Renerer->PauseOn();
 
 		Menus_.push_back(Menu1);
