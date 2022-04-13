@@ -9,8 +9,10 @@
 #include <GameEngineBase/GameEngineTime.h>
 
 MainMenu::MainMenu()
-	: Actors_{}
+	: Arrows_{}
 	, MenuCount_(0)
+	, RightIndex_(0)
+	, LeftIndex_(0)
 {
 }
 
@@ -42,73 +44,191 @@ void MainMenu::Update()
 
 void MainMenu::MenuInit()
 {
+
 	GameEngineActor* SelectMenu = CreateActor<MM_BackGround>(3);
 	SelectMenu->SetPosition({ GameEngineWindow::GetScale().Half().x, 150 });
 	GameEngineRenderer* SelectMenuRenderer = SelectMenu->CreateRenderer("MM_SELECT_1.bmp");
 
-	GameEngineImage* Image = GameEngineImageManager::GetInst()->Find("MENU_1.bmp");
-	Image->CutCount(3, 1);
+	//밝은 카방클 
+	{
+		GameEngineImage* Image = GameEngineImageManager::GetInst()->Find("MENU_1.bmp");
+		Image->CutCount(3, 1);
 
-	GameEngineImage* Image1 = GameEngineImageManager::GetInst()->Find("MENU_2.bmp");
-	Image1->CutCount(3, 1);
+		GameEngineImage* Image1 = GameEngineImageManager::GetInst()->Find("MENU_2.bmp");
+		Image1->CutCount(3, 1);
 
-	GameEngineImage* Image2 = GameEngineImageManager::GetInst()->Find("MENU_3.bmp");
-	Image2->CutCount(3, 1);
+		GameEngineImage* Image2 = GameEngineImageManager::GetInst()->Find("MENU_3.bmp");
+		Image2->CutCount(3, 1);
 
-	GameEngineImage* Image3 = GameEngineImageManager::GetInst()->Find("MENU_4.bmp");
-	Image3->CutCount(3, 1);
+		GameEngineImage* Image3 = GameEngineImageManager::GetInst()->Find("MENU_4.bmp");
+		Image3->CutCount(3, 1);
 
-	GameEngineImage* Image4 = GameEngineImageManager::GetInst()->Find("MENU_5.bmp");
-	Image4->CutCount(3, 1);
+		GameEngineImage* Image4 = GameEngineImageManager::GetInst()->Find("MENU_5.bmp");
+		Image4->CutCount(3, 1);
+	}
+
+	//어둔 카방클
+	{
+		GameEngineImage* Image = GameEngineImageManager::GetInst()->Find("MM_1-1.bmp");
+		Image->CutCount(3, 1);
+
+		GameEngineImage* Image1 = GameEngineImageManager::GetInst()->Find("MM_2.bmp");
+		Image1->CutCount(4, 1);
+
+		GameEngineImage* Image2 = GameEngineImageManager::GetInst()->Find("MM_3.bmp");
+		Image2->CutCount(4, 1);
+
+		GameEngineImage* Image3 = GameEngineImageManager::GetInst()->Find("MM_4.bmp");
+		Image3->CutCount(4, 1);
+
+		GameEngineImage* Image4 = GameEngineImageManager::GetInst()->Find("MM_5.bmp");
+		Image4->CutCount(4, 1);
+	}
+
+	//화살표
+	GameEngineImage* RightImage = GameEngineImageManager::GetInst()->Find("MM_ARROW_RIGHT.bmp");
+	RightImage->CutCount(2, 1);
+
+	GameEngineImage* LeftImage = GameEngineImageManager::GetInst()->Find("MM_ARROW_LEFT.bmp");
+	LeftImage->CutCount(2, 1);
 
 
 	//카방클 메뉴
 	{
 		GameEngineActor* Menu1 = CreateActor<MM_BackGround>(3);
-		Menu1->SetPosition({ Menu1->GetPosition().x + 250.f, GameEngineWindow::GetScale().Half().y + 100.f});
+		Menu1->SetPosition({ Menu1->GetPosition().x + 250.f, GameEngineWindow::GetScale().Half().y + 100.f });
 		GameEngineRenderer* Menu1_Renerer = Menu1->CreateRenderer();
-		Menu1_Renerer->CreateAnimation("MENU_1.bmp", "MENU_1", 0, 2, 1.f, true);
+		Menu1_Renerer->CreateAnimation("MENU_1.bmp", "MENU_1", 0, 2, 0.5f, true);
+		Menu1_Renerer->CreateAnimation("MM_1-1.bmp", "MM_1-1", 0, 2, 0.1f, true);
 		Menu1_Renerer->ChangeAnimation("MENU_1");
-		Menu1_Renerer->SetTransColor(RGB(255, 255, 255));
 
+		//화살표
+		{
+			GameEngineActor* RightArrow = CreateActor<MM_BackGround>(4);
+			RightArrow->SetPosition({ Menu1->GetPosition().x + 180.f, GameEngineWindow::GetScale().Half().y + 80.f });
+			GameEngineRenderer* RightRenderer = RightArrow->CreateRenderer();
+			RightRenderer->CreateAnimation("MM_ARROW_RIGHT.bmp", "MM_ARROW_RIGHT", 0, 1, 0.1f, true);
+			RightRenderer->ChangeAnimation("MM_ARROW_RIGHT");
 
+			GameEngineActor* LeftArrow = CreateActor<MM_BackGround>(4);
+			LeftArrow->SetPosition({ Menu1->GetPosition().x + 140.f, GameEngineWindow::GetScale().Half().y + 80.f });
+			GameEngineRenderer* LeftRenderer = LeftArrow->CreateRenderer();
+			LeftRenderer->CreateAnimation("MM_ARROW_LEFT.bmp", "MM_ARROW_LEFT", 0, 1, 0.1f, true);
+			LeftRenderer->ChangeAnimation("MM_ARROW_LEFT");
+			LeftRenderer->PauseOn();
+
+			Arrows_.push_back(RightArrow);
+			RightRenderers_.push_back(RightRenderer);
+			Arrows_.push_back(LeftArrow);
+			LeftRenderers_.push_back(LeftRenderer);
+		}
+
+		
 		GameEngineActor* Menu2 = CreateActor<MM_BackGround>(3);
 		Menu2->SetPosition({ Menu1->GetPosition().x + 320.f, GameEngineWindow::GetScale().Half().y + 100.f });
 		GameEngineRenderer* Menu2_Renerer = Menu2->CreateRenderer();
-		Menu2_Renerer->CreateAnimation("MENU_2.bmp", "MENU_2", 0, 2, 1.f, false);
+		Menu2_Renerer->CreateAnimation("MENU_2.bmp", "MENU_2", 0, 2, 0.5f, false);
+		Menu2_Renerer->CreateAnimation("MM_2.bmp", "MM_2", 0, 3, 0.1f, false);
 		Menu2_Renerer->ChangeAnimation("MENU_2");
-		Menu2_Renerer->SetTransColor(RGB(255, 255, 255));
 
+		{
+			GameEngineActor* RightArrow = CreateActor<MM_BackGround>(4);
+			RightArrow->SetPosition({ Menu2->GetPosition().x + 180.f, GameEngineWindow::GetScale().Half().y + 80.f });
+			GameEngineRenderer* RightRenderer = RightArrow->CreateRenderer();
+			RightRenderer->CreateAnimation("MM_ARROW_RIGHT.bmp", "MM_ARROW_RIGHT", 0, 1, 0.1f, true);
+			RightRenderer->ChangeAnimation("MM_ARROW_RIGHT");
+			RightRenderer->PauseOn();
+
+			GameEngineActor* LeftArrow = CreateActor<MM_BackGround>(4);
+			LeftArrow->SetPosition({ Menu2->GetPosition().x + 140.f, GameEngineWindow::GetScale().Half().y + 80.f });
+			GameEngineRenderer* LeftRenderer = LeftArrow->CreateRenderer();
+			LeftRenderer->CreateAnimation("MM_ARROW_LEFT.bmp", "MM_ARROW_LEFT", 0, 1, 0.1f, true);
+			LeftRenderer->ChangeAnimation("MM_ARROW_LEFT");
+			LeftRenderer->PauseOn();
+
+			Arrows_.push_back(RightArrow);
+			RightRenderers_.push_back(RightRenderer);
+			Arrows_.push_back(LeftArrow);
+			LeftRenderers_.push_back(LeftRenderer);
+		}
 
 		GameEngineActor* Menu3 = CreateActor<MM_BackGround>(3);
 		Menu3->SetPosition({ Menu2->GetPosition().x + 320.f, GameEngineWindow::GetScale().Half().y + 100.f});
 		GameEngineRenderer* Menu3_Renerer = Menu3->CreateRenderer();
-		Menu3_Renerer->CreateAnimation("MENU_3.bmp", "MENU_3", 0, 2, 1.f, false);
+		Menu3_Renerer->CreateAnimation("MENU_3.bmp", "MENU_3", 0, 2, 0.5f, false);
 		Menu3_Renerer->ChangeAnimation("MENU_3");
-		Menu3_Renerer->SetTransColor(RGB(255, 255, 255));
+		Menu3_Renerer->PauseOn();
+
+		{
+			GameEngineActor* RightArrow = CreateActor<MM_BackGround>(4);
+			RightArrow->SetPosition({ Menu3->GetPosition().x + 180.f, GameEngineWindow::GetScale().Half().y + 80.f });
+			GameEngineRenderer* RightRenderer = RightArrow->CreateRenderer();
+			RightRenderer->CreateAnimation("MM_ARROW_RIGHT.bmp", "MM_ARROW_RIGHT", 0, 1, 0.1f, true);
+			RightRenderer->ChangeAnimation("MM_ARROW_RIGHT");
+			RightRenderer->PauseOn();
+
+			GameEngineActor* LeftArrow = CreateActor<MM_BackGround>(4);
+			LeftArrow->SetPosition({ Menu3->GetPosition().x + 140.f, GameEngineWindow::GetScale().Half().y + 80.f });
+			GameEngineRenderer* LeftRenderer = LeftArrow->CreateRenderer();
+			LeftRenderer->CreateAnimation("MM_ARROW_LEFT.bmp", "MM_ARROW_LEFT", 0, 1, 0.1f, true);
+			LeftRenderer->ChangeAnimation("MM_ARROW_LEFT");
+			LeftRenderer->PauseOn();
+
+			Arrows_.push_back(RightArrow);
+			RightRenderers_.push_back(RightRenderer);
+			Arrows_.push_back(LeftArrow);
+			LeftRenderers_.push_back(LeftRenderer);
+		}
 
 
 		GameEngineActor* Menu4 = CreateActor<MM_BackGround>(3);
 		Menu4->SetPosition({ Menu3->GetPosition().x + 320.f, GameEngineWindow::GetScale().Half().y + 100.f });
 		GameEngineRenderer* Menu4_Renerer = Menu4->CreateRenderer();
-		Menu4_Renerer->CreateAnimation("MENU_4.bmp", "MENU_4", 0, 2, 1.f, false);
+		Menu4_Renerer->CreateAnimation("MENU_4.bmp", "MENU_4", 0, 2, 0.5f, false);
 		Menu4_Renerer->ChangeAnimation("MENU_4");
-		Menu4_Renerer->SetTransColor(RGB(255, 255, 255));
+		Menu4_Renerer->PauseOn();
+
+
+		{
+			GameEngineActor* RightArrow = CreateActor<MM_BackGround>(4);
+			RightArrow->SetPosition({ Menu4->GetPosition().x + 180.f, GameEngineWindow::GetScale().Half().y + 80.f });
+			GameEngineRenderer* RightRenderer = RightArrow->CreateRenderer();
+			RightRenderer->CreateAnimation("MM_ARROW_RIGHT.bmp", "MM_ARROW_RIGHT", 0, 1, 0.1f, true);
+			RightRenderer->ChangeAnimation("MM_ARROW_RIGHT");
+			RightRenderer->PauseOn();
+
+			GameEngineActor* LeftArrow = CreateActor<MM_BackGround>(4);
+			LeftArrow->SetPosition({ Menu4->GetPosition().x + 140.f, GameEngineWindow::GetScale().Half().y + 80.f });
+			GameEngineRenderer* LeftRenderer = LeftArrow->CreateRenderer();
+			LeftRenderer->CreateAnimation("MM_ARROW_LEFT.bmp", "MM_ARROW_LEFT", 0, 1, 0.1f, true);
+			LeftRenderer->ChangeAnimation("MM_ARROW_LEFT");
+			LeftRenderer->PauseOn();
+
+			Arrows_.push_back(RightArrow);
+			RightRenderers_.push_back(RightRenderer);
+			Arrows_.push_back(LeftArrow);
+			LeftRenderers_.push_back(LeftRenderer);
+		}
 
 
 		GameEngineActor* Menu5 = CreateActor<MM_BackGround>(3);
 		Menu5->SetPosition({ Menu4->GetPosition().x + 320.f, GameEngineWindow::GetScale().Half().y + 100.f });
 		GameEngineRenderer* Menu5_Renerer = Menu5->CreateRenderer();
-		Menu5_Renerer->CreateAnimation("MENU_5.bmp", "MENU_5", 0, 2, 1.f, false);
+		Menu5_Renerer->CreateAnimation("MENU_5.bmp", "MENU_5", 0, 2, 0.5f, false);
 		Menu5_Renerer->ChangeAnimation("MENU_5");
-		Menu5_Renerer->SetTransColor(RGB(255, 255, 255));
-
+		Menu5_Renerer->PauseOn();
 
 		Menus_.push_back(Menu1);
 		Menus_.push_back(Menu2);
 		Menus_.push_back(Menu3);
 		Menus_.push_back(Menu4);
 		Menus_.push_back(Menu5);
+
+		MenuRenderers_.push_back(Menu1_Renerer);
+		MenuRenderers_.push_back(Menu2_Renerer);
+		MenuRenderers_.push_back(Menu3_Renerer);
+		MenuRenderers_.push_back(Menu4_Renerer);
+		MenuRenderers_.push_back(Menu5_Renerer);
 	}
 }
 
@@ -196,6 +316,22 @@ void MainMenu::MenuUpdate()
 			for (int i = 0; i < Menus_.size(); ++i)
 			{
 				Menus_[i]->SetPosition(Menus_[i]->GetPosition() + (float4::LEFT * 200.f));
+				MenuRenderers_[0]->ChangeAnimation("MM_1-1");
+				MenuRenderers_[1]->ChangeAnimation("MM_2");
+			}
+
+			for (int i = 0; i < Arrows_.size(); ++i)
+			{
+				Arrows_[i]->SetPosition(Arrows_[i]->GetPosition() + (float4::LEFT * 200.f));
+			}
+
+			RightRenderers_[RightIndex_]->PauseOn();
+
+			if (RightIndex_ + 1 < RightRenderers_.size())
+			{
+				RightRenderers_[RightIndex_ + 1]->PauseOff();
+				++RightIndex_;
+				++LeftIndex_;
 			}
 
 			++MenuCount_;
@@ -210,6 +346,19 @@ void MainMenu::MenuUpdate()
 			for (int i = 0; i < Menus_.size(); ++i)
 			{
 				Menus_[i]->SetPosition(Menus_[i]->GetPosition() + (float4::RIGHT * 200.f));
+			}
+
+			for (int i = 0; i < Arrows_.size(); ++i)
+			{
+				Arrows_[i]->SetPosition(Arrows_[i]->GetPosition() + (float4::RIGHT * 200.f));
+			}
+
+			LeftRenderers_[LeftIndex_]->PauseOn();
+
+			if (LeftIndex_ - 1 > 0)
+			{
+				LeftRenderers_[LeftIndex_ - 1]->PauseOff();
+				--LeftIndex_;
 			}
 
 			--MenuCount_;

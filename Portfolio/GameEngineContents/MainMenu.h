@@ -34,12 +34,19 @@ protected:
 
 private:
 	std::vector<GameEngineActor*> Menus_;
+	std::vector<GameEngineRenderer*> MenuRenderers_;
+
+	std::vector<GameEngineActor*> Arrows_;
+	std::vector<GameEngineRenderer*> RightRenderers_;
+	std::vector<GameEngineRenderer*> LeftRenderers_;
 
 	std::vector<std::list<GameEngineActor*>> BackGrounds_;
-	std::vector<GameEngineRenderer*> Actors_;
 	
 	GameEngineImage* Back_;
 
 	int MenuCount_;
+
+	int RightIndex_;
+	int LeftIndex_;
 };
 
