@@ -1,5 +1,6 @@
 #include "Title.h"
 #include "TitleActor.h"
+#include "FadeInOutBackground.h"
 #include <GameEngine/GameEngineLevel.h>
 #include <GameEngineBase/GameEngineInput.h>
 #include <GameEngine/GameEngine.h>
@@ -10,6 +11,7 @@
 enum class TitileOrder
 {
     LINE_3,
+    FADE_3,
     ROLL_3,
     COIN_2, 
     COIN_1, //애니메이션
@@ -33,7 +35,7 @@ Title::Title()
     , TransTime_(0.0f)
     , TransCount_(0)
     , EyeMove_(false)
-    , TitleShow_(255)
+    , TitleShow_(0)
 {
 
 }
@@ -55,6 +57,7 @@ void Title::Loading()
 void Title::Update()
 {
     ChangeBackground();
+    FadeBackground();
 
     if (GameEngineInput::GetInst()->IsDown("Title"))
     {
@@ -105,11 +108,11 @@ void Title::Update()
         if (TitleActors_[(int)TitileOrder::COIN_1]->GetPosition().y + 150.f <= GameEngineWindow::GetScale().Half().y)
         {
             TitleActors_[(int)TitileOrder::COIN_2]->SetPosition(TitleActors_[(int)TitileOrder::COIN_1]->GetPosition());
-            CoinRenderer_->SetOrder(3);
+            CoinRenderer_->SetOrder(8);
             TitleActors_[(int)TitileOrder::COIN_1]->Death();
 
             ChineseChracter_->SetPosition(TitleActors_[(int)TitileOrder::COIN_2]->GetPosition());
-            ChineseChracterRenderer_->SetOrder(2);
+            ChineseChracterRenderer_->SetOrder(7);
         }
 
         NameActor_[0]->SetPosition(TitleActors_[(int)TitileOrder::COIN_2]->GetPosition() + float4{ 0, 50.f });
@@ -125,27 +128,27 @@ void Title::Update()
         NameRenderer_[2]->SetOrder(2); 
         NameRenderer_[3]->SetOrder(2);
 
-        NameActor_[0]->SetMove(float4::LEFT * GameEngineTime::GetDeltaTime() * 300.f);
-        NameActor_[2]->SetMove(float4::RIGHT * GameEngineTime::GetDeltaTime() * 300.f);
+        NameActor_[0]->SetMove(float4::LEFT * GameEngineTime::GetDeltaTime() * 500.f);
+        NameActor_[2]->SetMove(float4::RIGHT * GameEngineTime::GetDeltaTime() * 500.f);
         
         if (400.f > NameActor_[0]->GetPosition().x)
         {
-            NameActor_[1]->SetMove(float4::LEFT * GameEngineTime::GetDeltaTime() * 400.f);
+            NameActor_[1]->SetMove(float4::LEFT * GameEngineTime::GetDeltaTime() * 600.f);
         }
 
         if (900.f < NameActor_[2]->GetPosition().x)
         {
-            NameActor_[3]->SetMove(float4::RIGHT * GameEngineTime::GetDeltaTime() * 400.f);
+            NameActor_[3]->SetMove(float4::RIGHT * GameEngineTime::GetDeltaTime() * 600.f);
         }
 
 
         if (250.f > NameActor_[0]->GetPosition().x && 270.f > NameActor_[1]->GetPosition().x 
             && 450.f < NameActor_[2]->GetPosition().x && 470.f < NameActor_[3]->GetPosition().x)
         {
-            NameRenderer_[0]->SetOrder(3);
-            NameRenderer_[1]->SetOrder(3);
-            NameRenderer_[2]->SetOrder(3);
-            NameRenderer_[3]->SetOrder(3);
+            NameRenderer_[0]->SetOrder(10);
+            NameRenderer_[1]->SetOrder(9);
+            NameRenderer_[2]->SetOrder(10);
+            NameRenderer_[3]->SetOrder(9);
 
             ++TransCount_;
         }
@@ -156,27 +159,27 @@ void Title::Update()
     {
         if (NameActor_[0]->GetPosition().x < 640.f)
         {
-            NameActor_[0]->SetMove(float4::RIGHT * GameEngineTime::GetDeltaTime() * 700.f);
+            NameActor_[0]->SetMove(float4::RIGHT * GameEngineTime::GetDeltaTime() * 1000.f);
         }
 
         if (NameActor_[1]->GetPosition().x < 870.f)
         {
-            NameActor_[1]->SetMove(float4::RIGHT * GameEngineTime::GetDeltaTime() * 600.f);
+            NameActor_[1]->SetMove(float4::RIGHT * GameEngineTime::GetDeltaTime() * 700.f);
         }
 
         if (NameActor_[2]->GetPosition().x > 200.f)
         {
-            NameActor_[2]->SetMove(float4::LEFT * GameEngineTime::GetDeltaTime() * 700.f);
+            NameActor_[2]->SetMove(float4::LEFT * GameEngineTime::GetDeltaTime() * 1000.f);
         }
 
         if (NameActor_[3]->GetPosition().x > 420.f)
         {
-            NameActor_[3]->SetMove(float4::LEFT * GameEngineTime::GetDeltaTime() * 600.f);
+            NameActor_[3]->SetMove(float4::LEFT * GameEngineTime::GetDeltaTime() * 700.f);
         }
 
         if (1050.f > ChineseChracter_->GetPosition().x && NameActor_[3]->GetPosition().x <= 420.f)
         {
-            ChineseChracter_->SetMove(float4::RIGHT * GameEngineTime::GetDeltaTime() * 700.f);
+            ChineseChracter_->SetMove(float4::RIGHT * GameEngineTime::GetDeltaTime() * 800.f);
         }
 
         else if (NameActor_[0]->GetPosition().x > 640.f && NameActor_[1]->GetPosition().x > 870.f
@@ -190,9 +193,9 @@ void Title::Update()
 
     if (10 == TransCount_)
     {
-        RedRenderer_->SetOrder(4);
-        GreenRenderer_->SetOrder(4);
-        RedRenderer1_->SetOrder(4);
+        RedRenderer_->SetOrder(11);
+        GreenRenderer_->SetOrder(11);
+        RedRenderer1_->SetOrder(11);
 
         if (280.f > RedPuyo_->GetPosition().y)
         {
@@ -231,10 +234,9 @@ void Title::Update()
 
         else
         {
-            TitleActors_[(int)TitileOrder::ROLL_3]->CreateRenderer("TT_ROLL_GRAY.bmp")->SetOrder(1);
+            TitleActors_[(int)TitileOrder::ROLL_3]->CreateRenderer("TT_ROLL_GRAY1.bmp")->SetOrder(2);
             GameEngineRenderer* LogoRenderer = TitleActors_[(int)TitileOrder::ROLL_3]->CreateRenderer("TT_GAMELOGO.bmp");
-            LogoRenderer->SetPivot({0, 50.f});
-            LogoRenderer->SetOrder(1);
+            LogoRenderer->SetOrder(5);
             ++TransCount_;
         }
         
@@ -252,6 +254,8 @@ void Title::LevelChangeEnd()
 
 void Title::BackgroundInit()
 {
+    FadeInOutBackground_ = CreateActor<FadeInOutBackground>();
+
     NameActor_[0] = CreateActor<TitleActor>(0);
     NameRenderer_[0] = NameActor_[0]->CreateRenderer("TT_PU.bmp");
     NameActor_[1] = CreateActor<TitleActor>(0);
@@ -260,7 +264,6 @@ void Title::BackgroundInit()
     NameRenderer_[2] = NameActor_[2]->CreateRenderer("TT_PU.bmp");
     NameActor_[3] = CreateActor<TitleActor>(0);
     NameRenderer_[3] = NameActor_[3]->CreateRenderer("TT_YO.bmp");
-
 
     ChineseChracter_ = CreateActor<TitleActor>(0);
     ChineseChracterRenderer_ = ChineseChracter_->CreateRenderer("TT_CHINESECHARACTER.bmp");
@@ -295,7 +298,7 @@ void Title::BackgroundInit()
     /// <summary>
     /// SetOrder 만들기 전
     /// </summary>
-    for (int i = 0; i < 17; i++)
+    for (int i = 0; i < 20; i++)
     {
         //역순
         TitleActors_[i] = CreateActor<TitleActor>(i);
@@ -310,14 +313,12 @@ void Title::BackgroundInit()
 
     TitleActors_[(int)TitileOrder::PUYO_BACK]->CreateRenderer("TT_BACK.bmp");
 
-    //
     GameEngineImage* Image0 = GameEngineImageManager::GetInst()->Find("TT_BACK1-1.bmp");
     Image0->CutCount(6, 1);
 
     GameEngineRenderer* Renderer24 = TitleActors_[(int)TitileOrder::PUYO_BACK]->CreateRenderer();
     Renderer24->CreateAnimation("TT_BACK1-1.bmp", "TT_BACK1-1", 0, 5, 0.05f, true);
     Renderer24->ChangeAnimation("TT_BACK1-1");
-    //
 
     GameEngineRenderer* RollRenderer = TitleActors_[(int)TitileOrder::ROLL_1]->CreateRenderer("TT_ROLL.bmp");
     RollRenderer->SetTransColor(RGB(0, 0, 0));
@@ -363,19 +364,21 @@ void Title::ChangeBackground()
 {
     TransTime_ += GameEngineTime::GetDeltaTime();
 
-    //BackRenderer_ = TitleActors_[(int)TitileOrder::COMPANYLOGO]->CreateRenderer("qq.bmp");
-    //BackRenderer_->SetAlpha(100);
 
-    if (3.0f < TransTime_ && 0 == TransCount_ || 0 >= TitleShow_)
+    if (3.0f < TransTime_ && 0 == TransCount_)
     {
+        FadeInOutBackground_->Reset();
+
         TitleActors_[(int)TitileOrder::COMPANYLOGO]->Death();
 
         ++TransCount_;
         TransTime_ = 0.0f;
     }
 
-    else if (1.5f < TransTime_ && 1 == TransCount_)
+    if (1.5f < TransTime_ && 1 == TransCount_)
     {
+        FadeInOutBackground_->Reset();
+
         TitleActors_[(int)TitileOrder::PUYO]->Death();
         TitleActors_[(int)TitileOrder::PUYO_EYE]->Death();
         TitleActors_[(int)TitileOrder::PUYO_BACK]->Death();
@@ -384,8 +387,10 @@ void Title::ChangeBackground()
         TransTime_ = 0.0f;
     }
 
-    else if (1.0f < TransTime_ && 2 == TransCount_)
+    if (1.0f < TransTime_ && 2 == TransCount_)
     {
+        FadeInOutBackground_->Reset();
+
         TitleActors_[(int)TitileOrder::ROLL_1]->Death();
         TitleActors_[(int)TitileOrder::LINE_1]->Death();
         TitleActors_[(int)TitileOrder::ROLL_2]->SetPosition({ TitleActors_[(int)TitileOrder::ROLL_2]->GetPosition().x, TitleActors_[(int)TitileOrder::ROLL_2]->GetPosition().y - 100.f });
@@ -394,8 +399,11 @@ void Title::ChangeBackground()
         TransTime_ = 0.0f;
     }
 
-    else if (1.0f < TransTime_ && 3 == TransCount_)
+
+    if (1.0f < TransTime_ && 3 == TransCount_)
     {
+        FadeInOutBackground_->Reset();
+
         TitleActors_[(int)TitileOrder::CARBUNCLE]->Death();
         TitleActors_[(int)TitileOrder::CARBUNCLE_BACK]->Death();
 
@@ -403,8 +411,10 @@ void Title::ChangeBackground()
         TransTime_ = 0.0f;
     }
 
-    else if (2.0f < TransTime_ && 4 == TransCount_)
+    if (2.0f < TransTime_ && 4 == TransCount_)
     {
+        FadeInOutBackground_->Reset();
+
         TitleActors_[(int)TitileOrder::ROLL_2]->Death();
         TitleActors_[(int)TitileOrder::LINE_2]->Death();
         TitleActors_[(int)TitileOrder::ROLL_3]->SetPosition({ TitleActors_[(int)TitileOrder::ROLL_2]->GetPosition().x, TitleActors_[(int)TitileOrder::ROLL_2]->GetPosition().y - 250.f});
@@ -413,26 +423,97 @@ void Title::ChangeBackground()
         TransTime_ = 0.0f;
     }
 
-    else if (2.0f < TransTime_ && 5 == TransCount_)
+    if (2.0f < TransTime_ && 5 == TransCount_)
     {
+        FadeInOutBackground_->Reset();
+
         TitleActors_[(int)TitileOrder::ARLE_FACE]->Death();
         TitleActors_[(int)TitileOrder::ARLE_FINGER]->Death();
         TitleActors_[(int)TitileOrder::ARLE_BACK]->Death();
 
         ++TransCount_;
         TransTime_ = 0.0f;
+
     }
 
-    else if (2.0f < TransTime_ && 6 == TransCount_)
+    if (2.0f < TransTime_ && 6 == TransCount_)
     {
         ++TransCount_;
         TransTime_ = 0.0f;
     }
 
-    else if (2.0f < TransTime_ && 7 == TransCount_)
+    if (2.0f < TransTime_ && 7 == TransCount_)
     {
         ++TransCount_;
         TransTime_ = 0.0f;
     }
 
+    if (12 == TransCount_)
+    {
+        FadeInOutBackground_->Reset();
+    }
+}
+
+
+
+void Title::FadeBackground()
+{
+    if (2.0f < TransTime_ && 0 == TransCount_)
+    {
+        FadeInOutBackground_->GetMyRenderer()->SetOrder((int)TitileOrder::COMPANYLOGO);
+        FadeInOutBackground_->SetFadeSpeed(400.f);
+        FadeInOutBackground_->FadeOn();
+    }
+
+    if (1.3f < TransTime_ && 1 == TransCount_)
+    {
+        FadeInOutBackground_->GetMyRenderer()->SetOrder((int)TitileOrder::COMPANYLOGO);
+        FadeInOutBackground_->SetFadeSpeed(1000.f);
+        FadeInOutBackground_->FadeOn();
+    }
+
+
+    if (0.8f < TransTime_ && 2 == TransCount_)
+    {
+        FadeInOutBackground_->GetMyRenderer()->SetOrder((int)TitileOrder::COMPANYLOGO);
+        FadeInOutBackground_->SetFadeSpeed(1000.f);
+        FadeInOutBackground_->FadeOn();
+    }
+
+    if (0.8f < TransTime_ && 3 == TransCount_)
+    {
+        FadeInOutBackground_->GetMyRenderer()->SetOrder((int)TitileOrder::COMPANYLOGO);
+        FadeInOutBackground_->SetFadeSpeed(1000.f);
+        FadeInOutBackground_->FadeOn();
+    }
+
+
+    if (1.8f < TransTime_ && 4 == TransCount_)
+    {
+        FadeInOutBackground_->GetMyRenderer()->SetOrder((int)TitileOrder::COMPANYLOGO);
+        FadeInOutBackground_->SetFadeSpeed(1000.f);
+        FadeInOutBackground_->FadeOn();
+    }
+
+
+    if (1.8f < TransTime_ && 5 == TransCount_)
+    {
+        FadeInOutBackground_->GetMyRenderer()->SetOrder((int)TitileOrder::COMPANYLOGO);
+        FadeInOutBackground_->SetFadeSpeed(1000.f);
+        FadeInOutBackground_->FadeOn();
+    }
+
+    if (1.9f < TransTime_ && 6 == TransCount_)
+    {
+        FadeInOutBackground_->GetMyRenderer()->SetOrder((int)TitileOrder::FADE_3);
+        FadeInOutBackground_->SetFadeSpeed(200.f);
+        FadeInOutBackground_->FadeOn();
+    }
+
+    if (6 == TransCount_)
+    {
+        FadeInOutBackground_->GetMyRenderer()->SetOrder((int)TitileOrder::FADE_3);
+        FadeInOutBackground_->SetFadeSpeed(200.f);
+        FadeInOutBackground_->FadeOn();
+    }
 }

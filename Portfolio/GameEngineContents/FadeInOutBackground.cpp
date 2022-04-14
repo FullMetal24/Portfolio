@@ -5,34 +5,34 @@
 #include <GameEngine/GameEngineRenderer.h.>
 #include <GameEngine/GameEngineEnum.h>
 
-FadeInOutBackground::FadeInOutBackground()
-	: Background_(nullptr)
-	, FadeValue_(0)
+FadeInOutBackground::FadeInOutBackground() 
+	: MyRenderer_(nullptr)
+	, AlphaValue_(0)
+	, FadeSpeed_(0.f)
 	, IsOn_(false)
-	, IsOff_(true)
 {
 }
 
-FadeInOutBackground::~FadeInOutBackground()
+FadeInOutBackground::~FadeInOutBackground() 
 {
 }
 
 void FadeInOutBackground::Start()
 {
-	Background_ = CreateRenderer("GO_BACKGROUND.bmp");
+	MyRenderer_ = CreateRenderer("GO_BACKGROUND.bmp");
+	SetPosition({GameEngineWindow::GetScale().Half().x, GameEngineWindow::GetScale().Half().y });
 }
 
 void FadeInOutBackground::Update()
 {
-
-	if (false == IsOn_)
+	if (true == IsOn_)
 	{
-		FadeValue_ -= GameEngineTime::GetDeltaTime();
-		Background_->SetAlpha(FadeValue_);
+		AlphaValue_ += static_cast<int>(GameEngineTime::GetDeltaTime() * FadeSpeed_);
+		MyRenderer_->SetAlpha(AlphaValue_);
 
-		if (0 >= FadeValue_)
+		if (255 <= AlphaValue_)
 		{
-			IsOn_ = true;
+			IsOn_ = false;
 		}
 	}
 }

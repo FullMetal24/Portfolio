@@ -1,5 +1,6 @@
 #pragma once
 #include "GameEngine/GameEngineLevel.h"
+#include "FadeInOutBackground.h"
 
 class Title : public GameEngineLevel
 {
@@ -19,13 +20,13 @@ public:
 
 	void BackgroundInit();
 	void ChangeBackground();
+	void FadeBackground();
 
 protected:
 
 private:
-	GameEngineActor* TitleActors_[17];
-	GameEngineRenderer* TitleRenderers_[17];
-
+	GameEngineActor* TitleActors_[20];
+	GameEngineRenderer* TitleRenderers_[20];
 
 	//마지막 타이틀 이미지들
 	GameEngineActor* NameActor_[4];
@@ -42,7 +43,7 @@ private:
 	GameEngineActor* GreenPuyo_;
 	GameEngineRenderer* GreenRenderer_;
 
-	GameEngineRenderer* BackRenderer_;
+	FadeInOutBackground* FadeInOutBackground_;
 
 	int TransCount_;
 	float TransTime_;
@@ -51,6 +52,3 @@ private:
 
 	int TitleShow_;
 };
-
-//열겨형으로 해서 벡터에 접근?
-//[]
