@@ -39,12 +39,12 @@ void MainMenu::Update()
 {
 	MenuUpdate();
 	BackgroundUpdate();
+	SelectMenu();
 }
 
 
 void MainMenu::MenuInit()
 {
-
 	GameEngineActor* SelectMenu = CreateActor<MM_BackGround>(3);
 	SelectMenu->SetPosition({ GameEngineWindow::GetScale().Half().x, 150 });
 	GameEngineRenderer* SelectMenuRenderer = SelectMenu->CreateRenderer("MM_SELECT_1.bmp");
@@ -73,16 +73,16 @@ void MainMenu::MenuInit()
 		Image->CutCount(3, 1);
 
 		GameEngineImage* Image1 = GameEngineImageManager::GetInst()->Find("MM_MENU_2_IDLE_DARK.bmp");
-		Image1->CutCount(4, 1);
+		Image1->CutCount(3, 1);
 
 		GameEngineImage* Image2 = GameEngineImageManager::GetInst()->Find("MM_MENU_3_IDLE_DARK.bmp");
-		Image2->CutCount(4, 1);
+		Image2->CutCount(3, 1);
 
 		GameEngineImage* Image3 = GameEngineImageManager::GetInst()->Find("MM_MENU_4_IDLE_DARK.bmp");
-		Image3->CutCount(4, 1);
+		Image3->CutCount(3, 1);
 
 		GameEngineImage* Image4 = GameEngineImageManager::GetInst()->Find("MM_MENU_5_IDLE_DARK.bmp");
-		Image4->CutCount(4, 1);
+		Image4->CutCount(3, 1);
 	}
 
 	//어둔 카방클(Close)
@@ -119,7 +119,7 @@ void MainMenu::MenuInit()
 		GameEngineRenderer* Menu1_Renerer = Menu1->CreateRenderer();
 		Menu1_Renerer->CreateAnimation("MM_MENU_1_IDLE.bmp", "MM_MENU_1_IDLE", 0, 2, 0.5f, true);
 		Menu1_Renerer->CreateAnimation("MM_MENU_1_IDLE_DARK.bmp", "MM_MENU_1_IDLE_DARK", 0, 2, 0.1f, true);
-		Menu1_Renerer->CreateAnimation("MM_MENU_1_CLOSE.bmp", "MM_MENU_1_CLOSE", 0, 2, 0.1f, true);
+		Menu1_Renerer->CreateAnimation("MM_MENU_1_CLOSE.bmp", "MM_MENU_1_CLOSE", 0, 3, 0.1f, false);
 		Menu1_Renerer->ChangeAnimation("MM_MENU_1_IDLE");
 
 		//화살표
@@ -149,8 +149,8 @@ void MainMenu::MenuInit()
 		GameEngineRenderer* Menu2_Renerer = Menu2->CreateRenderer();
 		Menu2_Renerer->CreateAnimation("MM_MENU_2_IDLE.bmp", "MM_MENU_2_IDLE", 0, 2, 0.5f, false);
 		Menu2_Renerer->CreateAnimation("MM_MENU_2_IDLE_DARK.bmp", "MM_MENU_2_IDLE_DARK", 0, 2, 0.1f, true);
-		Menu2_Renerer->CreateAnimation("MM_MENU_2_CLOSE.bmp", "MM_MENU_2_CLOSE", 0, 2, 0.1f, true);
-		Menu2_Renerer->ChangeAnimation("MM_MENU_2_IDLE");
+		Menu2_Renerer->CreateAnimation("MM_MENU_2_CLOSE.bmp", "MM_MENU_2_CLOSE", 0, 3, 0.1f, false);
+		Menu2_Renerer->ChangeAnimation("MM_MENU_2_IDLE_DARK");
 
 		{
 			GameEngineActor* RightArrow = CreateActor<MM_BackGround>(4);
@@ -178,8 +178,8 @@ void MainMenu::MenuInit()
 		GameEngineRenderer* Menu3_Renerer = Menu3->CreateRenderer();
 		Menu3_Renerer->CreateAnimation("MM_MENU_3_IDLE.bmp", "MM_MENU_3_IDLE", 0, 2, 0.5f, false);
 		Menu3_Renerer->CreateAnimation("MM_MENU_3_IDLE_DARK.bmp", "MM_MENU_3_IDLE_DARK", 0, 2, 0.1f, true);
-		Menu3_Renerer->CreateAnimation("MM_MENU_3_CLOSE.bmp", "MM_MENU_3_CLOSE", 0, 2, 0.1f, true);
-		Menu3_Renerer->ChangeAnimation("MM_MENU_3_IDLE");
+		Menu3_Renerer->CreateAnimation("MM_MENU_3_CLOSE.bmp", "MM_MENU_3_CLOSE", 0, 3, 0.1f, false);
+		Menu3_Renerer->ChangeAnimation("MM_MENU_3_IDLE_DARK");
 		Menu3_Renerer->PauseOn();
 
 		{
@@ -209,8 +209,8 @@ void MainMenu::MenuInit()
 		GameEngineRenderer* Menu4_Renerer = Menu4->CreateRenderer();
 		Menu4_Renerer->CreateAnimation("MM_MENU_4_IDLE.bmp", "MM_MENU_4_IDLE", 0, 2, 0.5f, false);
 		Menu4_Renerer->CreateAnimation("MM_MENU_4_IDLE_DARK.bmp", "MM_MENU_4_IDLE_DARK", 0, 2, 0.1f, true);
-		Menu4_Renerer->CreateAnimation("MM_MENU_4_CLOSE.bmp", "MM_MENU_4_CLOSE", 0, 2, 0.1f, true);
-		Menu4_Renerer->ChangeAnimation("MM_MENU_4_IDLE");
+		Menu4_Renerer->CreateAnimation("MM_MENU_4_CLOSE.bmp", "MM_MENU_4_CLOSE", 0, 3, 0.1f, false);
+		Menu4_Renerer->ChangeAnimation("MM_MENU_4_IDLE_DARK");
 		Menu4_Renerer->PauseOn();
 
 
@@ -241,8 +241,8 @@ void MainMenu::MenuInit()
 		GameEngineRenderer* Menu5_Renerer = Menu5->CreateRenderer();
 		Menu5_Renerer->CreateAnimation("MM_MENU_5_IDLE.bmp", "MM_MENU_5_IDLE", 0, 2, 0.5f, false);
 		Menu5_Renerer->CreateAnimation("MM_MENU_5_IDLE_DARK.bmp", "MM_MENU_5_IDLE_DARK", 0, 2, 0.1f, true);
-		Menu5_Renerer->CreateAnimation("MM_MENU_5_CLOSE.bmp", "MM_MENU_5_CLOSE", 0, 2, 0.1f, true);
-		Menu5_Renerer->ChangeAnimation("MM_MENU_5_IDLE");
+		Menu5_Renerer->CreateAnimation("MM_MENU_5_CLOSE.bmp", "MM_MENU_5_CLOSE", 0, 3, 0.1f, false);
+		Menu5_Renerer->ChangeAnimation("MM_MENU_5_IDLE_DARK");
 		Menu5_Renerer->PauseOn();
 
 		Menus_.push_back(Menu1);
@@ -333,6 +333,8 @@ void MainMenu::BackgourndInit()
 	BackGrounds_.push_back(LastLine);
 }
 
+
+
 void MainMenu::MenuUpdate()
 {
 	if (GameEngineInput::GetInst()->IsDown("ManiMenu_Right"))
@@ -342,26 +344,13 @@ void MainMenu::MenuUpdate()
 			//카방클 좌로 이동
 			for (int i = 0; i < Menus_.size(); ++i)
 			{
-				Menus_[i]->SetPosition(Menus_[i]->GetPosition() + (float4::LEFT * 200.f));
-				//MenuRenderers_[0]->ChangeAnimation("MM_1-1");
-				//MenuRenderers_[1]->ChangeAnimation("MM_2");
+				Menus_[i]->SetPosition(Menus_[i]->GetPosition() + (float4::LEFT * 200.f));				
 			}
 
-			for (int i = 0; i < Arrows_.size(); ++i)
-			{
-				Arrows_[i]->SetPosition(Arrows_[i]->GetPosition() + (float4::LEFT * 200.f));
-			}
-
-			RightRenderers_[RightIndex_]->PauseOn();
-
-			if (RightIndex_ + 1 < RightRenderers_.size())
-			{
-				RightRenderers_[RightIndex_ + 1]->PauseOff();
-				++RightIndex_;
-				++LeftIndex_;
-			}
+			ArrowMoveToRight();
 
 			++MenuCount_;
+			FocasMenu();
 		}
 	}
 
@@ -375,23 +364,16 @@ void MainMenu::MenuUpdate()
 				Menus_[i]->SetPosition(Menus_[i]->GetPosition() + (float4::RIGHT * 200.f));
 			}
 
-			for (int i = 0; i < Arrows_.size(); ++i)
-			{
-				Arrows_[i]->SetPosition(Arrows_[i]->GetPosition() + (float4::RIGHT * 200.f));
-			}
-
-			LeftRenderers_[LeftIndex_]->PauseOn();
-
-			if (LeftIndex_ - 1 > 0)
-			{
-				LeftRenderers_[LeftIndex_ - 1]->PauseOff();
-				--LeftIndex_;
-			}
+			ArrowMoveToLeft();
 
 			--MenuCount_;
+			FocasMenu();
 		}
 	}
+}
 
+void MainMenu::SelectMenu()
+{
 	if (GameEngineInput::GetInst()->IsDown("ManiMenu_Select"))
 	{
 		switch (MenuCount_)
@@ -416,7 +398,71 @@ void MainMenu::MenuUpdate()
 			break;
 		}
 	}
+}
 
+void MainMenu::FocasMenu()
+{
+	MenuRenderers_[0]->ChangeAnimation("MM_MENU_1_IDLE_DARK");
+	MenuRenderers_[1]->ChangeAnimation("MM_MENU_2_IDLE_DARK");
+	MenuRenderers_[2]->ChangeAnimation("MM_MENU_3_IDLE_DARK");
+	MenuRenderers_[3]->ChangeAnimation("MM_MENU_4_IDLE_DARK");
+	MenuRenderers_[4]->ChangeAnimation("MM_MENU_5_IDLE_DARK");
+
+	switch (MenuCount_)
+	{
+	case 0:
+		MenuRenderers_[0]->ChangeAnimation("MM_MENU_1_IDLE");
+		break;
+
+	case 1:
+		MenuRenderers_[1]->ChangeAnimation("MM_MENU_2_IDLE");
+		break;
+
+	case 2:
+		MenuRenderers_[2]->ChangeAnimation("MM_MENU_3_IDLE");
+		break;
+
+	case 3:
+		MenuRenderers_[3]->ChangeAnimation("MM_MENU_4_IDLE");
+		break;
+
+	case 4:
+		MenuRenderers_[4]->ChangeAnimation("MM_MENU_5_IDLE");
+		break;
+	}
+}
+
+void MainMenu::ArrowMoveToRight()
+{
+	for (int i = 0; i < Arrows_.size(); ++i)
+	{
+		Arrows_[i]->SetPosition(Arrows_[i]->GetPosition() + (float4::LEFT * 200.f));
+	}
+
+	RightRenderers_[RightIndex_]->PauseOn();
+
+	if (RightIndex_ + 1 < RightRenderers_.size())
+	{
+		RightRenderers_[RightIndex_ + 1]->PauseOff();
+		++RightIndex_;
+		++LeftIndex_;
+	}
+}
+
+void MainMenu::ArrowMoveToLeft()
+{
+	for (int i = 0; i < Arrows_.size(); ++i)
+	{
+		Arrows_[i]->SetPosition(Arrows_[i]->GetPosition() + (float4::RIGHT * 200.f));
+	}
+
+	LeftRenderers_[LeftIndex_]->PauseOn();
+
+	if (LeftIndex_ - 1 > 0)
+	{
+		LeftRenderers_[LeftIndex_ - 1]->PauseOff();
+		--LeftIndex_;
+	}
 }
 
 void MainMenu::BackgroundUpdate()

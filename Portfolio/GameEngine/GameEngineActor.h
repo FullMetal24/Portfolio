@@ -2,8 +2,8 @@
 #include "GameEngineLevel.h"
 #include <GameEngineBase/GameEngineNameObject.h>
 #include <GameEngineBase/GameEngineUpdateObject.h>
-#include <GameEngineBase/GameEngineMath.h>
 #include <GameEngineBase/GameEngineWindow.h>
+#include <GameEngineBase/GameEngineMath.h>
 #include "GameEngineEnum.h"
 #include <list>
 
@@ -76,9 +76,14 @@ protected:
 	// 지속적으로 게임이 실행될때 호출된다.
 	virtual void Render() {}
 
+	virtual void LevelChangeStart() {}
+	virtual void LevelChangeEnd() {}
+
 	void Release();
 
 	void DebugRectRender();
+
+	void LevelRegist(std::string _RegistName = "");
 
 private:
 	GameEngineLevel* Level_;
@@ -118,4 +123,6 @@ public:
 private:
 	// 이터레이터
 	std::list<GameEngineCollision*> CollisionList_;
+
+
 };

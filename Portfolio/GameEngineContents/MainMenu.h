@@ -28,6 +28,10 @@ public:
 	void BackgourndInit();
 
 	void MenuUpdate();
+	void SelectMenu();
+	void FocasMenu();
+	void ArrowMoveToRight();
+	void ArrowMoveToLeft();
 	void BackgroundUpdate();
 
 protected:
