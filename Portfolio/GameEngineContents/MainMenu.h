@@ -25,6 +25,7 @@ public:
 	void LevelChangeEnd() override;
 
 	void MenuInit();
+	void MenuImageInit();
 	void BackgourndInit();
 
 	void MenuUpdate();
@@ -34,11 +35,15 @@ public:
 	void ArrowMoveToLeft();
 	void BackgroundUpdate();
 
+	void MenuRendererPause();
+
 protected:
 
 private:
 	std::vector<GameEngineActor*> Menus_;
 	std::vector<GameEngineRenderer*> MenuRenderers_;
+	std::vector<GameEngineActor*> Puyos_;
+	std::vector<GameEngineRenderer*> PuyoRenderers_;
 
 	std::vector<GameEngineActor*> Arrows_;
 	std::vector<GameEngineRenderer*> RightRenderers_;
@@ -52,5 +57,7 @@ private:
 
 	int RightIndex_;
 	int LeftIndex_;
+
+	bool MenuSelect_[5];
 };
 

@@ -214,6 +214,10 @@ private:
 			return StartFrame_ - CurrentFrame_;
 		}
 
+		//inline void SetCurrentFrame(int _Frame)
+		//{
+		//	CurrentFrame_ = _Frame;
+		//}
 
 	public:
 		FrameAnimation()
