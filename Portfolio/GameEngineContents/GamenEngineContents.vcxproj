@@ -160,43 +160,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="ArleFace.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="BlueLightning.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="Carbuncle.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="CarbuncleCoin.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="CarbuncleMenu.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
     <ClInclude Include="EnemySelect.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="ChineseCharacter.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="ChracterBackground.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="CompanyLogo.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="CS_BackGround.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -205,26 +169,30 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="FSM.h">
+    <ClInclude Include="EnemySelectActor.h">
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="GameName.h">
+    <ClInclude Include="FadeInOutBackground.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="FSM.h">
       <SubType>
       </SubType>
     </ClInclude>
     <ClInclude Include="GameOver.h" />
     <ClInclude Include="ContentsEnum.h" />
-    <ClInclude Include="GO_BackGround.h">
+    <ClInclude Include="GameOverActor.h">
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="KnockdownPlayer.h">
+    <ClInclude Include="InGameActor.h">
       <SubType>
       </SubType>
     </ClInclude>
     <ClInclude Include="MainMenu.h" />
-    <ClInclude Include="MM_BackGround.h">
+    <ClInclude Include="MainMenuActor.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -239,62 +207,18 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="Red_Puyo.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
     <ClInclude Include="Stage.h">
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="StageTop.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
     <ClInclude Include="Title.h" />
-    <ClInclude Include="YellowLightning.h">
+    <ClInclude Include="TitleActor.h">
       <SubType>
       </SubType>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="ArleFace.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
-    <ClCompile Include="BlueLightning.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
-    <ClCompile Include="Carbuncle.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
-    <ClCompile Include="CarbuncleCoin.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
-    <ClCompile Include="CarbuncleMenu.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
     <ClCompile Include="EnemySelect.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
-    <ClCompile Include="ChineseCharacter.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
-    <ClCompile Include="ChracterBackground.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
-    <ClCompile Include="CompanyLogo.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
-    <ClCompile Include="CS_BackGround.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -303,25 +227,29 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="EnemySelectActor.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="FadeInOutBackground.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="FSM.cpp">
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="GameName.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
     <ClCompile Include="GameOver.cpp" />
-    <ClCompile Include="GO_BackGround.cpp">
+    <ClCompile Include="GameOverActor.cpp">
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="KnockdownPlayer.cpp">
+    <ClCompile Include="InGameActor.cpp">
       <SubType>
       </SubType>
     </ClCompile>
     <ClCompile Include="MainMenu.cpp" />
-    <ClCompile Include="MM_BackGround.cpp">
+    <ClCompile Include="MainMenuActor.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -336,20 +264,12 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="Red_Puyo.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
     <ClCompile Include="Stage.cpp">
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="StageTop.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
     <ClCompile Include="Title.cpp" />
-    <ClCompile Include="YellowLightning.cpp">
+    <ClCompile Include="TitleActor.cpp">
       <SubType>
       </SubType>
     </ClCompile>

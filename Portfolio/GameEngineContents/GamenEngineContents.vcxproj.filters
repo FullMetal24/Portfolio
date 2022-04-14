@@ -29,62 +29,32 @@
     <ClCompile Include="Enemy.cpp">
       <Filter>Actor\Level\InGame\Enemy</Filter>
     </ClCompile>
-    <ClCompile Include="CompanyLogo.cpp">
-      <Filter>Actor\Level\Title</Filter>
-    </ClCompile>
-    <ClCompile Include="Red_Puyo.cpp">
-      <Filter>Actor\Level\Title</Filter>
-    </ClCompile>
-    <ClCompile Include="Carbuncle.cpp">
-      <Filter>Actor\Level\Title</Filter>
-    </ClCompile>
-    <ClCompile Include="ChracterBackground.cpp">
-      <Filter>Actor\Level\Title\BackGround</Filter>
-    </ClCompile>
-    <ClCompile Include="YellowLightning.cpp">
-      <Filter>Actor\Level\Title\BackGround</Filter>
-    </ClCompile>
-    <ClCompile Include="BlueLightning.cpp">
-      <Filter>Actor\Level\Title\BackGround</Filter>
-    </ClCompile>
-    <ClCompile Include="ArleFace.cpp">
-      <Filter>Actor\Level\Title</Filter>
-    </ClCompile>
-    <ClCompile Include="GameName.cpp">
-      <Filter>Actor\Level\Title\GameLogo</Filter>
-    </ClCompile>
-    <ClCompile Include="ChineseCharacter.cpp">
-      <Filter>Actor\Level\Title\GameLogo</Filter>
-    </ClCompile>
-    <ClCompile Include="CarbuncleCoin.cpp">
-      <Filter>Actor\Level\Title\GameLogo</Filter>
-    </ClCompile>
     <ClCompile Include="Stage.cpp">
       <Filter>Actor\Level\InGame\BackGround</Filter>
-    </ClCompile>
-    <ClCompile Include="MM_BackGround.cpp">
-      <Filter>Actor\Level\Mainmenu\BackGround</Filter>
-    </ClCompile>
-    <ClCompile Include="CS_BackGround.cpp">
-      <Filter>Actor\Level\EnemySelect\BackGround</Filter>
     </ClCompile>
     <ClCompile Include="EnemyRoulette.cpp">
       <Filter>Actor\Level\EnemySelect</Filter>
     </ClCompile>
-    <ClCompile Include="KnockdownPlayer.cpp">
-      <Filter>Actor\Level\GameOver</Filter>
-    </ClCompile>
-    <ClCompile Include="StageTop.cpp">
-      <Filter>Actor\Level\EnemySelect\BackGround</Filter>
-    </ClCompile>
-    <ClCompile Include="GO_BackGround.cpp">
-      <Filter>Actor\Level\GameOver\BackGround</Filter>
-    </ClCompile>
-    <ClCompile Include="CarbuncleMenu.cpp">
-      <Filter>Actor\Level\Mainmenu\Menu</Filter>
-    </ClCompile>
     <ClCompile Include="FSM.cpp">
       <Filter>Actor\Level\InGame\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="TitleActor.cpp">
+      <Filter>Actor\Level\Title</Filter>
+    </ClCompile>
+    <ClCompile Include="FadeInOutBackground.cpp">
+      <Filter>Actor\Global</Filter>
+    </ClCompile>
+    <ClCompile Include="MainMenuActor.cpp">
+      <Filter>Actor\Level\Mainmenu</Filter>
+    </ClCompile>
+    <ClCompile Include="InGameActor.cpp">
+      <Filter>Actor\Level\InGame</Filter>
+    </ClCompile>
+    <ClCompile Include="GameOverActor.cpp">
+      <Filter>Actor\Level\GameOver</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemySelectActor.cpp">
+      <Filter>Actor\Level\EnemySelect</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -116,65 +86,35 @@
     <ClInclude Include="Enemy.h">
       <Filter>Actor\Level\InGame\Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="CompanyLogo.h">
-      <Filter>Actor\Level\Title</Filter>
-    </ClInclude>
-    <ClInclude Include="Red_Puyo.h">
-      <Filter>Actor\Level\Title</Filter>
-    </ClInclude>
-    <ClInclude Include="Carbuncle.h">
-      <Filter>Actor\Level\Title</Filter>
-    </ClInclude>
-    <ClInclude Include="ChracterBackground.h">
-      <Filter>Actor\Level\Title\BackGround</Filter>
-    </ClInclude>
-    <ClInclude Include="YellowLightning.h">
-      <Filter>Actor\Level\Title\BackGround</Filter>
-    </ClInclude>
-    <ClInclude Include="BlueLightning.h">
-      <Filter>Actor\Level\Title\BackGround</Filter>
-    </ClInclude>
-    <ClInclude Include="ArleFace.h">
-      <Filter>Actor\Level\Title</Filter>
-    </ClInclude>
-    <ClInclude Include="GameName.h">
-      <Filter>Actor\Level\Title\GameLogo</Filter>
-    </ClInclude>
-    <ClInclude Include="ChineseCharacter.h">
-      <Filter>Actor\Level\Title\GameLogo</Filter>
-    </ClInclude>
-    <ClInclude Include="CarbuncleCoin.h">
-      <Filter>Actor\Level\Title\GameLogo</Filter>
-    </ClInclude>
     <ClInclude Include="Stage.h">
       <Filter>Actor\Level\InGame\BackGround</Filter>
-    </ClInclude>
-    <ClInclude Include="MM_BackGround.h">
-      <Filter>Actor\Level\Mainmenu\BackGround</Filter>
-    </ClInclude>
-    <ClInclude Include="CS_BackGround.h">
-      <Filter>Actor\Level\EnemySelect\BackGround</Filter>
     </ClInclude>
     <ClInclude Include="EnemyRoulette.h">
       <Filter>Actor\Level\EnemySelect</Filter>
     </ClInclude>
-    <ClInclude Include="KnockdownPlayer.h">
-      <Filter>Actor\Level\GameOver</Filter>
-    </ClInclude>
-    <ClInclude Include="StageTop.h">
-      <Filter>Actor\Level\EnemySelect\BackGround</Filter>
-    </ClInclude>
-    <ClInclude Include="GO_BackGround.h">
-      <Filter>Actor\Level\GameOver\BackGround</Filter>
-    </ClInclude>
     <ClInclude Include="ContentsEnum.h">
       <Filter>Global</Filter>
     </ClInclude>
-    <ClInclude Include="CarbuncleMenu.h">
-      <Filter>Actor\Level\Mainmenu\Menu</Filter>
-    </ClInclude>
     <ClInclude Include="FSM.h">
       <Filter>Actor\Level\InGame\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="TitleActor.h">
+      <Filter>Actor\Level\Title</Filter>
+    </ClInclude>
+    <ClInclude Include="FadeInOutBackground.h">
+      <Filter>Actor\Global</Filter>
+    </ClInclude>
+    <ClInclude Include="MainMenuActor.h">
+      <Filter>Actor\Level\Mainmenu</Filter>
+    </ClInclude>
+    <ClInclude Include="InGameActor.h">
+      <Filter>Actor\Level\InGame</Filter>
+    </ClInclude>
+    <ClInclude Include="GameOverActor.h">
+      <Filter>Actor\Level\GameOver</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemySelectActor.h">
+      <Filter>Actor\Level\EnemySelect</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -195,21 +135,6 @@
     </Filter>
     <Filter Include="Actor\Level\Mainmenu">
       <UniqueIdentifier>{f18dbdd0-01dc-43fc-8af8-47e8056c873b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Actor\Level\Title\BackGround">
-      <UniqueIdentifier>{425a0ca4-2305-4af9-9215-c266e78bc7d7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Actor\Level\Mainmenu\BackGround">
-      <UniqueIdentifier>{9099b790-8604-4b29-9295-f5238e4140f2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Actor\Level\GameOver\BackGround">
-      <UniqueIdentifier>{a3c97aed-4763-4fb4-be92-5b9e19c77b44}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Actor\Level\Title\GameLogo">
-      <UniqueIdentifier>{a6e7591f-0a15-42ae-a985-bab7dceb9fea}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Actor\Level\Mainmenu\Menu">
-      <UniqueIdentifier>{590b809c-8211-4b1b-aa57-743b031d9261}</UniqueIdentifier>
     </Filter>
     <Filter Include="Actor\Level\InGame">
       <UniqueIdentifier>{175c2f27-c6d5-44f3-970f-a14faee0eabd}</UniqueIdentifier>
@@ -232,8 +157,8 @@
     <Filter Include="Actor\Level\EnemySelect">
       <UniqueIdentifier>{7e4fc7f9-393b-4e12-b085-8ec1c06e38db}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Actor\Level\EnemySelect\BackGround">
-      <UniqueIdentifier>{9a87a68e-71b0-4010-bd8f-7eb4bc3576b4}</UniqueIdentifier>
+    <Filter Include="Actor\Global">
+      <UniqueIdentifier>{25f26537-767a-432d-ab54-eca5df2ee25a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

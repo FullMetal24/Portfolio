@@ -57,7 +57,7 @@ void PuyoPuyo::GameInit()
 	CreateLevel<InGame>("InGame");
 	CreateLevel<GameOver>("GameOver");
 
-	ChangeLevel("MainMenu");
+	ChangeLevel("Title");
 }
 
 void PuyoPuyo::GameLoop()

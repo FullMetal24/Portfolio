@@ -1,5 +1,5 @@
 #include "Title.h"
-#include "CompanyLogo.h"
+#include "TitleActor.h"
 #include <GameEngine/GameEngineLevel.h>
 #include <GameEngineBase/GameEngineInput.h>
 #include <GameEngine/GameEngine.h>
@@ -252,21 +252,21 @@ void Title::LevelChangeEnd()
 
 void Title::BackgroundInit()
 {
-    NameActor_[0] = CreateActor<CompanyLogo>(0);
+    NameActor_[0] = CreateActor<TitleActor>(0);
     NameRenderer_[0] = NameActor_[0]->CreateRenderer("TT_PU.bmp");
-    NameActor_[1] = CreateActor<CompanyLogo>(0);
+    NameActor_[1] = CreateActor<TitleActor>(0);
     NameRenderer_[1] = NameActor_[1]->CreateRenderer("TT_YO.bmp");
-    NameActor_[2] = CreateActor<CompanyLogo>(0);
+    NameActor_[2] = CreateActor<TitleActor>(0);
     NameRenderer_[2] = NameActor_[2]->CreateRenderer("TT_PU.bmp");
-    NameActor_[3] = CreateActor<CompanyLogo>(0);
+    NameActor_[3] = CreateActor<TitleActor>(0);
     NameRenderer_[3] = NameActor_[3]->CreateRenderer("TT_YO.bmp");
 
 
-    ChineseChracter_ = CreateActor<CompanyLogo>(0);
+    ChineseChracter_ = CreateActor<TitleActor>(0);
     ChineseChracterRenderer_ = ChineseChracter_->CreateRenderer("TT_CHINESECHARACTER.bmp");
 
-    RedPuyo_ = CreateActor<CompanyLogo>(0);
-    GreenPuyo_ = CreateActor<CompanyLogo>(0);
+    RedPuyo_ = CreateActor<TitleActor>(0);
+    GreenPuyo_ = CreateActor<TitleActor>(0);
     RedPuyo_->SetPosition({ 290.f, -20.f});
     GreenPuyo_->SetPosition({ 920.f, -20.f });
 
@@ -298,7 +298,7 @@ void Title::BackgroundInit()
     for (int i = 0; i < 17; i++)
     {
         //¿ª¼ø
-        TitleActors_[i] = CreateActor<CompanyLogo>(i);
+        TitleActors_[i] = CreateActor<TitleActor>(i);
     }
 
     TitleRenderers_[(int)TitileOrder::COMPANYLOGO] = TitleActors_[(int)TitileOrder::COMPANYLOGO]->CreateRenderer("TT_COMPANYLOGO.bmp");

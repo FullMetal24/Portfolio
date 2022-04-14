@@ -1,5 +1,5 @@
 #include "EnemySelect.h"
-#include "CS_BackGround.h"
+#include "EnemySelectActor.h"
 #include <GameEngine/GameEngineRenderer.h>
 #include <GameEngine/GameEngine.h>
 #include <GameEngineBase/GameEngineInput.h>
@@ -23,18 +23,18 @@ EnemySelect::~EnemySelect()
 
 void EnemySelect::Loading()
 {
-	GameEngineActor* Background = CreateActor<CS_BackGround>(1);
+	GameEngineActor* Background = CreateActor<EnemySelectActor>(1);
 	Background->SetPosition(GameEngineWindow::GetScale().Half());
 	Background->CreateRenderer("ES_BACK.bmp");
 
-	GameEngineActor* Enemys = CreateActor<CS_BackGround>(4);
+	GameEngineActor* Enemys = CreateActor<EnemySelectActor>(4);
 	Enemys->SetPosition({ GameEngineWindow::GetScale().Half().x, GameEngineWindow::GetScale().Half().y + 300.f });
 	Enemys->CreateRenderer("ES_ENEMIES.bmp");
 
-	GameEngineActor* ArleProfile = CreateActor<CS_BackGround>(4);
+	GameEngineActor* ArleProfile = CreateActor<EnemySelectActor>(4);
 	ArleProfile->CreateRenderer("ES_ARLE_PROFILE.bmp")->SetPivot({ 210.f, 190.f });
 
-	GameEngineActor* SelectEnemy = CreateActor<CS_BackGround>(4);
+	GameEngineActor* SelectEnemy = CreateActor<EnemySelectActor>(4);
 	SelectEnemy->CreateRenderer("ES_SELECT_ENEMY.bmp")->SetPivot(GameEngineWindow::GetScale().Half());
 
 	TopPositionInit();
@@ -52,7 +52,7 @@ void EnemySelect::TopPositionInit()
 {
 	for (int i = 0; i < 6; ++i)
 	{
-		Top_[i] = CreateActor<CS_BackGround>(2);
+		Top_[i] = CreateActor<EnemySelectActor>(2);
 		Top_[i]->SetPosition({ GameEngineWindow::GetScale().Half().x , GameEngineWindow::GetScale().y - 150.f });
 	}
 
@@ -137,7 +137,7 @@ void EnemySelect::EnemyInit()
 
 void EnemySelect::FrameInit()
 {
-	GameEngineActor* Frame = CreateActor<CS_BackGround>(1);
+	GameEngineActor* Frame = CreateActor<EnemySelectActor>(1);
 	Frame->SetPosition(GameEngineWindow::GetScale().Half());
 	GameEngineRenderer* PlayerFrame = Frame->CreateRenderer("ES_FRAME.bmp");
 	PlayerFrame->SetPivot({ -430.f, -150.f }); //Player

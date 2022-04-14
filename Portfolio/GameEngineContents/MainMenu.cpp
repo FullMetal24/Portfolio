@@ -1,5 +1,5 @@
 #include "MainMenu.h"
-#include "MM_BackGround.h"
+#include "MainMenuActor.h"
 #include <GameEngine/GameEngineRenderer.h>
 #include <GameEngineBase/GameEngineMath.h>
 #include <GameEngine/GameEngineImageManager.h>
@@ -47,7 +47,7 @@ void MainMenu::Update()
 
 void MainMenu::MenuImageInit()
 {
-	GameEngineActor* SelectMenu = CreateActor<MM_BackGround>(4);
+	GameEngineActor* SelectMenu = CreateActor<MainMenuActor>(4);
 	SelectMenu->SetPosition({ GameEngineWindow::GetScale().Half().x, 150 });
 	GameEngineRenderer* SelectMenuRenderer = SelectMenu->CreateRenderer("MM_SELECT_1.bmp");
 
@@ -121,8 +121,8 @@ void MainMenu::MenuImageInit()
 
 void MainMenu::MenuInit()
 {
-	GameEngineActor* Menu1 = CreateActor<MM_BackGround>(3);
-	Menu1->SetPosition({ Menu1->GetPosition().x + 250.f, GameEngineWindow::GetScale().Half().y + 100.f });
+	GameEngineActor* Menu1 = CreateActor<MainMenuActor>(3);
+	Menu1->SetPosition({ Menu1->GetPosition().x - 400.f, GameEngineWindow::GetScale().Half().y + 100.f });
 
 	GameEngineRenderer* Menu1_Renerer = Menu1->CreateRenderer();
 	Menu1_Renerer->CreateAnimation("MM_MENU_1_IDLE.bmp", "MM_MENU_1_IDLE", 0, 2, 0.1f, true);
@@ -133,13 +133,13 @@ void MainMenu::MenuInit()
 
 	//»≠ªÏ«•
 	{
-		GameEngineActor* RightArrow = CreateActor<MM_BackGround>(4);
+		GameEngineActor* RightArrow = CreateActor<MainMenuActor>(4);
 		RightArrow->SetPosition({ Menu1->GetPosition().x + 180.f, GameEngineWindow::GetScale().Half().y + 80.f });
 		GameEngineRenderer* RightRenderer = RightArrow->CreateRenderer();
 		RightRenderer->CreateAnimation("MM_ARROW_RIGHT.bmp", "MM_ARROW_RIGHT", 0, 1, 0.1f, true);
 		RightRenderer->ChangeAnimation("MM_ARROW_RIGHT");
 
-		GameEngineActor* LeftArrow = CreateActor<MM_BackGround>(4);
+		GameEngineActor* LeftArrow = CreateActor<MainMenuActor>(4);
 		LeftArrow->SetPosition({ Menu1->GetPosition().x + 140.f, GameEngineWindow::GetScale().Half().y + 80.f });
 		GameEngineRenderer* LeftRenderer = LeftArrow->CreateRenderer();
 		LeftRenderer->CreateAnimation("MM_ARROW_LEFT.bmp", "MM_ARROW_LEFT", 0, 1, 0.1f, true);
@@ -154,7 +154,7 @@ void MainMenu::MenuInit()
 
 	//ª—ø‰
 	{
-		GameEngineActor* Puyo = CreateActor<MM_BackGround>(5);
+		GameEngineActor* Puyo = CreateActor<MainMenuActor>(5);
 		Puyo->SetPosition({ Menu1->GetPosition().x - 80.f, GameEngineWindow::GetScale().Half().y + 280.f });
 		GameEngineRenderer* Puyoenderer = Puyo->CreateRenderer();
 		Puyoenderer->CreateAnimation("MM_PUYO.bmp", "MM_PUYO", 0, 6, 1.0f, true);
@@ -166,7 +166,7 @@ void MainMenu::MenuInit()
 	}
 
 
-	GameEngineActor* Menu2 = CreateActor<MM_BackGround>(3);
+	GameEngineActor* Menu2 = CreateActor<MainMenuActor>(3);
 	Menu2->SetPosition({ Menu1->GetPosition().x + 320.f, GameEngineWindow::GetScale().Half().y + 100.f });
 	GameEngineRenderer* Menu2_Renerer = Menu2->CreateRenderer();
 	Menu2_Renerer->CreateAnimation("MM_MENU_2_IDLE.bmp", "MM_MENU_2_IDLE", 0, 2, 0.1f, true);
@@ -176,14 +176,14 @@ void MainMenu::MenuInit()
 	Menu2_Renerer->PauseOn();
 
 	{
-		GameEngineActor* RightArrow = CreateActor<MM_BackGround>(4);
+		GameEngineActor* RightArrow = CreateActor<MainMenuActor>(4);
 		RightArrow->SetPosition({ Menu2->GetPosition().x + 180.f, GameEngineWindow::GetScale().Half().y + 80.f });
 		GameEngineRenderer* RightRenderer = RightArrow->CreateRenderer();
 		RightRenderer->CreateAnimation("MM_ARROW_RIGHT.bmp", "MM_ARROW_RIGHT", 0, 1, 0.1f, true);
 		RightRenderer->ChangeAnimation("MM_ARROW_RIGHT");
 		RightRenderer->PauseOn();
 
-		GameEngineActor* LeftArrow = CreateActor<MM_BackGround>(4);
+		GameEngineActor* LeftArrow = CreateActor<MainMenuActor>(4);
 		LeftArrow->SetPosition({ Menu2->GetPosition().x + 140.f, GameEngineWindow::GetScale().Half().y + 80.f });
 		GameEngineRenderer* LeftRenderer = LeftArrow->CreateRenderer();
 		LeftRenderer->CreateAnimation("MM_ARROW_LEFT.bmp", "MM_ARROW_LEFT", 0, 1, 0.1f, true);
@@ -197,14 +197,14 @@ void MainMenu::MenuInit()
 	}
 
 	{
-		GameEngineActor* Puyo = CreateActor<MM_BackGround>(5);
+		GameEngineActor* Puyo = CreateActor<MainMenuActor>(5);
 		Puyo->SetPosition({ Menu2->GetPosition().x - 80.f, GameEngineWindow::GetScale().Half().y + 280.f });
 		GameEngineRenderer* Puyoenderer = Puyo->CreateRenderer();
 		Puyoenderer->CreateAnimation("MM_PUYO.bmp", "MM_PUYO", 0, 6, 1.0f, true);
 		Puyoenderer->ChangeAnimation("MM_PUYO");
 		Puyoenderer->PauseOn();
 
-		GameEngineActor* Puyo1 = CreateActor<MM_BackGround>(5);
+		GameEngineActor* Puyo1 = CreateActor<MainMenuActor>(5);
 		Puyo1->SetPosition({ Menu2->GetPosition().x - 20.f, GameEngineWindow::GetScale().Half().y + 280.f });
 		GameEngineRenderer* Puyoenderer1 = Puyo1->CreateRenderer();
 		Puyoenderer1->CreateAnimation("MM_PUYO.bmp", "MM_PUYO", 0, 6, 1.0f, true);
@@ -219,7 +219,7 @@ void MainMenu::MenuInit()
 	}
 
 
-	GameEngineActor* Menu3 = CreateActor<MM_BackGround>(3);
+	GameEngineActor* Menu3 = CreateActor<MainMenuActor>(3);
 	Menu3->SetPosition({ Menu2->GetPosition().x + 320.f, GameEngineWindow::GetScale().Half().y + 100.f });
 	GameEngineRenderer* Menu3_Renerer = Menu3->CreateRenderer();
 	Menu3_Renerer->CreateAnimation("MM_MENU_3_IDLE.bmp", "MM_MENU_3_IDLE", 0, 2, 0.5f, true);
@@ -229,14 +229,14 @@ void MainMenu::MenuInit()
 	Menu3_Renerer->PauseOn();
 
 	{
-		GameEngineActor* RightArrow = CreateActor<MM_BackGround>(4);
+		GameEngineActor* RightArrow = CreateActor<MainMenuActor>(4);
 		RightArrow->SetPosition({ Menu3->GetPosition().x + 180.f, GameEngineWindow::GetScale().Half().y + 80.f });
 		GameEngineRenderer* RightRenderer = RightArrow->CreateRenderer();
 		RightRenderer->CreateAnimation("MM_ARROW_RIGHT.bmp", "MM_ARROW_RIGHT", 0, 1, 0.1f, true);
 		RightRenderer->ChangeAnimation("MM_ARROW_RIGHT");
 		RightRenderer->PauseOn();
 
-		GameEngineActor* LeftArrow = CreateActor<MM_BackGround>(4);
+		GameEngineActor* LeftArrow = CreateActor<MainMenuActor>(4);
 		LeftArrow->SetPosition({ Menu3->GetPosition().x + 140.f, GameEngineWindow::GetScale().Half().y + 80.f });
 		GameEngineRenderer* LeftRenderer = LeftArrow->CreateRenderer();
 		LeftRenderer->CreateAnimation("MM_ARROW_LEFT.bmp", "MM_ARROW_LEFT", 0, 1, 0.1f, true);
@@ -250,14 +250,14 @@ void MainMenu::MenuInit()
 	}
 
 	{
-		GameEngineActor* Puyo = CreateActor<MM_BackGround>(5);
+		GameEngineActor* Puyo = CreateActor<MainMenuActor>(5);
 		Puyo->SetPosition({ Menu3->GetPosition().x - 85.f, GameEngineWindow::GetScale().Half().y + 280.f });
 		GameEngineRenderer* Puyoenderer = Puyo->CreateRenderer();
 		Puyoenderer->CreateAnimation("MM_PUYO.bmp", "MM_PUYO", 0, 6, 1.0f, true);
 		Puyoenderer->ChangeAnimation("MM_PUYO");
 		Puyoenderer->PauseOn();
 
-		GameEngineActor* Puyo1 = CreateActor<MM_BackGround>(5);
+		GameEngineActor* Puyo1 = CreateActor<MainMenuActor>(5);
 		Puyo1->SetPosition({ Menu3->GetPosition().x + 85.f, GameEngineWindow::GetScale().Half().y + 280.f });
 		GameEngineRenderer* Puyoenderer1 = Puyo1->CreateRenderer();
 		Puyoenderer1->CreateAnimation("MM_PUYO.bmp", "MM_PUYO", 0, 6, 1.0f, true);
@@ -273,7 +273,7 @@ void MainMenu::MenuInit()
 
 
 
-	GameEngineActor* Menu4 = CreateActor<MM_BackGround>(3);
+	GameEngineActor* Menu4 = CreateActor<MainMenuActor>(3);
 	Menu4->SetPosition({ Menu3->GetPosition().x + 320.f, GameEngineWindow::GetScale().Half().y + 100.f });
 	GameEngineRenderer* Menu4_Renerer = Menu4->CreateRenderer();
 	Menu4_Renerer->CreateAnimation("MM_MENU_4_IDLE.bmp", "MM_MENU_4_IDLE", 0, 2, 0.5f, true);
@@ -284,14 +284,14 @@ void MainMenu::MenuInit()
 
 
 	{
-		GameEngineActor* RightArrow = CreateActor<MM_BackGround>(4);
+		GameEngineActor* RightArrow = CreateActor<MainMenuActor>(4);
 		RightArrow->SetPosition({ Menu4->GetPosition().x + 180.f, GameEngineWindow::GetScale().Half().y + 80.f });
 		GameEngineRenderer* RightRenderer = RightArrow->CreateRenderer();
 		RightRenderer->CreateAnimation("MM_ARROW_RIGHT.bmp", "MM_ARROW_RIGHT", 0, 1, 0.1f, true);
 		RightRenderer->ChangeAnimation("MM_ARROW_RIGHT");
 		RightRenderer->PauseOn();
 
-		GameEngineActor* LeftArrow = CreateActor<MM_BackGround>(4);
+		GameEngineActor* LeftArrow = CreateActor<MainMenuActor>(4);
 		LeftArrow->SetPosition({ Menu4->GetPosition().x + 140.f, GameEngineWindow::GetScale().Half().y + 80.f });
 		GameEngineRenderer* LeftRenderer = LeftArrow->CreateRenderer();
 		LeftRenderer->CreateAnimation("MM_ARROW_LEFT.bmp", "MM_ARROW_LEFT", 0, 1, 0.1f, true);
@@ -305,21 +305,21 @@ void MainMenu::MenuInit()
 	}
 
 	{
-		GameEngineActor* Puyo = CreateActor<MM_BackGround>(5);
+		GameEngineActor* Puyo = CreateActor<MainMenuActor>(5);
 		Puyo->SetPosition({ Menu4->GetPosition().x -85.f, GameEngineWindow::GetScale().Half().y + 280.f });
 		GameEngineRenderer* Puyoenderer = Puyo->CreateRenderer();
 		Puyoenderer->CreateAnimation("MM_PUYO.bmp", "MM_PUYO", 0, 6, 1.0f, true);
 		Puyoenderer->ChangeAnimation("MM_PUYO");
 		Puyoenderer->PauseOn();
 
-		GameEngineActor* Puyo1 = CreateActor<MM_BackGround>(6);
+		GameEngineActor* Puyo1 = CreateActor<MainMenuActor>(6);
 		Puyo1->SetPosition({ Menu4->GetPosition().x - 45.f, GameEngineWindow::GetScale().Half().y + 290.f });
 		GameEngineRenderer* Puyoenderer1 = Puyo1->CreateRenderer();
 		Puyoenderer1->CreateAnimation("MM_PUYO.bmp", "MM_PUYO", 0, 6, 1.0f, true);
 		Puyoenderer1->ChangeAnimation("MM_PUYO");
 		Puyoenderer1->PauseOn();
 
-		GameEngineActor* Puyo2 = CreateActor<MM_BackGround>(5);
+		GameEngineActor* Puyo2 = CreateActor<MainMenuActor>(5);
 		Puyo2->SetPosition({ Menu4->GetPosition().x - 15.f, GameEngineWindow::GetScale().Half().y + 280.f });
 		GameEngineRenderer* Puyoenderer2 = Puyo2->CreateRenderer();
 		Puyoenderer2->CreateAnimation("MM_PUYO.bmp", "MM_PUYO", 0, 6, 1.0f, true);
@@ -337,7 +337,7 @@ void MainMenu::MenuInit()
 	}
 
 
-	GameEngineActor* Menu5 = CreateActor<MM_BackGround>(3);
+	GameEngineActor* Menu5 = CreateActor<MainMenuActor>(3);
 	Menu5->SetPosition({ Menu4->GetPosition().x + 320.f, GameEngineWindow::GetScale().Half().y + 100.f });
 	GameEngineRenderer* Menu5_Renerer = Menu5->CreateRenderer();
 	Menu5_Renerer->CreateAnimation("MM_MENU_5_IDLE.bmp", "MM_MENU_5_IDLE", 0, 2, 0.5f, true);
@@ -347,28 +347,28 @@ void MainMenu::MenuInit()
 	Menu5_Renerer->PauseOn();
 
 	{
-		GameEngineActor* Puyo = CreateActor<MM_BackGround>(5);
+		GameEngineActor* Puyo = CreateActor<MainMenuActor>(5);
 		Puyo->SetPosition({ Menu5->GetPosition().x - 100.f, GameEngineWindow::GetScale().Half().y + 280.f });
 		GameEngineRenderer* Puyoenderer = Puyo->CreateRenderer();
 		Puyoenderer->CreateAnimation("MM_PUYO.bmp", "MM_PUYO", 0, 6, 1.0f, true);
 		Puyoenderer->ChangeAnimation("MM_PUYO");
 		Puyoenderer->PauseOn();
 
-		GameEngineActor* Puyo1 = CreateActor<MM_BackGround>(5);
+		GameEngineActor* Puyo1 = CreateActor<MainMenuActor>(5);
 		Puyo1->SetPosition({ Menu5->GetPosition().x - 40.f, GameEngineWindow::GetScale().Half().y + 280.f });
 		GameEngineRenderer* Puyoenderer1 = Puyo1->CreateRenderer();
 		Puyoenderer1->CreateAnimation("MM_PUYO.bmp", "MM_PUYO", 0, 6, 1.0f, true);
 		Puyoenderer1->ChangeAnimation("MM_PUYO");
 		Puyoenderer1->PauseOn();
 
-		GameEngineActor* Puyo2 = CreateActor<MM_BackGround>(5);
+		GameEngineActor* Puyo2 = CreateActor<MainMenuActor>(5);
 		Puyo2->SetPosition({ Menu5->GetPosition().x + 17.f, GameEngineWindow::GetScale().Half().y + 280.f });
 		GameEngineRenderer* Puyoenderer2 = Puyo2->CreateRenderer();
 		Puyoenderer2->CreateAnimation("MM_PUYO.bmp", "MM_PUYO", 0, 6, 1.0f, true);
 		Puyoenderer2->ChangeAnimation("MM_PUYO");
 		Puyoenderer2->PauseOn();
 
-		GameEngineActor* Puyo3 = CreateActor<MM_BackGround>(5);
+		GameEngineActor* Puyo3 = CreateActor<MainMenuActor>(5);
 		Puyo3->SetPosition({ Menu5->GetPosition().x + 100.f, GameEngineWindow::GetScale().Half().y + 280.f });
 		GameEngineRenderer* Puyoenderer3 = Puyo3->CreateRenderer();
 		Puyoenderer3->CreateAnimation("MM_PUYO.bmp", "MM_PUYO", 0, 6, 1.0f, true);
@@ -420,7 +420,7 @@ void MainMenu::BackgourndInit()
 
 	for (int i = 0; i < 10; i++)
 	{
-		GameEngineActor* Actor = CreateActor<MM_BackGround>(0);
+		GameEngineActor* Actor = CreateActor<MainMenuActor>(0);
 		float4 Pos(GameEngineWindow::GetScale().x - (i * Offset), (GameEngineWindow::GetScale().Half().y / 4.f));
 		Actor->SetPosition(Pos);
 
@@ -433,7 +433,7 @@ void MainMenu::BackgourndInit()
 
 	for (int i = 0; i < 10; i++)
 	{
-		GameEngineActor* Actor = CreateActor<MM_BackGround>(1);
+		GameEngineActor* Actor = CreateActor<MainMenuActor>(1);
 		float4 Pos(GameEngineWindow::GetScale().x - (i * Offset), (GameEngineWindow::GetScale().Half().y / 4.f) + 224);
 		Actor->SetPosition(Pos);
 
@@ -446,7 +446,7 @@ void MainMenu::BackgourndInit()
 
 	for (int i = 0; i < 10; i++)
 	{
-		GameEngineActor* Actor = CreateActor<MM_BackGround>(1);
+		GameEngineActor* Actor = CreateActor<MainMenuActor>(1);
 		float4 Pos(GameEngineWindow::GetScale().x - (i * Offset), (GameEngineWindow::GetScale().Half().y / 4.f) + 224 * 2);
 		Actor->SetPosition(Pos);
 
@@ -459,7 +459,7 @@ void MainMenu::BackgourndInit()
 
 	for (int i = 0; i < 10; i++)
 	{
-		GameEngineActor* Actor = CreateActor<MM_BackGround>(1);
+		GameEngineActor* Actor = CreateActor<MainMenuActor>(1);
 		float4 Pos(GameEngineWindow::GetScale().x - (i * Offset), (GameEngineWindow::GetScale().Half().y / 4.f) + 224 * 3);
 		Actor->SetPosition(Pos);
 
