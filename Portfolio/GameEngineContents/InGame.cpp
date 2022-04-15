@@ -2,8 +2,7 @@
 #include <GameEngineBase/GameEngineWindow.h>
 #include <GameEngineBase/GameEngineRandom.h>
 #include <GameEngine/GameEngineActor.h>
-#include <iostream>
-#include <random>
+#include <GameEngine/GameEngine.h>
 #include "PuyoPair.h"
 #include "Puyo.h"
 #include "FSM.h"
@@ -58,6 +57,12 @@ void InGame::Update()
 	if (true == Player_->GetAllLanding() && false == Player_->GetLose())
 	{
 		Player_->AddPuyoPair(CreatePuyoPair());
+	}
+
+	else if (true == Player_->GetAllLanding() && true == Player_->GetLose())
+	{
+		GameEngine::GetInst().ChangeLevel("GameOver");
+		//
 	}
 }
 

@@ -1,4 +1,5 @@
 #pragma once
+#include "FadeInOutBackground.h"
 #include "GameEngine/GameEngineLevel.h"
 
 class GameOver : public GameEngineLevel
@@ -20,6 +21,7 @@ public:
 protected:
 
 private:
+	FadeInOutBackground* Background_;
 
 };
 
