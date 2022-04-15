@@ -234,7 +234,7 @@ void Title::Update()
 
         else
         {
-            TitleActors_[(int)TitileOrder::ROLL_3]->CreateRenderer("TT_ROLL_GRAY1.bmp")->SetOrder(2);
+            TitleActors_[(int)TitileOrder::ROLL_3]->CreateRenderer("TT_ROLL_GRAY.bmp")->SetOrder(2);
             GameEngineRenderer* LogoRenderer = TitleActors_[(int)TitileOrder::ROLL_3]->CreateRenderer("TT_GAMELOGO.bmp");
             LogoRenderer->SetOrder(5);
             ++TransCount_;

@@ -742,33 +742,21 @@ void MainMenu::BackgroundUpdate()
 		{
 			if (0 == i || 2 == i) //0, 2라인
 			{
-				//BackGrounds_[i][j]->SetPosition(BackGrounds_[i][j]->GetPosition() + (float4::RIGHT * GameEngineTime::GetDeltaTime() * 200.f));
+				BackGrounds_[i][j]->SetPosition(BackGrounds_[i][j]->GetPosition() + (float4::RIGHT * GameEngineTime::GetDeltaTime() * 200.f));
 
-				if (GameEngineWindow::GetScale().x < BackGrounds_[i][j]->GetPosition().x)
+				if (GameEngineWindow::GetScale().x + 500.f < BackGrounds_[i][j]->GetPosition().x)
 				{
-					//BackGrounds_[i][j]->SetPosition({ 0.0f, BackGrounds_[i][j]->GetPosition().y });
-
-					//BackGrounds_[i].erase(BackGrounds_[i][j]);
-
-					//GameEngineActor* LastActor = BackGrounds_[i].back();
-
-					//GameEngineActor* Actor = CreateActor<MainMenuActor>(0);
-					//GameEngineRenderer* Renderer = Actor->CreateRenderer();
-					//Actor->SetPosition(LastActor->GetPosition() + float4{ 220.f, 0 });
-					//Renderer->CreateAnimation("MM_SD0R.bmp", "MM_SD0R", 0, 3, 0.1f, true);
-					//Renderer->ChangeAnimation("MM_SD0R");
-
-					//BackGrounds_[i].push_back(Actor);
+					BackGrounds_[i][j]->SetPosition({ 0.0f, BackGrounds_[i][j]->GetPosition().y });
 				}
 			}
 
 			if (1 == i || 3 == i) //1, 3라인
 			{
-				//BackGrounds_[i][j]->SetPosition(BackGrounds_[i][j]->GetPosition() + (float4::LEFT * GameEngineTime::GetDeltaTime() * 200.f));
+				BackGrounds_[i][j]->SetPosition(BackGrounds_[i][j]->GetPosition() + (float4::LEFT * GameEngineTime::GetDeltaTime() * 200.f));
 
-				if (0.f > BackGrounds_[i][j]->GetPosition().x) //벗어나는 위치
+				if (-500.f > BackGrounds_[i][j]->GetPosition().x) //벗어나는 위치
 				{
-					//BackGrounds_[i][j]->SetPosition({ GameEngineWindow::GetScale().x, BackGrounds_[i][j]->GetPosition().y }); //다시 붙여주는 위치
+					BackGrounds_[i][j]->SetPosition({ GameEngineWindow::GetScale().x, BackGrounds_[i][j]->GetPosition().y }); //다시 붙여주는 위치
 				}
 			}
 		}

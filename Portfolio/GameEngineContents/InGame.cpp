@@ -59,6 +59,8 @@ void InGame::Update()
 		Player_->AddPuyoPair(CreatePuyoPair());
 	}
 
+
+
 	else if (true == Player_->GetAllLanding() && true == Player_->GetLose())
 	{
 		GameEngine::GetInst().ChangeLevel("GameOver");
