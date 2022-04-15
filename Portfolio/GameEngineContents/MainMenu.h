@@ -48,7 +48,7 @@ private:
 	std::vector<GameEngineRenderer*> RightRenderers_;
 	std::vector<GameEngineRenderer*> LeftRenderers_;
 
-	std::vector<std::list<GameEngineActor*>> BackGrounds_;
+	std::vector<std::vector<GameEngineActor*>> BackGrounds_;
 	
 	GameEngineImage* Back_;
 

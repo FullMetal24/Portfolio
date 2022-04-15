@@ -410,10 +410,10 @@ void MainMenu::BackgourndInit()
 	GameEngineImage* Image1 = GameEngineImageManager::GetInst()->Find("MM_SD5L.bmp");
 	Image1->CutCount(4, 1);
 
-	std::list<GameEngineActor*> FirstLine;
-	std::list<GameEngineActor*> SecondLine;
-	std::list<GameEngineActor*> ThirdLine;
-	std::list<GameEngineActor*> LastLine;
+	std::vector<GameEngineActor*> FirstLine;
+	std::vector<GameEngineActor*> SecondLine;
+	std::vector<GameEngineActor*> ThirdLine;
+	std::vector<GameEngineActor*> LastLine;
 
 	float Offset;
 	Offset = 220.f;
@@ -738,40 +738,41 @@ void MainMenu::BackgroundUpdate()
 {
 	for (int i = 0; i < BackGrounds_.size(); ++i)
 	{
-		std::list<GameEngineActor*>::iterator StartIter = BackGrounds_[i].begin();
-		std::list<GameEngineActor*>::iterator EndIter = BackGrounds_[i].end();
-
-		if (0 == i || 2 == i)
+		for (int j = 0; j < BackGrounds_[i].size(); j++)
 		{
-			for (; StartIter != EndIter; ++StartIter)
+			if (0 == i || 2 == i) //0, 2라인
 			{
-				//(*StartIter)->SetPosition((*StartIter)->GetPosition() + (float4::RIGHT * GameEngineTime::GetDeltaTime() * 200.f));
+				//BackGrounds_[i][j]->SetPosition(BackGrounds_[i][j]->GetPosition() + (float4::RIGHT * GameEngineTime::GetDeltaTime() * 200.f));
 
-				//if (GameEngineWindow::GetScale().x < (*StartIter)->GetPosition().x)
-				//{
+				if (GameEngineWindow::GetScale().x < BackGrounds_[i][j]->GetPosition().x)
+				{
+					//BackGrounds_[i][j]->SetPosition({ 0.0f, BackGrounds_[i][j]->GetPosition().y });
 
-				//}
+					//BackGrounds_[i].erase(BackGrounds_[i][j]);
+
+					//GameEngineActor* LastActor = BackGrounds_[i].back();
+
+					//GameEngineActor* Actor = CreateActor<MainMenuActor>(0);
+					//GameEngineRenderer* Renderer = Actor->CreateRenderer();
+					//Actor->SetPosition(LastActor->GetPosition() + float4{ 220.f, 0 });
+					//Renderer->CreateAnimation("MM_SD0R.bmp", "MM_SD0R", 0, 3, 0.1f, true);
+					//Renderer->ChangeAnimation("MM_SD0R");
+
+					//BackGrounds_[i].push_back(Actor);
+				}
+			}
+
+			if (1 == i || 3 == i) //1, 3라인
+			{
+				//BackGrounds_[i][j]->SetPosition(BackGrounds_[i][j]->GetPosition() + (float4::LEFT * GameEngineTime::GetDeltaTime() * 200.f));
+
+				if (0.f > BackGrounds_[i][j]->GetPosition().x) //벗어나는 위치
+				{
+					//BackGrounds_[i][j]->SetPosition({ GameEngineWindow::GetScale().x, BackGrounds_[i][j]->GetPosition().y }); //다시 붙여주는 위치
+				}
 			}
 		}
-
-		if (1 == i || 3 == i) //1, 3라인
-		{
-			for (; StartIter != EndIter; ++StartIter)
-			{
-				//(*StartIter)->SetPosition((*StartIter)->GetPosition() + (float4::LEFT * GameEngineTime::GetDeltaTime() * 2.f));
-
-				//if (0.0f > (*StartIter)->GetPosition().x)
-				//{
-				//	GameEngineActor* NextActor = BackGrounds_[i].back();
-				//	(*StartIter)->SetPosition(NextActor->GetPosition());
-				//	BackGrounds_[i].push_back(*StartIter);
-				//}
-			}
-		}
-
 	}
-
-
 }
 
 void MainMenu::MenuRendererPause()
