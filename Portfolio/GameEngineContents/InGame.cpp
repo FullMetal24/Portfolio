@@ -17,7 +17,7 @@ InGame::InGame()
 	, Stage_(nullptr)
 	, RandomColor_{}
 	, StageClear_(0)
-	, LevelCount_(7.f)
+	, LevelCount_(15.f)
 	, IsStart_(true) //일단 트루
 { 
 } 

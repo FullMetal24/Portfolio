@@ -48,8 +48,6 @@ public:
 		Y_ = _Y;
 	}
 
-	//진짜 움직임은 SetMove에서 
-
 	inline GameEngineRenderer* GetMyRenderer()
 	{
 		return MyRenderer_;
@@ -84,14 +82,11 @@ public:
 	void RenderToUpDown(); 
 	void RenderToLeftRightUpDown();
 
-	void RenderToLand();
 	void RenderToDestroy();
+	void RenderToLand();
 
 	void RenderToIdle();
 	void RenderToOtherIdle();
-
-
-
 
 protected:
 
@@ -99,15 +94,10 @@ private:
 	GameEngineRenderer* MyRenderer_;
 
 	PuyoColor MyColor_;
-	bool IsVisited_;
 	int X_;
 	int Y_;
 
 	bool IsLanding_;
-
-	//색
-	//뿌요페어를 알아선 안됨
-	//하지만 뿌요벡터는 알아야 한다.
-
+	bool IsVisited_;
 };
 

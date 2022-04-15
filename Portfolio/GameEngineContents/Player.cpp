@@ -407,7 +407,7 @@ void Player::Rotate()
 					{
 						if (nullptr != PlayerMap_[CenterY_][CenterX_ + 1] || nullptr != PlayerMap_[CenterY_ + 1][CenterX_ + 1] || 5 < SecondX_ + 1)
 						{
- 							PuyoDir_ = PuyoDir::LEFT;
+  							PuyoDir_ = PuyoDir::LEFT;
 							continue;
 						}
 						

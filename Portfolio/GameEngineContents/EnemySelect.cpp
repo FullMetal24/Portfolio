@@ -14,7 +14,7 @@ EnemySelect::EnemySelect()
 	: RouletteSpeed_(1.0f)
 	, RouletteIndex_(0)
 	, SpeedLimit_(0.01f)
-	, LevelChangeCount_(3.0f)
+	, LevelChangeCount_(2.5f)
 {
 }
 

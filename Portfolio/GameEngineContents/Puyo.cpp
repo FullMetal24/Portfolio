@@ -1,22 +1,23 @@
 #include "Puyo.h"
+#include "ContentsEnum.h"
 #include "GameEngineBase/GameEngineWindow.h"
 #include <GameEngine/GameEngineImageManager.h>
 #include <GameEngine/GameEngineRenderer.h>
 #include <GameEngine/GameEngine.h>
 #include <GameEngineBase/GameEngineTime.h>
 
-Puyo::Puyo() 
-	:  IsLanding_(false)
+Puyo::Puyo()
+	: MyRenderer_(nullptr)
+	, MyColor_(PuyoColor::RED)
 {
 }
 
-Puyo::~Puyo() 
+Puyo::~Puyo()
 {
 }
 
 void Puyo::Start()
 {
-
 }
 
 void Puyo::Update()
@@ -29,8 +30,10 @@ void Puyo::RenderToLeft()
 	switch (MyColor_)
 	{
 	case PuyoColor::RED:
+		MyRenderer_->SetImage("IG_RED_LEFT.bmp");
 		break;
 	case PuyoColor::BLUE:
+		MyRenderer_->SetImage("IG_BLUE_LEFT.bmp");
 		break;
 	case PuyoColor::GREEN:
 		break;
@@ -282,16 +285,69 @@ void Puyo::RenderToLeftRightUpDown()
 
 void Puyo::RenderToLand()
 {
+	switch (MyColor_)
+	{
+	case PuyoColor::RED:
+		break;
+	case PuyoColor::BLUE:
+		break;
+	case PuyoColor::GREEN:
+		break;
+	case PuyoColor::YELLO:
+		break;
+	case PuyoColor::PURPLE:
+		break;
+	}
 }
 
 void Puyo::RenderToDestroy()
 {
+	switch (MyColor_)
+	{
+	case PuyoColor::RED:
+		break;
+	case PuyoColor::BLUE:
+		break;
+	case PuyoColor::GREEN:
+		break;
+	case PuyoColor::YELLO:
+		break;
+	case PuyoColor::PURPLE:
+		break;
+	}
 }
 
 void Puyo::RenderToIdle()
 {
+	switch (MyColor_)
+	{
+	case PuyoColor::RED:
+		break;
+	case PuyoColor::BLUE:
+		break;
+	case PuyoColor::GREEN:
+		break;
+	case PuyoColor::YELLO:
+		break;
+	case PuyoColor::PURPLE:
+		break;
+	}
 }
 
 void Puyo::RenderToOtherIdle()
 {
+	switch (MyColor_)
+	{
+	case PuyoColor::RED:
+		break;
+	case PuyoColor::BLUE:
+		break;
+	case PuyoColor::GREEN:
+		break;
+	case PuyoColor::YELLO:
+		break;
+	case PuyoColor::PURPLE:
+		break;
+	}
 }
+
