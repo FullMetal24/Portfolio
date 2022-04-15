@@ -3,6 +3,7 @@
 #include <GameEngine/GameEngineLevel.h>
 #include <GameEngine/GameEngineActor.h>
 #include <GameEngine/GameEngineRenderer.h>
+#include "FadeInOutBackground.h"
 #include "Stage.h"
 #include "Player.h"
 #include <vector>
@@ -44,7 +45,10 @@ private:
 
 	GameEngineRandom RandomColor_;
 
+	FadeInOutBackground* FadeBackground_;
+
 	int StageClear_;
+	float LevelCount_;
 
 	bool IsStart_;
 };

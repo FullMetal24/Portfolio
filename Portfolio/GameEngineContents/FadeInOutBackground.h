@@ -22,12 +22,17 @@ public:
 	{
 		IsOn_ = true;
 	}
+	inline void IsChangeOn()
+	{
+		IsChange_ = true;
+	}
 
 	//하나의 배경으로 돌려 쓸 경우 쓰고 나서 한번 리셋
 	inline void Reset()
 	{
 		AlphaValue_ = 0;
 		IsOn_ = false;
+		IsChange_ = false;
 		FadeSpeed_ = 0.f;
 		MyRenderer_->SetOrder(0);
 		MyRenderer_->SetAlpha(0);
@@ -36,6 +41,16 @@ public:
 	inline bool GetIsOn()
 	{
 		return IsOn_;
+	}
+
+	inline bool GetIsChage()
+	{
+		return IsChange_;
+	}
+
+	inline void SetIsChage(bool _Change)
+	{
+		IsChange_ = _Change;
 	}
 
 	inline void SetFadeSpeed(float _Speed)
@@ -59,8 +74,10 @@ private:
 	GameEngineRenderer* MyRenderer_;
 
 	int AlphaValue_;
+
 	float FadeSpeed_;
 
 	bool IsOn_;
+	bool IsChange_;
 };
 

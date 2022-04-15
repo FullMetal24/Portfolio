@@ -1,5 +1,6 @@
 #pragma once
 #include "GameEngine/GameEngineLevel.h"
+#include "FadeInOutBackground.h"
 #include "ContentsEnum.h"
 #include <vector>
 #include <list>
@@ -7,6 +8,7 @@
 class GameEngineRenderer;
 class GameEngineActor;
 class GameEngineImage;
+class MainMenuActor;
 class MainMenu : public GameEngineLevel
 {
 public:
@@ -48,9 +50,10 @@ private:
 	std::vector<GameEngineRenderer*> RightRenderers_;
 	std::vector<GameEngineRenderer*> LeftRenderers_;
 
-	std::vector<std::vector<GameEngineActor*>> BackGrounds_;
+	std::vector<std::vector<MainMenuActor*>> BackGrounds_;
 	
 	GameEngineImage* Back_;
+	FadeInOutBackground* FadeBackground_;
 
 	int MenuCount_;
 

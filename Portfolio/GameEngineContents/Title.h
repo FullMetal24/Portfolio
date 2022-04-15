@@ -44,11 +44,10 @@ private:
 	GameEngineRenderer* GreenRenderer_;
 
 	FadeInOutBackground* FadeInOutBackground_;
+	FadeInOutBackground* LevelChangeBackground_;
 
 	int TransCount_;
 	float TransTime_;
 	
 	bool EyeMove_;
-
-	int TitleShow_;
 };

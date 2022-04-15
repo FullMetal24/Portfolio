@@ -35,7 +35,6 @@ Title::Title()
     , TransTime_(0.0f)
     , TransCount_(0)
     , EyeMove_(false)
-    , TitleShow_(0)
 {
 
 }
@@ -61,9 +60,16 @@ void Title::Update()
 
     if (GameEngineInput::GetInst()->IsDown("Title"))
     {
+        LevelChangeBackground_->FadeOn();
+        LevelChangeBackground_->GetMyRenderer()->SetOrder(20);
+        LevelChangeBackground_->SetFadeSpeed(800.f);
+    }
+
+    if (true == LevelChangeBackground_->GetIsChage())
+    {
         GameEngine::GetInst().ChangeLevel("MainMenu");
     }
-    
+
     if (1 == TransCount_&& false == EyeMove_)
     {
         if (0.5f < TransTime_)
@@ -255,6 +261,7 @@ void Title::LevelChangeEnd()
 void Title::BackgroundInit()
 {
     FadeInOutBackground_ = CreateActor<FadeInOutBackground>();
+    LevelChangeBackground_ = CreateActor<FadeInOutBackground>();
 
     NameActor_[0] = CreateActor<TitleActor>(0);
     NameRenderer_[0] = NameActor_[0]->CreateRenderer("TT_PU.bmp");

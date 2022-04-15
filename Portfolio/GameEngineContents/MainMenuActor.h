@@ -28,7 +28,7 @@ public:
 		MyRenderer_ = _Renderer;
 	}
 
-	inline GameEngineRenderer* CreateRenderer(const std::string& _Name)
+	inline GameEngineRenderer* CreateRenderer(const std::string& _Name) 
 	{
 		MyRenderer_ = CreateRenderer(_Name);
 

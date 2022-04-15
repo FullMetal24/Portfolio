@@ -79,7 +79,8 @@ private:
 	float DownMoveDis_;
 	float SideMoveDis_;
 
-	float DownTime;
+	float DownTime_;
+	int LimitTime_;
 	float JedgementTime_; //판정 시간
 
 	bool IsStart_;

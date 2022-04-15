@@ -3,6 +3,7 @@
 #include <GameEngineBase/GameEngineRandom.h>
 #include <GameEngine/GameEngineActor.h>
 #include <GameEngine/GameEngine.h>
+#include "FadeInOutBackground.h"
 #include "PuyoPair.h"
 #include "Puyo.h"
 #include "FSM.h"
@@ -15,6 +16,7 @@ InGame::InGame()
 	, Stage_(nullptr)
 	, RandomColor_{}
 	, StageClear_(0)
+	, LevelCount_(7.f)
 	, IsStart_(true) //일단 트루
 { 
 } 
@@ -26,6 +28,8 @@ InGame::~InGame()
 
 void InGame::Loading()
 {
+	FadeBackground_ = CreateActor<FadeInOutBackground>();
+
 	Stages_[0] = CreateActor<Stage>();
 
 	Stages_[0]->SetPosition(GameEngineWindow::GetScale().Half());
@@ -54,17 +58,23 @@ void InGame::Loading()
 
 void InGame::Update()
 {
+	LevelCount_ -= GameEngineTime::GetDeltaTime();
+
 	if (true == Player_->GetAllLanding() && false == Player_->GetLose())
 	{
 		Player_->AddPuyoPair(CreatePuyoPair());
 	}
 
-
-
-	else if (true == Player_->GetAllLanding() && true == Player_->GetLose())
+	else if (true == Player_->GetAllLanding() && true == Player_->GetLose() && 0 >= LevelCount_)
 	{
-		GameEngine::GetInst().ChangeLevel("GameOver");
-		//
+		FadeBackground_->FadeOn();
+		FadeBackground_->GetMyRenderer()->SetOrder(20);
+		FadeBackground_->SetFadeSpeed(500.f);
+
+		if (true == FadeBackground_->GetIsChage())
+		{
+			GameEngine::GetInst().ChangeLevel("GameOver");
+		}
 	}
 }
 

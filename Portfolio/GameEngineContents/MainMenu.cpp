@@ -1,4 +1,5 @@
 #include "MainMenu.h"
+#include "FadeInOutBackground.h"
 #include "MainMenuActor.h"
 #include <GameEngine/GameEngineRenderer.h>
 #include <GameEngineBase/GameEngineMath.h>
@@ -32,6 +33,9 @@ void MainMenu::Loading()
 		GameEngineInput::GetInst()->CreateKey("ManiMenu_Left", VK_LEFT);
 		GameEngineInput::GetInst()->CreateKey("ManiMenu_Select", VK_RETURN);
 	}
+
+	FadeBackground_ = CreateActor<FadeInOutBackground>();
+	
 
 	MenuImageInit();
 	MenuInit();
@@ -407,66 +411,70 @@ void MainMenu::BackgourndInit()
 	Back_ = GameEngineImageManager::GetInst()->Find("MM_SD0R.bmp");
 	Back_->CutCount(4, 1);
 
-	GameEngineImage* Image1 = GameEngineImageManager::GetInst()->Find("MM_SD5L.bmp");
-	Image1->CutCount(4, 1);
+	GameEngineImage* Image = GameEngineImageManager::GetInst()->Find("MM_SD5L.bmp");
+	Image->CutCount(4, 1);
 
-	std::vector<GameEngineActor*> FirstLine;
-	std::vector<GameEngineActor*> SecondLine;
-	std::vector<GameEngineActor*> ThirdLine;
-	std::vector<GameEngineActor*> LastLine;
+	std::vector<MainMenuActor*> FirstLine;
+	std::vector<MainMenuActor*> SecondLine;
+	std::vector<MainMenuActor*> ThirdLine;
+	std::vector<MainMenuActor*> LastLine;
 
 	float Offset;
 	Offset = 220.f;
 
 	for (int i = 0; i < 10; i++)
 	{
-		GameEngineActor* Actor = CreateActor<MainMenuActor>(0);
+		MainMenuActor* Actor = CreateActor<MainMenuActor>(0);
 		float4 Pos(GameEngineWindow::GetScale().x - (i * Offset), (GameEngineWindow::GetScale().Half().y / 4.f));
 		Actor->SetPosition(Pos);
 
-		GameEngineRenderer* Renderer = Actor->CreateRenderer();
+		GameEngineRenderer* Renderer = Actor->GameEngineActor::CreateRenderer();
 		Renderer->CreateAnimation("MM_SD0R.bmp", "MM_SD0R", 0, 3, 0.1f, true);
 		Renderer->ChangeAnimation("MM_SD0R");
 
+		Actor->SetMyRenderer(Renderer);
 		FirstLine.push_back(Actor);
 	}
 
 	for (int i = 0; i < 10; i++)
 	{
-		GameEngineActor* Actor = CreateActor<MainMenuActor>(1);
+		MainMenuActor* Actor = CreateActor<MainMenuActor>(1);
 		float4 Pos(GameEngineWindow::GetScale().x - (i * Offset), (GameEngineWindow::GetScale().Half().y / 4.f) + 224);
 		Actor->SetPosition(Pos);
 
-		GameEngineRenderer* Renderer = Actor->CreateRenderer();
+		GameEngineRenderer* Renderer = Actor->GameEngineActor::CreateRenderer();
 		Renderer->CreateAnimation("MM_SD5L.bmp", "MM_SD5L", 0, 3, 0.1f, true);
 		Renderer->ChangeAnimation("MM_SD5L");
 
+		Actor->SetMyRenderer(Renderer);
 		SecondLine.push_back(Actor);
 	}
 
 	for (int i = 0; i < 10; i++)
 	{
-		GameEngineActor* Actor = CreateActor<MainMenuActor>(1);
+		MainMenuActor* Actor = CreateActor<MainMenuActor>(1);
 		float4 Pos(GameEngineWindow::GetScale().x - (i * Offset), (GameEngineWindow::GetScale().Half().y / 4.f) + 224 * 2);
 		Actor->SetPosition(Pos);
 
-		GameEngineRenderer* Renderer = Actor->CreateRenderer();
+		GameEngineRenderer* Renderer = Actor->GameEngineActor::CreateRenderer();
 		Renderer->CreateAnimation("MM_SD0R.bmp", "MM_SD0R", 0, 3, 0.3f, true);
 		Renderer->ChangeAnimation("MM_SD0R");
 
+		Actor->SetMyRenderer(Renderer);
 		ThirdLine.push_back(Actor);
 	}
 
 	for (int i = 0; i < 10; i++)
 	{
-		GameEngineActor* Actor = CreateActor<MainMenuActor>(1);
+		MainMenuActor* Actor = CreateActor<MainMenuActor>(1);
 		float4 Pos(GameEngineWindow::GetScale().x - (i * Offset), (GameEngineWindow::GetScale().Half().y / 4.f) + 224 * 3);
 		Actor->SetPosition(Pos);
 
-		GameEngineRenderer* Renderer = Actor->CreateRenderer();
+		GameEngineRenderer* Renderer = Actor->GameEngineActor::CreateRenderer();
 		Renderer->CreateAnimation("MM_SD5L.bmp", "MM_SD5L", 0, 3, 0.3f, true);
 		Renderer->ChangeAnimation("MM_SD5L");
 
+		Actor->SetMyRenderer(Renderer);
 		LastLine.push_back(Actor);
 	}
 
@@ -605,27 +613,63 @@ void MainMenu::SelectMenu()
 
 	if (true == MenuRenderers_[1]->IsEndAnimation() && true == MenuSelect_[0])
 	{
-		GameEngine::GetInst().ChangeLevel("EnemySelect");
+		FadeBackground_->FadeOn();
+		FadeBackground_->GetMyRenderer()->SetOrder(20);
+		FadeBackground_->SetFadeSpeed(800.f);
+
+		if (true == FadeBackground_->GetIsChage())
+		{
+			GameEngine::GetInst().ChangeLevel("EnemySelect");
+		}
 	}
 
 	else if (true == MenuRenderers_[2]->IsEndAnimation() && true == MenuSelect_[1])
 	{
-		GameEngine::GetInst().ChangeLevel("Title");
+		FadeBackground_->FadeOn();
+		FadeBackground_->SetOrder(20);
+		FadeBackground_->SetFadeSpeed(800.f);
+
+		if (true == FadeBackground_->GetIsChage())
+		{
+			GameEngine::GetInst().ChangeLevel("Title");
+		}
 	}
 
 	else if (true == MenuRenderers_[3]->IsEndAnimation() && true == MenuSelect_[2])
 	{
-		GameEngine::GetInst().ChangeLevel("Title");
+		FadeBackground_->FadeOn();
+		FadeBackground_->SetOrder(20);
+		FadeBackground_->SetFadeSpeed(800.f);
+
+		if (true == FadeBackground_->GetIsChage())
+		{
+			GameEngine::GetInst().ChangeLevel("Title");
+		}
 	}
 
 	else if (true == MenuRenderers_[4]->IsEndAnimation() && true == MenuSelect_[3])
 	{
-		GameEngine::GetInst().ChangeLevel("Title");
+		FadeBackground_->FadeOn();
+		FadeBackground_->SetOrder(20);
+		FadeBackground_->SetFadeSpeed(800.f);
+
+
+		if (true == FadeBackground_->GetIsChage())
+		{
+			GameEngine::GetInst().ChangeLevel("Title");
+		}
 	}
 
 	else if (true == MenuRenderers_[0]->IsEndAnimation() && true == MenuSelect_[4])
 	{
-		GameEngine::GetInst().ChangeLevel("Title");
+		FadeBackground_->FadeOn();
+		FadeBackground_->SetOrder(20);
+		FadeBackground_->SetFadeSpeed(800.f);
+
+		if (true == FadeBackground_->GetIsChage())
+		{
+			GameEngine::GetInst().ChangeLevel("Title");
+		}
 	}
 }
 
@@ -734,6 +778,8 @@ void MainMenu::ArrowMoveToLeft()
 	}
 }
 
+int offset_;
+
 void MainMenu::BackgroundUpdate()
 {
 	for (int i = 0; i < BackGrounds_.size(); ++i)
@@ -744,7 +790,8 @@ void MainMenu::BackgroundUpdate()
 			{
 				BackGrounds_[i][j]->SetPosition(BackGrounds_[i][j]->GetPosition() + (float4::RIGHT * GameEngineTime::GetDeltaTime() * 200.f));
 
-				if (GameEngineWindow::GetScale().x + 500.f < BackGrounds_[i][j]->GetPosition().x)
+				if (GameEngineWindow::GetScale().x + BackGrounds_[i][j]->GetMyRenderer()->GetImageScale().x
+					< BackGrounds_[i][j]->GetPosition().x)
 				{
 					BackGrounds_[i][j]->SetPosition({ 0.0f, BackGrounds_[i][j]->GetPosition().y });
 				}
@@ -754,11 +801,14 @@ void MainMenu::BackgroundUpdate()
 			{
 				BackGrounds_[i][j]->SetPosition(BackGrounds_[i][j]->GetPosition() + (float4::LEFT * GameEngineTime::GetDeltaTime() * 200.f));
 
-				if (-500.f > BackGrounds_[i][j]->GetPosition().x) //벗어나는 위치
+				if (0.f - BackGrounds_[i][j]->GetMyRenderer()->GetImageScale().x > BackGrounds_[i][j]->GetPosition().x) //벗어나는 위치
 				{
 					BackGrounds_[i][j]->SetPosition({ GameEngineWindow::GetScale().x, BackGrounds_[i][j]->GetPosition().y }); //다시 붙여주는 위치
+
+					//BackGrounds_[i][j]->SetPosition(BackGrounds_[i].back()->GetPosition() + BackGrounds_[i].back()->GetMyRenderer()->GetImageScale());
 				}
 			}
+
 		}
 	}
 }

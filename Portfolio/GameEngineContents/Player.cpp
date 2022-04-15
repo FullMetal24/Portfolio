@@ -13,7 +13,8 @@ Player::Player()
 	, SecondY_(0)
 	, DownMoveDis_(30.0f) 
 	, SideMoveDis_(65.0f)
-	, DownTime(0.5f)
+	, DownTime_(0.5f)
+	, LimitTime_(0)
 	, IsAllLanding_(false)
 	, IsLose_(false)
 {
@@ -43,6 +44,8 @@ void Player::Render()
 
 void Player::Update()
 {
+	++LimitTime_;
+
 	if (false == CurrentPair_->GetCenterPuyo()->GetLandiung() && false == CurrentPair_->GetSecondPuyo()->GetLandiung())
 	{
 		if (true == GameEngineInput::GetInst()->IsDown("PuyoLeft"))
@@ -65,24 +68,22 @@ void Player::Update()
 			Rotate();
 		}
 
-		if (true == GameEngineInput::GetInst()->IsPress("PuyoDown"))
+		if (true == GameEngineInput::GetInst()->IsPress("PuyoDown") &&  0 == 5 / LimitTime_)
 		{
 			MoveDown();
+			LimitTime_ = 0;
 		}
 	}
 
 
-	DownTime -= GameEngineTime::GetDeltaTime();
+	DownTime_ -= GameEngineTime::GetDeltaTime();
 
-	if (0.0f >= DownTime && false == CurrentPair_->GetCenterPuyo()->GetLandiung()
-		|| 0.0f >= DownTime && false == CurrentPair_->GetSecondPuyo()->GetLandiung())
+	if (0.0f >= DownTime_ && false == CurrentPair_->GetCenterPuyo()->GetLandiung()
+		|| 0.0f >= DownTime_ && false == CurrentPair_->GetSecondPuyo()->GetLandiung())
 	{
 		MoveDown();
-		DownTime = 0.5f;
-	
-		LandCheck();
+		DownTime_ = 0.5f;
 	}
-
 
 	if (true == CurrentPair_->GetCenterPuyo()->GetLandiung() 
 		&& true == CurrentPair_->GetSecondPuyo()->GetLandiung())
@@ -256,6 +257,8 @@ void Player::MoveDown()
 			SecondY_ = CurrentPair_->GetSecondPuyo()->GetY();
 		}
 	}
+
+	LandCheck();
  }
 
 

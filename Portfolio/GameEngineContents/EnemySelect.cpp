@@ -1,5 +1,6 @@
 #include "EnemySelect.h"
 #include "EnemySelectActor.h"
+#include "FadeInOutBackground.h"
 #include <GameEngine/GameEngineRenderer.h>
 #include <GameEngine/GameEngine.h>
 #include <GameEngineBase/GameEngineInput.h>
@@ -13,7 +14,7 @@ EnemySelect::EnemySelect()
 	: RouletteSpeed_(1.0f)
 	, RouletteIndex_(0)
 	, SpeedLimit_(0.01f)
-	, LevelChangeCount_(2.0f)
+	, LevelChangeCount_(3.0f)
 {
 }
 
@@ -36,6 +37,8 @@ void EnemySelect::Loading()
 
 	GameEngineActor* SelectEnemy = CreateActor<EnemySelectActor>(4);
 	SelectEnemy->CreateRenderer("ES_SELECT_ENEMY.bmp")->SetPivot(GameEngineWindow::GetScale().Half());
+
+	FadeBackground_ = CreateActor<FadeInOutBackground>();
 
 	TopPositionInit();
 	EnemyInit();
@@ -157,15 +160,23 @@ void EnemySelect::Update()
 	{
 		LevelChangeCount_ -= GameEngineTime::GetDeltaTime();
 
-		if (0.0f > LevelChangeCount_)
+		if (0.0f >= LevelChangeCount_)
 		{
-			GameEngine::GetInst().ChangeLevel("InGame");
+			FadeBackground_->FadeOn();
+			FadeBackground_->GetMyRenderer()->SetOrder(20);
+			FadeBackground_->SetFadeSpeed(500.f);
 
-			GameEngineLevel* NextLevel = GameEngine::GetNextLevel();
-			InGame* InGame_ = dynamic_cast<InGame*>(NextLevel);
+			if (true == FadeBackground_->GetIsChage())
+			{
+				GameEngine::GetInst().ChangeLevel("InGame");
 
-			//나중에 에네미가 자기 프레임애니메이션도 갖고 있도록 하자
-			InGame_->SetEnemy(MyEnemy_->GetProfile());
+				GameEngineLevel* NextLevel = GameEngine::GetNextLevel();
+				InGame* InGame_ = dynamic_cast<InGame*>(NextLevel);
+
+				//나중에 에네미가 자기 프레임애니메이션도 갖고 있도록 하자
+				InGame_->SetEnemy(MyEnemy_->GetProfile());
+
+			}
 		}
 	}
 	

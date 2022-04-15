@@ -10,6 +10,7 @@ FadeInOutBackground::FadeInOutBackground()
 	, AlphaValue_(0)
 	, FadeSpeed_(0.f)
 	, IsOn_(false)
+	, IsChange_(false)
 {
 }
 
@@ -33,6 +34,7 @@ void FadeInOutBackground::Update()
 		if (255 <= AlphaValue_)
 		{
 			IsOn_ = false;
+			IsChange_ = true;
 		}
 	}
 }
