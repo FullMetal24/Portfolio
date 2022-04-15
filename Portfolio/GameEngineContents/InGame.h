@@ -33,6 +33,8 @@ public:
 
 	PuyoPair* CreatePuyoPair();
 
+	void PuyoAnimationInit();
+
 protected:
 
 private:

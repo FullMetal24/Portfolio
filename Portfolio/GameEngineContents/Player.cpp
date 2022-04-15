@@ -68,7 +68,7 @@ void Player::Update()
 			Rotate();
 		}
 
-		if (true == GameEngineInput::GetInst()->IsPress("PuyoDown") &&  0 == 5 / LimitTime_)
+		if (true == GameEngineInput::GetInst()->IsPress("PuyoDown") &&  0 == 20 / LimitTime_)
 		{
 			MoveDown();
 			LimitTime_ = 0;

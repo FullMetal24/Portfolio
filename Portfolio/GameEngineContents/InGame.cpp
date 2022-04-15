@@ -2,6 +2,7 @@
 #include <GameEngineBase/GameEngineWindow.h>
 #include <GameEngineBase/GameEngineRandom.h>
 #include <GameEngine/GameEngineActor.h>
+#include <GameEngine/GameEngineImageManager.h>
 #include <GameEngine/GameEngine.h>
 #include "FadeInOutBackground.h"
 #include "PuyoPair.h"
@@ -31,7 +32,7 @@ void InGame::Loading()
 	FadeBackground_ = CreateActor<FadeInOutBackground>();
 
 	Stages_[0] = CreateActor<Stage>();
-
+	 
 	Stages_[0]->SetPosition(GameEngineWindow::GetScale().Half());
 	Stages_[0]->CreateRenderer("IG_STAGE1.bmp", 2);
 	Stages_[0]->CreateRenderer("IG_STAGE1_BACK.bmp", 0);
@@ -95,25 +96,40 @@ PuyoPair* InGame::CreatePuyoPair()
 
 	switch (number)
 	{
-	case static_cast<int>(Color::RED):
-		CenterPuyo->CreateRenderer("IG_RED_PUYO_1.bmp");
-		CenterPuyo->SetColor(Color::RED);
+	case static_cast<int>(PuyoColor::RED):
+		{
+			GameEngineRenderer* NewRenderer = CenterPuyo->CreateRenderer("IG_RED_PUYO.bmp");
+			CenterPuyo->SetMyRenderer(NewRenderer);
+			CenterPuyo->SetColor(PuyoColor::RED);
+		}
 		break;
-	case static_cast<int>(Color::BLUE):
-		CenterPuyo->CreateRenderer("IG_RED_PUYO_4.bmp");
-		CenterPuyo->SetColor(Color::BLUE);
+	case static_cast<int>(PuyoColor::BLUE):
+		{
+			GameEngineRenderer* NewRenderer = CenterPuyo->CreateRenderer("IG_BLUE_PUYO.bmp");
+			CenterPuyo->SetMyRenderer(NewRenderer);
+			CenterPuyo->SetColor(PuyoColor::BLUE);
+		}
 		break;
-	case static_cast<int>(Color::GREEN):
-		CenterPuyo->CreateRenderer("IG_RED_PUYO_5.bmp");
-		CenterPuyo->SetColor(Color::GREEN);
+	case static_cast<int>(PuyoColor::GREEN):
+		{
+			GameEngineRenderer* NewRenderer = CenterPuyo->CreateRenderer("IG_GREEN_PUYO.bmp");
+			CenterPuyo->SetMyRenderer(NewRenderer);
+			CenterPuyo->SetColor(PuyoColor::GREEN);
+		}
 		break;
-	case static_cast<int>(Color::YELLO):
-		CenterPuyo->CreateRenderer("IG_RED_PUYO_2.bmp");
-		CenterPuyo->SetColor(Color::YELLO);
+	case static_cast<int>(PuyoColor::YELLO):
+		{
+			GameEngineRenderer* NewRenderer = CenterPuyo->CreateRenderer("IG_YELLOW_PUYO.bmp");
+			CenterPuyo->SetMyRenderer(NewRenderer);
+			CenterPuyo->SetColor(PuyoColor::YELLO);
+		}
 		break;
-	case static_cast<int>(Color::PURPLE):
-		CenterPuyo->CreateRenderer("IG_RED_PUYO_3.bmp");
-		CenterPuyo->SetColor(Color::PURPLE);
+	case static_cast<int>(PuyoColor::PURPLE):
+		{
+			GameEngineRenderer* NewRenderer = CenterPuyo->CreateRenderer("IG_PURPLE_PUYO.bmp");
+			CenterPuyo->SetMyRenderer(NewRenderer);
+			CenterPuyo->SetColor(PuyoColor::PURPLE);
+		}
 		break;
 	}
 
@@ -121,25 +137,40 @@ PuyoPair* InGame::CreatePuyoPair()
 
 	switch (number)
 	{
-	case static_cast<int>(Color::RED):
-		ScecondPuyo->CreateRenderer("IG_RED_PUYO_1.bmp");
-		ScecondPuyo->SetColor(Color::RED);
+	case static_cast<int>(PuyoColor::RED):
+		{
+			GameEngineRenderer* NewRenderer = ScecondPuyo->CreateRenderer("IG_RED_PUYO.bmp");
+			ScecondPuyo->SetMyRenderer(NewRenderer);
+			ScecondPuyo->SetColor(PuyoColor::RED);
+		}
 		break;
-	case static_cast<int>(Color::BLUE):
-		ScecondPuyo->CreateRenderer("IG_RED_PUYO_4.bmp");
-		ScecondPuyo->SetColor(Color::BLUE);
+	case static_cast<int>(PuyoColor::BLUE):
+		{
+			GameEngineRenderer* NewRenderer = ScecondPuyo->CreateRenderer("IG_BLUE_PUYO.bmp");
+			ScecondPuyo->SetMyRenderer(NewRenderer);
+			ScecondPuyo->SetColor(PuyoColor::BLUE);
+		}
 		break;
-	case static_cast<int>(Color::GREEN):
-		ScecondPuyo->CreateRenderer("IG_RED_PUYO_5.bmp");
-		ScecondPuyo->SetColor(Color::GREEN);
+	case static_cast<int>(PuyoColor::GREEN):
+		{
+			GameEngineRenderer* NewRenderer = ScecondPuyo->CreateRenderer("IG_GREEN_PUYO.bmp");
+			ScecondPuyo->SetMyRenderer(NewRenderer);
+			ScecondPuyo->SetColor(PuyoColor::GREEN);
+		}
 		break;
-	case static_cast<int>(Color::YELLO):
-		ScecondPuyo->CreateRenderer("IG_RED_PUYO_2.bmp");
-		ScecondPuyo->SetColor(Color::YELLO);
+	case static_cast<int>(PuyoColor::YELLO):
+		{
+			GameEngineRenderer* NewRenderer = ScecondPuyo->CreateRenderer("IG_YELLOW_PUYO.bmp");
+			ScecondPuyo->SetMyRenderer(NewRenderer);
+			ScecondPuyo->SetColor(PuyoColor::YELLO);
+		}
 		break;
-	case static_cast<int>(Color::PURPLE):
-		ScecondPuyo->CreateRenderer("IG_RED_PUYO_3.bmp");
-		ScecondPuyo->SetColor(Color::PURPLE);
+	case static_cast<int>(PuyoColor::PURPLE):
+		{
+			GameEngineRenderer* NewRenderer = ScecondPuyo->CreateRenderer("IG_PURPLE_PUYO.bmp");
+			ScecondPuyo->SetMyRenderer(NewRenderer);
+			ScecondPuyo->SetColor(PuyoColor::PURPLE);
+		}
 		break;
 	}
 
@@ -149,6 +180,46 @@ PuyoPair* InGame::CreatePuyoPair()
 	}
 
 	return NewPuyoPair;
+}
+
+void InGame::PuyoAnimationInit()
+{
+	{
+		GameEngineImage* CenterImage = GameEngineImageManager::GetInst()->Find("IG_RED_CENTER.bmp");
+		CenterImage->CutCount(2, 1);
+
+		GameEngineImage* DestroyImage = GameEngineImageManager::GetInst()->Find("IG_RED_DESTROY.bmp");
+		DestroyImage->CutCount(3, 1);
+
+		GameEngineImage* LandImage = GameEngineImageManager::GetInst()->Find("IG_RED_LAND.bmp");
+		LandImage->CutCount(3, 1);
+
+
+		GameEngineImage* IdleImage = GameEngineImageManager::GetInst()->Find("IG_RED_CRY.bmp");
+		IdleImage->CutCount(3, 1);
+
+		GameEngineImage* IdleImage1 = GameEngineImageManager::GetInst()->Find("IG_RED_ROTATE.bmp");
+		IdleImage1->CutCount(3, 1);
+	}
+
+	{
+		GameEngineImage* CenterImage = GameEngineImageManager::GetInst()->Find("IG_BLUE_CENTER.bmp");
+		CenterImage->CutCount(2, 1);
+
+		GameEngineImage* DestroyImage = GameEngineImageManager::GetInst()->Find("IG_BLUE_DESTROY.bmp");
+		DestroyImage->CutCount(3, 1);
+
+		GameEngineImage* LandImage = GameEngineImageManager::GetInst()->Find("IG_BLUE_LAND.bmp");
+		LandImage->CutCount(2, 1);
+
+		GameEngineImage* IdleImage = GameEngineImageManager::GetInst()->Find("IG_BLUE_IDLE1.bmp");
+		IdleImage->CutCount(3, 1);
+
+		GameEngineImage* IdleImage1 = GameEngineImageManager::GetInst()->Find("IG_BLUE_IDLE2.bmp");
+		IdleImage1->CutCount(3, 1);
+	}
+
+
 }
 
 void InGame::LevelChangeStart()

@@ -23,7 +23,7 @@ enum class MenuType
 
 
 
-enum class Color
+enum class PuyoColor
 {
 	RED,
 	BLUE,

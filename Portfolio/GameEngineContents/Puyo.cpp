@@ -16,10 +16,6 @@ Puyo::~Puyo()
 
 void Puyo::Start()
 {
-	//뿌요는 렌더러를 가질 수 없음
-
-	//랜덤으로 색을 지정하고 그걸로 구별해내서 뿌요를 없애면 되지 않을까?
-	//위에서 난수 생성해서 컬러 지정
 
 }
 
@@ -27,24 +23,275 @@ void Puyo::Update()
 {
 }
 
-void Puyo::Render()
-{
 
+void Puyo::RenderToLeft()
+{
+	switch (MyColor_)
+	{
+	case PuyoColor::RED:
+		break;
+	case PuyoColor::BLUE:
+		break;
+	case PuyoColor::GREEN:
+		break;
+	case PuyoColor::YELLO:
+		break;
+	case PuyoColor::PURPLE:
+		break;
+	}
 }
 
-void Puyo::Down()
+void Puyo::RenderToRight()
 {
-	//좌표 확인
-	SetPosition(GetPosition() + /* OffSet_ + */(float4::DOWN * GameEngineTime::GetDeltaTime()));
+	switch (MyColor_)
+	{
+	case PuyoColor::RED:
+		break;
+	case PuyoColor::BLUE:
+		break;
+	case PuyoColor::GREEN:
+		break;
+	case PuyoColor::YELLO:
+		break;
+	case PuyoColor::PURPLE:
+		break;
+	}
 }
 
-void Puyo::Left()
+void Puyo::RenderToUp()
 {
-	SetPosition(GetPosition() - (float4::LEFT * GameEngineTime::GetDeltaTime())); //시각적으로 보이는 것?
 
+	switch (MyColor_)
+	{
+	case PuyoColor::RED:
+		break;
+	case PuyoColor::BLUE:
+		break;
+	case PuyoColor::GREEN:
+		break;
+	case PuyoColor::YELLO:
+		break;
+	case PuyoColor::PURPLE:
+		break;
+	}
 }
 
-void Puyo::Right()
+void Puyo::RenderToDown()
 {
-	SetPosition(GetPosition() + (float4::RIGHT * GameEngineTime::GetDeltaTime()));
+	switch (MyColor_)
+	{
+	case PuyoColor::RED:
+		break;
+	case PuyoColor::BLUE:
+		break;
+	case PuyoColor::GREEN:
+		break;
+	case PuyoColor::YELLO:
+		break;
+	case PuyoColor::PURPLE:
+		break;
+	}
+}
+
+void Puyo::RenderToLeftRight()
+{
+	switch (MyColor_)
+	{
+	case PuyoColor::RED:
+		break;
+	case PuyoColor::BLUE:
+		break;
+	case PuyoColor::GREEN:
+		break;
+	case PuyoColor::YELLO:
+		break;
+	case PuyoColor::PURPLE:
+		break;
+	}
+}
+
+void Puyo::RenderToLeftRightDown()
+{
+	switch (MyColor_)
+	{
+	case PuyoColor::RED:
+		break;
+	case PuyoColor::BLUE:
+		break;
+	case PuyoColor::GREEN:
+		break;
+	case PuyoColor::YELLO:
+		break;
+	case PuyoColor::PURPLE:
+		break;
+	}
+}
+
+void Puyo::RenderToLefttUp()
+{
+	switch (MyColor_)
+	{
+	case PuyoColor::RED:
+		break;
+	case PuyoColor::BLUE:
+		break;
+	case PuyoColor::GREEN:
+		break;
+	case PuyoColor::YELLO:
+		break;
+	case PuyoColor::PURPLE:
+		break;
+	}
+}
+
+void Puyo::RenderToLeftUpRight()
+{
+	switch (MyColor_)
+	{
+	case PuyoColor::RED:
+		break;
+	case PuyoColor::BLUE:
+		break;
+	case PuyoColor::GREEN:
+		break;
+	case PuyoColor::YELLO:
+		break;
+	case PuyoColor::PURPLE:
+		break;
+	}
+}
+
+void Puyo::RenderToLeftUpDown()
+{
+	switch (MyColor_)
+	{
+	case PuyoColor::RED:
+		break;
+	case PuyoColor::BLUE:
+		break;
+	case PuyoColor::GREEN:
+		break;
+	case PuyoColor::YELLO:
+		break;
+	case PuyoColor::PURPLE:
+		break;
+	}
+}
+
+void Puyo::RenderToLeftDown()
+{
+	switch (MyColor_)
+	{
+	case PuyoColor::RED:
+		break;
+	case PuyoColor::BLUE:
+		break;
+	case PuyoColor::GREEN:
+		break;
+	case PuyoColor::YELLO:
+		break;
+	case PuyoColor::PURPLE:
+		break;
+	}
+}
+
+void Puyo::RenderToRightUp()
+{
+	switch (MyColor_)
+	{
+	case PuyoColor::RED:
+		break;
+	case PuyoColor::BLUE:
+		break;
+	case PuyoColor::GREEN:
+		break;
+	case PuyoColor::YELLO:
+		break;
+	case PuyoColor::PURPLE:
+		break;
+	}
+}
+
+void Puyo::RenderToRightUpDown()
+{
+	switch (MyColor_)
+	{
+	case PuyoColor::RED:
+		break;
+	case PuyoColor::BLUE:
+		break;
+	case PuyoColor::GREEN:
+		break;
+	case PuyoColor::YELLO:
+		break;
+	case PuyoColor::PURPLE:
+		break;
+	}
+}
+
+void Puyo::RenderToRightDown()
+{
+	switch (MyColor_)
+	{
+	case PuyoColor::RED:
+		break;
+	case PuyoColor::BLUE:
+		break;
+	case PuyoColor::GREEN:
+		break;
+	case PuyoColor::YELLO:
+		break;
+	case PuyoColor::PURPLE:
+		break;
+	}
+}
+
+void Puyo::RenderToUpDown()
+{
+	switch (MyColor_)
+	{
+	case PuyoColor::RED:
+		break;
+	case PuyoColor::BLUE:
+		break;
+	case PuyoColor::GREEN:
+		break;
+	case PuyoColor::YELLO:
+		break;
+	case PuyoColor::PURPLE:
+		break;
+	}
+}
+
+void Puyo::RenderToLeftRightUpDown()
+{
+	switch (MyColor_)
+	{
+	case PuyoColor::RED:
+		break;
+	case PuyoColor::BLUE:
+		break;
+	case PuyoColor::GREEN:
+		break;
+	case PuyoColor::YELLO:
+		break;
+	case PuyoColor::PURPLE:
+		break;
+	}
+}
+
+void Puyo::RenderToLand()
+{
+}
+
+void Puyo::RenderToDestroy()
+{
+}
+
+void Puyo::RenderToIdle()
+{
+}
+
+void Puyo::RenderToOtherIdle()
+{
 }

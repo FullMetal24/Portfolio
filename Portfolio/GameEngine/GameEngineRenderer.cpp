@@ -125,7 +125,7 @@ void GameEngineRenderer::SetIndex(size_t _Index, float4 _Scale)
 	}
 
 	RenderImagePivot_ = Image_->GetCutPivot(_Index);	// 이미지의 몇번째칸(벡터의 배열상 Index값 접근)에 해당하는 좌표값
-	RenderImageScale_ = Image_->GetCutScale(_Index);			// 
+	RenderImageScale_ = Image_->GetCutScale(_Index);	
 }
 
 // Animation
