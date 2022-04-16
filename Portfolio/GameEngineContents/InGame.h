@@ -1,5 +1,6 @@
 #pragma once
 #include <GameEngineBase/GameEngineRandom.h>
+#include <GameEngineBase/GameEngineSound.h>
 #include <GameEngine/GameEngineLevel.h>
 #include <GameEngine/GameEngineActor.h>
 #include <GameEngine/GameEngineRenderer.h>
@@ -48,6 +49,8 @@ private:
 	GameEngineRandom RandomColor_;
 
 	FadeInOutBackground* FadeBackground_;
+
+	GameEngineSoundPlayer InGameBgm_;
 
 	int StageClear_;
 	float LevelCount_;

@@ -1,6 +1,7 @@
 #pragma once
 #include "FadeInOutBackground.h"
 #include "GameEngine/GameEngineLevel.h"
+#include <GameEngineBase/GameEngineSound.h>
 
 class GameOver : public GameEngineLevel
 {
@@ -22,6 +23,8 @@ protected:
 
 private:
 	FadeInOutBackground* Background_;
+
+	GameEngineSoundPlayer GameOverBgm_;
 
 };
 

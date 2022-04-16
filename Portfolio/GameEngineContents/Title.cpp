@@ -35,6 +35,7 @@ Title::Title()
     , TransTime_(0.0f)
     , TransCount_(0)
     , EyeMove_(false)
+    , TitleBgm_{}
 {
 
 }
@@ -58,11 +59,13 @@ void Title::Update()
     ChangeBackground();
     FadeBackground();
 
-    if (GameEngineInput::GetInst()->IsDown("Title"))
+    if (GameEngineInput::GetInst()->IsDown("Title") && 0 != TransCount_)
     {
         LevelChangeBackground_->FadeOn();
         LevelChangeBackground_->GetMyRenderer()->SetOrder(20);
         LevelChangeBackground_->SetFadeSpeed(800.f);
+
+        TitleBgm_.Stop();
     }
 
     if (true == LevelChangeBackground_->GetIsChage())
@@ -371,13 +374,14 @@ void Title::ChangeBackground()
 {
     TransTime_ += GameEngineTime::GetDeltaTime();
 
-
     if (3.0f < TransTime_ && 0 == TransCount_)
     {
         FadeInOutBackground_->Reset();
 
         TitleActors_[(int)TitileOrder::COMPANYLOGO]->Death();
 
+        TitleBgm_ = GameEngineSound::SoundPlayControl("Title.mp3");
+       
         ++TransCount_;
         TransTime_ = 0.0f;
     }

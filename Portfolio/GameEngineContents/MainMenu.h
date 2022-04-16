@@ -1,5 +1,6 @@
 #pragma once
 #include "GameEngine/GameEngineLevel.h"
+#include <GameEngineBase/GameEngineSound.h>
 #include "FadeInOutBackground.h"
 #include "ContentsEnum.h"
 #include <vector>
@@ -43,8 +44,7 @@ protected:
 private:
 	std::vector<GameEngineActor*> Menus_;
 	std::vector<GameEngineRenderer*> MenuRenderers_;
-	std::vector<GameEngineActor*> Puyos_;
-	std::vector<GameEngineRenderer*> PuyoRenderers_;
+	std::vector<MainMenuActor*> Puyos_;
 
 	std::vector<GameEngineActor*> Arrows_;
 	std::vector<GameEngineRenderer*> RightRenderers_;
@@ -54,6 +54,8 @@ private:
 	
 	GameEngineImage* Back_;
 	FadeInOutBackground* FadeBackground_;
+
+	GameEngineSoundPlayer MainMenuBgm_;
 
 	int MenuCount_;
 

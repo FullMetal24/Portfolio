@@ -11,10 +11,16 @@
 #include "Enemy.h"
 
 EnemySelect::EnemySelect() 
-	: RouletteSpeed_(1.0f)
-	, RouletteIndex_(0)
+	: Enemys_{}
+	, MyEnemy_(nullptr)
+	, RouletteSpeed_(1.0f)
 	, SpeedLimit_(0.01f)
 	, LevelChangeCount_(2.5f)
+	, RouletteIndex_(0)
+	, LimitForce_(0)
+	, IsSelect_(false)
+	, IsKeyDown_(false)
+
 {
 }
 
@@ -169,6 +175,7 @@ void EnemySelect::Update()
 			if (true == FadeBackground_->GetIsChage())
 			{
 				GameEngine::GetInst().ChangeLevel("InGame");
+				EnemySelectBgm_.Stop();
 
 				GameEngineLevel* NextLevel = GameEngine::GetNextLevel();
 				InGame* InGame_ = dynamic_cast<InGame*>(NextLevel);
@@ -231,6 +238,7 @@ void EnemySelect::PlayRoulette()
 
 void EnemySelect::LevelChangeStart()
 {
+	EnemySelectBgm_ = GameEngineSound::SoundPlayControl("MainMenu.mp3");
 }
 
 void EnemySelect::LevelChangeEnd()

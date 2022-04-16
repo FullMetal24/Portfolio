@@ -1,5 +1,6 @@
 #pragma once
 #include "GameEngine/GameEngineLevel.h"
+#include <GameEngineBase/GameEngineSound.h>
 #include "FadeInOutBackground.h"
 
 class Title : public GameEngineLevel
@@ -45,6 +46,8 @@ private:
 
 	FadeInOutBackground* FadeInOutBackground_;
 	FadeInOutBackground* LevelChangeBackground_;
+
+	GameEngineSoundPlayer TitleBgm_;
 
 	int TransCount_;
 	float TransTime_;

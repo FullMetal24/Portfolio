@@ -9,6 +9,10 @@
 Puyo::Puyo()
 	: MyRenderer_(nullptr)
 	, MyColor_(PuyoColor::RED)
+	, X_(0)
+	, Y_(0)
+	, IsLanding_(false)
+	, IsVisited_(false)
 {
 }
 

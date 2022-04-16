@@ -7,6 +7,9 @@
 
 Player::Player()
 	: PuyoDir_(PuyoDir::UP)
+	, CurrentPair_(nullptr)
+	, NextPair_(nullptr)
+	, NextNextPair_(nullptr)
 	, CenterX_(0)
 	, CenterY_(0)
 	, SecondX_(0)
@@ -344,7 +347,7 @@ void Player::Rotate()
 				}
 				break;  
 
-			case PuyoDir::DOWN:
+			case PuyoDir::DOWN:  
    				if (nullptr == PlayerMap_[CenterY_][CenterX_ + 1] && nullptr == PlayerMap_[CenterY_ + 1][CenterX_ + 1])
 				{
 					PlayerMap_[SecondY_][SecondX_] = nullptr;
@@ -407,7 +410,7 @@ void Player::Rotate()
 					{
 						if (nullptr != PlayerMap_[CenterY_][CenterX_ + 1] || nullptr != PlayerMap_[CenterY_ + 1][CenterX_ + 1] || 5 < SecondX_ + 1)
 						{
-  							PuyoDir_ = PuyoDir::LEFT;
+   							PuyoDir_ = PuyoDir::LEFT;
 							continue;
 						}
 						

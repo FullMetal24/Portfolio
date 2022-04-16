@@ -1,5 +1,6 @@
 #pragma once
 #include "GameEngine/GameEngineLevel.h"
+#include <GameEngineBase/GameEngineSound.h>
 #include "FadeInOutBackground.h"
 #include "EnemyRoulette.h"
 
@@ -33,9 +34,7 @@ protected:
 
 private:
 	Enemy* Enemys_[8];
-	//Enemy* EnemyRenderers_[8];
 	Enemy* MyEnemy_;
-	//EnemyRoulette* EnemyRoulette_;
 
 	float RouletteSpeed_;
 	float SpeedLimit_;
@@ -52,5 +51,7 @@ private:
 	//고른 캐릭터를 PlayGame에 전달해야함
 
 	FadeInOutBackground* FadeBackground_;
+
+	GameEngineSoundPlayer EnemySelectBgm_;
 };
 

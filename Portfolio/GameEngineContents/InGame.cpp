@@ -75,6 +75,7 @@ void InGame::Update()
 		if (true == FadeBackground_->GetIsChage())
 		{
 			GameEngine::GetInst().ChangeLevel("GameOver");
+			InGameBgm_.Stop();
 		}
 	}
 }
@@ -224,6 +225,8 @@ void InGame::PuyoAnimationInit()
 
 void InGame::LevelChangeStart()
 {
+	InGameBgm_ = GameEngineSound::SoundPlayControl("InGame.mp3");
+
 	if (nullptr != EnemyProfile_)
 	{
 		GameEngineActor* Profile = CreateActor<Stage>(4);

@@ -7,6 +7,7 @@
 #include <GameEngineBase/GameEngineWindow.h>
 #include <GameEngineBase/GameEngineDirectory.h>
 #include <GameEngineBase/GameEngineFile.h>
+#include <GameEngineBase/GameEngineSound.h>
 #include <GameEngine/GameEngineImageManager.h>
 
 PuyoPuyo::PuyoPuyo() 
@@ -49,6 +50,20 @@ void PuyoPuyo::GameInit()
 		{
 			GameEngineImageManager::GetInst()->Load(AllImageFileList[i].GetFullPath());
 		};
+	}
+
+	{
+		GameEngineDirectory ResourcesDir;
+		ResourcesDir.MoveParent("Portfolio");
+		ResourcesDir.Move("APIResources");
+		ResourcesDir.Move("Sound");
+
+		std::vector<GameEngineFile> AllImageFileList = ResourcesDir.GetAllFile();
+
+		for (size_t i = 0; i < AllImageFileList.size(); i++)
+		{
+			GameEngineSound::LoadRes(AllImageFileList[i].GetFullPath());
+		}
 	}
 
 	CreateLevel<Title>("Title"); 
