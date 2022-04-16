@@ -34,16 +34,19 @@ void Puyo::RenderToLeft()
 	switch (MyColor_)
 	{
 	case PuyoColor::RED:
-		MyRenderer_->SetImage("IG_RED_LEFT.bmp");
+		MyRenderer_->ChangeAnimation("IG_RED_LEFT");
 		break;
 	case PuyoColor::BLUE:
-		MyRenderer_->SetImage("IG_BLUE_LEFT.bmp");
+		MyRenderer_->ChangeAnimation("IG_BLUE_LEFT");
 		break;
 	case PuyoColor::GREEN:
+		MyRenderer_->ChangeAnimation("IG_GREEN_LEFT");
 		break;
-	case PuyoColor::YELLO:
+	case PuyoColor::YELLOW:
+		MyRenderer_->ChangeAnimation("IG_YELLOW_LEFT");
 		break;
 	case PuyoColor::PURPLE:
+		MyRenderer_->ChangeAnimation("IG_PURPLE_LEFT");
 		break;
 	}
 }
@@ -58,7 +61,7 @@ void Puyo::RenderToRight()
 		break;
 	case PuyoColor::GREEN:
 		break;
-	case PuyoColor::YELLO:
+	case PuyoColor::YELLOW:
 		break;
 	case PuyoColor::PURPLE:
 		break;
@@ -76,7 +79,7 @@ void Puyo::RenderToUp()
 		break;
 	case PuyoColor::GREEN:
 		break;
-	case PuyoColor::YELLO:
+	case PuyoColor::YELLOW:
 		break;
 	case PuyoColor::PURPLE:
 		break;
@@ -93,7 +96,7 @@ void Puyo::RenderToDown()
 		break;
 	case PuyoColor::GREEN:
 		break;
-	case PuyoColor::YELLO:
+	case PuyoColor::YELLOW:
 		break;
 	case PuyoColor::PURPLE:
 		break;
@@ -110,7 +113,7 @@ void Puyo::RenderToLeftRight()
 		break;
 	case PuyoColor::GREEN:
 		break;
-	case PuyoColor::YELLO:
+	case PuyoColor::YELLOW:
 		break;
 	case PuyoColor::PURPLE:
 		break;
@@ -127,7 +130,7 @@ void Puyo::RenderToLeftRightDown()
 		break;
 	case PuyoColor::GREEN:
 		break;
-	case PuyoColor::YELLO:
+	case PuyoColor::YELLOW:
 		break;
 	case PuyoColor::PURPLE:
 		break;
@@ -144,7 +147,7 @@ void Puyo::RenderToLefttUp()
 		break;
 	case PuyoColor::GREEN:
 		break;
-	case PuyoColor::YELLO:
+	case PuyoColor::YELLOW:
 		break;
 	case PuyoColor::PURPLE:
 		break;
@@ -161,7 +164,7 @@ void Puyo::RenderToLeftUpRight()
 		break;
 	case PuyoColor::GREEN:
 		break;
-	case PuyoColor::YELLO:
+	case PuyoColor::YELLOW:
 		break;
 	case PuyoColor::PURPLE:
 		break;
@@ -178,7 +181,7 @@ void Puyo::RenderToLeftUpDown()
 		break;
 	case PuyoColor::GREEN:
 		break;
-	case PuyoColor::YELLO:
+	case PuyoColor::YELLOW:
 		break;
 	case PuyoColor::PURPLE:
 		break;
@@ -195,7 +198,7 @@ void Puyo::RenderToLeftDown()
 		break;
 	case PuyoColor::GREEN:
 		break;
-	case PuyoColor::YELLO:
+	case PuyoColor::YELLOW:
 		break;
 	case PuyoColor::PURPLE:
 		break;
@@ -212,7 +215,7 @@ void Puyo::RenderToRightUp()
 		break;
 	case PuyoColor::GREEN:
 		break;
-	case PuyoColor::YELLO:
+	case PuyoColor::YELLOW:
 		break;
 	case PuyoColor::PURPLE:
 		break;
@@ -229,7 +232,7 @@ void Puyo::RenderToRightUpDown()
 		break;
 	case PuyoColor::GREEN:
 		break;
-	case PuyoColor::YELLO:
+	case PuyoColor::YELLOW:
 		break;
 	case PuyoColor::PURPLE:
 		break;
@@ -246,7 +249,7 @@ void Puyo::RenderToRightDown()
 		break;
 	case PuyoColor::GREEN:
 		break;
-	case PuyoColor::YELLO:
+	case PuyoColor::YELLOW:
 		break;
 	case PuyoColor::PURPLE:
 		break;
@@ -263,7 +266,7 @@ void Puyo::RenderToUpDown()
 		break;
 	case PuyoColor::GREEN:
 		break;
-	case PuyoColor::YELLO:
+	case PuyoColor::YELLOW:
 		break;
 	case PuyoColor::PURPLE:
 		break;
@@ -280,7 +283,7 @@ void Puyo::RenderToLeftRightUpDown()
 		break;
 	case PuyoColor::GREEN:
 		break;
-	case PuyoColor::YELLO:
+	case PuyoColor::YELLOW:
 		break;
 	case PuyoColor::PURPLE:
 		break;
@@ -297,7 +300,7 @@ void Puyo::RenderToLand()
 		break;
 	case PuyoColor::GREEN:
 		break;
-	case PuyoColor::YELLO:
+	case PuyoColor::YELLOW:
 		break;
 	case PuyoColor::PURPLE:
 		break;
@@ -314,7 +317,7 @@ void Puyo::RenderToDestroy()
 		break;
 	case PuyoColor::GREEN:
 		break;
-	case PuyoColor::YELLO:
+	case PuyoColor::YELLOW:
 		break;
 	case PuyoColor::PURPLE:
 		break;
@@ -331,7 +334,7 @@ void Puyo::RenderToIdle()
 		break;
 	case PuyoColor::GREEN:
 		break;
-	case PuyoColor::YELLO:
+	case PuyoColor::YELLOW:
 		break;
 	case PuyoColor::PURPLE:
 		break;
@@ -348,7 +351,7 @@ void Puyo::RenderToOtherIdle()
 		break;
 	case PuyoColor::GREEN:
 		break;
-	case PuyoColor::YELLO:
+	case PuyoColor::YELLOW:
 		break;
 	case PuyoColor::PURPLE:
 		break;

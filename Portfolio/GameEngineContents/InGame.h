@@ -33,6 +33,7 @@ public:
 	}
 
 	PuyoPair* CreatePuyoPair();
+	void CreatePuyoAnimation(GameEngineRenderer* _Renderer, PuyoColor _Color);
 
 	void PuyoAnimationInit();
 

@@ -28,11 +28,6 @@ public:
 		MyRenderer_ = _Renderer;
 	}
 
-	inline GameEngineRenderer* CreateRenderer(const std::string& _Name)
-	{
-		MyRenderer_ = CreateRenderer(_Name);
-		return MyRenderer_;
-	}
 
 protected:
 

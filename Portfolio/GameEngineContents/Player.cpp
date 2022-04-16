@@ -54,6 +54,8 @@ void Player::Update()
 		if (true == GameEngineInput::GetInst()->IsDown("PuyoLeft"))
 		{
 			MoveLeft();
+			CurrentPair_->GetCenterPuyo()->RenderToLeft();
+			CurrentPair_->GetSecondPuyo()->RenderToLeft();
 		}
 
 		if (true == GameEngineInput::GetInst()->IsDown("PuyoRight"))

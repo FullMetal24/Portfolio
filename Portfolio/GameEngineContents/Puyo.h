@@ -63,6 +63,11 @@ public:
 		MyColor_ = _Color;
 	}
 
+	inline PuyoColor GetColor()
+	{
+		return MyColor_;
+	}
+
 	void RenderToLeft();
 	void RenderToRight();
 	void RenderToUp();

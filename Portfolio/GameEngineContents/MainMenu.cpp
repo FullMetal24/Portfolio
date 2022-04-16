@@ -507,11 +507,7 @@ void MainMenu::MenuUpdate()
 			for (int i = 0; i < Puyos_.size(); i++)
 			{
 				Puyos_[i]->SetPosition(Puyos_[i]->GetPosition() + (float4::LEFT * 200.f));
-
-				if (nullptr != Puyos_[i]->GetMyRenderer())
-				{
-					Puyos_[i]->GetMyRenderer()->SetImage("MM_PUYO_DARK.bmp");
-				}
+				Puyos_[i]->GetMyRenderer()->SetImage("MM_PUYO_DARK.bmp");
 			}
 
 			ArrowMoveToRight();	
@@ -531,14 +527,11 @@ void MainMenu::MenuUpdate()
 				Menus_[i]->SetPosition(Menus_[i]->GetPosition() + (float4::RIGHT * 200.f));
 			}
 
-			//for (int i = 0; i < PuyoRenderers_.size(); i++)
-			//{
-			//	PuyoRenderers_[i]->SetImage("MM_PUYO_DARK.bmp");
-			//}
-
 			for (int i = 0; i < Puyos_.size(); i++)
 			{
 				Puyos_[i]->SetPosition(Puyos_[i]->GetPosition() + (float4::RIGHT * 200.f));
+				Puyos_[i]->GetMyRenderer()->PauseOn();
+				Puyos_[i]->GetMyRenderer()->SetImage("MM_PUYO_DARK.bmp");
 			}
 
 			ArrowMoveToLeft();

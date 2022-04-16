@@ -28,7 +28,7 @@ enum class PuyoColor
 	RED,
 	BLUE,
 	GREEN,
-	YELLO,
+	YELLOW,
 	PURPLE
 };
 
