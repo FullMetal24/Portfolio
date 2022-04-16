@@ -1,6 +1,7 @@
 #include "Player.h"
 #include "GameEngineBase/GameEngineInput.h"
 #include <GameEngineBase/GameEngineWindow.h>
+#include <GameEngine/GameEngineRenderer.h>
 #include "Puyo.h"
 #include "PuyoPair.h"
 #include <cmath>
@@ -54,8 +55,6 @@ void Player::Update()
 		if (true == GameEngineInput::GetInst()->IsDown("PuyoLeft"))
 		{
 			MoveLeft();
-			CurrentPair_->GetCenterPuyo()->RenderToLeft();
-			CurrentPair_->GetSecondPuyo()->RenderToLeft();
 		}
 
 		if (true == GameEngineInput::GetInst()->IsDown("PuyoRight"))
@@ -95,6 +94,7 @@ void Player::Update()
 	{
    		IsAllLanding_ = true;
  	}
+
 }
 
 void Player::MoveLeft()
@@ -264,6 +264,7 @@ void Player::MoveDown()
 	}
 
 	LandCheck();
+	LandPuyoAnimation();
  }
 
 
@@ -476,6 +477,54 @@ void Player::Rotate()
  {
 
  }
+
+ void Player::LandPuyoAnimation()
+ {
+	 if (true == CurrentPair_->GetCenterPuyo()->GetLandiung())
+	 {
+		 switch (CurrentPair_->GetCenterPuyo()->GetColor())
+		 {
+		 case PuyoColor::RED:
+			 CurrentPair_->GetCenterPuyo()->GetMyRenderer()->ChangeAnimation("IG_RED_LAND");
+			 break;
+		 case PuyoColor::BLUE:
+			 CurrentPair_->GetCenterPuyo()->GetMyRenderer()->ChangeAnimation("IG_BLUE_LAND");
+			 break;
+		 case PuyoColor::GREEN:
+			 CurrentPair_->GetCenterPuyo()->GetMyRenderer()->ChangeAnimation("IG_GREEN_LAND");
+			 break;
+		 case PuyoColor::YELLOW:
+			 CurrentPair_->GetCenterPuyo()->GetMyRenderer()->ChangeAnimation("IG_YELLOW_LAND");
+			 break;
+		 case PuyoColor::PURPLE:
+			 CurrentPair_->GetCenterPuyo()->GetMyRenderer()->ChangeAnimation("IG_PURPLE_LAND");
+			 break;
+		 }
+	 }
+
+	 if (true == CurrentPair_->GetSecondPuyo()->GetLandiung())
+	 {
+		 switch (CurrentPair_->GetSecondPuyo()->GetColor())
+		 {
+		 case PuyoColor::RED:
+			 CurrentPair_->GetSecondPuyo()->GetMyRenderer()->ChangeAnimation("IG_RED_LAND");
+			 break;
+		 case PuyoColor::BLUE:
+			 CurrentPair_->GetSecondPuyo()->GetMyRenderer()->ChangeAnimation("IG_BLUE_LAND");
+			 break;
+		 case PuyoColor::GREEN:
+			 CurrentPair_->GetSecondPuyo()->GetMyRenderer()->ChangeAnimation("IG_GREEN_LAND");
+			 break;
+		 case PuyoColor::YELLOW:
+			 CurrentPair_->GetSecondPuyo()->GetMyRenderer()->ChangeAnimation("IG_YELLOW_LAND");
+			 break;
+		 case PuyoColor::PURPLE:
+			 CurrentPair_->GetSecondPuyo()->GetMyRenderer()->ChangeAnimation("IG_PURPLE_LAND");
+			 break;
+		 }
+	 }
+ }
+
 
 
 

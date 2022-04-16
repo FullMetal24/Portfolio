@@ -182,7 +182,6 @@ void EnemySelect::Update()
 
 				//나중에 에네미가 자기 프레임애니메이션도 갖고 있도록 하자
 				InGame_->SetEnemy(MyEnemy_->GetProfile());
-
 			}
 		}
 	}

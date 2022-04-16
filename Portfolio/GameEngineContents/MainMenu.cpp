@@ -119,8 +119,16 @@ void MainMenu::MenuImageInit()
 
 
 	GameEngineImage* PuyoImage = GameEngineImageManager::GetInst()->Find("MM_PUYO.bmp");
-	PuyoImage->CutCount(6, 1);
+	PuyoImage->CutCount(1, 1);
 
+	GameEngineImage* MoveImage = GameEngineImageManager::GetInst()->Find("MM_PUYO_MOVE.bmp");
+	MoveImage->CutCount(3, 1);
+
+	GameEngineImage* PuyoDarkImage = GameEngineImageManager::GetInst()->Find("MM_PUYO_DARK.bmp");
+	PuyoDarkImage->CutCount(1, 1);
+
+	GameEngineImage* PuyoDestroyImage = GameEngineImageManager::GetInst()->Find("MM_PUYO_DESTROY.bmp");
+	PuyoDestroyImage->CutCount(2, 1);
 }
 
 void MainMenu::MenuInit()
@@ -161,9 +169,11 @@ void MainMenu::MenuInit()
 		MainMenuActor* Puyo = CreateActor<MainMenuActor>(5);
 		Puyo->SetPosition({ Menu1->GetPosition().x - 80.f, GameEngineWindow::GetScale().Half().y + 280.f });
 		GameEngineRenderer* Puyoenderer = Puyo->GameEngineActor::CreateRenderer();
-		Puyoenderer->CreateAnimation("MM_PUYO.bmp", "MM_PUYO", 0, 5, 1.0f, true);
+		Puyoenderer->CreateAnimation("MM_PUYO.bmp", "MM_PUYO", 0, 0, 0.0f, false);
+		Puyoenderer->CreateAnimation("MM_PUYO_MOVE.bmp", "MM_PUYO_MOVE", 0, 2, 0.1f, false);
+		Puyoenderer->CreateAnimation("MM_PUYO_DARK.bmp", "MM_PUYO_DARK", 0, 0, 0.0f, false);
+		Puyoenderer->CreateAnimation("MM_PUYO_DESTROY.bmp", "MM_PUYO_DESTROY", 0, 0, 0.0f, false);
 		Puyoenderer->ChangeAnimation("MM_PUYO");
-		//Puyoenderer->PauseOn();
 
 		Puyos_.push_back(Puyo);
 		Puyo->SetMyRenderer(Puyoenderer);
@@ -204,15 +214,19 @@ void MainMenu::MenuInit()
 		MainMenuActor* Puyo = CreateActor<MainMenuActor>(5);
 		Puyo->SetPosition({ Menu2->GetPosition().x - 80.f, GameEngineWindow::GetScale().Half().y + 280.f });
 		GameEngineRenderer* Puyoenderer = Puyo->GameEngineActor::CreateRenderer();
-		Puyoenderer->CreateAnimation("MM_PUYO.bmp", "MM_PUYO", 0, 6, 1.0f, true);
-		Puyoenderer->ChangeAnimation("MM_PUYO");
+		Puyoenderer->CreateAnimation("MM_PUYO.bmp", "MM_PUYO", 0, 0, 0.0f, false);
+		Puyoenderer->CreateAnimation("MM_PUYO_MOVE.bmp", "MM_PUYO_MOVE", 0, 2, 0.1f, false);
+		Puyoenderer->CreateAnimation("MM_PUYO_DARK.bmp", "MM_PUYO_DARK", 0, 0, 0.0f, false);
+		Puyoenderer->ChangeAnimation("MM_PUYO_DARK");
 		Puyoenderer->PauseOn();
 
 		MainMenuActor* Puyo1 = CreateActor<MainMenuActor>(5);
 		Puyo1->SetPosition({ Menu2->GetPosition().x - 20.f, GameEngineWindow::GetScale().Half().y + 280.f });
 		GameEngineRenderer* Puyoenderer1 = Puyo1->GameEngineActor::CreateRenderer();
-		Puyoenderer1->CreateAnimation("MM_PUYO.bmp", "MM_PUYO", 0, 6, 1.0f, true);
-		Puyoenderer1->ChangeAnimation("MM_PUYO");
+		Puyoenderer1->CreateAnimation("MM_PUYO.bmp", "MM_PUYO", 0, 0, 0.0f, false);
+		Puyoenderer1->CreateAnimation("MM_PUYO_MOVE.bmp", "MM_PUYO_MOVE", 0, 2, 0.1f, false);
+		Puyoenderer1->CreateAnimation("MM_PUYO_DARK.bmp", "MM_PUYO_DARK", 0, 0, 0.0f, false);
+		Puyoenderer1->ChangeAnimation("MM_PUYO_DARK");
 		Puyoenderer1->PauseOn();
 
 		Puyos_.push_back(Puyo);
@@ -257,16 +271,20 @@ void MainMenu::MenuInit()
 		MainMenuActor* Puyo = CreateActor<MainMenuActor>(5);
 		Puyo->SetPosition({ Menu3->GetPosition().x - 85.f, GameEngineWindow::GetScale().Half().y + 280.f });
 		GameEngineRenderer* Puyoenderer = Puyo->GameEngineActor::CreateRenderer();
-		Puyoenderer->CreateAnimation("MM_PUYO.bmp", "MM_PUYO", 0, 6, 1.0f, true);
-		Puyoenderer->ChangeAnimation("MM_PUYO");
-		Puyoenderer->PauseOn();
+		Puyoenderer->CreateAnimation("MM_PUYO.bmp", "MM_PUYO", 0, 0, 0.0f, false);
+		Puyoenderer->CreateAnimation("MM_PUYO_MOVE.bmp", "MM_PUYO_MOVE", 0, 2, 0.1f, false);
+		Puyoenderer->CreateAnimation("MM_PUYO_DARK.bmp", "MM_PUYO_DARK", 0, 0, 0.0f, false);
+		Puyoenderer->CreateAnimation("MM_PUYO_DESTROY.bmp", "MM_PUYO_DESTROY", 0, 0, 0.0f, false);
+		Puyoenderer->ChangeAnimation("MM_PUYO_DARK");
 
 		MainMenuActor* Puyo1 = CreateActor<MainMenuActor>(5);
 		Puyo1->SetPosition({ Menu3->GetPosition().x + 85.f, GameEngineWindow::GetScale().Half().y + 280.f });
 		GameEngineRenderer* Puyoenderer1 = Puyo1->GameEngineActor::CreateRenderer();
-		Puyoenderer1->CreateAnimation("MM_PUYO.bmp", "MM_PUYO", 0, 6, 1.0f, true);
-		Puyoenderer1->ChangeAnimation("MM_PUYO");
-		Puyoenderer1->PauseOn();
+		Puyoenderer1->CreateAnimation("MM_PUYO.bmp", "MM_PUYO", 0, 0, 0.0f, false);
+		Puyoenderer1->CreateAnimation("MM_PUYO_MOVE.bmp", "MM_PUYO_MOVE", 0, 2, 0.1f, false);
+		Puyoenderer1->CreateAnimation("MM_PUYO_DARK.bmp", "MM_PUYO_DARK", 0, 0, 0.0f, false);
+		Puyoenderer1->CreateAnimation("MM_PUYO_DESTROY.bmp", "MM_PUYO_DESTROY", 0, 0, 0.0f, false);
+		Puyoenderer1->ChangeAnimation("MM_PUYO_DARK");
 
 		Puyos_.push_back(Puyo);
 		Puyo->SetMyRenderer(Puyoenderer);
@@ -312,23 +330,30 @@ void MainMenu::MenuInit()
 		MainMenuActor* Puyo = CreateActor<MainMenuActor>(5);
 		Puyo->SetPosition({ Menu4->GetPosition().x -85.f, GameEngineWindow::GetScale().Half().y + 280.f });
 		GameEngineRenderer* Puyoenderer = Puyo->GameEngineActor::CreateRenderer();
-		Puyoenderer->CreateAnimation("MM_PUYO.bmp", "MM_PUYO", 0, 6, 1.0f, true);
-		Puyoenderer->ChangeAnimation("MM_PUYO");
-		Puyoenderer->PauseOn();
+		Puyoenderer->CreateAnimation("MM_PUYO.bmp", "MM_PUYO", 0, 0, 0.0f, false);
+		Puyoenderer->CreateAnimation("MM_PUYO_MOVE.bmp", "MM_PUYO_MOVE", 0, 2, 0.1f, false);
+		Puyoenderer->CreateAnimation("MM_PUYO_DARK.bmp", "MM_PUYO_DARK", 0, 0, 0.0f, false);
+		Puyoenderer->CreateAnimation("MM_PUYO_DESTROY.bmp", "MM_PUYO_DESTROY", 0, 0, 0.0f, false);
+		Puyoenderer->ChangeAnimation("MM_PUYO_DARK");
 
 		MainMenuActor* Puyo1 = CreateActor<MainMenuActor>(6);
 		Puyo1->SetPosition({ Menu4->GetPosition().x - 45.f, GameEngineWindow::GetScale().Half().y + 290.f });
 		GameEngineRenderer* Puyoenderer1 = Puyo1->GameEngineActor::CreateRenderer();
-		Puyoenderer1->CreateAnimation("MM_PUYO.bmp", "MM_PUYO", 0, 6, 1.0f, true);
-		Puyoenderer1->ChangeAnimation("MM_PUYO");
-		Puyoenderer1->PauseOn();
+		Puyoenderer1->CreateAnimation("MM_PUYO.bmp", "MM_PUYO", 0, 0, 0.0f, false);
+		Puyoenderer1->CreateAnimation("MM_PUYO_MOVE.bmp", "MM_PUYO_MOVE", 0, 2, 0.1f, false);
+		Puyoenderer1->CreateAnimation("MM_PUYO_DARK.bmp", "MM_PUYO_DARK", 0, 0, 0.0f, false);
+		Puyoenderer1->CreateAnimation("MM_PUYO_DESTROY.bmp", "MM_PUYO_DESTROY", 0, 0, 0.0f, false);
+		Puyoenderer1->ChangeAnimation("MM_PUYO_DARK");
 
 		MainMenuActor* Puyo2 = CreateActor<MainMenuActor>(5);
 		Puyo2->SetPosition({ Menu4->GetPosition().x - 15.f, GameEngineWindow::GetScale().Half().y + 280.f });
 		GameEngineRenderer* Puyoenderer2 = Puyo2->GameEngineActor::CreateRenderer();
-		Puyoenderer2->CreateAnimation("MM_PUYO.bmp", "MM_PUYO", 0, 6, 1.0f, true);
-		Puyoenderer2->ChangeAnimation("MM_PUYO");
-		Puyoenderer2->PauseOn();
+		Puyoenderer2->CreateAnimation("MM_PUYO.bmp", "MM_PUYO", 0, 0, 0.0f, false);
+		Puyoenderer2->CreateAnimation("MM_PUYO_MOVE.bmp", "MM_PUYO_MOVE", 0, 2, 0.1f, false);
+		Puyoenderer2->CreateAnimation("MM_PUYO_DARK.bmp", "MM_PUYO_DARK", 0, 0, 0.0f, false);
+		Puyoenderer2->CreateAnimation("MM_PUYO_DESTROY.bmp", "MM_PUYO_DESTROY", 0, 0, 0.0f, false);
+		Puyoenderer2->ChangeAnimation("MM_PUYO_DARK");
+
 
 		Puyos_.push_back(Puyo);
 		Puyo->SetMyRenderer(Puyoenderer);
@@ -354,30 +379,38 @@ void MainMenu::MenuInit()
 		MainMenuActor* Puyo = CreateActor<MainMenuActor>(5);
 		Puyo->SetPosition({ Menu5->GetPosition().x - 100.f, GameEngineWindow::GetScale().Half().y + 280.f });
 		GameEngineRenderer* Puyoenderer = Puyo->GameEngineActor::CreateRenderer();
-		Puyoenderer->CreateAnimation("MM_PUYO.bmp", "MM_PUYO", 0, 6, 1.0f, true);
-		Puyoenderer->ChangeAnimation("MM_PUYO");
-		Puyoenderer->PauseOn();
+		Puyoenderer->CreateAnimation("MM_PUYO.bmp", "MM_PUYO", 0, 0, 0.0f, false);
+		Puyoenderer->CreateAnimation("MM_PUYO_MOVE.bmp", "MM_PUYO_MOVE", 0, 2, 0.1f, false);
+		Puyoenderer->CreateAnimation("MM_PUYO_DARK.bmp", "MM_PUYO_DARK", 0, 0, 0.0f, false);
+		Puyoenderer->CreateAnimation("MM_PUYO_DESTROY.bmp", "MM_PUYO_DESTROY", 0, 0, 0.0f, false);
+		Puyoenderer->ChangeAnimation("MM_PUYO_DARK");
 
 		MainMenuActor* Puyo1 = CreateActor<MainMenuActor>(5);
 		Puyo1->SetPosition({ Menu5->GetPosition().x - 40.f, GameEngineWindow::GetScale().Half().y + 280.f });
 		GameEngineRenderer* Puyoenderer1 = Puyo1->GameEngineActor::CreateRenderer();
-		Puyoenderer1->CreateAnimation("MM_PUYO.bmp", "MM_PUYO", 0, 6, 1.0f, true);
-		Puyoenderer1->ChangeAnimation("MM_PUYO");
-		Puyoenderer1->PauseOn();
+		Puyoenderer1->CreateAnimation("MM_PUYO.bmp", "MM_PUYO", 0, 0, 0.0f, false);
+		Puyoenderer1->CreateAnimation("MM_PUYO_MOVE.bmp", "MM_PUYO_MOVE", 0, 2, 0.1f, false);
+		Puyoenderer1->CreateAnimation("MM_PUYO_DARK.bmp", "MM_PUYO_DARK", 0, 0, 0.0f, false);
+		Puyoenderer1->CreateAnimation("MM_PUYO_DESTROY.bmp", "MM_PUYO_DESTROY", 0, 0, 0.0f, false);
+		Puyoenderer1->ChangeAnimation("MM_PUYO_DARK");
 
 		MainMenuActor* Puyo2 = CreateActor<MainMenuActor>(5);
 		Puyo2->SetPosition({ Menu5->GetPosition().x + 17.f, GameEngineWindow::GetScale().Half().y + 280.f });
 		GameEngineRenderer* Puyoenderer2 = Puyo2->GameEngineActor::CreateRenderer();
-		Puyoenderer2->CreateAnimation("MM_PUYO.bmp", "MM_PUYO", 0, 6, 1.0f, true);
-		Puyoenderer2->ChangeAnimation("MM_PUYO");
-		Puyoenderer2->PauseOn();
+		Puyoenderer2->CreateAnimation("MM_PUYO.bmp", "MM_PUYO", 0, 0, 0.0f, false);
+		Puyoenderer2->CreateAnimation("MM_PUYO_MOVE.bmp", "MM_PUYO_MOVE", 0, 2, 0.1f, false);
+		Puyoenderer2->CreateAnimation("MM_PUYO_DARK.bmp", "MM_PUYO_DARK", 0, 0, 0.0f, false);
+		Puyoenderer2->CreateAnimation("MM_PUYO_DESTROY.bmp", "MM_PUYO_DESTROY", 0, 0, 0.0f, false);
+		Puyoenderer2->ChangeAnimation("MM_PUYO_DARK");
 
 		MainMenuActor* Puyo3 = CreateActor<MainMenuActor>(5);
 		Puyo3->SetPosition({ Menu5->GetPosition().x + 100.f, GameEngineWindow::GetScale().Half().y + 280.f });
 		GameEngineRenderer* Puyoenderer3 = Puyo3->GameEngineActor::CreateRenderer();
-		Puyoenderer3->CreateAnimation("MM_PUYO.bmp", "MM_PUYO", 0, 6, 1.0f, true);
-		Puyoenderer3->ChangeAnimation("MM_PUYO");
-		Puyoenderer3->PauseOn();
+		Puyoenderer3->CreateAnimation("MM_PUYO.bmp", "MM_PUYO", 0, 0, 0.0f, false);
+		Puyoenderer3->CreateAnimation("MM_PUYO_MOVE.bmp", "MM_PUYO_MOVE", 0, 2, 0.1f, false);
+		Puyoenderer3->CreateAnimation("MM_PUYO_DARK.bmp", "MM_PUYO_DARK", 0, 0, 0.0f, false);
+		Puyoenderer3->CreateAnimation("MM_PUYO_DESTROY.bmp", "MM_PUYO_DESTROY", 0, 0, 0.0f, false);
+		Puyoenderer3->ChangeAnimation("MM_PUYO_DARK");
 
 		Puyos_.push_back(Puyo);
 		Puyo->SetMyRenderer(Puyoenderer);
@@ -498,16 +531,10 @@ void MainMenu::MenuUpdate()
 				Menus_[i]->SetPosition(Menus_[i]->GetPosition() + (float4::LEFT * 200.f));				
 			}
 
-			//for (int i= 0; i < PuyoRenderers_.size(); ++i)
-			//{
-			//	Puyos_[i]->CreateRenderer("MM_PUYO_DARK.bmp");
-			//	PuyoRenderers_[i]->SetImage("MM_PUYO_DARK.bmp");
-			//}
-
 			for (int i = 0; i < Puyos_.size(); i++)
 			{
 				Puyos_[i]->SetPosition(Puyos_[i]->GetPosition() + (float4::LEFT * 200.f));
-				Puyos_[i]->GetMyRenderer()->SetImage("MM_PUYO_DARK.bmp");
+				Puyos_[i]->GetMyRenderer()->ChangeAnimation("MM_PUYO_DARK");
 			}
 
 			ArrowMoveToRight();	
@@ -530,8 +557,7 @@ void MainMenu::MenuUpdate()
 			for (int i = 0; i < Puyos_.size(); i++)
 			{
 				Puyos_[i]->SetPosition(Puyos_[i]->GetPosition() + (float4::RIGHT * 200.f));
-				Puyos_[i]->GetMyRenderer()->PauseOn();
-				Puyos_[i]->GetMyRenderer()->SetImage("MM_PUYO_DARK.bmp");
+				Puyos_[i]->GetMyRenderer()->ChangeAnimation("MM_PUYO_DARK");
 			}
 
 			ArrowMoveToLeft();

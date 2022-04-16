@@ -60,6 +60,172 @@ void InGame::Loading()
 	//FSM_->NextNextPair_ = CreatePuyoPair();
 }
 
+
+void InGame::PuyoAnimationInit()
+{
+	{
+		GameEngineImage* NomalImage = GameEngineImageManager::GetInst()->Find("IG_RED_PUYO.bmp");
+		NomalImage->CutCount(1, 1);
+
+		GameEngineImage* CenterImage = GameEngineImageManager::GetInst()->Find("IG_RED_CENTER.bmp");
+		CenterImage->CutCount(2, 1);
+
+		GameEngineImage* DestroyImage = GameEngineImageManager::GetInst()->Find("IG_RED_DESTROY.bmp");
+		DestroyImage->CutCount(3, 1);
+
+		GameEngineImage* LandImage = GameEngineImageManager::GetInst()->Find("IG_RED_LAND.bmp");
+		LandImage->CutCount(3, 1);
+		
+		GameEngineImage* IdleImage = GameEngineImageManager::GetInst()->Find("IG_RED_IDLE.bmp");
+		IdleImage->CutCount(3, 1);
+
+		GameEngineImage* IdleImage1 = GameEngineImageManager::GetInst()->Find("IG_RED_IDLE1.bmp");
+		IdleImage1->CutCount(3, 1);
+
+		GameEngineImage* LeftImage = GameEngineImageManager::GetInst()->Find("IG_RED_LEFT.bmp");
+		LeftImage->CutCount(1, 1);
+
+		GameEngineImage* RightImage = GameEngineImageManager::GetInst()->Find("IG_RED_RIGHT.bmp");
+		RightImage->CutCount(1, 1);
+
+		GameEngineImage* UpImage = GameEngineImageManager::GetInst()->Find("IG_RED_UP.bmp");
+		UpImage->CutCount(1, 1);
+
+		GameEngineImage* DownImage = GameEngineImageManager::GetInst()->Find("IG_RED_DOWN.bmp");
+		DownImage->CutCount(1, 1);
+	}
+
+	{
+		GameEngineImage* NomalImage = GameEngineImageManager::GetInst()->Find("IG_BLUE_PUYO.bmp");
+		NomalImage->CutCount(1, 1);
+
+		GameEngineImage* CenterImage = GameEngineImageManager::GetInst()->Find("IG_BLUE_CENTER.bmp");
+		CenterImage->CutCount(2, 1);
+
+		GameEngineImage* DestroyImage = GameEngineImageManager::GetInst()->Find("IG_BLUE_DESTROY.bmp");
+		DestroyImage->CutCount(3, 1);
+
+		GameEngineImage* LandImage = GameEngineImageManager::GetInst()->Find("IG_BLUE_LAND.bmp");
+		LandImage->CutCount(2, 1);
+
+		GameEngineImage* IdleImage = GameEngineImageManager::GetInst()->Find("IG_BLUE_IDLE.bmp");
+		IdleImage->CutCount(3, 1);
+
+		GameEngineImage* IdleImage1 = GameEngineImageManager::GetInst()->Find("IG_BLUE_IDLE1.bmp");
+		IdleImage1->CutCount(3, 1);
+
+		GameEngineImage* LeftImage = GameEngineImageManager::GetInst()->Find("IG_BLUE_LEFT.bmp");
+		LeftImage->CutCount(1, 1);
+
+		GameEngineImage* RightImage = GameEngineImageManager::GetInst()->Find("IG_BLUE_RIGHT.bmp");
+		RightImage->CutCount(1, 1);
+
+		GameEngineImage* UpImage = GameEngineImageManager::GetInst()->Find("IG_BLUE_UP.bmp");
+		UpImage->CutCount(1, 1);
+
+		GameEngineImage* DownImage = GameEngineImageManager::GetInst()->Find("IG_BLUE_DOWN.bmp");
+		DownImage->CutCount(1, 1);
+	}
+
+	{
+		GameEngineImage* NomalImage = GameEngineImageManager::GetInst()->Find("IG_GREEN_PUYO.bmp");
+		NomalImage->CutCount(1, 1);
+
+		GameEngineImage* CenterImage = GameEngineImageManager::GetInst()->Find("IG_GREEN_CENTER.bmp");
+		CenterImage->CutCount(2, 1);
+
+		GameEngineImage* DestroyImage = GameEngineImageManager::GetInst()->Find("IG_GREEN_DESTROY.bmp");
+		DestroyImage->CutCount(3, 1);
+
+		GameEngineImage* LandImage = GameEngineImageManager::GetInst()->Find("IG_GREEN_LAND.bmp");
+		LandImage->CutCount(2, 1);
+
+		GameEngineImage* IdleImage = GameEngineImageManager::GetInst()->Find("IG_GREEN_IDLE.bmp");
+		IdleImage->CutCount(4, 1);
+
+		GameEngineImage* IdleImage1 = GameEngineImageManager::GetInst()->Find("IG_GREEN_IDLE1.bmp");
+		IdleImage1->CutCount(4, 1);
+
+		GameEngineImage* LeftImage = GameEngineImageManager::GetInst()->Find("IG_GREEN_LEFT.bmp");
+		LeftImage->CutCount(1, 1);
+
+		GameEngineImage* RightImage = GameEngineImageManager::GetInst()->Find("IG_GREEN_RIGHT.bmp");
+		RightImage->CutCount(1, 1);
+
+		GameEngineImage* UpImage = GameEngineImageManager::GetInst()->Find("IG_GREEN_UP.bmp");
+		UpImage->CutCount(1, 1);
+
+		GameEngineImage* DownImage = GameEngineImageManager::GetInst()->Find("IG_GREEN_DOWN.bmp");
+		DownImage->CutCount(1, 1);
+	}
+
+	{
+		GameEngineImage* NomalImage = GameEngineImageManager::GetInst()->Find("IG_YELLOW_PUYO.bmp");
+		NomalImage->CutCount(1, 1);
+
+		GameEngineImage* CenterImage = GameEngineImageManager::GetInst()->Find("IG_YELLOW_CENTER.bmp");
+		CenterImage->CutCount(2, 1);
+
+		GameEngineImage* DestroyImage = GameEngineImageManager::GetInst()->Find("IG_YELLOW_DESTROY.bmp");
+		DestroyImage->CutCount(3, 1);
+
+		GameEngineImage* LandImage = GameEngineImageManager::GetInst()->Find("IG_YELLOW_LAND.bmp");
+		LandImage->CutCount(2, 1);
+
+		GameEngineImage* IdleImage = GameEngineImageManager::GetInst()->Find("IG_YELLOW_IDLE.bmp");
+		IdleImage->CutCount(4, 1);
+
+		GameEngineImage* IdleImage1 = GameEngineImageManager::GetInst()->Find("IG_YELLOW_IDLE1.bmp");
+		IdleImage1->CutCount(3, 1);
+
+		GameEngineImage* LeftImage = GameEngineImageManager::GetInst()->Find("IG_YELLOW_LEFT.bmp");
+		LeftImage->CutCount(1, 1);
+
+		GameEngineImage* RightImage = GameEngineImageManager::GetInst()->Find("IG_YELLOW_RIGHT.bmp");
+		RightImage->CutCount(1, 1);
+
+		GameEngineImage* UpImage = GameEngineImageManager::GetInst()->Find("IG_YELLOW_UP.bmp");
+		UpImage->CutCount(1, 1);
+
+		GameEngineImage* DownImage = GameEngineImageManager::GetInst()->Find("IG_YELLOW_DOWN.bmp");
+		DownImage->CutCount(1, 1);
+	}
+
+	{
+		GameEngineImage* NomalImage = GameEngineImageManager::GetInst()->Find("IG_PURPLE_PUYO.bmp");
+		NomalImage->CutCount(1, 1);
+
+		GameEngineImage* CenterImage = GameEngineImageManager::GetInst()->Find("IG_PURPLE_CENTER.bmp");
+		CenterImage->CutCount(2, 1);
+
+		GameEngineImage* DestroyImage = GameEngineImageManager::GetInst()->Find("IG_PURPLE_DESTROY.bmp");
+		DestroyImage->CutCount(3, 1);
+
+		GameEngineImage* LandImage = GameEngineImageManager::GetInst()->Find("IG_PURPLE_LAND.bmp");
+		LandImage->CutCount(2, 1);
+
+		GameEngineImage* IdleImage = GameEngineImageManager::GetInst()->Find("IG_PURPLE_IDLE.bmp");
+		IdleImage->CutCount(5, 1);
+
+		GameEngineImage* IdleImage1 = GameEngineImageManager::GetInst()->Find("IG_PURPLE_IDLE1.bmp");
+		IdleImage1->CutCount(3, 1);
+
+		GameEngineImage* LeftImage = GameEngineImageManager::GetInst()->Find("IG_PURPLE_LEFT.bmp");
+		LeftImage->CutCount(1, 1);
+
+		GameEngineImage* RightImage = GameEngineImageManager::GetInst()->Find("IG_PURPLE_RIGHT.bmp");
+		RightImage->CutCount(1, 1);
+
+		GameEngineImage* UpImage = GameEngineImageManager::GetInst()->Find("IG_PURPLE_UP.bmp");
+		UpImage->CutCount(1, 1);
+
+		GameEngineImage* DownImage = GameEngineImageManager::GetInst()->Find("IG_PURPLE_DOWN.bmp");
+		DownImage->CutCount(1, 1);
+	}
+
+}
+
+
 void InGame::Update()
 {
 	LevelCount_ -= GameEngineTime::GetDeltaTime();
@@ -223,6 +389,8 @@ void InGame::CreatePuyoAnimation(GameEngineRenderer* _Renderer, PuyoColor _Color
 	case PuyoColor::RED:
 		_Renderer->CreateAnimation("IG_RED_PUYO.bmp", "IG_RED_PUYO", 0, 0, 0.f, false);
 		_Renderer->CreateAnimation("IG_RED_CENTER.bmp", "IG_RED_CENTER", 0, 1, 0.1f, true);
+		_Renderer->CreateAnimation("IG_RED_LAND.bmp", "IG_RED_LAND", 0, 2, 0.1f, false);
+
 		_Renderer->CreateAnimation("IG_RED_LEFT.bmp", "IG_RED_LEFT", 0, 0, 0.f, false);
 		_Renderer->CreateAnimation("IG_RED_RIGHT.bmp", "IG_RED_RIGHT", 0, 0, 0.f, false);
 		_Renderer->CreateAnimation("IG_RED_UP.bmp", "IG_RED_UP", 0, 0, 0.f, false);
@@ -231,6 +399,8 @@ void InGame::CreatePuyoAnimation(GameEngineRenderer* _Renderer, PuyoColor _Color
 	case PuyoColor::BLUE:
 		_Renderer->CreateAnimation("IG_BLUE_PUYO.bmp", "IG_BLUE_PUYO", 0, 0, 0.f, false);
 		_Renderer->CreateAnimation("IG_BLUE_CENTER.bmp", "IG_BLUE_CENTER", 0, 1, 0.1f, true);
+		_Renderer->CreateAnimation("IG_BLUE_LAND.bmp", "IG_BLUE_LAND", 0, 1, 0.1f, false);
+
 		_Renderer->CreateAnimation("IG_BLUE_LEFT.bmp", "IG_BLUE_LEFT", 0, 0, 0.f, false);
 		_Renderer->CreateAnimation("IG_BLUE_RIGHT.bmp", "IG_BLUE_RIGHT", 0, 0, 0.f, false);
 		_Renderer->CreateAnimation("IG_BLUE_UP.bmp", "IG_BLUE_UP", 0, 0, 0.f, false);
@@ -239,6 +409,8 @@ void InGame::CreatePuyoAnimation(GameEngineRenderer* _Renderer, PuyoColor _Color
 	case PuyoColor::GREEN:
 		_Renderer->CreateAnimation("IG_GREEN_PUYO.bmp", "IG_GREEN_PUYO", 0, 0, 0.f, false);
 		_Renderer->CreateAnimation("IG_GREEN_CENTER.bmp", "IG_GREEN_CENTER", 0, 1, 0.1f, true);
+		_Renderer->CreateAnimation("IG_GREEN_LAND.bmp", "IG_GREEN_LAND", 0, 1, 0.1f, true);
+
 		_Renderer->CreateAnimation("IG_GREEN_LEFT.bmp", "IG_GREEN_LEFT", 0, 0, 0.f, false);
 		_Renderer->CreateAnimation("IG_GREEN_RIGHT.bmp", "IG_GREEN_RIGHT", 0, 0, 0.f, false);
 		_Renderer->CreateAnimation("IG_GREEN_UP.bmp", "IG_GREEN_UP", 0, 0, 0.f, false);
@@ -247,6 +419,8 @@ void InGame::CreatePuyoAnimation(GameEngineRenderer* _Renderer, PuyoColor _Color
 	case PuyoColor::YELLOW:
 		_Renderer->CreateAnimation("IG_YELLOW_PUYO.bmp", "IG_YELLOW_PUYO", 0, 0, 0.f, false);
 		_Renderer->CreateAnimation("IG_YELLOW_CENTER.bmp", "IG_YELLOW_CENTER", 0, 1, 0.1f, true);
+		_Renderer->CreateAnimation("IG_YELLOW_LAND.bmp", "IG_YELLOW_LAND", 0, 1, 0.1f, true);
+
 		_Renderer->CreateAnimation("IG_YELLOW_LEFT.bmp", "IG_YELLOW_LEFT", 0, 0, 0.f, false);
 		_Renderer->CreateAnimation("IG_YELLOW_RIGHT.bmp", "IG_YELLOW_RIGHT", 0, 0, 0.f, false);
 		_Renderer->CreateAnimation("IG_YELLOW_UP.bmp", "IG_YELLOW_UP", 0, 0, 0.f, false);
@@ -255,176 +429,14 @@ void InGame::CreatePuyoAnimation(GameEngineRenderer* _Renderer, PuyoColor _Color
 	case PuyoColor::PURPLE:
 		_Renderer->CreateAnimation("IG_PURPLE_PUYO.bmp", "IG_PURPLE_PUYO", 0, 0, 0.f, false);
 		_Renderer->CreateAnimation("IG_PURPLE_CENTER.bmp", "IG_PURPLE_CENTER", 0, 1, 0.1f, true);
+		_Renderer->CreateAnimation("IG_PURPLE_LAND.bmp", "IG_PURPLE_LAND", 0, 1, 0.1f, true);
+
 		_Renderer->CreateAnimation("IG_PURPLE_LEFT.bmp", "IG_PURPLE_LEFT", 0, 0, 0.f, false);
 		_Renderer->CreateAnimation("IG_PURPLE_RIGHT.bmp", "IG_PURPLE_RIGHT", 0, 0, 0.f, false);
 		_Renderer->CreateAnimation("IG_PURPLE_UP.bmp", "IG_PURPLE_UP", 0, 0, 0.f, false);
 		_Renderer->CreateAnimation("IG_PURPLE_DOWN.bmp", "IG_PURPLE_DOWN", 0, 0, 0.f, false);
 		break;
 	}
-}
-
-void InGame::PuyoAnimationInit()
-{
-	{
-		GameEngineImage* NomalImage = GameEngineImageManager::GetInst()->Find("IG_RED_PUYO.bmp");
-		NomalImage->CutCount(1, 1);
-
-		GameEngineImage* CenterImage = GameEngineImageManager::GetInst()->Find("IG_RED_CENTER.bmp");
-		CenterImage->CutCount(2, 1);
-
-		GameEngineImage* DestroyImage = GameEngineImageManager::GetInst()->Find("IG_RED_DESTROY.bmp");
-		DestroyImage->CutCount(3, 1);
-
-		GameEngineImage* LandImage = GameEngineImageManager::GetInst()->Find("IG_RED_LAND.bmp");
-		LandImage->CutCount(3, 1);
-
-		GameEngineImage* IdleImage = GameEngineImageManager::GetInst()->Find("IG_RED_IDLE.bmp");
-		IdleImage->CutCount(3, 1);
-
-		GameEngineImage* IdleImage1 = GameEngineImageManager::GetInst()->Find("IG_RED_IDLE1.bmp");
-		IdleImage1->CutCount(3, 1);
-
-		GameEngineImage* LeftImage = GameEngineImageManager::GetInst()->Find("IG_RED_LEFT.bmp");
-		LeftImage->CutCount(1, 1);
-
-		GameEngineImage* RightImage = GameEngineImageManager::GetInst()->Find("IG_RED_RIGHT.bmp");
-		RightImage->CutCount(1, 1);
-
-		GameEngineImage* UpImage = GameEngineImageManager::GetInst()->Find("IG_RED_UP.bmp");
-		UpImage->CutCount(1, 1);
-
-		GameEngineImage* DownImage = GameEngineImageManager::GetInst()->Find("IG_RED_DOWN.bmp");
-		DownImage->CutCount(1, 1);
-	}
-
-	{
-		GameEngineImage* NomalImage = GameEngineImageManager::GetInst()->Find("IG_BLUE_PUYO.bmp");
-		NomalImage->CutCount(1, 1);
-
-		GameEngineImage* CenterImage = GameEngineImageManager::GetInst()->Find("IG_BLUE_CENTER.bmp");
-		CenterImage->CutCount(2, 1);
-
-		GameEngineImage* DestroyImage = GameEngineImageManager::GetInst()->Find("IG_BLUE_DESTROY.bmp");
-		DestroyImage->CutCount(3, 1);
-
-		GameEngineImage* LandImage = GameEngineImageManager::GetInst()->Find("IG_BLUE_LAND.bmp");
-		LandImage->CutCount(2, 1);
-
-		GameEngineImage* IdleImage = GameEngineImageManager::GetInst()->Find("IG_BLUE_IDLE.bmp");
-		IdleImage->CutCount(3, 1);
-
-		GameEngineImage* IdleImage1 = GameEngineImageManager::GetInst()->Find("IG_BLUE_IDLE1.bmp");
-		IdleImage1->CutCount(3, 1);
-
-		GameEngineImage* LeftImage = GameEngineImageManager::GetInst()->Find("IG_BLUE_LEFT.bmp");
-		LeftImage->CutCount(1, 1);
-
-		GameEngineImage* RightImage = GameEngineImageManager::GetInst()->Find("IG_BLUE_RIGHT.bmp");
-		RightImage->CutCount(1, 1);
-
-		GameEngineImage* UpImage = GameEngineImageManager::GetInst()->Find("IG_BLUE_UP.bmp");
-		UpImage->CutCount(1, 1);
-
-		GameEngineImage* DownImage = GameEngineImageManager::GetInst()->Find("IG_BLUE_DOWN.bmp");
-		DownImage->CutCount(1, 1);
-	}
-
-	{
-		GameEngineImage* NomalImage = GameEngineImageManager::GetInst()->Find("IG_GREEN_PUYO.bmp");
-		NomalImage->CutCount(1, 1);
-
-		GameEngineImage* CenterImage = GameEngineImageManager::GetInst()->Find("IG_GREEN_CENTER.bmp");
-		CenterImage->CutCount(2, 1);
-
-		GameEngineImage* DestroyImage = GameEngineImageManager::GetInst()->Find("IG_GREEN_DESTROY.bmp");
-		DestroyImage->CutCount(3, 1);
-
-		GameEngineImage* LandImage = GameEngineImageManager::GetInst()->Find("IG_GREEN_LAND.bmp");
-		LandImage->CutCount(2, 1);
-
-		GameEngineImage* IdleImage = GameEngineImageManager::GetInst()->Find("IG_GREEN_IDLE.bmp");
-		IdleImage->CutCount(4, 1);
-
-		GameEngineImage* IdleImage1 = GameEngineImageManager::GetInst()->Find("IG_GREEN_IDLE1.bmp");
-		IdleImage1->CutCount(4, 1);
-
-		GameEngineImage* LeftImage = GameEngineImageManager::GetInst()->Find("IG_GREEN_LEFT.bmp");
-		LeftImage->CutCount(1, 1);
-
-		GameEngineImage* RightImage = GameEngineImageManager::GetInst()->Find("IG_GREEN_RIGHT.bmp");
-		RightImage->CutCount(1, 1);
-
-		GameEngineImage* UpImage = GameEngineImageManager::GetInst()->Find("IG_GREEN_UP.bmp");
-		UpImage->CutCount(1, 1);
-
-		GameEngineImage* DownImage = GameEngineImageManager::GetInst()->Find("IG_GREEN_DOWN.bmp");
-		DownImage->CutCount(1, 1);
-	}
-
-	{
-		GameEngineImage* NomalImage = GameEngineImageManager::GetInst()->Find("IG_YELLOW_PUYO.bmp");
-		NomalImage->CutCount(1, 1);
-
-		GameEngineImage* CenterImage = GameEngineImageManager::GetInst()->Find("IG_YELLOW_CENTER.bmp");
-		CenterImage->CutCount(2, 1);
-
-		GameEngineImage* DestroyImage = GameEngineImageManager::GetInst()->Find("IG_YELLOW_DESTROY.bmp");
-		DestroyImage->CutCount(3, 1);
-
-		GameEngineImage* LandImage = GameEngineImageManager::GetInst()->Find("IG_YELLOW_LAND.bmp");
-		LandImage->CutCount(2, 1);
-
-		GameEngineImage* IdleImage = GameEngineImageManager::GetInst()->Find("IG_YELLOW_IDLE.bmp");
-		IdleImage->CutCount(4, 1);
-
-		GameEngineImage* IdleImage1 = GameEngineImageManager::GetInst()->Find("IG_YELLOW_IDLE1.bmp");
-		IdleImage1->CutCount(3, 1);
-
-		GameEngineImage* LeftImage = GameEngineImageManager::GetInst()->Find("IG_YELLOW_LEFT.bmp");
-		LeftImage->CutCount(1, 1);
-
-		GameEngineImage* RightImage = GameEngineImageManager::GetInst()->Find("IG_YELLOW_RIGHT.bmp");
-		RightImage->CutCount(1, 1);
-
-		GameEngineImage* UpImage = GameEngineImageManager::GetInst()->Find("IG_YELLOW_UP.bmp");
-		UpImage->CutCount(1, 1);
-
-		GameEngineImage* DownImage = GameEngineImageManager::GetInst()->Find("IG_YELLOW_DOWN.bmp");
-		DownImage->CutCount(1, 1);
-	}
-
-	{
-		GameEngineImage* NomalImage = GameEngineImageManager::GetInst()->Find("IG_PURPLE_PUYO.bmp");
-		NomalImage->CutCount(1, 1);
-
-		GameEngineImage* CenterImage = GameEngineImageManager::GetInst()->Find("IG_PURPLE_CENTER.bmp");
-		CenterImage->CutCount(2, 1);
-
-		GameEngineImage* DestroyImage = GameEngineImageManager::GetInst()->Find("IG_PURPLE_DESTROY.bmp");
-		DestroyImage->CutCount(3, 1);
-
-		GameEngineImage* LandImage = GameEngineImageManager::GetInst()->Find("IG_PURPLE_LAND.bmp");
-		LandImage->CutCount(2, 1);
-
-		GameEngineImage* IdleImage = GameEngineImageManager::GetInst()->Find("IG_PURPLE_IDLE.bmp");
-		IdleImage->CutCount(5, 1);
-
-		GameEngineImage* IdleImage1 = GameEngineImageManager::GetInst()->Find("IG_PURPLE_IDLE1.bmp");
-		IdleImage1->CutCount(3, 1);
-
-		GameEngineImage* LeftImage = GameEngineImageManager::GetInst()->Find("IG_PURPLE_LEFT.bmp");
-		LeftImage->CutCount(1, 1);
-
-		GameEngineImage* RightImage = GameEngineImageManager::GetInst()->Find("IG_PURPLE_RIGHT.bmp");
-		RightImage->CutCount(1, 1);
-
-		GameEngineImage* UpImage = GameEngineImageManager::GetInst()->Find("IG_PURPLE_UP.bmp");
-		UpImage->CutCount(1, 1);
-
-		GameEngineImage* DownImage = GameEngineImageManager::GetInst()->Find("IG_PURPLE_DOWN.bmp");
-		DownImage->CutCount(1, 1);
-	}
-
 }
 
 void InGame::LevelChangeStart()
