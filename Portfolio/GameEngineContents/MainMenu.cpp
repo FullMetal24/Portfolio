@@ -441,11 +441,17 @@ void MainMenu::MenuInit()
 
 void MainMenu::BackgourndInit()
 {
-	Back_ = GameEngineImageManager::GetInst()->Find("MM_SD0R.bmp");
-	Back_->CutCount(4, 1);
-
-	GameEngineImage* Image = GameEngineImageManager::GetInst()->Find("MM_SD5L.bmp");
+	GameEngineImage* Image = GameEngineImageManager::GetInst()->Find("MM_SD0R.bmp");
 	Image->CutCount(4, 1);
+
+	GameEngineImage* Image1 = GameEngineImageManager::GetInst()->Find("MM_SD7L.bmp");
+	Image1->CutCount(4, 1);
+
+	GameEngineImage* Image2 = GameEngineImageManager::GetInst()->Find("MM_SD3R.bmp");
+	Image2->CutCount(4, 1);
+
+	GameEngineImage* Image3 = GameEngineImageManager::GetInst()->Find("MM_SD5L.bmp");
+	Image3->CutCount(4, 1);
 
 	std::vector<MainMenuActor*> FirstLine;
 	std::vector<MainMenuActor*> SecondLine;
@@ -476,8 +482,8 @@ void MainMenu::BackgourndInit()
 		Actor->SetPosition(Pos);
 
 		GameEngineRenderer* Renderer = Actor->GameEngineActor::CreateRenderer();
-		Renderer->CreateAnimation("MM_SD5L.bmp", "MM_SD5L", 0, 3, 0.1f, true);
-		Renderer->ChangeAnimation("MM_SD5L");
+		Renderer->CreateAnimation("MM_SD7L.bmp", "MM_SD7L", 0, 3, 0.1f, true);
+		Renderer->ChangeAnimation("MM_SD7L");
 
 		Actor->SetMyRenderer(Renderer);
 		SecondLine.push_back(Actor);
@@ -490,8 +496,8 @@ void MainMenu::BackgourndInit()
 		Actor->SetPosition(Pos);
 
 		GameEngineRenderer* Renderer = Actor->GameEngineActor::CreateRenderer();
-		Renderer->CreateAnimation("MM_SD0R.bmp", "MM_SD0R", 0, 3, 0.1f, true);
-		Renderer->ChangeAnimation("MM_SD0R");
+		Renderer->CreateAnimation("MM_SD3R.bmp", "MM_SD3R", 0, 3, 0.1f, true);
+		Renderer->ChangeAnimation("MM_SD3R");
 
 		Actor->SetMyRenderer(Renderer);
 		ThirdLine.push_back(Actor);

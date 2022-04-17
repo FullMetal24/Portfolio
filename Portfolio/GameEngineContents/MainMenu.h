@@ -52,7 +52,6 @@ private:
 
 	std::vector<std::vector<MainMenuActor*>> BackGrounds_;
 	
-	GameEngineImage* Back_;
 	FadeInOutBackground* FadeBackground_;
 
 	GameEngineSoundPlayer MainMenuBgm_;

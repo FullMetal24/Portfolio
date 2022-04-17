@@ -7,6 +7,7 @@
 class Enemy;
 class GameEngineRenderer;
 class EnemyRoulette;
+class EnemySelectActor;
 class EnemySelect : public GameEngineLevel
 {
 public:
@@ -23,6 +24,7 @@ public:
 	void LevelChangeStart() override;
 	void LevelChangeEnd() override;
 
+	void BackgroundInit();
 	void TopPositionInit();
 	void EnemyInit();
 	void FrameInit();
@@ -35,6 +37,9 @@ protected:
 private:
 	Enemy* Enemys_[8];
 	Enemy* MyEnemy_;
+
+	std::vector<EnemySelectActor*> MidLine_;
+	std::vector<std::vector<EnemySelectActor*>> Backgrounds_;
 
 	float RouletteSpeed_;
 	float SpeedLimit_;

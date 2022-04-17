@@ -28,7 +28,6 @@ public:
 
 	void SearchPuyo();
 	void DestroyPuyo();
-	void LandPuyoAnimation();
 
 	void CurrentPairInit();
 	void AddPuyoPair(PuyoPair* _Pair);
@@ -88,4 +87,7 @@ private:
 	bool IsAllLanding_;
 	bool IsLose_;
 };
+
+//Å¥ Ãß°¡
+//
 
