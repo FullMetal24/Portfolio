@@ -33,6 +33,7 @@ public:
 	void AddPuyoPair(PuyoPair* _Pair);
 
 	void LandCheck();
+	void FallPuyo(); //»Ñ¿ä È¥ÀÚ °¡¼Ó ³«ÇÏ
 
 	inline void SetCurrentPair(PuyoPair* _Current)
 	{
@@ -81,7 +82,7 @@ private:
 
 	float DownTime_;
 	int LimitTime_;
-	float JedgementTime_; //ÆÇÁ¤ ½Ã°£
+	int FallTime_;
 
 	bool IsStart_;
 	bool IsAllLanding_;

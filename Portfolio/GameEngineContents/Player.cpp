@@ -19,6 +19,7 @@ Player::Player()
 	, SideMoveDis_(65.0f)
 	, DownTime_(0.5f)
 	, LimitTime_(0)
+	, FallTime_(0)
 	, IsAllLanding_(false)
 	, IsLose_(false)
 {
@@ -78,6 +79,8 @@ void Player::Update()
 			LimitTime_ = 0;
 		}
 	}
+
+	FallPuyo();
 
 
 	DownTime_ -= GameEngineTime::GetDeltaTime();
@@ -593,5 +596,27 @@ void Player::LandCheck()
 				CurrentPair_->GetSecondPuyo()->SetLanding(true);
 			}
 		}
+	}
+}
+
+void Player::FallPuyo()
+{
+	++FallTime_;
+
+	if (15 == FallTime_)
+	{
+		if (false == CurrentPair_->GetCenterPuyo()->GetLandiung()
+			&& true == CurrentPair_->GetSecondPuyo()->GetLandiung())
+		{
+			MoveDown();
+		}
+
+		else if (false == CurrentPair_->GetSecondPuyo()->GetLandiung()
+			&& true == CurrentPair_->GetCenterPuyo()->GetLandiung())
+		{
+			MoveDown();
+		}
+
+		FallTime_ = 0;
 	}
 }
