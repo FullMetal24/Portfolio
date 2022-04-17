@@ -480,49 +480,7 @@ void Player::Rotate()
 
  void Player::LandPuyoAnimation()
  {
-	 if (true == CurrentPair_->GetCenterPuyo()->GetLandiung())
-	 {
-		 switch (CurrentPair_->GetCenterPuyo()->GetColor())
-		 {
-		 case PuyoColor::RED:
-			 CurrentPair_->GetCenterPuyo()->GetMyRenderer()->ChangeAnimation("IG_RED_LAND");
-			 break;
-		 case PuyoColor::BLUE:
-			 CurrentPair_->GetCenterPuyo()->GetMyRenderer()->ChangeAnimation("IG_BLUE_LAND");
-			 break;
-		 case PuyoColor::GREEN:
-			 CurrentPair_->GetCenterPuyo()->GetMyRenderer()->ChangeAnimation("IG_GREEN_LAND");
-			 break;
-		 case PuyoColor::YELLOW:
-			 CurrentPair_->GetCenterPuyo()->GetMyRenderer()->ChangeAnimation("IG_YELLOW_LAND");
-			 break;
-		 case PuyoColor::PURPLE:
-			 CurrentPair_->GetCenterPuyo()->GetMyRenderer()->ChangeAnimation("IG_PURPLE_LAND");
-			 break;
-		 }
-	 }
 
-	 if (true == CurrentPair_->GetSecondPuyo()->GetLandiung())
-	 {
-		 switch (CurrentPair_->GetSecondPuyo()->GetColor())
-		 {
-		 case PuyoColor::RED:
-			 CurrentPair_->GetSecondPuyo()->GetMyRenderer()->ChangeAnimation("IG_RED_LAND");
-			 break;
-		 case PuyoColor::BLUE:
-			 CurrentPair_->GetSecondPuyo()->GetMyRenderer()->ChangeAnimation("IG_BLUE_LAND");
-			 break;
-		 case PuyoColor::GREEN:
-			 CurrentPair_->GetSecondPuyo()->GetMyRenderer()->ChangeAnimation("IG_GREEN_LAND");
-			 break;
-		 case PuyoColor::YELLOW:
-			 CurrentPair_->GetSecondPuyo()->GetMyRenderer()->ChangeAnimation("IG_YELLOW_LAND");
-			 break;
-		 case PuyoColor::PURPLE:
-			 CurrentPair_->GetSecondPuyo()->GetMyRenderer()->ChangeAnimation("IG_PURPLE_LAND");
-			 break;
-		 }
-	 }
  }
 
 
@@ -557,6 +515,37 @@ void Player::CurrentPairInit()
 
 	NextNextPair_->GetCenterPuyo()->SetPosition({ 605.f, 330.f });
 	NextNextPair_->GetSecondPuyo()->SetPosition({ 605.f, 270.f });
+
+	switch (CenterPuyo->GetColor())
+	{
+	case PuyoColor::RED:
+	{
+		CenterPuyo->GetMyRenderer()->ChangeAnimation("IG_RED_CENTER");
+	}
+	break;
+
+	case PuyoColor::BLUE:
+	{
+		CenterPuyo->GetMyRenderer()->ChangeAnimation("IG_BLUE_CENTER");
+	}
+	break;
+
+	case PuyoColor::GREEN:
+	{
+		CenterPuyo->GetMyRenderer()->ChangeAnimation("IG_GREEN_CENTER");
+	}
+	break;
+	case PuyoColor::YELLOW:
+	{
+		CenterPuyo->GetMyRenderer()->ChangeAnimation("IG_YELLOW_CENTER");
+	}
+	break;
+	case PuyoColor::PURPLE:
+	{
+		CenterPuyo->GetMyRenderer()->ChangeAnimation("IG_PURPLE_CENTER");
+	}
+	break;
+	}
 
 }
 

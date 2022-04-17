@@ -18,6 +18,7 @@ public:
 	void Start() override;
 	void Update() override;
 
+	//郴何 谅钎 捞悼 包访 贸府
 	inline bool GetLandiung()
 	{
 		return IsLanding_;
@@ -68,6 +69,7 @@ public:
 		return MyColor_;
 	}
 
+	//局聪皋捞记 包访 贸府
 	void RenderToLeft();
 	void RenderToRight();
 	void RenderToUp();
@@ -93,6 +95,9 @@ public:
 	void RenderToIdle();
 	void RenderToOtherIdle();
 
+	void LandAnimation();
+	void LandToNormal();
+
 protected:
 
 private:
@@ -102,6 +107,7 @@ private:
 	int X_;
 	int Y_;
 
+	bool IsLandPlay_;
 	bool IsLanding_;
 	bool IsVisited_;
 };

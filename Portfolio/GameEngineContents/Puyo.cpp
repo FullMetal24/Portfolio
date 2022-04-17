@@ -13,6 +13,7 @@ Puyo::Puyo()
 	, Y_(0)
 	, IsLanding_(false)
 	, IsVisited_(false)
+	, IsLandPlay_(false)
 {
 }
 
@@ -26,6 +27,8 @@ void Puyo::Start()
 
 void Puyo::Update()
 {
+	LandAnimation();
+	LandToNormal();
 }
 
 
@@ -354,6 +357,87 @@ void Puyo::RenderToOtherIdle()
 	case PuyoColor::YELLOW:
 		break;
 	case PuyoColor::PURPLE:
+		break;
+	}
+}
+
+
+
+void Puyo::LandAnimation()
+{
+	if (true == IsLanding_ && false == IsLandPlay_)
+	{
+		switch (MyColor_)
+		{
+		case PuyoColor::RED:
+			MyRenderer_->ChangeAnimation("IG_RED_LAND");
+			break;
+		case PuyoColor::BLUE:
+			MyRenderer_->ChangeAnimation("IG_BLUE_LAND");
+			break;
+		case PuyoColor::GREEN:
+			MyRenderer_->ChangeAnimation("IG_GREEN_LAND");
+			break;
+		case PuyoColor::YELLOW:
+			MyRenderer_->ChangeAnimation("IG_YELLOW_LAND");
+			break;
+		case PuyoColor::PURPLE:
+			MyRenderer_->ChangeAnimation("IG_PURPLE_LAND");
+			break;
+		}
+
+		IsLandPlay_ = true;
+	}
+}
+
+void Puyo::LandToNormal()
+{
+	switch (MyColor_)
+	{
+	case PuyoColor::RED:
+		if (true == MyRenderer_->IsAnimationName("IG_RED_LAND"))
+		{
+			if (true == MyRenderer_->IsEndAnimation())
+			{
+				MyRenderer_->ChangeAnimation("IG_RED_PUYO");
+			}
+		}
+		break;
+	case PuyoColor::BLUE:
+		if (true == MyRenderer_->IsAnimationName("IG_BLUE_LAND"))
+		{
+			if (true == MyRenderer_->IsEndAnimation())
+			{
+				MyRenderer_->ChangeAnimation("IG_BLUE_PUYO");
+			}
+		}
+		break;
+	case PuyoColor::GREEN:
+		if (true == MyRenderer_->IsAnimationName("IG_GREEN_LAND"))
+		{
+			if (true == MyRenderer_->IsEndAnimation())
+			{
+				MyRenderer_->ChangeAnimation("IG_GREEN_PUYO");
+			}
+		}
+		break;
+	case PuyoColor::YELLOW:
+		if (true == MyRenderer_->IsAnimationName("IG_YELLOW_LAND"))
+		{
+			if (true == MyRenderer_->IsEndAnimation())
+			{
+				MyRenderer_->ChangeAnimation("IG_YELLOW_PUYO");
+			}
+		}
+		break;
+	case PuyoColor::PURPLE:
+		if (true == MyRenderer_->IsAnimationName("IG_PURPLE_LAND"))
+		{
+			if (true == MyRenderer_->IsEndAnimation())
+			{
+				MyRenderer_->ChangeAnimation("IG_PURPLE_PUYO");
+			}
+		}
 		break;
 	}
 }

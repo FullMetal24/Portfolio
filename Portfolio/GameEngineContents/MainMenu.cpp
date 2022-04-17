@@ -490,7 +490,7 @@ void MainMenu::BackgourndInit()
 		Actor->SetPosition(Pos);
 
 		GameEngineRenderer* Renderer = Actor->GameEngineActor::CreateRenderer();
-		Renderer->CreateAnimation("MM_SD0R.bmp", "MM_SD0R", 0, 3, 0.3f, true);
+		Renderer->CreateAnimation("MM_SD0R.bmp", "MM_SD0R", 0, 3, 0.1f, true);
 		Renderer->ChangeAnimation("MM_SD0R");
 
 		Actor->SetMyRenderer(Renderer);
@@ -504,7 +504,7 @@ void MainMenu::BackgourndInit()
 		Actor->SetPosition(Pos);
 
 		GameEngineRenderer* Renderer = Actor->GameEngineActor::CreateRenderer();
-		Renderer->CreateAnimation("MM_SD5L.bmp", "MM_SD5L", 0, 3, 0.3f, true);
+		Renderer->CreateAnimation("MM_SD5L.bmp", "MM_SD5L", 0, 3, 0.1f, true);
 		Renderer->ChangeAnimation("MM_SD5L");
 
 		Actor->SetMyRenderer(Renderer);
@@ -821,10 +821,19 @@ void MainMenu::BackgroundUpdate()
 			{
 				BackGrounds_[i][j]->SetPosition(BackGrounds_[i][j]->GetPosition() + (float4::RIGHT * GameEngineTime::GetDeltaTime() * 200.f));
 
-				if (GameEngineWindow::GetScale().x + BackGrounds_[i][j]->GetMyRenderer()->GetImageScale().x
+				if (GameEngineWindow::GetScale().x + 222.f
 					< BackGrounds_[i][j]->GetPosition().x)
 				{
-					BackGrounds_[i][j]->SetPosition({ 0.0f, BackGrounds_[i][j]->GetPosition().y });
+					if (0 == j)
+					{
+						BackGrounds_[i][j]->SetPosition(BackGrounds_[i].back()->GetPosition() - float4{ 222.f, 0.f });
+					}
+
+					else
+					{
+						BackGrounds_[i][j]->SetPosition(BackGrounds_[i][j - 1]->GetPosition()
+							- float4{ 222.f, 0.f });
+					}
 				}
 			}
 
@@ -832,11 +841,18 @@ void MainMenu::BackgroundUpdate()
 			{
 				BackGrounds_[i][j]->SetPosition(BackGrounds_[i][j]->GetPosition() + (float4::LEFT * GameEngineTime::GetDeltaTime() * 200.f));
 
-				if (0.f - BackGrounds_[i][j]->GetMyRenderer()->GetImageScale().x > BackGrounds_[i][j]->GetPosition().x) //벗어나는 위치
+				if (0.f - 222.f > BackGrounds_[i][j]->GetPosition().x) //벗어나는 위치
 				{
-					BackGrounds_[i][j]->SetPosition({ GameEngineWindow::GetScale().x, BackGrounds_[i][j]->GetPosition().y }); //다시 붙여주는 위치
+					if (BackGrounds_[i].size() - 1 == j)
+					{
+						BackGrounds_[i][j]->SetPosition(BackGrounds_[i].front()->GetPosition() + float4{ 222.f, 0.f });
+					}
 
-					//BackGrounds_[i][j]->SetPosition(BackGrounds_[i].back()->GetPosition() + BackGrounds_[i].back()->GetMyRenderer()->GetImageScale());
+					else
+					{
+						BackGrounds_[i][j]->SetPosition(BackGrounds_[i][j + 1]->GetPosition()
+							+ float4{ 222.f, 0.f });
+					}
 				}
 			}
 
