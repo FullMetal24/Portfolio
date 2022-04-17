@@ -387,12 +387,6 @@ void Player::Rotate()
 
 				PuyoDir_ = PuyoDir::RIGHT;
 
-				//일단 벽이냐?
-				//혹은 뿌요냐
-				//그러면 일보후퇴
-				//일보후퇴할 때 뒤에도 있다?
-				//그러면 다음 상태로 넘어가고 컨티뉴
-
 			}
 			break;
 
