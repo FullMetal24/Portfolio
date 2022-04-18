@@ -4,10 +4,11 @@
 #include <GameEngine/GameEngineRenderer.h>
 #include "Puyo.h"
 #include "PuyoPair.h"
-#include <cmath>
+#include <queue>
 
 Player::Player()
-	: PuyoDir_(PuyoDir::UP)
+	: Visited_{}
+	, PuyoDir_(PuyoDir::UP)
 	, CurrentPair_(nullptr)
 	, NextPair_(nullptr)
 	, NextNextPair_(nullptr)
@@ -15,6 +16,7 @@ Player::Player()
 	, CenterY_(0)
 	, SecondX_(0)
 	, SecondY_(0)
+	, Chain_(0)
 	, DownMoveDis_(30.0f) 
 	, SideMoveDis_(65.0f)
 	, DownTime_(0.5f)
@@ -97,6 +99,16 @@ void Player::Update()
 	{
    		IsAllLanding_ = true;
  	}
+
+	if (true == CurrentPair_->GetCenterPuyo()->GetLandiung())
+	{
+		SearchPuyo(CurrentPair_->GetCenterPuyo());
+	}
+
+	if (true == CurrentPair_->GetSecondPuyo()->GetLandiung())
+	{
+		SearchPuyo(CurrentPair_->GetSecondPuyo()); 
+	}
 
 }
 
@@ -438,26 +450,56 @@ void Player::Rotate()
 	}
  }
 
- void Player::SearchPuyo()
+ int dx[4] = { 0, 0, -1, 1 };
+ int dy[4] = { -2, 2, 0, 0 };
+
+ void Player::SearchPuyo(Puyo* _Puyo)
  {
 	 //커런트 페어에서 한번 
 	 //한번 부셔졌다면 다시 한번 더 너비우선탐색
+	 //커런트페어가 착지 상태일 때 한번 호출되면 된다.
+	//센터뿌요를 중심으로 연결된 뿌요를 탐색
+	//만약 탐색하는 뿌요들 중 방문하지 않았고 색이 같다면
+	//큐에 삽입
+	 std::queue<Puyo*> PuyoQueue;
+	 PuyoQueue.push(_Puyo);
 
-	 if (true) //커런트페어가 착지 상태일 때 한번 호출되면 된다.
+	 Visited_.push_back(_Puyo);
+	 _Puyo->Visit();
+
+	 while (false == PuyoQueue.empty())
 	 {
+		 Puyo* Puyo = PuyoQueue.front();
+		 PuyoQueue.pop();
 
-	 }
-
-	 for (int y = 0; y < 30; y++)
-	 {
-		 for (int x = 0; x < 6; x++)
+		 for (int i = 0; i < 4; i++)
 		 {
-			 if (nullptr != PlayerMap_[y][x])
+			 int x = Puyo->GetX() + dx[i];
+			 int y = Puyo->GetY() + dy[i];
+
+			 if (x < 0 || y < 0 || x >= 6 || y >= 31)
 			 {
-				 
+				 continue;
+			 }
+
+			 if (nullptr != PlayerMap_[y][x] && false == PlayerMap_[y][x]->GetVisited() 
+				 && PlayerMap_[y][x]->GetColor() == _Puyo->GetColor())
+			 {
+				 PuyoQueue.push(PlayerMap_[y][x]);
+				 Visited_.push_back(PlayerMap_[y][x]);
+				 PlayerMap_[y][x]->Visit();
 			 }
 		 }
+
+		 if (Visited_.size() >= 4)
+		 {
+			 int a = 0;
+		 }
 	 }
+
+	 Visited_.clear();
+	 std::vector<Puyo*>().swap(Visited_);
+	 
  }
 
  void Player::DestroyPuyo()

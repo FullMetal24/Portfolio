@@ -26,7 +26,7 @@ public:
 	void MoveDown();
 	void Rotate();
 
-	void SearchPuyo();
+	void SearchPuyo(Puyo* _Puyo);
 	void DestroyPuyo();
 
 	void CurrentPairInit();
@@ -64,6 +64,7 @@ protected:
 
 private:
 	Puyo* PlayerMap_[30][6];
+	std::vector<Puyo*> Visited_;
 
 	PuyoPair* CurrentPair_;
 	PuyoPair* NextPair_;
@@ -76,6 +77,8 @@ private:
 
 	int SecondX_;
 	int SecondY_;
+
+	int Chain_;
 
 	float DownMoveDis_;
 	float SideMoveDis_;

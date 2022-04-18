@@ -69,6 +69,21 @@ public:
 		return MyColor_;
 	}
 
+	inline void Visit()
+	{
+		IsVisited_ = true;
+	}
+
+	inline void Exit()
+	{
+		IsVisited_ = false;
+	}
+
+	inline bool GetVisited()
+	{
+		return IsVisited_;
+	}
+
 	//局聪皋捞记 包访 贸府
 	void RenderToLeft();
 	void RenderToRight();
