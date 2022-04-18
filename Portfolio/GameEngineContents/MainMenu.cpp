@@ -610,6 +610,9 @@ void MainMenu::MenuUpdate()
 	case 0:
 		RightRenderers_[0]->ChangeAnimation("MM_ARROW_RIGHT");
 		RightRenderers_[0]->PauseOff();
+
+		//»Ñ¿ä
+		Puyos_[0]->GetMyRenderer()->ChangeAnimation("MM_PUYO");
 		break;
 
 	case 1:
@@ -618,6 +621,9 @@ void MainMenu::MenuUpdate()
 
 		LeftRenderers_[0]->ChangeAnimation("MM_ARROW_LEFT");
 		LeftRenderers_[0]->PauseOff();
+
+		Puyos_[1]->GetMyRenderer()->ChangeAnimation("MM_PUYO");
+		Puyos_[2]->GetMyRenderer()->ChangeAnimation("MM_PUYO");
 		break;
 
 	case 2:
@@ -626,6 +632,9 @@ void MainMenu::MenuUpdate()
 
 		LeftRenderers_[1]->ChangeAnimation("MM_ARROW_LEFT");
 		LeftRenderers_[1]->PauseOff();
+
+		Puyos_[3]->GetMyRenderer()->ChangeAnimation("MM_PUYO");
+		Puyos_[4]->GetMyRenderer()->ChangeAnimation("MM_PUYO");
 		break;
 
 	case 3:
@@ -634,11 +643,20 @@ void MainMenu::MenuUpdate()
 
 		LeftRenderers_[2]->ChangeAnimation("MM_ARROW_LEFT");
 		LeftRenderers_[2]->PauseOff();
+
+		Puyos_[5]->GetMyRenderer()->ChangeAnimation("MM_PUYO");
+		Puyos_[6]->GetMyRenderer()->ChangeAnimation("MM_PUYO");
+		Puyos_[7]->GetMyRenderer()->ChangeAnimation("MM_PUYO");
 		break;
 
 	case 4:
 		LeftRenderers_[3]->ChangeAnimation("MM_ARROW_LEFT");
 		LeftRenderers_[3]->PauseOff();
+
+		Puyos_[8]->GetMyRenderer()->ChangeAnimation("MM_PUYO");
+		Puyos_[9]->GetMyRenderer()->ChangeAnimation("MM_PUYO");
+		Puyos_[10]->GetMyRenderer()->ChangeAnimation("MM_PUYO");
+		Puyos_[11]->GetMyRenderer()->ChangeAnimation("MM_PUYO");
 		break;
 	}
 
