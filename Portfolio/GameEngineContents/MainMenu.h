@@ -1,6 +1,7 @@
 #pragma once
 #include "GameEngine/GameEngineLevel.h"
 #include <GameEngineBase/GameEngineSound.h>
+#include <GameEngineBase/GameEngineRandom.h>
 #include "FadeInOutBackground.h"
 #include "ContentsEnum.h"
 #include <vector>
@@ -31,6 +32,11 @@ public:
 	void BackgourndInit();
 
 	void MenuUpdate();
+	void RandomAnimation();
+	void ResetMenuAnimation();
+	void ResetPuyoAnimation(int _Index);
+
+	void ChangeArrowAnimation();
 	void SelectMenu();
 	void FocasMenu();
 	void BackgroundUpdate();
@@ -40,8 +46,12 @@ public:
 protected:
 
 private:
-	std::vector<GameEngineActor*> Menus_;
+	std::vector<MainMenuActor*> Menus_;
 	std::vector<GameEngineRenderer*> MenuRenderers_;
+
+	GameEngineRandom Random_;
+	float RandomTime_;
+
 	std::vector<MainMenuActor*> Puyos_;
 
 	std::vector<GameEngineActor*> Arrows_;
@@ -53,6 +63,9 @@ private:
 	FadeInOutBackground* FadeBackground_;
 
 	GameEngineSoundPlayer MainMenuBgm_;
+
+
+	float ChangeTime_;
 
 	int MenuCount_;
 

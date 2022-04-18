@@ -28,17 +28,6 @@ public:
 		MyRenderer_ = _Renderer;
 	}
 
-	inline GameEngineRenderer* CreateRenderer(const std::string& _Name) 
-	{
-		MyRenderer_ = CreateRenderer(_Name);
-
-		if (nullptr == MyRenderer_)
-		{
-			return nullptr;
-		}
-
-		return MyRenderer_;
-	}
 
 protected:
 

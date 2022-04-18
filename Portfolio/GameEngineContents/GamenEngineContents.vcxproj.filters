@@ -95,9 +95,6 @@
     <ClInclude Include="ContentsEnum.h">
       <Filter>Global</Filter>
     </ClInclude>
-    <ClInclude Include="FSM.h">
-      <Filter>Actor\Level\InGame\Enemy</Filter>
-    </ClInclude>
     <ClInclude Include="TitleActor.h">
       <Filter>Actor\Level\Title</Filter>
     </ClInclude>
@@ -115,6 +112,9 @@
     </ClInclude>
     <ClInclude Include="EnemySelectActor.h">
       <Filter>Actor\Level\EnemySelect</Filter>
+    </ClInclude>
+    <ClInclude Include="FSM.h">
+      <Filter>Actor\Level\InGame\Enemy</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

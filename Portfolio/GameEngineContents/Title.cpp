@@ -77,8 +77,8 @@ void Title::Update()
     {
         if (0.5f < TransTime_)
         {
-            TitleActors_[(int)TitileOrder::PUYO_EYE]->SetMove(float4::UP * 100.f);
-            TitleActors_[(int)TitileOrder::PUYO_EYE]->SetMove(float4::LEFT * 100.f);
+            TitleActors_[(int)TitileOrder::PUYO_EYE]->SetMove(float4::UP * 140.f);
+            TitleActors_[(int)TitileOrder::PUYO_EYE]->SetMove(float4::LEFT * 120.f);
 
             EyeMove_ = true;
         }
@@ -318,8 +318,8 @@ void Title::BackgroundInit()
 
     GameEngineRenderer* PuyoRenderer = TitleActors_[(int)TitileOrder::PUYO]->CreateRenderer("TT_PUYO.bmp", (int)TitileOrder::PUYO, RenderPivot::CENTER);
 
-    TitleActors_[(int)TitileOrder::PUYO_EYE]->CreateRenderer("TT_PUYO_EYE1.bmp", (int)TitileOrder::PUYO_EYE, RenderPivot::CENTER, { 150, 150 });
-    TitleActors_[(int)TitileOrder::PUYO_EYE]->CreateRenderer("TT_PUYO_EYE1.bmp", (int)TitileOrder::PUYO_EYE, RenderPivot::CENTER, { 550, 400 });
+    GameEngineRenderer* EyeRenderer = TitleActors_[(int)TitileOrder::PUYO_EYE]->CreateRenderer("TT_PUYO_EYE.bmp", (int)TitileOrder::PUYO_EYE, RenderPivot::CENTER, { 150, 150 });
+    GameEngineRenderer* EyeRenderer1 = TitleActors_[(int)TitileOrder::PUYO_EYE]->CreateRenderer("TT_PUYO_EYE.bmp", (int)TitileOrder::PUYO_EYE, RenderPivot::CENTER, { 580, 420 });
 
     TitleActors_[(int)TitileOrder::PUYO_BACK]->CreateRenderer("TT_BACK.bmp");
 

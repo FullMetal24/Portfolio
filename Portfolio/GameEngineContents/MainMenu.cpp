@@ -12,6 +12,8 @@
 
 MainMenu::MainMenu()
 	: Arrows_{}
+	, RandomTime_(1.f)
+	, ChangeTime_{0.f}
 	, MenuCount_(0)
 	, RightIndex_(0)
 	, LeftIndex_(0)
@@ -40,13 +42,6 @@ void MainMenu::Loading()
 	MenuImageInit();
 	MenuInit();
 	BackgourndInit();
-}
-
-void MainMenu::Update()
-{
-	MenuUpdate();
-	BackgroundUpdate();
-	SelectMenu();
 }
 
 void MainMenu::MenuImageInit()
@@ -128,26 +123,27 @@ void MainMenu::MenuImageInit()
 	PuyoImage->CutCount(1, 1);
 
 	GameEngineImage* MoveImage = GameEngineImageManager::GetInst()->Find("MM_PUYO_MOVE.bmp");
-	MoveImage->CutCount(3, 1);
+	MoveImage->CutCount(2, 1);
 
 	GameEngineImage* PuyoDarkImage = GameEngineImageManager::GetInst()->Find("MM_PUYO_DARK.bmp");
 	PuyoDarkImage->CutCount(1, 1);
 
 	GameEngineImage* PuyoDestroyImage = GameEngineImageManager::GetInst()->Find("MM_PUYO_DESTROY.bmp");
-	PuyoDestroyImage->CutCount(2, 1);
+	PuyoDestroyImage->CutCount(3, 1);
 }
 
 void MainMenu::MenuInit()
 {
-	GameEngineActor* Menu1 = CreateActor<MainMenuActor>(3);
+	MainMenuActor* Menu1 = CreateActor<MainMenuActor>(3);
 	Menu1->SetPosition({ Menu1->GetPosition().x - 400.f, GameEngineWindow::GetScale().Half().y + 100.f });
 
 	GameEngineRenderer* Menu1_Renerer = Menu1->CreateRenderer();
-	Menu1_Renerer->CreateAnimation("MM_MENU_1_IDLE.bmp", "MM_MENU_1_IDLE", 0, 2, 0.1f, true);
-	Menu1_Renerer->CreateAnimation("MM_MENU_1_IDLE_DARK.bmp", "MM_MENU_1_IDLE_DARK", 0, 2, 0.1f, true);
+	Menu1_Renerer->CreateAnimation("MM_MENU_1_IDLE.bmp", "MM_MENU_1_IDLE", 0, 2, 0.15f, false);
+	Menu1_Renerer->CreateAnimation("MM_MENU_1_IDLE_DARK.bmp", "MM_MENU_1_IDLE_DARK", 0, 2, 0.15f, false);
 	Menu1_Renerer->CreateAnimation("MM_MENU_1_CLOSE.bmp", "MM_MENU_1_CLOSE", 0, 3, 0.1f, false);
 	Menu1_Renerer->ChangeAnimation("MM_MENU_1_IDLE");
-	Menu1_Renerer->PauseOn();
+
+	Menu1->SetMyRenderer(Menu1_Renerer);
 
 	//È­»ìÇ¥
 	{
@@ -178,24 +174,27 @@ void MainMenu::MenuInit()
 		Puyo->SetPosition({ Menu1->GetPosition().x - 80.f, GameEngineWindow::GetScale().Half().y + 280.f });
 		GameEngineRenderer* Puyoenderer = Puyo->GameEngineActor::CreateRenderer();
 		Puyoenderer->CreateAnimation("MM_PUYO.bmp", "MM_PUYO", 0, 0, 0.0f, false);
-		Puyoenderer->CreateAnimation("MM_PUYO_MOVE.bmp", "MM_PUYO_MOVE", 0, 2, 0.1f, false);
+		Puyoenderer->CreateAnimation("MM_PUYO_MOVE.bmp", "MM_PUYO_MOVE", 0, 1, 0.02f, false);
 		Puyoenderer->CreateAnimation("MM_PUYO_DARK.bmp", "MM_PUYO_DARK", 0, 0, 0.0f, false);
-		Puyoenderer->CreateAnimation("MM_PUYO_DESTROY.bmp", "MM_PUYO_DESTROY", 0, 0, 0.0f, false);
+		Puyoenderer->CreateAnimation("MM_PUYO_DESTROY.bmp", "MM_PUYO_DESTROY", 0, 2, 0.01f, false);
 		Puyoenderer->ChangeAnimation("MM_PUYO");
+		Puyoenderer->PauseOn();
 
 		Puyos_.push_back(Puyo);
 		Puyo->SetMyRenderer(Puyoenderer);
 	}
 
 
-	GameEngineActor* Menu2 = CreateActor<MainMenuActor>(3);
+	MainMenuActor* Menu2 = CreateActor<MainMenuActor>(3);
 	Menu2->SetPosition({ Menu1->GetPosition().x + 320.f, GameEngineWindow::GetScale().Half().y + 100.f });
 	GameEngineRenderer* Menu2_Renerer = Menu2->GameEngineActor::CreateRenderer();
-	Menu2_Renerer->CreateAnimation("MM_MENU_2_IDLE.bmp", "MM_MENU_2_IDLE", 0, 2, 0.1f, true);
-	Menu2_Renerer->CreateAnimation("MM_MENU_2_IDLE_DARK.bmp", "MM_MENU_2_IDLE_DARK", 0, 2, 0.1f, true);
+	Menu2_Renerer->CreateAnimation("MM_MENU_2_IDLE.bmp", "MM_MENU_2_IDLE", 0, 2, 0.15f, false);
+	Menu2_Renerer->CreateAnimation("MM_MENU_2_IDLE_DARK.bmp", "MM_MENU_2_IDLE_DARK", 0, 2, 0.15f, false);
 	Menu2_Renerer->CreateAnimation("MM_MENU_2_CLOSE.bmp", "MM_MENU_2_CLOSE", 0, 3, 0.1f, false);
 	Menu2_Renerer->ChangeAnimation("MM_MENU_2_IDLE_DARK");
 	Menu2_Renerer->PauseOn();
+
+	Menu2->SetMyRenderer(Menu2_Renerer);
 
 	{
 		GameEngineActor* RightArrow = CreateActor<MainMenuActor>(4);
@@ -225,8 +224,9 @@ void MainMenu::MenuInit()
 		Puyo->SetPosition({ Menu2->GetPosition().x - 80.f, GameEngineWindow::GetScale().Half().y + 280.f });
 		GameEngineRenderer* Puyoenderer = Puyo->GameEngineActor::CreateRenderer();
 		Puyoenderer->CreateAnimation("MM_PUYO.bmp", "MM_PUYO", 0, 0, 0.0f, false);
-		Puyoenderer->CreateAnimation("MM_PUYO_MOVE.bmp", "MM_PUYO_MOVE", 0, 2, 0.1f, false);
+		Puyoenderer->CreateAnimation("MM_PUYO_MOVE.bmp", "MM_PUYO_MOVE", 0, 1, 0.02f, false);
 		Puyoenderer->CreateAnimation("MM_PUYO_DARK.bmp", "MM_PUYO_DARK", 0, 0, 0.0f, false);
+		Puyoenderer->CreateAnimation("MM_PUYO_DESTROY.bmp", "MM_PUYO_DESTROY", 0, 2, 0.01f, false);
 		Puyoenderer->ChangeAnimation("MM_PUYO_DARK");
 		Puyoenderer->PauseOn();
 
@@ -234,8 +234,9 @@ void MainMenu::MenuInit()
 		Puyo1->SetPosition({ Menu2->GetPosition().x - 20.f, GameEngineWindow::GetScale().Half().y + 280.f });
 		GameEngineRenderer* Puyoenderer1 = Puyo1->GameEngineActor::CreateRenderer();
 		Puyoenderer1->CreateAnimation("MM_PUYO.bmp", "MM_PUYO", 0, 0, 0.0f, false);
-		Puyoenderer1->CreateAnimation("MM_PUYO_MOVE.bmp", "MM_PUYO_MOVE", 0, 2, 0.1f, false);
+		Puyoenderer1->CreateAnimation("MM_PUYO_MOVE.bmp", "MM_PUYO_MOVE", 0, 1, 0.02f, false);
 		Puyoenderer1->CreateAnimation("MM_PUYO_DARK.bmp", "MM_PUYO_DARK", 0, 0, 0.0f, false);
+		Puyoenderer1->CreateAnimation("MM_PUYO_DESTROY.bmp", "MM_PUYO_DESTROY", 0, 2, 0.01f, false);
 		Puyoenderer1->ChangeAnimation("MM_PUYO_DARK");
 		Puyoenderer1->PauseOn();
 
@@ -247,14 +248,16 @@ void MainMenu::MenuInit()
 	}
 
 
-	GameEngineActor* Menu3 = CreateActor<MainMenuActor>(3);
+	MainMenuActor* Menu3 = CreateActor<MainMenuActor>(3);
 	Menu3->SetPosition({ Menu2->GetPosition().x + 320.f, GameEngineWindow::GetScale().Half().y + 100.f });
 	GameEngineRenderer* Menu3_Renerer = Menu3->CreateRenderer();
-	Menu3_Renerer->CreateAnimation("MM_MENU_3_IDLE.bmp", "MM_MENU_3_IDLE", 0, 2, 0.5f, true);
-	Menu3_Renerer->CreateAnimation("MM_MENU_3_IDLE_DARK.bmp", "MM_MENU_3_IDLE_DARK", 0, 2, 0.1f, true);
+	Menu3_Renerer->CreateAnimation("MM_MENU_3_IDLE.bmp", "MM_MENU_3_IDLE", 0, 2, 0.15f, false);
+	Menu3_Renerer->CreateAnimation("MM_MENU_3_IDLE_DARK.bmp", "MM_MENU_3_IDLE_DARK", 0, 2, 0.15f, false);
 	Menu3_Renerer->CreateAnimation("MM_MENU_3_CLOSE.bmp", "MM_MENU_3_CLOSE", 0, 3, 0.1f, false);
 	Menu3_Renerer->ChangeAnimation("MM_MENU_3_IDLE_DARK");
 	Menu3_Renerer->PauseOn();
+
+	Menu3->SetMyRenderer(Menu3_Renerer);
 
 	{
 		GameEngineActor* RightArrow = CreateActor<MainMenuActor>(4);
@@ -284,19 +287,21 @@ void MainMenu::MenuInit()
 		Puyo->SetPosition({ Menu3->GetPosition().x - 85.f, GameEngineWindow::GetScale().Half().y + 280.f });
 		GameEngineRenderer* Puyoenderer = Puyo->GameEngineActor::CreateRenderer();
 		Puyoenderer->CreateAnimation("MM_PUYO.bmp", "MM_PUYO", 0, 0, 0.0f, false);
-		Puyoenderer->CreateAnimation("MM_PUYO_MOVE.bmp", "MM_PUYO_MOVE", 0, 2, 0.1f, false);
+		Puyoenderer->CreateAnimation("MM_PUYO_MOVE.bmp", "MM_PUYO_MOVE", 0, 1, 0.02f, false);
 		Puyoenderer->CreateAnimation("MM_PUYO_DARK.bmp", "MM_PUYO_DARK", 0, 0, 0.0f, false);
-		Puyoenderer->CreateAnimation("MM_PUYO_DESTROY.bmp", "MM_PUYO_DESTROY", 0, 0, 0.0f, false);
+		Puyoenderer->CreateAnimation("MM_PUYO_DESTROY.bmp", "MM_PUYO_DESTROY", 0, 2, 0.01f, false);
 		Puyoenderer->ChangeAnimation("MM_PUYO_DARK");
+		Puyoenderer->PauseOn();
 
 		MainMenuActor* Puyo1 = CreateActor<MainMenuActor>(5);
 		Puyo1->SetPosition({ Menu3->GetPosition().x + 85.f, GameEngineWindow::GetScale().Half().y + 280.f });
 		GameEngineRenderer* Puyoenderer1 = Puyo1->GameEngineActor::CreateRenderer();
 		Puyoenderer1->CreateAnimation("MM_PUYO.bmp", "MM_PUYO", 0, 0, 0.0f, false);
-		Puyoenderer1->CreateAnimation("MM_PUYO_MOVE.bmp", "MM_PUYO_MOVE", 0, 2, 0.1f, false);
+		Puyoenderer1->CreateAnimation("MM_PUYO_MOVE.bmp", "MM_PUYO_MOVE", 0, 1, 0.02f, false);
 		Puyoenderer1->CreateAnimation("MM_PUYO_DARK.bmp", "MM_PUYO_DARK", 0, 0, 0.0f, false);
-		Puyoenderer1->CreateAnimation("MM_PUYO_DESTROY.bmp", "MM_PUYO_DESTROY", 0, 0, 0.0f, false);
+		Puyoenderer1->CreateAnimation("MM_PUYO_DESTROY.bmp", "MM_PUYO_DESTROY", 0, 2, 0.01f, false);
 		Puyoenderer1->ChangeAnimation("MM_PUYO_DARK");
+		Puyoenderer1->PauseOn();
 
 		Puyos_.push_back(Puyo);
 		Puyo->SetMyRenderer(Puyoenderer);
@@ -307,14 +312,16 @@ void MainMenu::MenuInit()
 
 
 
-	GameEngineActor* Menu4 = CreateActor<MainMenuActor>(3);
+	MainMenuActor* Menu4 = CreateActor<MainMenuActor>(3);
 	Menu4->SetPosition({ Menu3->GetPosition().x + 320.f, GameEngineWindow::GetScale().Half().y + 100.f });
 	GameEngineRenderer* Menu4_Renerer = Menu4->CreateRenderer();
-	Menu4_Renerer->CreateAnimation("MM_MENU_4_IDLE.bmp", "MM_MENU_4_IDLE", 0, 2, 0.5f, true);
-	Menu4_Renerer->CreateAnimation("MM_MENU_4_IDLE_DARK.bmp", "MM_MENU_4_IDLE_DARK", 0, 2, 0.1f, true);
+	Menu4_Renerer->CreateAnimation("MM_MENU_4_IDLE.bmp", "MM_MENU_4_IDLE", 0, 2, 0.15f, false);
+	Menu4_Renerer->CreateAnimation("MM_MENU_4_IDLE_DARK.bmp", "MM_MENU_4_IDLE_DARK", 0, 2, 0.15f, false);
 	Menu4_Renerer->CreateAnimation("MM_MENU_4_CLOSE.bmp", "MM_MENU_4_CLOSE", 0, 3, 0.1f, false);
 	Menu4_Renerer->ChangeAnimation("MM_MENU_4_IDLE_DARK");
 	Menu4_Renerer->PauseOn();
+
+	Menu4->SetMyRenderer(Menu4_Renerer);
 
 
 	{
@@ -338,35 +345,38 @@ void MainMenu::MenuInit()
 		RightRenderers_.push_back(RightRenderer);
 		Arrows_.push_back(LeftArrow);
 		LeftRenderers_.push_back(LeftRenderer);
-	}
+	} 
 
 	{
 		MainMenuActor* Puyo = CreateActor<MainMenuActor>(5);
-		Puyo->SetPosition({ Menu4->GetPosition().x -85.f, GameEngineWindow::GetScale().Half().y + 280.f });
+		Puyo->SetPosition({ Menu4->GetPosition().x - 85.f, GameEngineWindow::GetScale().Half().y + 280.f });
 		GameEngineRenderer* Puyoenderer = Puyo->GameEngineActor::CreateRenderer();
 		Puyoenderer->CreateAnimation("MM_PUYO.bmp", "MM_PUYO", 0, 0, 0.0f, false);
-		Puyoenderer->CreateAnimation("MM_PUYO_MOVE.bmp", "MM_PUYO_MOVE", 0, 2, 0.1f, false);
+		Puyoenderer->CreateAnimation("MM_PUYO_MOVE.bmp", "MM_PUYO_MOVE", 0, 1, 0.02f, false);
 		Puyoenderer->CreateAnimation("MM_PUYO_DARK.bmp", "MM_PUYO_DARK", 0, 0, 0.0f, false);
-		Puyoenderer->CreateAnimation("MM_PUYO_DESTROY.bmp", "MM_PUYO_DESTROY", 0, 0, 0.0f, false);
+		Puyoenderer->CreateAnimation("MM_PUYO_DESTROY.bmp", "MM_PUYO_DESTROY", 0, 2, 0.01f, false);
 		Puyoenderer->ChangeAnimation("MM_PUYO_DARK");
+		Puyoenderer->PauseOn();
 
 		MainMenuActor* Puyo1 = CreateActor<MainMenuActor>(6);
 		Puyo1->SetPosition({ Menu4->GetPosition().x - 45.f, GameEngineWindow::GetScale().Half().y + 290.f });
 		GameEngineRenderer* Puyoenderer1 = Puyo1->GameEngineActor::CreateRenderer();
 		Puyoenderer1->CreateAnimation("MM_PUYO.bmp", "MM_PUYO", 0, 0, 0.0f, false);
-		Puyoenderer1->CreateAnimation("MM_PUYO_MOVE.bmp", "MM_PUYO_MOVE", 0, 2, 0.1f, false);
+		Puyoenderer1->CreateAnimation("MM_PUYO_MOVE.bmp", "MM_PUYO_MOVE", 0, 1, 0.02f, false);
 		Puyoenderer1->CreateAnimation("MM_PUYO_DARK.bmp", "MM_PUYO_DARK", 0, 0, 0.0f, false);
-		Puyoenderer1->CreateAnimation("MM_PUYO_DESTROY.bmp", "MM_PUYO_DESTROY", 0, 0, 0.0f, false);
+		Puyoenderer1->CreateAnimation("MM_PUYO_DESTROY.bmp", "MM_PUYO_DESTROY", 0, 2, 0.01f, false);
 		Puyoenderer1->ChangeAnimation("MM_PUYO_DARK");
+		Puyoenderer1->PauseOn();
 
 		MainMenuActor* Puyo2 = CreateActor<MainMenuActor>(5);
 		Puyo2->SetPosition({ Menu4->GetPosition().x - 15.f, GameEngineWindow::GetScale().Half().y + 280.f });
 		GameEngineRenderer* Puyoenderer2 = Puyo2->GameEngineActor::CreateRenderer();
 		Puyoenderer2->CreateAnimation("MM_PUYO.bmp", "MM_PUYO", 0, 0, 0.0f, false);
-		Puyoenderer2->CreateAnimation("MM_PUYO_MOVE.bmp", "MM_PUYO_MOVE", 0, 2, 0.1f, false);
+		Puyoenderer2->CreateAnimation("MM_PUYO_MOVE.bmp", "MM_PUYO_MOVE", 0, 1, 0.02f, false);
 		Puyoenderer2->CreateAnimation("MM_PUYO_DARK.bmp", "MM_PUYO_DARK", 0, 0, 0.0f, false);
-		Puyoenderer2->CreateAnimation("MM_PUYO_DESTROY.bmp", "MM_PUYO_DESTROY", 0, 0, 0.0f, false);
+		Puyoenderer2->CreateAnimation("MM_PUYO_DESTROY.bmp", "MM_PUYO_DESTROY", 0, 2, 0.01f, false);
 		Puyoenderer2->ChangeAnimation("MM_PUYO_DARK");
+		Puyoenderer2->PauseOn();
 
 
 		Puyos_.push_back(Puyo);
@@ -380,51 +390,57 @@ void MainMenu::MenuInit()
 	}
 
 
-	GameEngineActor* Menu5 = CreateActor<MainMenuActor>(3);
+	MainMenuActor* Menu5 = CreateActor<MainMenuActor>(3);
 	Menu5->SetPosition({ Menu4->GetPosition().x + 320.f, GameEngineWindow::GetScale().Half().y + 100.f });
 	GameEngineRenderer* Menu5_Renerer = Menu5->CreateRenderer();
-	Menu5_Renerer->CreateAnimation("MM_MENU_5_IDLE.bmp", "MM_MENU_5_IDLE", 0, 2, 0.5f, true);
-	Menu5_Renerer->CreateAnimation("MM_MENU_5_IDLE_DARK.bmp", "MM_MENU_5_IDLE_DARK", 0, 2, 0.1f, true);
+	Menu5_Renerer->CreateAnimation("MM_MENU_5_IDLE.bmp", "MM_MENU_5_IDLE", 0, 2, 0.15f, false);
+	Menu5_Renerer->CreateAnimation("MM_MENU_5_IDLE_DARK.bmp", "MM_MENU_5_IDLE_DARK", 0, 2, 0.15f, false);
 	Menu5_Renerer->CreateAnimation("MM_MENU_5_CLOSE.bmp", "MM_MENU_5_CLOSE", 0, 3, 0.1f, false);
 	Menu5_Renerer->ChangeAnimation("MM_MENU_5_IDLE_DARK");
 	Menu5_Renerer->PauseOn();
+
+	Menu5->SetMyRenderer(Menu5_Renerer);
 
 	{
 		MainMenuActor* Puyo = CreateActor<MainMenuActor>(5);
 		Puyo->SetPosition({ Menu5->GetPosition().x - 100.f, GameEngineWindow::GetScale().Half().y + 280.f });
 		GameEngineRenderer* Puyoenderer = Puyo->GameEngineActor::CreateRenderer();
 		Puyoenderer->CreateAnimation("MM_PUYO.bmp", "MM_PUYO", 0, 0, 0.0f, false);
-		Puyoenderer->CreateAnimation("MM_PUYO_MOVE.bmp", "MM_PUYO_MOVE", 0, 2, 0.1f, false);
+		Puyoenderer->CreateAnimation("MM_PUYO_MOVE.bmp", "MM_PUYO_MOVE", 0, 1, 0.02f, false);
 		Puyoenderer->CreateAnimation("MM_PUYO_DARK.bmp", "MM_PUYO_DARK", 0, 0, 0.0f, false);
-		Puyoenderer->CreateAnimation("MM_PUYO_DESTROY.bmp", "MM_PUYO_DESTROY", 0, 0, 0.0f, false);
+		Puyoenderer->CreateAnimation("MM_PUYO_DESTROY.bmp", "MM_PUYO_DESTROY", 0, 2, 0.01f, false);
 		Puyoenderer->ChangeAnimation("MM_PUYO_DARK");
+		Puyoenderer->PauseOn();
 
 		MainMenuActor* Puyo1 = CreateActor<MainMenuActor>(5);
 		Puyo1->SetPosition({ Menu5->GetPosition().x - 40.f, GameEngineWindow::GetScale().Half().y + 280.f });
 		GameEngineRenderer* Puyoenderer1 = Puyo1->GameEngineActor::CreateRenderer();
 		Puyoenderer1->CreateAnimation("MM_PUYO.bmp", "MM_PUYO", 0, 0, 0.0f, false);
-		Puyoenderer1->CreateAnimation("MM_PUYO_MOVE.bmp", "MM_PUYO_MOVE", 0, 2, 0.1f, false);
+		Puyoenderer1->CreateAnimation("MM_PUYO_MOVE.bmp", "MM_PUYO_MOVE", 0, 1, 0.02f, false);
 		Puyoenderer1->CreateAnimation("MM_PUYO_DARK.bmp", "MM_PUYO_DARK", 0, 0, 0.0f, false);
-		Puyoenderer1->CreateAnimation("MM_PUYO_DESTROY.bmp", "MM_PUYO_DESTROY", 0, 0, 0.0f, false);
+		Puyoenderer1->CreateAnimation("MM_PUYO_DESTROY.bmp", "MM_PUYO_DESTROY", 0, 2, 0.01f, false);
 		Puyoenderer1->ChangeAnimation("MM_PUYO_DARK");
+		Puyoenderer1->PauseOn();
 
 		MainMenuActor* Puyo2 = CreateActor<MainMenuActor>(5);
 		Puyo2->SetPosition({ Menu5->GetPosition().x + 17.f, GameEngineWindow::GetScale().Half().y + 280.f });
 		GameEngineRenderer* Puyoenderer2 = Puyo2->GameEngineActor::CreateRenderer();
 		Puyoenderer2->CreateAnimation("MM_PUYO.bmp", "MM_PUYO", 0, 0, 0.0f, false);
-		Puyoenderer2->CreateAnimation("MM_PUYO_MOVE.bmp", "MM_PUYO_MOVE", 0, 2, 0.1f, false);
+		Puyoenderer2->CreateAnimation("MM_PUYO_MOVE.bmp", "MM_PUYO_MOVE", 0, 1, 0.02f, false);
 		Puyoenderer2->CreateAnimation("MM_PUYO_DARK.bmp", "MM_PUYO_DARK", 0, 0, 0.0f, false);
-		Puyoenderer2->CreateAnimation("MM_PUYO_DESTROY.bmp", "MM_PUYO_DESTROY", 0, 0, 0.0f, false);
+		Puyoenderer2->CreateAnimation("MM_PUYO_DESTROY.bmp", "MM_PUYO_DESTROY", 0, 2, 0.01f, false);
 		Puyoenderer2->ChangeAnimation("MM_PUYO_DARK");
+		Puyoenderer2->PauseOn();
 
 		MainMenuActor* Puyo3 = CreateActor<MainMenuActor>(5);
 		Puyo3->SetPosition({ Menu5->GetPosition().x + 100.f, GameEngineWindow::GetScale().Half().y + 280.f });
 		GameEngineRenderer* Puyoenderer3 = Puyo3->GameEngineActor::CreateRenderer();
 		Puyoenderer3->CreateAnimation("MM_PUYO.bmp", "MM_PUYO", 0, 0, 0.0f, false);
-		Puyoenderer3->CreateAnimation("MM_PUYO_MOVE.bmp", "MM_PUYO_MOVE", 0, 2, 0.1f, false);
+		Puyoenderer3->CreateAnimation("MM_PUYO_MOVE.bmp", "MM_PUYO_MOVE", 0, 1, 0.02f, false);
 		Puyoenderer3->CreateAnimation("MM_PUYO_DARK.bmp", "MM_PUYO_DARK", 0, 0, 0.0f, false);
-		Puyoenderer3->CreateAnimation("MM_PUYO_DESTROY.bmp", "MM_PUYO_DESTROY", 0, 0, 0.0f, false);
+		Puyoenderer3->CreateAnimation("MM_PUYO_DESTROY.bmp", "MM_PUYO_DESTROY", 0, 2, 0.01f, false);
 		Puyoenderer3->ChangeAnimation("MM_PUYO_DARK");
+		Puyoenderer3->PauseOn();
 
 		Puyos_.push_back(Puyo);
 		Puyo->SetMyRenderer(Puyoenderer);
@@ -451,7 +467,6 @@ void MainMenu::MenuInit()
 	MenuRenderers_.push_back(Menu4_Renerer);
 	MenuRenderers_.push_back(Menu5_Renerer);
 }
-
 
 void MainMenu::BackgourndInit()
 {
@@ -538,6 +553,26 @@ void MainMenu::BackgourndInit()
 }
 
 
+void MainMenu::Update()
+{
+	MenuUpdate();
+
+	if (false == FadeBackground_->GetIsOn())
+	{
+		RandomAnimation();
+		ResetMenuAnimation();
+
+		for (int i = 0; i < Puyos_.size(); i++)
+		{
+			ResetPuyoAnimation(i);
+		}
+	}
+
+	BackgroundUpdate();
+	SelectMenu();
+}
+
+
 
 void MainMenu::MenuUpdate()
 {
@@ -571,6 +606,8 @@ void MainMenu::MenuUpdate()
 			++MenuCount_;
 			FocasMenu();
 		}
+
+		ChangeArrowAnimation();
 	}
 
 	if (GameEngineInput::GetInst()->IsDown("ManiMenu_Left"))
@@ -603,8 +640,171 @@ void MainMenu::MenuUpdate()
 			--MenuCount_;
 			FocasMenu();
 		}
+
+		ChangeArrowAnimation();
 	}
 
+
+}
+
+void MainMenu::RandomAnimation()
+{
+	RandomTime_ -= GameEngineTime::GetDeltaTime();
+
+	if (RandomTime_ < 0.0f)
+	{
+		int Random = Random_.RandomInt(0, 1);
+
+		if (Random == 0)
+		{
+			int MenuRan = Random_.RandomInt(0, 4);
+			Menus_[MenuRan]->GetMyRenderer()->PauseOff();
+		}
+
+		int PuyoRan = Random_.RandomInt(0, static_cast<int>(Puyos_.size() - 1));
+
+		if (false == Puyos_[PuyoRan]->GetMyRenderer()->IsAnimationName("MM_PUYO_DARK"))
+		{
+			Puyos_[PuyoRan]->GetMyRenderer()->ChangeAnimation("MM_PUYO_MOVE");
+			Puyos_[PuyoRan]->GetMyRenderer()->PauseOff();
+		}
+
+		RandomTime_ = 0.5f;
+	}
+}
+
+void MainMenu::ResetMenuAnimation()
+{
+	if (true == Menus_[0]->GetMyRenderer()->IsEndAnimation())
+	{
+		Menus_[0]->GetMyRenderer()->PauseOn();
+
+		Menus_[0]->GetMyRenderer()->ChangeAnimation("MM_MENU_1_IDLE");
+		Menus_[0]->GetMyRenderer()->ChangeAnimation("MM_MENU_1_IDLE_DARK");
+
+		if (0 == MenuCount_)
+		{
+			Puyos_[0]->GetMyRenderer()->ChangeAnimation("MM_PUYO");
+			Menus_[0]->GetMyRenderer()->ChangeAnimation("MM_MENU_1_IDLE");
+		}
+	}
+
+	if (true == Menus_[1]->GetMyRenderer()->IsEndAnimation())
+	{
+		Menus_[1]->GetMyRenderer()->PauseOn();
+
+		Menus_[1]->GetMyRenderer()->ChangeAnimation("MM_MENU_2_IDLE");
+		Menus_[1]->GetMyRenderer()->ChangeAnimation("MM_MENU_2_IDLE_DARK");
+
+		if (1 == MenuCount_)
+		{
+			Menus_[1]->GetMyRenderer()->ChangeAnimation("MM_MENU_2_IDLE");
+		}
+	}
+
+	if (true == Menus_[2]->GetMyRenderer()->IsEndAnimation())
+	{
+		Menus_[2]->GetMyRenderer()->PauseOn();
+
+		Puyos_[3]->GetMyRenderer()->PauseOn();
+		Puyos_[4]->GetMyRenderer()->PauseOn();
+
+		Puyos_[3]->GetMyRenderer()->ChangeAnimation("MM_PUYO");
+		Puyos_[4]->GetMyRenderer()->ChangeAnimation("MM_PUYO");
+
+		Puyos_[3]->GetMyRenderer()->ChangeAnimation("MM_PUYO_DARK");
+		Puyos_[4]->GetMyRenderer()->ChangeAnimation("MM_PUYO_DARK");
+
+		Menus_[2]->GetMyRenderer()->ChangeAnimation("MM_MENU_3_IDLE");
+		Menus_[2]->GetMyRenderer()->ChangeAnimation("MM_MENU_3_IDLE_DARK");
+		if (2 == MenuCount_)
+		{
+			Puyos_[3]->GetMyRenderer()->ChangeAnimation("MM_PUYO");
+			Puyos_[4]->GetMyRenderer()->ChangeAnimation("MM_PUYO");
+
+			Menus_[2]->GetMyRenderer()->ChangeAnimation("MM_MENU_3_IDLE");
+		}
+	}
+	if (true == Menus_[3]->GetMyRenderer()->IsEndAnimation())
+	{
+		Menus_[3]->GetMyRenderer()->PauseOn();
+
+		Puyos_[5]->GetMyRenderer()->PauseOn();
+		Puyos_[6]->GetMyRenderer()->PauseOn();
+		Puyos_[7]->GetMyRenderer()->PauseOn();
+
+		Puyos_[5]->GetMyRenderer()->ChangeAnimation("MM_PUYO");
+		Puyos_[6]->GetMyRenderer()->ChangeAnimation("MM_PUYO");
+		Puyos_[7]->GetMyRenderer()->ChangeAnimation("MM_PUYO");
+
+		Puyos_[5]->GetMyRenderer()->ChangeAnimation("MM_PUYO_DARK");
+		Puyos_[6]->GetMyRenderer()->ChangeAnimation("MM_PUYO_DARK");
+		Puyos_[7]->GetMyRenderer()->ChangeAnimation("MM_PUYO_DARK");
+
+		Menus_[3]->GetMyRenderer()->ChangeAnimation("MM_MENU_4_IDLE");
+		Menus_[3]->GetMyRenderer()->ChangeAnimation("MM_MENU_4_IDLE_DARK");
+		if (3 == MenuCount_)
+		{
+			Puyos_[5]->GetMyRenderer()->ChangeAnimation("MM_PUYO");
+			Puyos_[6]->GetMyRenderer()->ChangeAnimation("MM_PUYO");
+			Puyos_[7]->GetMyRenderer()->ChangeAnimation("MM_PUYO");
+
+			Menus_[3]->GetMyRenderer()->ChangeAnimation("MM_MENU_4_IDLE");
+		}
+
+	}
+	if (true == Menus_[4]->GetMyRenderer()->IsEndAnimation())
+	{
+		Menus_[4]->GetMyRenderer()->PauseOn();
+
+		Puyos_[8]->GetMyRenderer()->PauseOn();
+		Puyos_[9]->GetMyRenderer()->PauseOn();
+		Puyos_[10]->GetMyRenderer()->PauseOn();
+		Puyos_[11]->GetMyRenderer()->PauseOn();
+
+		Puyos_[8]->GetMyRenderer()->ChangeAnimation("MM_PUYO");
+		Puyos_[9]->GetMyRenderer()->ChangeAnimation("MM_PUYO");
+		Puyos_[10]->GetMyRenderer()->ChangeAnimation("MM_PUYO");
+		Puyos_[11]->GetMyRenderer()->ChangeAnimation("MM_PUYO");
+
+		Puyos_[8]->GetMyRenderer()->ChangeAnimation("MM_PUYO_DARK");
+		Puyos_[9]->GetMyRenderer()->ChangeAnimation("MM_PUYO_DARK");
+		Puyos_[10]->GetMyRenderer()->ChangeAnimation("MM_PUYO_DARK");
+		Puyos_[11]->GetMyRenderer()->ChangeAnimation("MM_PUYO_DARK");
+
+
+		Menus_[4]->GetMyRenderer()->ChangeAnimation("MM_MENU_5_IDLE");
+		Menus_[4]->GetMyRenderer()->ChangeAnimation("MM_MENU_5_IDLE_DARK");
+
+		if (4 == MenuCount_)
+		{
+			Puyos_[8]->GetMyRenderer()->ChangeAnimation("MM_PUYO");
+			Puyos_[9]->GetMyRenderer()->ChangeAnimation("MM_PUYO");
+			Puyos_[10]->GetMyRenderer()->ChangeAnimation("MM_PUYO");
+			Puyos_[11]->GetMyRenderer()->ChangeAnimation("MM_PUYO");
+
+			Menus_[4]->GetMyRenderer()->ChangeAnimation("MM_MENU_5_IDLE");
+		}
+	}
+}
+
+void MainMenu::ResetPuyoAnimation(int _Index)
+{
+	if (true == Puyos_[_Index]->GetMyRenderer()->IsEndAnimation())
+	{
+		Puyos_[_Index]->GetMyRenderer()->PauseOn();
+		Puyos_[_Index]->GetMyRenderer()->ChangeAnimation("MM_PUYO");
+
+		if (_Index == MenuCount_)
+		{
+			Puyos_[_Index]->GetMyRenderer()->ChangeAnimation("MM_PUYO");
+		}
+	}
+}
+
+
+void MainMenu::ChangeArrowAnimation()
+{
 	switch (MenuCount_)
 	{
 	case 0:
@@ -659,7 +859,6 @@ void MainMenu::MenuUpdate()
 		Puyos_[11]->GetMyRenderer()->ChangeAnimation("MM_PUYO");
 		break;
 	}
-
 }
 
 void MainMenu::SelectMenu()
@@ -736,62 +935,102 @@ void MainMenu::SelectMenu()
 		MainMenuBgm_.Stop();
 	}
 
-	if (true == MenuRenderers_[1]->IsEndAnimation() && true == MenuSelect_[0])
+
+	if (true == MenuSelect_[0])
 	{
+		Puyos_[0]->GetMyRenderer()->PauseOff();
+		Puyos_[0]->GetMyRenderer()->ChangeAnimation("MM_PUYO_DESTROY");
+
 		FadeBackground_->FadeOn();
 		FadeBackground_->GetMyRenderer()->SetOrder(20);
-		FadeBackground_->SetFadeSpeed(800.f);
+		FadeBackground_->SetFadeSpeed(700.f);
 
-		if (true == FadeBackground_->GetIsChage())
+		ChangeTime_ += GameEngineTime::GetDeltaTime();
+
+		if (2.f < ChangeTime_ && true == FadeBackground_->GetIsChage())
 		{
 			GameEngine::GetInst().ChangeLevel("EnemySelect");
 		}
 	}
 
-	else if (true == MenuRenderers_[2]->IsEndAnimation() && true == MenuSelect_[1])
+	else if (true == MenuSelect_[1])
 	{
 		FadeBackground_->FadeOn();
-		FadeBackground_->SetOrder(20);
-		FadeBackground_->SetFadeSpeed(800.f);
+		FadeBackground_->GetMyRenderer()->SetOrder(20);
+		FadeBackground_->SetFadeSpeed(700.f);
 
-		if (true == FadeBackground_->GetIsChage())
+		Puyos_[1]->GetMyRenderer()->PauseOff();
+		Puyos_[2]->GetMyRenderer()->PauseOff();
+		Puyos_[1]->GetMyRenderer()->ChangeAnimation("MM_PUYO_DESTROY");
+		Puyos_[2]->GetMyRenderer()->ChangeAnimation("MM_PUYO_DESTROY");
+
+		ChangeTime_ += GameEngineTime::GetDeltaTime();
+
+		if (2.f < ChangeTime_ && true == FadeBackground_->GetIsChage())
 		{
 			GameEngine::GetInst().ChangeLevel("Title");
 		}
 	}
 
-	else if (true == MenuRenderers_[3]->IsEndAnimation() && true == MenuSelect_[2])
+	else if (true == MenuSelect_[2])
 	{
 		FadeBackground_->FadeOn();
-		FadeBackground_->SetOrder(20);
-		FadeBackground_->SetFadeSpeed(800.f);
+		FadeBackground_->GetMyRenderer()->SetOrder(20);
+		FadeBackground_->SetFadeSpeed(700.f);
 
-		if (true == FadeBackground_->GetIsChage())
+		Puyos_[3]->GetMyRenderer()->PauseOff();
+		Puyos_[4]->GetMyRenderer()->PauseOff();
+		Puyos_[3]->GetMyRenderer()->ChangeAnimation("MM_PUYO_DESTROY");
+		Puyos_[4]->GetMyRenderer()->ChangeAnimation("MM_PUYO_DESTROY");
+
+		ChangeTime_ += GameEngineTime::GetDeltaTime();
+
+		if (2.f < ChangeTime_ && true == FadeBackground_->GetIsChage())
 		{
 			GameEngine::GetInst().ChangeLevel("Title");
 		}
 	}
 
-	else if (true == MenuRenderers_[4]->IsEndAnimation() && true == MenuSelect_[3])
+	else if (true == MenuSelect_[3])
 	{
 		FadeBackground_->FadeOn();
-		FadeBackground_->SetOrder(20);
-		FadeBackground_->SetFadeSpeed(800.f);
+		FadeBackground_->GetMyRenderer()->SetOrder(20);
+		FadeBackground_->SetFadeSpeed(700.f);
 
+		Puyos_[5]->GetMyRenderer()->PauseOff();
+		Puyos_[6]->GetMyRenderer()->PauseOff();
+		Puyos_[7]->GetMyRenderer()->PauseOff();
+		Puyos_[5]->GetMyRenderer()->ChangeAnimation("MM_PUYO_DESTROY");
+		Puyos_[6]->GetMyRenderer()->ChangeAnimation("MM_PUYO_DESTROY");
+		Puyos_[7]->GetMyRenderer()->ChangeAnimation("MM_PUYO_DESTROY");
 
-		if (true == FadeBackground_->GetIsChage())
+		ChangeTime_ += GameEngineTime::GetDeltaTime();
+
+		if (2.f < ChangeTime_ && true == FadeBackground_->GetIsChage())
 		{
 			GameEngine::GetInst().ChangeLevel("Title");
 		}
 	}
 
-	else if (true == MenuRenderers_[0]->IsEndAnimation() && true == MenuSelect_[4])
+	else if (true == MenuSelect_[4])
 	{
 		FadeBackground_->FadeOn();
-		FadeBackground_->SetOrder(20);
-		FadeBackground_->SetFadeSpeed(800.f);
+		FadeBackground_->GetMyRenderer()->SetOrder(20);
+		FadeBackground_->SetFadeSpeed(700.f);
 
-		if (true == FadeBackground_->GetIsChage())
+		Puyos_[8]->GetMyRenderer()->PauseOff();
+		Puyos_[9]->GetMyRenderer()->PauseOff();
+		Puyos_[10]->GetMyRenderer()->PauseOff();
+		Puyos_[11]->GetMyRenderer()->PauseOff();
+
+		Puyos_[8]->GetMyRenderer()->ChangeAnimation("MM_PUYO_DESTROY");
+		Puyos_[9]->GetMyRenderer()->ChangeAnimation("MM_PUYO_DESTROY");
+		Puyos_[10]->GetMyRenderer()->ChangeAnimation("MM_PUYO_DESTROY");
+		Puyos_[11]->GetMyRenderer()->ChangeAnimation("MM_PUYO_DESTROY");
+
+		ChangeTime_ += GameEngineTime::GetDeltaTime();
+
+		if (2.f < ChangeTime_ && true == FadeBackground_->GetIsChage())
 		{
 			GameEngine::GetInst().ChangeLevel("Title");
 		}
@@ -881,6 +1120,11 @@ void MainMenu::MenuRendererPause()
 	for (int i = 0; i < MenuRenderers_.size(); ++i)
 	{
 		MenuRenderers_[i]->PauseOff();
+	}
+
+	for (int i = 0; i < Puyos_.size(); ++i)
+	{
+		Puyos_[i]->GetMyRenderer()->PauseOff();
 	}
 }
 
