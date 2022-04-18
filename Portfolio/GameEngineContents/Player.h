@@ -66,6 +66,9 @@ private:
 	Puyo* PlayerMap_[30][6];
 	std::vector<Puyo*> Visited_;
 
+	std::vector<Puyo*>::iterator StartVisit = Visited_.begin();
+	std::vector<Puyo*>::iterator EndVisit = Visited_.end();
+
 	PuyoPair* CurrentPair_;
 	PuyoPair* NextPair_;
 	PuyoPair* NextNextPair_;

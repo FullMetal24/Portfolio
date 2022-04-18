@@ -33,8 +33,6 @@ public:
 	void MenuUpdate();
 	void SelectMenu();
 	void FocasMenu();
-	void ArrowMoveToRight();
-	void ArrowMoveToLeft();
 	void BackgroundUpdate();
 
 	void MenuRendererPause();

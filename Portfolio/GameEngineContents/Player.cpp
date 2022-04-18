@@ -100,15 +100,18 @@ void Player::Update()
    		IsAllLanding_ = true;
  	}
 
-	if (true == CurrentPair_->GetCenterPuyo()->GetLandiung())
-	{
-		SearchPuyo(CurrentPair_->GetCenterPuyo());
-	}
+	//if (true == CurrentPair_->GetCenterPuyo()->GetLandiung())
+	//{
+	//	SearchPuyo(CurrentPair_->GetCenterPuyo());
+	//}
 
-	if (true == CurrentPair_->GetSecondPuyo()->GetLandiung())
-	{
-		SearchPuyo(CurrentPair_->GetSecondPuyo()); 
-	}
+	//if (true == CurrentPair_->GetSecondPuyo()->GetLandiung())
+	//{
+	//	SearchPuyo(CurrentPair_->GetSecondPuyo());
+	//}
+
+
+
 
 }
 
@@ -281,7 +284,6 @@ void Player::MoveDown()
 	LandCheck();
  }
 
-
 void Player::Rotate()
  {
  	while (true)
@@ -450,17 +452,11 @@ void Player::Rotate()
 	}
  }
 
- int dx[4] = { 0, 0, -1, 1 };
- int dy[4] = { -2, 2, 0, 0 };
+ int Dx[4] = { 0, 0, -1, 1 };
+ int Dy[4] = { -2, 2, 0, 0 };
 
  void Player::SearchPuyo(Puyo* _Puyo)
  {
-	 //커런트 페어에서 한번 
-	 //한번 부셔졌다면 다시 한번 더 너비우선탐색
-	 //커런트페어가 착지 상태일 때 한번 호출되면 된다.
-	//센터뿌요를 중심으로 연결된 뿌요를 탐색
-	//만약 탐색하는 뿌요들 중 방문하지 않았고 색이 같다면
-	//큐에 삽입
 	 std::queue<Puyo*> PuyoQueue;
 	 PuyoQueue.push(_Puyo);
 
@@ -469,37 +465,58 @@ void Player::Rotate()
 
 	 while (false == PuyoQueue.empty())
 	 {
-		 Puyo* Puyo = PuyoQueue.front();
+		 Puyo* NodePuyo = PuyoQueue.front();
 		 PuyoQueue.pop();
 
 		 for (int i = 0; i < 4; i++)
 		 {
-			 int x = Puyo->GetX() + dx[i];
-			 int y = Puyo->GetY() + dy[i];
+			 int x = NodePuyo->GetX() + Dx[i];
+			 int y = NodePuyo->GetY() + Dy[i];
 
 			 if (x < 0 || y < 0 || x >= 6 || y >= 31)
 			 {
 				 continue;
 			 }
 
-			 if (nullptr != PlayerMap_[y][x] && false == PlayerMap_[y][x]->GetVisited() 
-				 && PlayerMap_[y][x]->GetColor() == _Puyo->GetColor())
+  			 if (nullptr != PlayerMap_[y][x])
 			 {
-				 PuyoQueue.push(PlayerMap_[y][x]);
-				 Visited_.push_back(PlayerMap_[y][x]);
-				 PlayerMap_[y][x]->Visit();
+				 if (false == PlayerMap_[y][x]->GetVisited())
+				 {
+					 if (PlayerMap_[y][x]->GetColor() == _Puyo->GetColor())
+					 {
+						 PuyoQueue.push(PlayerMap_[y][x]);
+  						 Visited_.push_back(PlayerMap_[y][x]);
+  						 PlayerMap_[y][x]->Visit();
+					 }
+				 }
 			 }
 		 }
 
-		 if (Visited_.size() >= 4)
+		 if (4 <= Visited_.size())
 		 {
-			 int a = 0;
+			 for (; StartVisit != EndVisit; ++StartVisit)
+			 {
+				 if (nullptr != (*StartVisit))
+				 {
+					 (*StartVisit)->RenderToDestroy();
+				 }
+			 }
+
 		 }
+
+
 	 }
 
+	 for (; StartVisit != EndVisit; ++StartVisit)
+	 {
+		 if (nullptr != (*StartVisit))
+		 {
+			 (*StartVisit)->Exit();
+		 }
+	 }
+	 
 	 Visited_.clear();
 	 std::vector<Puyo*>().swap(Visited_);
-	 
  }
 
  void Player::DestroyPuyo()
@@ -603,10 +620,11 @@ void Player::LandCheck()
 			CurrentPair_->GetCenterPuyo()->SetLanding(true);
 		}
 
-		if (CurrentPair_->GetSecondPuyo() != PlayerMap_[CenterY_ + 2][CenterX_]
+		else if (CurrentPair_->GetSecondPuyo() != PlayerMap_[CenterY_ + 2][CenterX_]
 			&& nullptr != PlayerMap_[CenterY_ + 2][CenterX_])
 		{
 			CurrentPair_->GetCenterPuyo()->SetLanding(true);
+
 		}
 
 		if (true == CurrentPair_->GetSecondPuyo()->GetLandiung())
@@ -614,6 +632,8 @@ void Player::LandCheck()
 			if (nullptr != PlayerMap_[CenterY_ + 2][CenterX_])
 			{
 				CurrentPair_->GetCenterPuyo()->SetLanding(true);
+				SearchPuyo(CurrentPair_->GetCenterPuyo());
+
 			}
 		}
 	}
@@ -625,10 +645,11 @@ void Player::LandCheck()
 			CurrentPair_->GetSecondPuyo()->SetLanding(true);
 		}
 
-		if (CurrentPair_->GetCenterPuyo() != PlayerMap_[SecondY_ + 2][SecondX_]
+		else if (CurrentPair_->GetCenterPuyo() != PlayerMap_[SecondY_ + 2][SecondX_]
 			&& nullptr != PlayerMap_[SecondY_ + 2][SecondX_])
 		{
-			CurrentPair_->GetSecondPuyo()->SetLanding(true);
+			CurrentPair_->GetSecondPuyo()->SetLanding(true);		
+
 		}
 
 		if (true == CurrentPair_->GetCenterPuyo()->GetLandiung())
@@ -636,6 +657,8 @@ void Player::LandCheck()
 			if (nullptr != PlayerMap_[SecondY_ + 2][SecondX_])
 			{
 				CurrentPair_->GetSecondPuyo()->SetLanding(true);
+				SearchPuyo(CurrentPair_->GetSecondPuyo());
+
 			}
 		}
 	}

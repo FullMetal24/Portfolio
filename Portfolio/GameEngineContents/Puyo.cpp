@@ -315,14 +315,19 @@ void Puyo::RenderToDestroy()
 	switch (MyColor_)
 	{
 	case PuyoColor::RED:
+		MyRenderer_->ChangeAnimation("IG_RED_DESTROY");
 		break;
 	case PuyoColor::BLUE:
+		MyRenderer_->ChangeAnimation("IG_RED_DESTROY");
 		break;
 	case PuyoColor::GREEN:
+		MyRenderer_->ChangeAnimation("IG_RED_DESTROY");
 		break;
 	case PuyoColor::YELLOW:
+		MyRenderer_->ChangeAnimation("IG_RED_DESTROY");
 		break;
 	case PuyoColor::PURPLE:
+		MyRenderer_->ChangeAnimation("IG_RED_DESTROY");
 		break;
 	}
 }
