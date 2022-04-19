@@ -2,7 +2,6 @@
 #include "GameEngineLevel.h"
 #include <GameEngineBase/GameEngineNameObject.h>
 #include <GameEngineBase/GameEngineUpdateObject.h>
-#include <GameEngineBase/GameEngineWindow.h>
 #include <GameEngineBase/GameEngineMath.h>
 #include "GameEngineEnum.h"
 #include <list>
@@ -65,6 +64,10 @@ public:
 		Scale_ = _Value;
 	}
 
+	inline void NextLevelOn()
+	{
+		NextLevelOn_ = true;
+	}
 
 	void SetOrder(int _Order) override;
 
@@ -76,8 +79,8 @@ protected:
 	// 지속적으로 게임이 실행될때 호출된다.
 	virtual void Render() {}
 
-	virtual void LevelChangeStart() {}
-	virtual void LevelChangeEnd() {}
+	virtual void LevelChangeStart(GameEngineLevel* _PrevLevel) {}
+	virtual void LevelChangeEnd(GameEngineLevel* _NextLevel) {}
 
 	void Release();
 
@@ -89,6 +92,14 @@ private:
 	GameEngineLevel* Level_;
 	float4 Position_;
 	float4 Scale_;
+
+	bool NextLevelOn_;
+
+	inline void NextLevelOff()
+	{
+		NextLevelOn_ = false;
+	}
+
 
 	// 나를 만들어준 레벨이야.
 	inline void SetLevel(GameEngineLevel* _Level)

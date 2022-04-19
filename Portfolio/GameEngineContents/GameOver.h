@@ -16,8 +16,8 @@ public:
 
 	void Loading() override; 
 	void Update()  override; //재시작 키 입력 감지(PlayGame or mainmenu)
-	void LevelChangeStart() override;
-	void LevelChangeEnd() override;
+	void LevelChangeStart(GameEngineLevel* _PrevLevel) override;
+	void LevelChangeEnd(GameEngineLevel* _NextLevel) override;
 
 protected:
 

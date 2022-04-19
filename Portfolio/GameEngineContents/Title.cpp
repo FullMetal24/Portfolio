@@ -253,11 +253,11 @@ void Title::Update()
 
 }
 
-void Title::LevelChangeStart()
+void Title::LevelChangeStart(GameEngineLevel* _PrevLevel)
 {
 }
 
-void Title::LevelChangeEnd()
+void Title::LevelChangeEnd(GameEngineLevel* _NextLevel)
 {
 }
 

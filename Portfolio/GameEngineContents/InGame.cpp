@@ -439,7 +439,7 @@ void InGame::CreatePuyoAnimation(GameEngineRenderer* _Renderer, PuyoColor _Color
 	}
 }
 
-void InGame::LevelChangeStart()
+void InGame::LevelChangeStart(GameEngineLevel* _PrevLevel)
 {
 	InGameBgm_ = GameEngineSound::SoundPlayControl("InGame.mp3");
 
@@ -454,7 +454,7 @@ void InGame::LevelChangeStart()
 	}
 }
 
-void InGame::LevelChangeEnd()
+void InGame::LevelChangeEnd(GameEngineLevel* _NextLevel)
 {
 
 }

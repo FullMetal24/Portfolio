@@ -274,12 +274,12 @@ void EnemySelect::PlayRoulette()
 
 }
 
-void EnemySelect::LevelChangeStart()
+void EnemySelect::LevelChangeStart(GameEngineLevel* _PrevLevel)
 {
 	EnemySelectBgm_ = GameEngineSound::SoundPlayControl("MainMenu.mp3");
 }
 
-void EnemySelect::LevelChangeEnd()
+void EnemySelect::LevelChangeEnd(GameEngineLevel* _NextLevel)
 {
 
 }

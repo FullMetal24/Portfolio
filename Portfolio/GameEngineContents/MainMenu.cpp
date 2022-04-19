@@ -1130,14 +1130,14 @@ void MainMenu::MenuRendererPause()
 
 
 
-void MainMenu::LevelChangeStart()
+void MainMenu::LevelChangeStart(GameEngineLevel* _PrevLevel)
 {
 	MenuCount_ = 0;
 
 	MainMenuBgm_ = GameEngineSound::SoundPlayControl("MainMenu.mp3");
 }
 
-void MainMenu::LevelChangeEnd()
+void MainMenu::LevelChangeEnd(GameEngineLevel* _NextLevel)
 {
 
 }

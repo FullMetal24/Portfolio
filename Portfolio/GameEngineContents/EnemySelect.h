@@ -21,8 +21,8 @@ public:
 
 	void Loading() override; //캐릭터 이미지 생성
 	void Update() override; //상대 캐릭터 고르기
-	void LevelChangeStart() override;
-	void LevelChangeEnd() override;
+	void LevelChangeStart(GameEngineLevel* _PrevLevel) override;
+	void LevelChangeEnd(GameEngineLevel* _NextLevel) override;
 
 	void BackgroundInit();
 	void TopPositionInit();

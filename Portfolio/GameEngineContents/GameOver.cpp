@@ -22,13 +22,13 @@ void GameOver::Update()
 {
 }
 
-void GameOver::LevelChangeStart()
+void GameOver::LevelChangeStart(GameEngineLevel* _PrevLevel)
 {
 	GameOverBgm_ = GameEngineSound::SoundPlayControl("GameOver.mp3");
 
 }
 
-void GameOver::LevelChangeEnd()
+void GameOver::LevelChangeEnd(GameEngineLevel* _NextLevel)
 {
 
 }
