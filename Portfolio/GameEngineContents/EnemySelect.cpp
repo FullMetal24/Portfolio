@@ -15,6 +15,7 @@ EnemySelect::EnemySelect()
 	: Enemys_{}
 	, MyEnemy_(nullptr)
 	, Backgrounds_{}
+	, TwinkleTime_(0.f)
 	, RouletteSpeed_(1.0f)
 	, SpeedLimit_(0.01f)
 	, LevelChangeCount_(2.5f)
@@ -188,10 +189,11 @@ void EnemySelect::FrameInit()
 void EnemySelect::Update()
 {
 	PlayRoulette();
-
+	
 	if (true == IsSelect_)
 	{
 		LevelChangeCount_ -= GameEngineTime::GetDeltaTime();
+		TwinkleEnemyIcon();
 
 		if (0.0f >= LevelChangeCount_)
 		{
@@ -253,10 +255,10 @@ void EnemySelect::PlayRoulette()
 				RouletteIndex_ = 0;
 			}
 
-			LimitForce_ += 1;
+			LimitForce_ += 0.3f;
 			SpeedLimit_ += GameEngineTime::GetDeltaTime() * LimitForce_;
 
-			if (1.f < SpeedLimit_ || true == IsKeyDown_)
+			if (0.2f < SpeedLimit_ || true == IsKeyDown_)
 			{
   				IsSelect_ = true;
 				Enemys_[RouletteIndex_]->GetProfile()->SetOrder(8);
@@ -268,10 +270,26 @@ void EnemySelect::PlayRoulette()
 			break;
 		}
 
-		RouletteSpeed_ += GameEngineTime::GetDeltaTime();
+		RouletteSpeed_ += GameEngineTime::GetDeltaTime() * 0.5f;
 		break;
 	}
 
+}
+
+void EnemySelect::TwinkleEnemyIcon()
+ {
+	TwinkleTime_ += GameEngineTime::GetDeltaTime() * 150.f;
+
+	if (5.f <= TwinkleTime_)
+	{
+		MyEnemy_->GetIcon()->SetOrder(0);
+	}
+
+	if (10.f <= TwinkleTime_)
+	{
+		MyEnemy_->GetIcon()->SetOrder(10);
+		TwinkleTime_ = 0.0f;
+	}
 }
 
 void EnemySelect::LevelChangeStart(GameEngineLevel* _PrevLevel)

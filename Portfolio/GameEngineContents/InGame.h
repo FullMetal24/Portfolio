@@ -25,6 +25,7 @@ public:
 
 	void Loading() override;
 	void Update()  override;
+
 	void LevelChangeStart(GameEngineLevel* _PrevLevel) override;
 	void LevelChangeEnd(GameEngineLevel* _NextLevel) override;
 
@@ -37,6 +38,10 @@ public:
 	void CreatePuyoAnimation(GameEngineRenderer* _Renderer, PuyoColor _Color);
 
 	void PuyoAnimationInit();
+	void CarbuncleAnimationInit();
+
+	void CarbuncleUpdate();
+	void SpewStar();
 
 protected:
 
@@ -44,6 +49,9 @@ private:
 	Stage* Stages_[3];
 	Player*	Player_; 
 	FSM* FSM_;
+
+	InGameActor* Carbuncle_;
+	InGameActor* Stars_[36];
 	  
 	GameEngineRenderer* EnemyProfile_;
 	GameEngineRenderer* Stage_; //스테이지 이미지 (렌더러가 나을듯함

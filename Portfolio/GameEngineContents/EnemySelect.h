@@ -30,6 +30,7 @@ public:
 	void FrameInit();
 
 	void PlayRoulette();
+	void TwinkleEnemyIcon();
 
 protected:
 
@@ -44,6 +45,8 @@ private:
 	float RouletteSpeed_;
 	float SpeedLimit_;
 	float LevelChangeCount_;
+
+	float TwinkleTime_;
 
 	int RouletteIndex_;
 	int LimitForce_;
