@@ -1,6 +1,7 @@
 #include "Player.h"
 #include "GameEngineBase/GameEngineInput.h"
 #include <GameEngineBase/GameEngineWindow.h>
+#include <GameEngineBase/GameEngineTime.h>
 #include <GameEngine/GameEngineRenderer.h>
 #include "Puyo.h"
 #include "PuyoPair.h"
@@ -9,6 +10,7 @@
 Player::Player()
 	: Visited_{}
 	, PuyoDir_(PuyoDir::UP)
+	, Score_(0)
 	, CurrentPair_(nullptr)
 	, NextPair_(nullptr)
 	, NextNextPair_(nullptr)
@@ -41,6 +43,14 @@ void Player::Start()
 		GameEngineInput::GetInst()->CreateKey("PuyoDown", VK_DOWN);
 		GameEngineInput::GetInst()->CreateKey("PuyoRotate", VK_SPACE);
 	}
+
+	for (int i = 0; i < 9; ++i)
+	{
+		ScoreRenderers_[i] = CreateRenderer("IG_PLAYER_NUMBER_0.bmp");
+		ScoreRenderers_[i]->SetOrder(-1);
+		ScoreRenderers_[i]->SetPivot({ GameEngineWindow::GetScale().Half().x + 70.f - (33.f * i), GameEngineWindow::GetScale().Half().y + 240.f});
+	}
+
 }
 
 
@@ -78,6 +88,7 @@ void Player::Update()
 		if (true == GameEngineInput::GetInst()->IsPress("PuyoDown") &&  0 == 20 / LimitTime_)
 		{
 			MoveDown();
+			Score_ += 1;
 			LimitTime_ = 0;
 		}
 	}
@@ -110,9 +121,8 @@ void Player::Update()
 	//	SearchPuyo(CurrentPair_->GetSecondPuyo());
 	//}
 
-
-
-
+	DigitScore(Score_);
+	RenderToScore();
 }
 
 void Player::MoveLeft()
@@ -683,5 +693,81 @@ void Player::FallPuyo()
 		}
 
 		FallTime_ = 0;
+	}
+}
+
+void Player::DigitScore(int _Score)
+{
+	if (0 >= _Score)
+	{
+		DigitSize_ = 0;
+	}
+
+	int Index = 0;
+	int Temp = _Score;
+
+	while (Temp > 0)
+	{
+		ScoreDigits_[Index] = Temp % 10;
+		Temp /= 10;
+		++Index;
+	}
+
+	DigitSize_ = Index;
+}
+
+void Player::RenderToScore()
+{
+	for (int i = 0; i < DigitSize_; ++i)
+	{
+		switch (ScoreDigits_[i])
+		{
+		case 0 :
+			ScoreRenderers_[i]->SetOrder(10);
+			ScoreRenderers_[i]->SetImage("IG_PLAYER_NUMBER_0.bmp");
+			break;
+		case 1:
+			ScoreRenderers_[i]->SetOrder(10);
+			ScoreRenderers_[i]->SetImage("IG_PLAYER_NUMBER_1.bmp");
+			break;
+		case 2:
+			ScoreRenderers_[i]->SetOrder(10);
+			ScoreRenderers_[i]->SetImage("IG_PLAYER_NUMBER_2.bmp");
+			break;
+		case 3:
+			ScoreRenderers_[i]->SetOrder(10);
+			ScoreRenderers_[i]->SetImage("IG_PLAYER_NUMBER_3.bmp");
+			break;
+		case 4:
+			ScoreRenderers_[i]->SetOrder(10);
+			ScoreRenderers_[i]->SetImage("IG_PLAYER_NUMBER_4.bmp");
+			break;
+		case 5:
+			ScoreRenderers_[i]->SetOrder(10);
+			ScoreRenderers_[i]->SetImage("IG_PLAYER_NUMBER_5.bmp");
+			break;
+		case 6:
+			ScoreRenderers_[i]->SetOrder(10);
+			ScoreRenderers_[i]->SetImage("IG_PLAYER_NUMBER_6.bmp");
+			break;
+		case 7:
+			ScoreRenderers_[i]->SetOrder(10);
+			ScoreRenderers_[i]->SetImage("IG_PLAYER_NUMBER_7.bmp");
+			break;
+		case 8:
+			ScoreRenderers_[i]->SetOrder(10);
+			ScoreRenderers_[i]->SetImage("IG_PLAYER_NUMBER_8.bmp");
+			break;
+		case 9:
+			ScoreRenderers_[i]->SetOrder(10);
+			ScoreRenderers_[i]->SetImage("IG_PLAYER_NUMBER_9.bmp");
+			break;
+		}
+	}
+
+	if (0 == DigitSize_)
+	{
+		ScoreRenderers_[0]->SetOrder(10);
+		ScoreRenderers_[0]->SetImage("IG_PLAYER_NUMBER_0.bmp");
 	}
 }

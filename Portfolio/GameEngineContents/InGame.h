@@ -11,6 +11,7 @@
 
 class FSM;
 class PuyoPair;
+class InGameActor;
 class InGame : public GameEngineLevel
 {
 public:
@@ -43,9 +44,6 @@ private:
 	Stage* Stages_[3];
 	Player*	Player_; 
 	FSM* FSM_;
-
-	//숫자를 일단 문자로
-	//
 	  
 	GameEngineRenderer* EnemyProfile_;
 	GameEngineRenderer* Stage_; //스테이지 이미지 (렌더러가 나을듯함

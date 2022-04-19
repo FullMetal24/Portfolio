@@ -5,23 +5,20 @@
 class Puyo;
 class PuyoPair;
 class GameEngineRenderer;
-class Enemy : public GameEngineActor //AI
+class EnemyProfile : public GameEngineActor //AI
 {
 public:
-	Enemy();
-	~Enemy();
+	EnemyProfile();
+	~EnemyProfile();
 
-	Enemy(const Enemy& _Other) = delete;
-	Enemy(Enemy&& _Other) noexcept = delete;
-	Enemy& operator=(const Enemy& _Other) = delete;
-	Enemy& operator=(Enemy&& _Other) noexcept = delete;
+	EnemyProfile(const EnemyProfile& _Other) = delete;
+	EnemyProfile(EnemyProfile&& _Other) noexcept = delete;
+	EnemyProfile& operator=(const EnemyProfile& _Other) = delete;
+	EnemyProfile& operator=(EnemyProfile&& _Other) noexcept = delete;
 
 	void Start() override;
 	void Update() override;
 	void Render() override;
-
-
-
 
 	GameEngineRenderer* GetProfile()
 	{
@@ -47,8 +44,10 @@ protected:
 
 private:
 	GameEngineRenderer* MyProfile_;
+	GameEngineRenderer* MyAnimation_;
 	GameEngineRenderer* MyIcon_;
 	GameEngineRenderer* MyName_;
+
 
 };
 

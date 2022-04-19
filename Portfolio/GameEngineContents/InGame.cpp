@@ -454,7 +454,7 @@ void InGame::LevelChangeStart(GameEngineLevel* _PrevLevel)
 	}
 }
 
-void InGame::LevelChangeEnd(GameEngineLevel* _NextLevel)
+void InGame::LevelChangeEnd(GameEngineLevel* _PrevLevel)
 {
 
 }

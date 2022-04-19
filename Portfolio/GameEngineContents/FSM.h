@@ -20,6 +20,10 @@ public:
 	void Update() override;
 	void Render() override;
 
+	void DigitScore(int _Score);
+	void RenderToScore();
+
+
 	void AddPuyoPair(PuyoPair* _Pair);
 
 	inline bool GetLose()
@@ -30,13 +34,18 @@ public:
 protected:
 
 private:
-	Puyo* PlayerMap_[15][6];
+	Puyo* FSMMap_[15][6];
 
 	PuyoPair* CurrentPair_;
 	PuyoPair* NextPair_;
 	PuyoPair* NextNextPair_;
 
 	PuyoDir PuyoDir_;
+
+	unsigned int Score_;
+	unsigned int ScoreDigits_[10];
+	unsigned int DigitSize_;
+	GameEngineRenderer* ScoreRenderers_[10];
 
 	int CenterX_;
 	int CenterY_;

@@ -4,7 +4,7 @@
 #include "FadeInOutBackground.h"
 #include "EnemyRoulette.h"
 
-class Enemy;
+class EnemyProfile;
 class GameEngineRenderer;
 class EnemyRoulette;
 class EnemySelectActor;
@@ -35,8 +35,8 @@ protected:
 
 
 private:
-	Enemy* Enemys_[8];
-	Enemy* MyEnemy_;
+	EnemyProfile* Enemys_[8];
+	EnemyProfile* MyEnemy_;
 
 	std::vector<EnemySelectActor*> MidLine_;
 	std::vector<std::vector<EnemySelectActor*>> Backgrounds_;

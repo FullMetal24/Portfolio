@@ -35,6 +35,9 @@ public:
 	void LandCheck();
 	void FallPuyo(); //»Ñ¿ä È¥ÀÚ °¡¼Ó ³«ÇÏ
 
+	void DigitScore(int _Score);
+	void RenderToScore();
+
 	inline void SetCurrentPair(PuyoPair* _Current)
 	{
 		CurrentPair_ = _Current;
@@ -75,13 +78,18 @@ private:
 
 	PuyoDir PuyoDir_;
 
+	unsigned int Score_;
+	unsigned int ScoreDigits_[10];
+	unsigned int DigitSize_;
+	GameEngineRenderer* ScoreRenderers_[10];
+
 	int CenterX_;
 	int CenterY_;
 
 	int SecondX_;
 	int SecondY_;
 
-	int Chain_;
+	unsigned int Chain_;
 
 	float DownMoveDis_;
 	float SideMoveDis_;

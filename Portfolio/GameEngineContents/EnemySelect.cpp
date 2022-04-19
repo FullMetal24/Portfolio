@@ -9,7 +9,7 @@
 #include <GameEngineBase/GameEngineTime.h>
 #include <GameEngineBase/GameEngineMath.h>
 #include "InGame.h"
-#include "Enemy.h"
+#include "EnemyProfile.h"
 
 EnemySelect::EnemySelect() 
 	: Enemys_{}
@@ -111,7 +111,7 @@ void EnemySelect::EnemyInit()
 {	
 	for (int i = 0; i < 8; ++i)
 	{
-		Enemys_[i] = CreateActor<Enemy>(0);
+		Enemys_[i] = CreateActor<EnemyProfile>(0);
 	}
 
 	float Offset_;
@@ -191,7 +191,7 @@ void EnemySelect::Update()
 
 	if (true == IsSelect_)
 	{
-		//LevelChangeCount_ -= GameEngineTime::GetDeltaTime();
+		LevelChangeCount_ -= GameEngineTime::GetDeltaTime();
 
 		if (0.0f >= LevelChangeCount_)
 		{

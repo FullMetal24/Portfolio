@@ -168,7 +168,7 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="Enemy.h" />
+    <ClInclude Include="EnemyProfile.h" />
     <ClInclude Include="EnemyRoulette.h">
       <SubType>
       </SubType>
@@ -226,7 +226,7 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="EnemyProfile.cpp" />
     <ClCompile Include="EnemyRoulette.cpp">
       <SubType>
       </SubType>

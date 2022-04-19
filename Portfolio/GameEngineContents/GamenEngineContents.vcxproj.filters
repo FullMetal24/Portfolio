@@ -26,7 +26,7 @@
     <ClCompile Include="Player.cpp">
       <Filter>Actor\Level\InGame\Player</Filter>
     </ClCompile>
-    <ClCompile Include="Enemy.cpp">
+    <ClCompile Include="EnemyProfile.cpp">
       <Filter>Actor\Level\InGame\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="Stage.cpp">
@@ -83,7 +83,7 @@
     <ClInclude Include="Player.h">
       <Filter>Actor\Level\InGame\Player</Filter>
     </ClInclude>
-    <ClInclude Include="Enemy.h">
+    <ClInclude Include="EnemyProfile.h">
       <Filter>Actor\Level\InGame\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="Stage.h">
