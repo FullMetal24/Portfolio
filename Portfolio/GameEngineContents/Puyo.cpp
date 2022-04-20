@@ -318,16 +318,16 @@ void Puyo::RenderToDestroy()
 		MyRenderer_->ChangeAnimation("IG_RED_DESTROY");
 		break;
 	case PuyoColor::BLUE:
-		MyRenderer_->ChangeAnimation("IG_RED_DESTROY");
+		MyRenderer_->ChangeAnimation("IG_BLUE_DESTROY");
 		break;
 	case PuyoColor::GREEN:
-		MyRenderer_->ChangeAnimation("IG_RED_DESTROY");
+		MyRenderer_->ChangeAnimation("IG_GREEN_DESTROY");
 		break;
 	case PuyoColor::YELLOW:
-		MyRenderer_->ChangeAnimation("IG_RED_DESTROY");
+		MyRenderer_->ChangeAnimation("IG_YELLOW_DESTROY");
 		break;
 	case PuyoColor::PURPLE:
-		MyRenderer_->ChangeAnimation("IG_RED_DESTROY");
+		MyRenderer_->ChangeAnimation("IG_PURPLE_DESTROY");
 		break;
 	}
 }

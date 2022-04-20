@@ -26,7 +26,7 @@ public:
 	void MoveDown();
 	void Rotate();
 
-	void SearchPuyo(Puyo* _Puyo);
+	void BfsPuyo(Puyo* _Puyo);
 	void DestroyPuyo();
 
 	void CurrentPairInit();
@@ -34,6 +34,7 @@ public:
 
 	void LandCheck();
 	void FallPuyo(); //»Ñ¿ä È¥ÀÚ °¡¼Ó ³«ÇÏ
+	void FallAfterLanding();
 
 	void DigitScore(int _Score);
 	void RenderToScore();
@@ -67,10 +68,7 @@ protected:
 
 private:
 	Puyo* PlayerMap_[30][6];
-	std::vector<Puyo*> Visited_;
-
-	std::vector<Puyo*>::iterator StartVisit = Visited_.begin();
-	std::vector<Puyo*>::iterator EndVisit = Visited_.end();
+	std::list<Puyo*> Visited_;
 
 	PuyoPair* CurrentPair_;
 	PuyoPair* NextPair_;
@@ -97,6 +95,7 @@ private:
 	float DownTime_;
 	int LimitTime_;
 	int FallTime_;
+	int DestroyFallTime_;
 
 	bool IsStart_;
 	bool IsAllLanding_;
