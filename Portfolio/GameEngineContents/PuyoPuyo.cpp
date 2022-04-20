@@ -72,7 +72,7 @@ void PuyoPuyo::GameInit()
 	CreateLevel<InGame>("InGame");
 	CreateLevel<GameOver>("GameOver");
 
-	ChangeLevel("InGame");
+	ChangeLevel("EnemySelect");
 }
 
 void PuyoPuyo::GameLoop()

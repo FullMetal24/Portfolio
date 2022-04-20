@@ -207,6 +207,36 @@ void GameEngineImage::AlphaCopy(GameEngineImage* _Other, const float4& _CopyPos,
 
 }
 
+void GameEngineImage::PlgCopy(GameEngineImage* _Other, const float4& _CopyPos,
+	const float4& _CopyScale,
+	const float4& _OtherPivot, const float4& _OtherScale, float _Angle, GameEngineImage* _Filter)
+{
+	// 3개의 포인트를 넣어줘야 합니다.
+
+	POINT RotPoint[3];
+
+	GameEngineRect Rect = GameEngineRect(float4::ZERO, _CopyScale);
+	float4 Center = _CopyPos + _CopyScale.Half();
+
+
+	RotPoint[0] = (Rect.CenterLeftTopPoint().RotationToDegreeZ(_Angle) + Center).ToWinAPIPOINT();
+	RotPoint[1] = (Rect.CenterRightTopPoint().RotationToDegreeZ(_Angle) + Center).ToWinAPIPOINT();
+	RotPoint[2] = (Rect.CenterLeftBotPoint().RotationToDegreeZ(_Angle) + Center).ToWinAPIPOINT();
+
+	PlgBlt(
+		ImageDC_, // 여기에 복사(우리 윈도우이미지)
+		RotPoint,
+		_Other->ImageDC_,
+		_OtherPivot.ix(), // 윈도우 이미지의 위치 x에서부터 y
+		_OtherPivot.iy(), // 윈도우 이미지의 위치 x에서부터 y
+		_OtherScale.ix(), // 내 이미지의 이 크기만큼 x
+		_OtherScale.iy(), // 내 이미지의 이 크기만큼 y
+		_Filter->BitMap_, // 복사하려는 대상은(거기에 그려지는 이미지가 뭔데?커비)
+		_OtherPivot.ix(), // 복사하려는 대상의 시작점X 위치
+		_OtherPivot.iy()// 복사하려는 대상의 시작점Y
+	);
+}
+
 
 void GameEngineImage::CutCount(int _x, int _y)
 {
@@ -216,7 +246,7 @@ void GameEngineImage::CutCount(int _x, int _y)
 
 void GameEngineImage::Cut(const float4& _CutSize)
 {
-	//// 딱맞아 떨어지게 만들어줄것.
+	// 딱맞아 떨어지게 만들어줄것.
 	//if (0 != (GetScale().ix() % _CutSize.ix()))
 	//{
 	//	MsgBoxAssert("자를수 있는 수치가 딱 맞아떨어지지 않습니다.");

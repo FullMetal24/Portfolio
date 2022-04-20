@@ -18,6 +18,7 @@ GameEngineRenderer::GameEngineRenderer()
 	, RenderImagePivot_({ 0,0 })
 	, IsCameraEffect_(true)
 	, Alpha_(255)
+	, RotZ_(0.0f)
 {
 }
 
@@ -52,6 +53,18 @@ void GameEngineRenderer::SetImage(const std::string& _Name)
 	SetImageScale();
 }
 
+void GameEngineRenderer::SetRotationFilter(const std::string& _Name)
+{
+	GameEngineImage* FindImage = GameEngineImageManager::GetInst()->Find(_Name);
+	if (nullptr == FindImage)
+	{
+		MsgBoxAssertString(_Name + "존재하지 않는 이미지를 랜더러에 세팅하려고 했습니다.");
+		return;
+	}
+
+	RotationFilterImage_ = FindImage;
+}
+
 
 void GameEngineRenderer::Render()
 {
@@ -78,12 +91,19 @@ void GameEngineRenderer::Render()
 	switch (PivotType_)
 	{
 	case RenderPivot::CENTER:
-		if (Alpha_ == 255)
+		if (Alpha_ != 255)
+		{
+			GameEngine::BackBufferImage()->AlphaCopy(Image_, RenderPos - RenderScale_.Half(), RenderScale_, RenderImagePivot_, RenderImageScale_, Alpha_);
+		}
+		else if (RotZ_ != 0.0f)
+		{
+
+			GameEngine::BackBufferImage()->PlgCopy(Image_, RenderPos - RenderScale_.Half(), RenderScale_, RenderImagePivot_, RenderImageScale_, RotZ_, RotationFilterImage_);
+			// GameEngine::BackBufferImage()->PlgCopy(Image_, RenderPos - RenderScale_.Half(), RenderScale_, RenderImagePivot_, RenderImageScale_, Alpha_);
+		}
+		else
 		{
 			GameEngine::BackBufferImage()->TransCopy(Image_, RenderPos - RenderScale_.Half(), RenderScale_, RenderImagePivot_, RenderImageScale_, TransColor_);
-		}
-		else {
-			GameEngine::BackBufferImage()->AlphaCopy(Image_, RenderPos - RenderScale_.Half(), RenderScale_, RenderImagePivot_, RenderImageScale_, Alpha_);
 		}
 		break;
 	case RenderPivot::BOT:
@@ -93,10 +113,15 @@ void GameEngineRenderer::Render()
 
 		if (Alpha_ == 255)
 		{
-			GameEngine::BackBufferImage()->TransCopy(Image_, RenderPos - Scale, RenderScale_, RenderImagePivot_, RenderImageScale_, TransColor_);
-		}
-		else {
 			GameEngine::BackBufferImage()->AlphaCopy(Image_, RenderPos - Scale, RenderScale_, RenderImagePivot_, RenderImageScale_, Alpha_);
+		}
+		else if (RotZ_ != 0.0f)
+		{
+			GameEngine::BackBufferImage()->PlgCopy(Image_, RenderPos - Scale, RenderScale_, RenderImagePivot_, RenderImageScale_, RotZ_, RotationFilterImage_);
+		}
+		else
+		{
+			GameEngine::BackBufferImage()->TransCopy(Image_, RenderPos - Scale, RenderScale_, RenderImagePivot_, RenderImageScale_, TransColor_);
 		}
 
 
@@ -125,7 +150,7 @@ void GameEngineRenderer::SetIndex(size_t _Index, float4 _Scale)
 	}
 
 	RenderImagePivot_ = Image_->GetCutPivot(_Index);	// 이미지의 몇번째칸(벡터의 배열상 Index값 접근)에 해당하는 좌표값
-	RenderImageScale_ = Image_->GetCutScale(_Index);	
+	RenderImageScale_ = Image_->GetCutScale(_Index);			// 
 }
 
 // Animation

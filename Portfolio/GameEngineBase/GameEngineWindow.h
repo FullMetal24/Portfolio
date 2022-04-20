@@ -4,6 +4,7 @@
 #include "GameEngineMath.h"
 #include "GameEngineDebug.h"
 
+// ¨ù©ø¢¬? :
 class GameEngineWindow
 {
 private:
@@ -24,7 +25,6 @@ public:
 		}
 	}
 
-
 public:
 	void RegClass(HINSTANCE _hInst);
 	void CreateGameWindow(HINSTANCE _hInst, const std::string& _Title);
@@ -33,7 +33,7 @@ public:
 
 	void SetWindowScaleAndPosition(float4 _Pos, float4 _Scale);
 
-	void off();
+	void Off();
 
 	static inline HDC GetHDC()
 	{
@@ -45,24 +45,28 @@ public:
 		return Inst_->Scale_;
 	}
 
+
 protected:
 
 private:
+	std::string Title_;
+	bool WindowOn_;
 	HINSTANCE hInst_;
 	HWND hWnd_;
 	HDC HDC_;
 	float4 Scale_;
 
-	std::string Title_;
-	bool windowOn_;
-
+	// constrcuter destructer
 	GameEngineWindow();
 	~GameEngineWindow();
 
+	// delete Function
 	GameEngineWindow(const GameEngineWindow& _Other) = delete;
 	GameEngineWindow(GameEngineWindow&& _Other) noexcept = delete;
 	GameEngineWindow& operator=(const GameEngineWindow& _Other) = delete;
 	GameEngineWindow& operator=(GameEngineWindow&& _Other) noexcept = delete;
 
-};
 
+	static LRESULT CALLBACK MessageProcess(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
+
+};

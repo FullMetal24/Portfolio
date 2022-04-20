@@ -71,7 +71,7 @@ void EnemySelect::BackgroundInit()
 
 		EnemySelectActor* Background2 = CreateActor<EnemySelectActor>();
 		Background2->SetMyRenderer(Background2->CreateRenderer("ES_BACK.bmp"));
-		Background2->SetPosition(GameEngineWindow::GetScale().Half() - Background2->GetMyRenderer()->GetImageScale());
+		Background2->SetPosition({ GameEngineWindow::GetScale().Half() - Background2->GetMyRenderer()->GetImageScale() });
 
 		EnemySelectActor* Background3 = CreateActor<EnemySelectActor>();
 		Background3->SetMyRenderer(Background3->CreateRenderer("ES_BACK.bmp"));
@@ -220,9 +220,11 @@ void EnemySelect::Update()
 		IsKeyDown_ = true;
 	}
 
+	float4 Dir = float4::RadianToDirectionFloat4(0.5f);
+
 	for (int i = 0; i < MidLine_.size(); ++i)
 	{
-		MidLine_[i]->SetMove(float4::DOWN + float4::RIGHT * GameEngineTime::GetDeltaTime() * 10.f);
+		MidLine_[i]->SetMove(Dir * GameEngineTime::GetDeltaTime() * 400.f);
 
 		if (GameEngineWindow::GetScale().x < MidLine_[i]->GetPosition().x 
 			&& GameEngineWindow::GetScale().y < MidLine_[i]->GetPosition().y)

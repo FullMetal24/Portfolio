@@ -23,12 +23,6 @@ public:
 	GameEngineRenderer& operator=(const GameEngineRenderer& _Other) = delete;
 	GameEngineRenderer& operator=(GameEngineRenderer&& _Other) noexcept = delete;
 
-	inline void SetImage(GameEngineImage* _Image)
-	{
-		Image_ = _Image;
-	}
-
-
 	inline void SetTransColor(unsigned int _Color)
 	{
 		TransColor_ = _Color;
@@ -82,10 +76,11 @@ public:
 		return Image_;
 	}
 
-	inline int GetAlpha()
+	inline void SetImage(GameEngineImage* _Image)
 	{
-		return Alpha_;
+		Image_ = _Image;
 	}
+
 
 	inline void SetAlpha(unsigned int _Alpha)
 	{
@@ -107,7 +102,7 @@ public:
 		IsCameraEffect_ = true;
 	}
 
-	inline void SetPause(bool _Value)
+	void SetPause(bool _Value)
 	{
 		Pause_ = _Value;
 	}
@@ -121,7 +116,6 @@ public:
 	{
 		Pause_ = true;
 	}
-
 
 	void PauseOff()
 	{
@@ -165,9 +159,28 @@ private:
 	unsigned int Alpha_;
 
 
+
 	bool IsCameraEffect_;		// 해당 렌더러가 카메라의 영향을 받는가 안받는가, EX) UI 는 카메라의 영향을 안받는다.
 	bool Pause_;
 
+
+	/// <summary>
+	/// ////////////////////////////////////////////// 회전용 트랜스 이미지
+	/// </summary>
+
+	float RotZ_;
+	GameEngineImage* RotationFilterImage_;
+
+public:
+	void SetRotationFilter(const std::string& _ImageName);
+
+
+
+	void SetRotationZ(float _RotZ)
+	{
+		RotZ_ = _RotZ;
+		Alpha_ = 255;
+	}
 
 	//////////////////////////////////////////////////
 	//// Animation
@@ -214,10 +227,6 @@ private:
 			return StartFrame_ - CurrentFrame_;
 		}
 
-		//inline void SetCurrentFrame(int _Frame)
-		//{
-		//	CurrentFrame_ = _Frame;
-		//}
 
 	public:
 		FrameAnimation()
