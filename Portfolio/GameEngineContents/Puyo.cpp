@@ -31,9 +31,29 @@ void Puyo::Update()
 {
 	LandAnimation();
 	LandToNormal();
-	SeltDestroy();
 }
 
+
+void Puyo::RenderToNormal()
+{
+	switch (MyColor_)
+	{
+	case PuyoColor::RED:
+		MyRenderer_->ChangeAnimation("IG_RED_PUYO");
+		break;
+	case PuyoColor::BLUE:
+		MyRenderer_->ChangeAnimation("IG_BLUE_PUYO");
+		break;
+		MyRenderer_->ChangeAnimation("IG_GREEN_PUYO");
+		break;
+	case PuyoColor::YELLOW:
+		MyRenderer_->ChangeAnimation("IG_YELLOW_PUYO");
+		break;
+	case PuyoColor::PURPLE:
+		MyRenderer_->ChangeAnimation("IG_PURPLE_PUYO");
+		break;
+	}
+}
 
 void Puyo::RenderToLeft()
 {
@@ -533,46 +553,3 @@ void Puyo::LandToNormal()
 		break;
 	}
 }
-
-void Puyo::SeltDestroy()
-{
-	switch (MyColor_)
-	{
-	case PuyoColor::RED:
-		if (true == MyRenderer_->IsAnimationName("IG_RED_DESTROY") 
-			&& true == MyRenderer_->IsEndAnimation())
-		{
-			Death();
-		}
-		break;
-	case PuyoColor::BLUE:
-		if (true == MyRenderer_->IsAnimationName("IG_BLUE_DESTROY")
-			&& true == MyRenderer_->IsEndAnimation())
-		{
-			Death();
-		}
-		break;
-	case PuyoColor::GREEN:
-		if (true == MyRenderer_->IsAnimationName("IG_GREEN_DESTROY")
-			&& true == MyRenderer_->IsEndAnimation())
-		{
-			Death();
-		}
-		break;
-	case PuyoColor::YELLOW:
-		if (true == MyRenderer_->IsAnimationName("IG_YELLOW_DESTROY")
-			&& true == MyRenderer_->IsEndAnimation())
-		{
-			Death();
-		}
-		break;
-	case PuyoColor::PURPLE:
-		if (true == MyRenderer_->IsAnimationName("IG_PURPLE_DESTROY")
-			&& true == MyRenderer_->IsEndAnimation())
-		{
-			Death();
-		}
-		break;
-	}
-}
-

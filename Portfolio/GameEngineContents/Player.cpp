@@ -458,7 +458,7 @@ void Player::Rotate()
 
 ////////////////////////////뿌요 탐색 및 파괴 관련
 void Player::BfsPuyo(Puyo* _Puyo)
-{
+ {
 	std::queue<Puyo*> PuyoQueue;
 	PuyoQueue.push(_Puyo);
 
@@ -486,15 +486,19 @@ void Player::BfsPuyo(Puyo* _Puyo)
 				continue;
 			}
 
-			if (nullptr != PlayerMap_[Y][X] 
-				&& false == PlayerMap_[Y][X]->GetVisited()
-				&& PlayerMap_[Y][X]->GetColor() == NodePuyo->GetColor())
+ 			if (nullptr != PlayerMap_[Y][X])
 			{
-				PuyoQueue.push(PlayerMap_[Y][X]);
-				Visited_.push_back(PlayerMap_[Y][X]);
-				PlayerMap_[Y][X]->Visit();
+				if (PlayerMap_[Y][X]->GetColor() == NodePuyo->GetColor())
+				{
+		 			if (false == PlayerMap_[Y][X]->GetVisited())
+					{
+						PuyoQueue.push(PlayerMap_[Y][X]);
+ 						Visited_.push_back(PlayerMap_[Y][X]);
+	 					PlayerMap_[Y][X]->Visit();
 
-				ConvertPuyoAnimtion(Dx[i], Dy[i], NodePuyo);
+ 						ConvertPuyoAnimtion(Dx[i], Dy[i], NodePuyo);
+					}
+				}
 			}
 		}
  	}
@@ -508,7 +512,7 @@ void Player::BfsPuyo(Puyo* _Puyo)
 				(*StartVisited)->SetDestroy(true);
 			}
 		}
-	}
+ 	}
 
 	for (; StartVisited != EndVisited; ++StartVisited)
 	{
@@ -527,13 +531,61 @@ void Player::DestroyPuyo()
 	{
 		for (int X = 0; X < 6; ++X)
 		{
-			if (nullptr != PlayerMap_[Y][X] 
-				&& true == PlayerMap_[Y][X]->GetDestroy()
-				&& true == PlayerMap_[Y][X]->GetLanding()
-				&& true == PlayerMap_[Y][X]->GetMyRenderer()->IsEndAnimation())
+			if (nullptr != PlayerMap_[Y][X])
 			{
-				PlayerMap_[Y][X]->RenderToDestroy();
-				PlayerMap_[Y][X] = nullptr; //순서 때문에 에러 날 수 있음
+				if (true == PlayerMap_[Y][X]->GetDestroy() &&
+					true == PlayerMap_[Y][X]->GetMyRenderer()->IsEndAnimation())
+				{
+					PlayerMap_[Y][X]->RenderToDestroy();
+				}
+				
+				switch (PlayerMap_[Y][X]->GetColor())
+				{
+
+				case PuyoColor::RED:
+					if (true == PlayerMap_[Y][X]->GetMyRenderer()->IsAnimationName("IG_RED_DESTROY")
+						&& true == PlayerMap_[Y][X]->GetMyRenderer()->IsEndAnimation())
+					{
+						PlayerMap_[Y][X]->Death();
+						PlayerMap_[Y][X] = nullptr;
+					}
+					break;
+				case PuyoColor::BLUE:
+					if (true == PlayerMap_[Y][X]->GetMyRenderer()->IsAnimationName("IG_BLUE_DESTROY")
+						&& true == PlayerMap_[Y][X]->GetMyRenderer()->IsEndAnimation())
+					{
+						PlayerMap_[Y][X]->Death();
+						PlayerMap_[Y][X] = nullptr;
+					}
+
+					break;
+				case PuyoColor::GREEN:
+					if (true == PlayerMap_[Y][X]->GetMyRenderer()->IsAnimationName("IG_GREEN_DESTROY")
+						&& true == PlayerMap_[Y][X]->GetMyRenderer()->IsEndAnimation())
+					{
+						PlayerMap_[Y][X]->Death();
+						PlayerMap_[Y][X] = nullptr;
+					}
+
+					break;
+				case PuyoColor::YELLOW:
+					if (true == PlayerMap_[Y][X]->GetMyRenderer()->IsAnimationName("IG_YELLOW_DESTROY")
+						&& true == PlayerMap_[Y][X]->GetMyRenderer()->IsEndAnimation())
+					{
+						PlayerMap_[Y][X]->Death();
+						PlayerMap_[Y][X] = nullptr;
+					}
+
+					break;
+				case PuyoColor::PURPLE:
+					if (true == PlayerMap_[Y][X]->GetMyRenderer()->IsAnimationName("IG_PURPLE_DESTROY")
+						&& true == PlayerMap_[Y][X]->GetMyRenderer()->IsEndAnimation())
+					{
+						PlayerMap_[Y][X]->Death();
+						PlayerMap_[Y][X] = nullptr;
+					}
+					break;
+				}
 			}
 		}
 	}
@@ -781,35 +833,6 @@ int Player::GradePuyoAnimation(int _Dx, int _Dy, Puyo* _Puyo)
 
 	if (-1 == _Dx)
 	{
-		++INumber;
-		_Puyo->SetConnect(1, true);
-
-		if (true == ConnectPtr[static_cast<int>(PuyoDir::LEFT)])
-		{
-			INumber += 10;
-
-			_Puyo->SetConnect(0, true);
-		}
-
-		else if (true == ConnectPtr[static_cast<int>(PuyoDir::DOWN)])
-		{
-			INumber += 100;
-
-			_Puyo->SetConnect(2, true);
-		}
-
-		else if (true == ConnectPtr[static_cast<int>(PuyoDir::UP)])
-		{
-			INumber += 1000;
-
-			_Puyo->SetConnect(3, true);
-		}
-
-		return INumber;
-	}
-
-	else if (1 == _Dx)
-	{
 		INumber += 10;
 		_Puyo->SetConnect(0, true);
 
@@ -835,6 +858,36 @@ int Player::GradePuyoAnimation(int _Dx, int _Dy, Puyo* _Puyo)
 		}
 
 		return INumber;
+	}
+
+	else if (1 == _Dx)
+	{
+		++INumber;
+		_Puyo->SetConnect(1, true);
+
+		if (true == ConnectPtr[static_cast<int>(PuyoDir::LEFT)])
+		{
+			INumber += 10;
+
+			_Puyo->SetConnect(0, true);
+		}
+
+		else if (true == ConnectPtr[static_cast<int>(PuyoDir::DOWN)])
+		{
+			INumber += 100;
+
+			_Puyo->SetConnect(2, true);
+		}
+
+		else if (true == ConnectPtr[static_cast<int>(PuyoDir::UP)])
+		{
+			INumber += 1000;
+
+			_Puyo->SetConnect(3, true);
+		}
+
+		return INumber;
+
 	}
 
 	else if (2 == _Dy)
@@ -982,6 +1035,7 @@ void Player::ConvertPuyoAnimtion(int _Dx, int _Dy, Puyo* _Puyo)
 
 
 
+/////////////////////////////스코어
 void Player::DigitScore(int _Score)
 {
 	if (0 >= _Score)

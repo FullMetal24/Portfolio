@@ -114,7 +114,7 @@ public:
 		IsConnect_[_Index] = _Value;
 	}
 
-
+	void RenderToNormal();
 
 	//局聪皋捞记 包访 贸府
 	void RenderToLeft();
@@ -144,9 +144,6 @@ public:
 
 	void LandAnimation();
 	void LandToNormal();
-
-	void SeltDestroy();
-
 
 protected:
 
