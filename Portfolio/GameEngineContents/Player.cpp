@@ -656,6 +656,8 @@ void Player::AddPuyoPair(PuyoPair* _Pair)
 		return;
 	}
 
+	//±Ì¿∫ ∫πªÁ? æË¿∫ ∫πªÁ?
+	//nullptr∑Œ «ÿ¡‡æﬂ «œ≥™? 
 	CurrentPair_ = NextPair_;
 	NextPair_ = NextNextPair_;
 	NextNextPair_ = _Pair;
@@ -745,7 +747,36 @@ void Player::FallPuyo()
 
 void Player::FallAfterLanding()
 {
+	for (int Y = 0; Y < 30; ++Y)
+	{
+		for (int X = 0; X < 6; ++X)
+		{
+			if (nullptr != PlayerMap_[Y][X])
+			{
+				if (CurrentPair_->GetCenterPuyo() != PlayerMap_[Y][X]
+					&& CurrentPair_->GetSecondPuyo() != PlayerMap_[Y][X])
+				{
+					Puyo* FallPuyo_ = PlayerMap_[Y][X];
+					FallPuyo_->SetLanding(false);
 
+					while (28 >= FallPuyo_->GetY() + 1 && nullptr == PlayerMap_[FallPuyo_->GetY() + 2][X])
+					{
+						FallPuyo_->SetMove(float4::DOWN * DownMoveDis_);
+						FallPuyo_->SetY(FallPuyo_->GetY() + 1);
+						PlayerMap_[FallPuyo_->GetY()][X] = FallPuyo_;
+
+						PlayerMap_[FallPuyo_->GetY() - 1][X] = nullptr;
+						FallPuyo_->SetLanding(true);
+					}
+
+					if (true == FallPuyo_->GetLanding()) //
+					{
+						BfsPuyo(FallPuyo_);
+					}
+				}
+			}
+		}
+	}
 }
 
 int Player::GradePuyoAnimation(int _Dx, int _Dy, Puyo* _Puyo)
