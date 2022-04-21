@@ -19,7 +19,7 @@ public:
 	void Update() override;
 
 	//내부 좌표 이동 관련 처리
-	inline bool GetLandiung()
+	inline bool GetLanding()
 	{
 		return IsLanding_;
 	}

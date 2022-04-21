@@ -34,8 +34,8 @@ enum class PuyoColor
 
 enum class PuyoDir
 {
-	LEFT,
-	RIGHT,
-	DOWN,
-	UP
+	LEFT, // 0
+	RIGHT, // 1
+	DOWN, // 2
+	UP // 3
 };
