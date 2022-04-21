@@ -3,6 +3,8 @@
 #include <GameEngineBase/GameEngineWindow.h>
 #include <GameEngineBase/GameEngineTime.h>
 #include <GameEngine/GameEngineRenderer.h>
+#include <GameEngine/GameEngineImageManager.h>
+#include "ContentsEnum.h"
 #include "Puyo.h"
 #include "PuyoPair.h"
 #include <queue>
@@ -19,7 +21,7 @@ Player::Player()
 	, SecondX_(0)
 	, SecondY_(0)
 	, Chain_(0)
-	, DownMoveDis_(30.0f) 
+	, DownMoveDis_(30.0f)
 	, SideMoveDis_(65.0f)
 	, DownTime_(0.5f)
 	, LimitTime_(0)
@@ -30,12 +32,12 @@ Player::Player()
 {
 }
 
-Player::~Player() 
+Player::~Player()
 {
 
 }
 
-void Player::Start() 
+void Player::Start()
 {
 	if (false == GameEngineInput::GetInst()->IsKey("PuyoLeft"))
 	{
@@ -49,9 +51,21 @@ void Player::Start()
 	{
 		ScoreRenderers_[i] = CreateRenderer("IG_PLAYER_NUMBER_0.bmp");
 		ScoreRenderers_[i]->SetOrder(-1);
-		ScoreRenderers_[i]->SetPivot({ GameEngineWindow::GetScale().Half().x + 70.f - (33.f * i), GameEngineWindow::GetScale().Half().y + 240.f});
+		ScoreRenderers_[i]->SetPivot({ GameEngineWindow::GetScale().Half().x + 70.f - (33.f * i), GameEngineWindow::GetScale().Half().y + 240.f });
 	}
 
+
+	GameEngineImage* LightImage = GameEngineImageManager::GetInst()->Find("IG_PLAYER_LIGHT.bmp");
+	LightImage->CutCount(4, 1);
+
+	GameEngineImage* LightImage1 = GameEngineImageManager::GetInst()->Find("IG_PLAYER_LIGHT_EXPLOSION.bmp");
+	LightImage1->CutCount(4, 1);
+
+	GameEngineRenderer* Renderer = CreateRenderer();
+	Renderer->SetPivot({ 100, 100 });
+	Renderer->CreateAnimation("IG_PLAYER_LIGHT.bmp", "IG_PLAYER_LIGHT", 0, 3, 0.1f, true);
+	Renderer->CreateAnimation("IG_PLAYER_LIGHT_EXPLOSION.bmp", "IG_PLAYER_LIGHT_EXPLOSION", 0, 3, 0.1f, false);
+	Renderer->ChangeAnimation("IG_PLAYER_LIGHT");
 }
 
 
@@ -86,7 +100,7 @@ void Player::Update()
 			Rotate();
 		}
 
-		if (true == GameEngineInput::GetInst()->IsPress("PuyoDown") &&  0 == 20 / LimitTime_)
+		if (true == GameEngineInput::GetInst()->IsPress("PuyoDown") && 0 == 20 / LimitTime_)
 		{
 			MoveDown();
 			Score_ += 1;
@@ -103,11 +117,11 @@ void Player::Update()
 		DownTime_ = 0.5f;
 	}
 
-	if (true == CurrentPair_->GetCenterPuyo()->GetLandiung() 
+	if (true == CurrentPair_->GetCenterPuyo()->GetLandiung()
 		&& true == CurrentPair_->GetSecondPuyo()->GetLandiung())
 	{
-   		IsAllLanding_ = true;
-  	}
+		IsAllLanding_ = true;
+	}
 
 	DestroyPuyo();
 	FallAfterLanding();
@@ -148,7 +162,7 @@ void Player::MoveLeft()
 		}
 	}
 
-	else if(SecondX_ > CenterX_ || SecondY_ < CenterY_)
+	else if (SecondX_ > CenterX_ || SecondY_ < CenterY_)
 	{
 		if (0 <= CenterX_ - 1 && nullptr == PlayerMap_[CenterY_][CenterX_ - 1] && nullptr == PlayerMap_[CenterY_ + 1][CenterX_ - 1])
 		{
@@ -178,7 +192,7 @@ void Player::MoveLeft()
 }
 
 void Player::MoveRight()
- {
+{
 	if (SecondX_ < CenterX_ || SecondY_ < CenterY_)
 	{
 		if (5 >= CenterX_ + 1 && nullptr == PlayerMap_[CenterY_][CenterX_ + 1] && nullptr == PlayerMap_[CenterY_ + 1][CenterX_ + 1])
@@ -207,7 +221,7 @@ void Player::MoveRight()
 		}
 	}
 
-	else if(SecondX_ > CenterX_ || SecondY_ > CenterY_)
+	else if (SecondX_ > CenterX_ || SecondY_ > CenterY_)
 	{
 		if (5 >= SecondX_ + 1 && nullptr == PlayerMap_[SecondY_][SecondX_ + 1] && nullptr == PlayerMap_[SecondY_ + 1][SecondX_ + 1])
 		{
@@ -234,8 +248,8 @@ void Player::MoveRight()
 			}
 		}
 	}
-} 
-  
+}
+
 void Player::MoveDown()
 {
 	if (SecondY_ > CenterY_)
@@ -285,11 +299,11 @@ void Player::MoveDown()
 	}
 
 	LandCheck();
- }
+}
 
 void Player::Rotate()
- {
- 	while (true)
+{
+	while (true)
 	{
 		switch (PuyoDir_)
 		{
@@ -447,131 +461,137 @@ void Player::Rotate()
 				CurrentPair_->GetSecondPuyo()->SetPosition(CurrentPair_->GetCenterPuyo()->GetPosition() + float4{ -65.0f, 0.0f });
 
 				PuyoDir_ = PuyoDir::LEFT;
-					
-				}
-				break;
+
+			}
+			break;
 		}
- 		break;
+		break;
 	}
- }
+}
 
 
- void Player::BfsPuyo(Puyo* _Puyo)
- {
-	 std::queue<Puyo*> PuyoQueue; //Å½»öÇÒ »Ñ¿ä¸¦ ´ã´Â Å¥
-	 PuyoQueue.push(_Puyo);
+void Player::BfsPuyo(Puyo* _Puyo)
+{
+	std::queue<Puyo*> PuyoQueue; //Å½»öÇÒ »Ñ¿ä¸¦ ´ã´Â Å¥
+	PuyoQueue.push(_Puyo);
 
-	 Visited_.push_back(_Puyo); //¹æ¹®ÇÑ »Ñ¿ä¸¦ ´ã¾ÆµÎ´Â º¤ÅÍ
-	 _Puyo->Visit(); 
+	Visited_.push_back(_Puyo); //¹æ¹®ÇÑ »Ñ¿ä¸¦ ´ã¾ÆµÎ´Â º¤ÅÍ
+	_Puyo->Visit();
 
-	 std::list<Puyo*>::iterator StartVisit = Visited_.begin();
-	 std::list<Puyo*>::iterator EndVisit = Visited_.end();
+	std::list<Puyo*>::iterator StartVisited = Visited_.begin();
+	std::list<Puyo*>::iterator EndVisited = Visited_.end();
 
-	 int Dx[4] = { 0, 0, -1, 1 }; //ÁÂ¿ì Å½»ö
-	 int Dy[4] = { -2, 2, 0, 0 }; //À§¾Æ·¡ Å½»ö
+	int Dx[4] = { 0, 0, -1, 1 }; //ÁÂ¿ì Å½»ö
+	int Dy[4] = { -2, 2, 0, 0 }; //À§¾Æ·¡ Å½»ö
 
-	 while (false == PuyoQueue.empty())
-	 {
-		 Puyo* NodePuyo = PuyoQueue.front();
-		 PuyoQueue.pop();
+	while (false == PuyoQueue.empty())
+	{
+		Puyo* NodePuyo = PuyoQueue.front();
+		PuyoQueue.pop();
 
-		 for (int i = 0; i < 4; i++)
-		 {
-			 int X = NodePuyo->GetX() + Dx[i];
-			 int Y = NodePuyo->GetY() + Dy[i];
+		for (int i = 0; i < 4; i++)
+		{
+			int X = NodePuyo->GetX() + Dx[i];
+			int Y = NodePuyo->GetY() + Dy[i];
 
-			 if (X < 0 || Y < 0 || X >= 6 || Y >= 30)
-			 {
-				 continue;
-			 }
+			if (X < 0 || Y < 0 || X >= 6 || Y >= 30)
+			{
+				continue;
+			}
 
-			 if (nullptr != PlayerMap_[Y][X])
-			 {
-				 if (false == PlayerMap_[Y][X]->GetVisited())
-				 {
-					 if (PlayerMap_[Y][X]->GetColor() == _Puyo->GetColor())
-					 {
-						 PuyoQueue.push(PlayerMap_[Y][X]);
-						 Visited_.push_back(PlayerMap_[Y][X]);
+			if (nullptr != PlayerMap_[Y][X]
+				&& false == PlayerMap_[Y][X]->GetVisited()
+				&& PlayerMap_[Y][X]->GetColor() == _Puyo->GetColor())
+			{
+				PuyoQueue.push(PlayerMap_[Y][X]);
+				Visited_.push_back(PlayerMap_[Y][X]);
+				PlayerMap_[Y][X]->Visit();
 
-						 PlayerMap_[Y][X]->Visit();
-					 }
-				 }
-			 }
-		 }
+				ConvertPuyoAnimtion(Dx[i], Dy[i], PlayerMap_[Y][X]);
+			}
+		}
+	}
 
-		 //¼öÁ¤ ÇÊ¿ä
-		 if (4 <= Visited_.size())
-		 {
-			 for (; StartVisit != EndVisit; ++StartVisit)
-			 {
-				 if (nullptr != (*StartVisit))
-				 {
-					 (*StartVisit)->RenderToDestroy();
-				 }
-			 }
-		 }
-	 }
+	if (4 <= Visited_.size())
+	{
+		for (; StartVisited != EndVisited; ++StartVisited)
+		{
+			if (nullptr != (*StartVisited))
+			{
+				(*StartVisited)->SetIsDestroy(true);
+			}
+		}
+	}
 
-   	 for (;  StartVisit != EndVisit; ++StartVisit)
- 	 {
- 		 (*StartVisit)->Exit();
-	 }
- 
-	 Visited_.clear();
- }
+	for (; StartVisited != EndVisited; ++StartVisited)
+	{
+		if (nullptr != (*StartVisited))
+		{
+			(*StartVisited)->Exit();
+		}
+	}
 
- void Player::DestroyPuyo()
- {
-	 for (int Y = 0; Y < 30; ++Y)
-	 {
-		 for (int X = 0; X < 6; X++)
-		 {
-			 if (nullptr != PlayerMap_[Y][X])
-			 {
-				 if (PlayerMap_[Y][X]->GetMyRenderer()->IsAnimationName("IG_RED_DESTROY")
-					 && PlayerMap_[Y][X]->GetMyRenderer()->IsEndAnimation())
-				 {
-					 PlayerMap_[Y][X]->Death(); //¼ø¼­ Áß¿ä!
-					 PlayerMap_[Y][X] = nullptr;
-				 }
+	Visited_.clear();
+}
 
-				 else if (PlayerMap_[Y][X]->GetMyRenderer()->IsAnimationName("IG_BLUE_DESTROY")
-					 && PlayerMap_[Y][X]->GetMyRenderer()->IsEndAnimation())
-				 {
-					 PlayerMap_[Y][X]->Death();
-					 PlayerMap_[Y][X] = nullptr;
-				 }
 
-				 else if (PlayerMap_[Y][X]->GetMyRenderer()->IsAnimationName("IG_GREEN_DESTROY")
-					 && PlayerMap_[Y][X]->GetMyRenderer()->IsEndAnimation())
-				 {
-					 PlayerMap_[Y][X]->Death();
-					 PlayerMap_[Y][X] = nullptr;
-				 }
+void Player::DestroyPuyo()
+{
+	for (int Y = 0; Y < 30; ++Y)
+	{
+		for (int X = 0; X < 6; X++)
+		{
+			if (nullptr != PlayerMap_[Y][X])
+			{
+				if (true == PlayerMap_[Y][X]->GetIsDestroy() &&
+					true == PlayerMap_[Y][X]->GetMyRenderer()->IsEndAnimation())
+				{
+					PlayerMap_[Y][X]->RenderToDestroy();
+				}
 
-				 else if (PlayerMap_[Y][X]->GetMyRenderer()->IsAnimationName("IG_YELLOW_DESTROY")
-					 && PlayerMap_[Y][X]->GetMyRenderer()->IsEndAnimation())
-				 {
-					 PlayerMap_[Y][X]->Death();
-					 PlayerMap_[Y][X] = nullptr;
-				 }
+				if (true == PlayerMap_[Y][X]->GetMyRenderer()->IsAnimationName("IG_RED_DESTROY")
+					&& true == PlayerMap_[Y][X]->GetMyRenderer()->IsEndAnimation())
+				{
+					PlayerMap_[Y][X]->Death(); //¼ø¼­ Áß¿ä!
+					PlayerMap_[Y][X] = nullptr;
+				}
 
-				 else if (PlayerMap_[Y][X]->GetMyRenderer()->IsAnimationName("IG_PURPLE_DESTROY")
-					 && PlayerMap_[Y][X]->GetMyRenderer()->IsEndAnimation())
-				 {
-					 PlayerMap_[Y][X]->Death();
-					 PlayerMap_[Y][X] = nullptr;
-				 }
-			 }
-		 }
-	 }
- }
+				else if (true == PlayerMap_[Y][X]->GetMyRenderer()->IsAnimationName("IG_BLUE_DESTROY")
+					&& true == PlayerMap_[Y][X]->GetMyRenderer()->IsEndAnimation())
+				{
+					PlayerMap_[Y][X]->Death();
+					PlayerMap_[Y][X] = nullptr;
+				}
+
+				else if (true == PlayerMap_[Y][X]->GetMyRenderer()->IsAnimationName("IG_GREEN_DESTROY")
+					&& true == PlayerMap_[Y][X]->GetMyRenderer()->IsEndAnimation())
+				{
+					PlayerMap_[Y][X]->Death();
+					PlayerMap_[Y][X] = nullptr;
+				}
+
+				else if (true == PlayerMap_[Y][X]->GetMyRenderer()->IsAnimationName("IG_YELLOW_DESTROY")
+					&& true == PlayerMap_[Y][X]->GetMyRenderer()->IsEndAnimation())
+				{
+					PlayerMap_[Y][X]->Death();
+					PlayerMap_[Y][X] = nullptr;
+				}
+
+				else if (true == PlayerMap_[Y][X]->GetMyRenderer()->IsAnimationName("IG_PURPLE_DESTROY")
+					&& true == PlayerMap_[Y][X]->GetMyRenderer()->IsEndAnimation())
+				{
+					PlayerMap_[Y][X]->Death();
+					PlayerMap_[Y][X] = nullptr;
+				}
+			}
+		}
+	}
+}
 
 
 
 ////////////////////////»Ñ¿ä Ãß°¡
-void Player::CurrentPairInit() 
+void Player::CurrentPairInit()
 {
 	Puyo* SecondPuyo = CurrentPair_->GetSecondPuyo();
 	Puyo* CenterPuyo = CurrentPair_->GetCenterPuyo();
@@ -637,7 +657,7 @@ void Player::AddPuyoPair(PuyoPair* _Pair)
 {
 	if (nullptr != PlayerMap_[4][2])
 	{
-		IsLose_ = true; 
+		IsLose_ = true;
 
 		return;
 	}
@@ -696,7 +716,7 @@ void Player::LandCheck()
 			CurrentPair_->GetSecondPuyo()->SetLanding(true);
 		}
 
-		else if (true == CurrentPair_->GetCenterPuyo()->GetLandiung() 
+		else if (true == CurrentPair_->GetCenterPuyo()->GetLandiung()
 			&& nullptr != PlayerMap_[SecondY_ + 2][SecondX_])
 		{
 			CurrentPair_->GetSecondPuyo()->SetLanding(true);
@@ -739,17 +759,20 @@ void Player::FallAfterLanding()
 		{
 			if (nullptr != PlayerMap_[Y][X])
 			{
-				if (CurrentPair_->GetCenterPuyo() != PlayerMap_[Y][X] 
+				if (CurrentPair_->GetCenterPuyo() != PlayerMap_[Y][X]
 					&& CurrentPair_->GetSecondPuyo() != PlayerMap_[Y][X])
 				{
 					Puyo* FallPuyo_ = PlayerMap_[Y][X];
+					FallPuyo_->SetLanding(false);
 
 					while (28 >= FallPuyo_->GetY() + 1 && nullptr == PlayerMap_[FallPuyo_->GetY() + 2][X])
 					{
 						FallPuyo_->SetMove(float4::DOWN * DownMoveDis_);
 						FallPuyo_->SetY(FallPuyo_->GetY() + 1);
+						PlayerMap_[FallPuyo_->GetY()][X] = FallPuyo_;
 
 						PlayerMap_[FallPuyo_->GetY() - 1][X] = nullptr;
+
 					}
 				}
 			}
@@ -757,7 +780,213 @@ void Player::FallAfterLanding()
 	}
 }
 
+int Player::GradePuyoAnimation(int _Dx, int _Dy, Puyo* _Puyo)
+{
+	int INumber = 0; //½Äº° ¹øÈ£
+	bool* ConnectPtr = _Puyo->GetConnect();
 
+	if (-1 == _Dx)
+	{
+		++INumber;
+		_Puyo->SetConnect(1, true);
+
+		if (true == ConnectPtr[static_cast<int>(PuyoDir::LEFT)])
+		{
+			INumber += 10;
+
+			_Puyo->SetConnect(0, true);
+		}
+
+		else if (true == ConnectPtr[static_cast<int>(PuyoDir::DOWN)])
+		{
+			INumber += 100;
+
+			_Puyo->SetConnect(2, true);
+		}
+
+		else if (true == ConnectPtr[static_cast<int>(PuyoDir::UP)])
+		{
+			INumber += 1000;
+
+			_Puyo->SetConnect(3, true);
+		}
+
+		return INumber;
+	}
+
+	else if (1 == _Dx)
+	{
+		INumber += 10;
+		_Puyo->SetConnect(0, true);
+
+		if (true == ConnectPtr[static_cast<int>(PuyoDir::RIGHT)])
+		{
+			++INumber;
+
+			_Puyo->SetConnect(1, true);
+		}
+
+		else if (true == ConnectPtr[static_cast<int>(PuyoDir::DOWN)])
+		{
+			INumber += 100;
+
+			_Puyo->SetConnect(2, true);
+		}
+
+		else if (true == ConnectPtr[static_cast<int>(PuyoDir::UP)])
+		{
+			INumber += 1000;
+
+			_Puyo->SetConnect(3, true);
+		}
+
+		return INumber;
+	}
+
+	else if (2 == _Dy)
+	{
+		INumber += 1000;
+		_Puyo->SetConnect(3, true);
+
+		if (true == ConnectPtr[static_cast<int>(PuyoDir::RIGHT)])
+		{
+			++INumber;
+
+			_Puyo->SetConnect(0, true);
+		}
+
+		else if (true == ConnectPtr[static_cast<int>(PuyoDir::LEFT)])
+		{
+			INumber += 10;
+
+			_Puyo->SetConnect(1, true);
+		}
+
+		else if (true == ConnectPtr[static_cast<int>(PuyoDir::DOWN)])
+		{
+			INumber += 100;
+
+			_Puyo->SetConnect(2, true);
+		}
+
+		return INumber;
+	}
+
+	else if (-2 == _Dy)
+	{
+		INumber += 100;
+		_Puyo->SetConnect(2, true);
+
+		if (true == ConnectPtr[static_cast<int>(PuyoDir::RIGHT)])
+		{
+			++INumber;
+
+			_Puyo->SetConnect(0, true);
+		}
+
+		else if (true == ConnectPtr[static_cast<int>(PuyoDir::LEFT)])
+		{
+			INumber += 10;
+
+			_Puyo->SetConnect(1, true);
+		}
+
+		if (true == ConnectPtr[static_cast<int>(PuyoDir::UP)])
+		{
+			INumber += 1000;
+
+			_Puyo->SetConnect(3, true);
+		}
+
+		return INumber;
+	}
+}
+
+
+//»Ñ¿ä ¾Ö´Ï¸ÞÀÌ¼Ç º¯È¯
+void Player::ConvertPuyoAnimtion(int _Dx, int _Dy, Puyo* _Puyo)
+{
+	int Value = GradePuyoAnimation(_Dx, _Dy, _Puyo);
+
+	switch (Value)
+	{
+		//¿ì
+	case 1:
+		_Puyo->RenderToRight();
+		break;
+
+		//ÁÂ
+	case 10:
+		_Puyo->RenderToLeft();
+		break;
+
+		//ÁÂ¿ì
+	case 11:
+		_Puyo->RenderToLeftRight();
+		break;
+
+		//ÇÏ
+	case 100:
+		_Puyo->RenderToDown();
+		break;
+
+		//ÇÏÁÂ
+	case 110:
+		_Puyo->RenderToLeftDown();
+		break;
+
+		//ÇÏ¿ì
+	case 101:
+		_Puyo->RenderToRightDown();
+		break;
+
+		//ÇÏÁÂ¿ì
+	case 111:
+		_Puyo->RenderToLeftRightDown();
+		break;
+
+		//»ó
+	case 1000:
+		_Puyo->RenderToUp();
+		break;
+
+		//»óÇÏ
+	case 1100:
+		_Puyo->RenderToUpDown();
+		break;
+
+		//»óÇÏÁÂ
+	case 1110:
+		_Puyo->RenderToLeftUpDown();
+		break;
+
+		//»óÇÏ¿ì
+	case 1101:
+		_Puyo->RenderToRightUpDown();
+		break;
+
+		//»óÁÂ
+	case 1010:
+		_Puyo->RenderToLefttUp();
+		break;
+
+		//»ó¿ì
+	case 1001:
+		_Puyo->RenderToRightUp();
+		break;
+
+		//»óÁÂ¿ì
+	case 1011:
+		_Puyo->RenderToLeftRightUp();
+		break;
+
+		//»óÇÏÁÂ¿ì
+	case 1111:
+		_Puyo->RenderToLeftRightUpDown();
+		break;
+
+	}
+}
 
 void Player::DigitScore(int _Score)
 {
@@ -785,7 +1014,7 @@ void Player::RenderToScore()
 	{
 		switch (ScoreDigits_[i])
 		{
-		case 0 :
+		case 0:
 			ScoreRenderers_[i]->SetOrder(10);
 			ScoreRenderers_[i]->SetImage("IG_PLAYER_NUMBER_0.bmp");
 			break;

@@ -14,6 +14,8 @@ Puyo::Puyo()
 	, IsLanding_(false)
 	, IsVisited_(false)
 	, IsLandPlay_(false)
+	, IsDestroy_(false)
+	, IsConnect_{false}
 {
 }
 
@@ -59,32 +61,41 @@ void Puyo::RenderToRight()
 	switch (MyColor_)
 	{
 	case PuyoColor::RED:
+		MyRenderer_->ChangeAnimation("IG_RED_RIGHT");
 		break;
 	case PuyoColor::BLUE:
+		MyRenderer_->ChangeAnimation("IG_BLUE_RIGHT");
 		break;
 	case PuyoColor::GREEN:
+		MyRenderer_->ChangeAnimation("IG_GREEN_RIGHT");
 		break;
 	case PuyoColor::YELLOW:
+		MyRenderer_->ChangeAnimation("IG_YELLOW_RIGHT");
 		break;
 	case PuyoColor::PURPLE:
+		MyRenderer_->ChangeAnimation("IG_PURPLE_RIGHT");
 		break;
 	}
 }
 
 void Puyo::RenderToUp()
 {
-
 	switch (MyColor_)
 	{
 	case PuyoColor::RED:
+		MyRenderer_->ChangeAnimation("IG_RED_UP");
 		break;
 	case PuyoColor::BLUE:
+		MyRenderer_->ChangeAnimation("IG_BLUE_UP");
 		break;
 	case PuyoColor::GREEN:
+		MyRenderer_->ChangeAnimation("IG_GREEN_UP");
 		break;
 	case PuyoColor::YELLOW:
+		MyRenderer_->ChangeAnimation("IG_YELLOW_UP");
 		break;
 	case PuyoColor::PURPLE:
+		MyRenderer_->ChangeAnimation("IG_PURPLE_UP");
 		break;
 	}
 }
@@ -94,14 +105,19 @@ void Puyo::RenderToDown()
 	switch (MyColor_)
 	{
 	case PuyoColor::RED:
+		MyRenderer_->ChangeAnimation("IG_RED_DOWN");
 		break;
 	case PuyoColor::BLUE:
+		MyRenderer_->ChangeAnimation("IG_BLUE_DOWN");
 		break;
 	case PuyoColor::GREEN:
+		MyRenderer_->ChangeAnimation("IG_GREEN_DOWN");
 		break;
 	case PuyoColor::YELLOW:
+		MyRenderer_->ChangeAnimation("IG_YELLOW_DOWN");
 		break;
 	case PuyoColor::PURPLE:
+		MyRenderer_->ChangeAnimation("IG_PURPLE_DOWN");
 		break;
 	}
 }
@@ -111,14 +127,19 @@ void Puyo::RenderToLeftRight()
 	switch (MyColor_)
 	{
 	case PuyoColor::RED:
+		MyRenderer_->ChangeAnimation("IG_RED_LEFT_RIGHT");
 		break;
 	case PuyoColor::BLUE:
+		MyRenderer_->ChangeAnimation("IG_BLUE_LEFT_RIGHT");
 		break;
 	case PuyoColor::GREEN:
+		MyRenderer_->ChangeAnimation("IG_GREEN_LEFT_RIGHT");
 		break;
 	case PuyoColor::YELLOW:
+		MyRenderer_->ChangeAnimation("IG_YELLOW_LEFT_RIGHT");
 		break;
 	case PuyoColor::PURPLE:
+		MyRenderer_->ChangeAnimation("IG_PURPLE_LEFT_RIGHT");
 		break;
 	}
 }
@@ -128,14 +149,19 @@ void Puyo::RenderToLeftRightDown()
 	switch (MyColor_)
 	{
 	case PuyoColor::RED:
+		MyRenderer_->ChangeAnimation("IG_RED_LEFT_RIGHT_DOWN");
 		break;
 	case PuyoColor::BLUE:
+		MyRenderer_->ChangeAnimation("IG_BLUE_LEFT_RIGHT_DOWN");
 		break;
 	case PuyoColor::GREEN:
+		MyRenderer_->ChangeAnimation("IG_GREEN_LEFT_RIGHT_DOWN");
 		break;
 	case PuyoColor::YELLOW:
+		MyRenderer_->ChangeAnimation("IG_YELLOW_LEFT_RIGHT_DOWN");
 		break;
 	case PuyoColor::PURPLE:
+		MyRenderer_->ChangeAnimation("IG_PURPLE_LEFT_RIGHT_DOWN");
 		break;
 	}
 }
@@ -145,31 +171,41 @@ void Puyo::RenderToLefttUp()
 	switch (MyColor_)
 	{
 	case PuyoColor::RED:
+		MyRenderer_->ChangeAnimation("IG_RED_LEFT_UP");
 		break;
 	case PuyoColor::BLUE:
+		MyRenderer_->ChangeAnimation("IG_BLUE_LEFT_UP");
 		break;
 	case PuyoColor::GREEN:
+		MyRenderer_->ChangeAnimation("IG_GREEN_UP");
 		break;
 	case PuyoColor::YELLOW:
+		MyRenderer_->ChangeAnimation("IG_YELLOW_UP");
 		break;
 	case PuyoColor::PURPLE:
+		MyRenderer_->ChangeAnimation("IG_PURPLE_UP");
 		break;
 	}
 }
 
-void Puyo::RenderToLeftUpRight()
+void Puyo::RenderToLeftRightUp()
 {
 	switch (MyColor_)
 	{
 	case PuyoColor::RED:
+		MyRenderer_->ChangeAnimation("IG_RED_LEFT_RIGHT_UP");
 		break;
 	case PuyoColor::BLUE:
+		MyRenderer_->ChangeAnimation("IG_BLUE_LEFT_RIGHT_UP");
 		break;
 	case PuyoColor::GREEN:
+		MyRenderer_->ChangeAnimation("IG_GREEN_LEFT_RIGHT_UP");
 		break;
 	case PuyoColor::YELLOW:
+		MyRenderer_->ChangeAnimation("IG_YELLOW_LEFT_RIGHT_UP");
 		break;
 	case PuyoColor::PURPLE:
+		MyRenderer_->ChangeAnimation("IG_PURPLE_LEFT_RIGHT_UP");
 		break;
 	}
 }
@@ -179,14 +215,19 @@ void Puyo::RenderToLeftUpDown()
 	switch (MyColor_)
 	{
 	case PuyoColor::RED:
+		MyRenderer_->ChangeAnimation("IG_RED_LEFT_UP_DOWN");
 		break;
 	case PuyoColor::BLUE:
+		MyRenderer_->ChangeAnimation("IG_BLUE_LEFT_UP_DOWN");
 		break;
 	case PuyoColor::GREEN:
+		MyRenderer_->ChangeAnimation("IG_GREEN_LEFT_UP_DOWN");
 		break;
 	case PuyoColor::YELLOW:
+		MyRenderer_->ChangeAnimation("IG_YELLOW_LEFT_UP_DOWN");
 		break;
 	case PuyoColor::PURPLE:
+		MyRenderer_->ChangeAnimation("IG_PURPLE_LEFT_UP_DOWN");
 		break;
 	}
 }
@@ -196,14 +237,19 @@ void Puyo::RenderToLeftDown()
 	switch (MyColor_)
 	{
 	case PuyoColor::RED:
+		MyRenderer_->ChangeAnimation("IG_RED_LEFT_DOWN");
 		break;
 	case PuyoColor::BLUE:
+		MyRenderer_->ChangeAnimation("IG_BLUE_LEFT_DOWN");
 		break;
 	case PuyoColor::GREEN:
+		MyRenderer_->ChangeAnimation("IG_GREEN_LEFT_DOWN");
 		break;
 	case PuyoColor::YELLOW:
+		MyRenderer_->ChangeAnimation("IG_YELLOW_LEFT_DOWN");
 		break;
 	case PuyoColor::PURPLE:
+		MyRenderer_->ChangeAnimation("IG_PURPLE_LEFT_DOWN");
 		break;
 	}
 }
@@ -213,14 +259,19 @@ void Puyo::RenderToRightUp()
 	switch (MyColor_)
 	{
 	case PuyoColor::RED:
+		MyRenderer_->ChangeAnimation("IG_RED_LEFT_DOWN");
 		break;
 	case PuyoColor::BLUE:
+		MyRenderer_->ChangeAnimation("IG_BLUE_LEFT_DOWN");
 		break;
 	case PuyoColor::GREEN:
+		MyRenderer_->ChangeAnimation("IG_GREEN_LEFT_DOWN");
 		break;
 	case PuyoColor::YELLOW:
+		MyRenderer_->ChangeAnimation("IG_YELLOW_LEFT_DOWN");
 		break;
 	case PuyoColor::PURPLE:
+		MyRenderer_->ChangeAnimation("IG_PURPLE_LEFT_DOWN");
 		break;
 	}
 }
@@ -230,14 +281,19 @@ void Puyo::RenderToRightUpDown()
 	switch (MyColor_)
 	{
 	case PuyoColor::RED:
+		MyRenderer_->ChangeAnimation("IG_RED_RIGHT_DOWN");
 		break;
 	case PuyoColor::BLUE:
+		MyRenderer_->ChangeAnimation("IG_BLUE_RIGHT_DOWN");
 		break;
 	case PuyoColor::GREEN:
+		MyRenderer_->ChangeAnimation("IG_GREEN_RIGHT_DOWN");
 		break;
 	case PuyoColor::YELLOW:
+		MyRenderer_->ChangeAnimation("IG_YELLOW_RIGHT_DOWN");
 		break;
 	case PuyoColor::PURPLE:
+		MyRenderer_->ChangeAnimation("IG_PURPLE_RIGHT_DOWN");
 		break;
 	}
 }
@@ -247,14 +303,19 @@ void Puyo::RenderToRightDown()
 	switch (MyColor_)
 	{
 	case PuyoColor::RED:
+		MyRenderer_->ChangeAnimation("IG_RED_RIGHT_DOWN");
 		break;
 	case PuyoColor::BLUE:
+		MyRenderer_->ChangeAnimation("IG_BLUE_RIGHT_DOWN");
 		break;
 	case PuyoColor::GREEN:
+		MyRenderer_->ChangeAnimation("IG_GREEN_RIGHT_DOWN");
 		break;
 	case PuyoColor::YELLOW:
+		MyRenderer_->ChangeAnimation("IG_YELLOW_RIGHT_DOWN");
 		break;
 	case PuyoColor::PURPLE:
+		MyRenderer_->ChangeAnimation("IG_PURPLE_RIGHT_DOWN");
 		break;
 	}
 }
@@ -264,14 +325,19 @@ void Puyo::RenderToUpDown()
 	switch (MyColor_)
 	{
 	case PuyoColor::RED:
+		MyRenderer_->ChangeAnimation("IG_RED_UP_DOWN");
 		break;
 	case PuyoColor::BLUE:
+		MyRenderer_->ChangeAnimation("IG_BLUE_UP_DOWN");
 		break;
 	case PuyoColor::GREEN:
+		MyRenderer_->ChangeAnimation("IG_GREEN_UP_DOWN");
 		break;
 	case PuyoColor::YELLOW:
+		MyRenderer_->ChangeAnimation("IG_YELLOW_UP_DOWN");
 		break;
 	case PuyoColor::PURPLE:
+		MyRenderer_->ChangeAnimation("IG_PURPLE_UP_DOWN");
 		break;
 	}
 }
@@ -281,34 +347,44 @@ void Puyo::RenderToLeftRightUpDown()
 	switch (MyColor_)
 	{
 	case PuyoColor::RED:
+		MyRenderer_->ChangeAnimation("IG_RED_LEFT_RIGHT_UP_DOWN");
 		break;
 	case PuyoColor::BLUE:
+		MyRenderer_->ChangeAnimation("IG_BLUE_LEFT_RIGHT_UP_DOWN");
 		break;
 	case PuyoColor::GREEN:
+		MyRenderer_->ChangeAnimation("IG_GREEN_LEFT_RIGHT_UP_DOWN");
 		break;
 	case PuyoColor::YELLOW:
+		MyRenderer_->ChangeAnimation("IG_YELLOW_LEFT_RIGHT_UP_DOWN");
 		break;
 	case PuyoColor::PURPLE:
+		MyRenderer_->ChangeAnimation("IG_PURPLE_LEFT_RIGHT_UP_DOWN");
 		break;
 	}
 }
 
-void Puyo::RenderToLand()
-{
-	switch (MyColor_)
-	{
-	case PuyoColor::RED:
-		break;
-	case PuyoColor::BLUE:
-		break;
-	case PuyoColor::GREEN:
-		break;
-	case PuyoColor::YELLOW:
-		break;
-	case PuyoColor::PURPLE:
-		break;
-	}
-}
+//void Puyo::RenderToLand()
+//{
+//	switch (MyColor_)
+//	{
+//	case PuyoColor::RED:
+//		MyRenderer_->ChangeAnimation("IG_RED_LAND");
+//		break;
+//	case PuyoColor::BLUE:
+//		MyRenderer_->ChangeAnimation("IG_BLUE_LAND");
+//		break;
+//	case PuyoColor::GREEN:
+//		MyRenderer_->ChangeAnimation("IG_GREEN_LAND");
+//		break;
+//	case PuyoColor::YELLOW:
+//		MyRenderer_->ChangeAnimation("IG_YELLOW_LAND");
+//		break;
+//	case PuyoColor::PURPLE:
+//		MyRenderer_->ChangeAnimation("IG_PURPLE_LAND");
+//		break;
+//	}
+//}
 
 void Puyo::RenderToDestroy()
 {
@@ -337,14 +413,19 @@ void Puyo::RenderToIdle()
 	switch (MyColor_)
 	{
 	case PuyoColor::RED:
+		MyRenderer_->ChangeAnimation("IG_RED_IDLE");
 		break;
 	case PuyoColor::BLUE:
+		MyRenderer_->ChangeAnimation("IG_BLUE_IDLE");
 		break;
 	case PuyoColor::GREEN:
+		MyRenderer_->ChangeAnimation("IG_GREEN_IDLE");
 		break;
 	case PuyoColor::YELLOW:
+		MyRenderer_->ChangeAnimation("IG_YELLOW_IDLE");
 		break;
 	case PuyoColor::PURPLE:
+		MyRenderer_->ChangeAnimation("IG_PURPLE_IDLE");
 		break;
 	}
 }
@@ -354,14 +435,19 @@ void Puyo::RenderToOtherIdle()
 	switch (MyColor_)
 	{
 	case PuyoColor::RED:
+		MyRenderer_->ChangeAnimation("IG_RED_IDLE1");
 		break;
 	case PuyoColor::BLUE:
+		MyRenderer_->ChangeAnimation("IG_BLUE_IDLE1");
 		break;
 	case PuyoColor::GREEN:
+		MyRenderer_->ChangeAnimation("IG_GREEN_IDLE1");
 		break;
 	case PuyoColor::YELLOW:
+		MyRenderer_->ChangeAnimation("IG_YELLOW_IDLE1");
 		break;
 	case PuyoColor::PURPLE:
+		MyRenderer_->ChangeAnimation("IG_PURPLE_IDLE1");
 		break;
 	}
 }

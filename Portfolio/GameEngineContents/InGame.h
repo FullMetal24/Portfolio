@@ -35,6 +35,8 @@ public:
 	}
 
 	PuyoPair* CreatePuyoPair();
+	Puyo* CreateHindrancePuyo(GameEngineActor* _FromActor, GameEngineActor* _ToActor); //방해 뿌요 생성, 다운 캐스팅
+
 	void CreatePuyoAnimation(GameEngineRenderer* _Renderer, PuyoColor _Color);
 
 	void PuyoAnimationInit();

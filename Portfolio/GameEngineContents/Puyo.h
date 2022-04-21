@@ -29,6 +29,16 @@ public:
 		IsLanding_ = _Land;
 	}
 
+	inline void SetIsDestroy(bool _IsDestroy)
+	{
+		IsDestroy_ = _IsDestroy;
+	}
+
+	inline bool GetIsDestroy()
+	{
+		return IsDestroy_;
+	}
+
 	inline int GetX()
 	{
 		return X_;
@@ -84,6 +94,23 @@ public:
 		return IsVisited_;
 	}
 
+	inline bool* GetConnect()
+	{
+		return IsConnect_;
+	}
+
+	inline void SetConnect(int _Index, bool _Value)
+	{
+		if (4 <= _Index)
+		{
+			return;
+		}
+
+		IsConnect_[_Index] = _Value;
+	}
+
+
+
 	//애니메이션 관련 처리
 	void RenderToLeft();
 	void RenderToRight();
@@ -93,7 +120,7 @@ public:
 	void RenderToLeftRight(); 
 	void RenderToLeftRightDown();
 	void RenderToLefttUp(); 
-	void RenderToLeftUpRight(); 
+	void RenderToLeftRightUp(); 
 	void RenderToLeftUpDown();
 	void RenderToLeftDown(); 
 	
@@ -105,7 +132,7 @@ public:
 	void RenderToLeftRightUpDown();
 
 	void RenderToDestroy();
-	void RenderToLand();
+	//void RenderToLand();
 
 	void RenderToIdle();
 	void RenderToOtherIdle();
@@ -125,5 +152,9 @@ private:
 	bool IsLandPlay_;
 	bool IsLanding_;
 	bool IsVisited_;
+	bool IsDestroy_;
+
+	//연결 상태 확인
+	bool IsConnect_[4];
 };
 

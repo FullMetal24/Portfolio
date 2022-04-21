@@ -24,7 +24,7 @@ public:
 
 	inline bool IsUpdate() override
 	{
-		return GameEngineUpdateObject::IsUpdate() || Actor_->IsUpdate();
+		return GameEngineUpdateObject::IsUpdate() && Actor_->IsUpdate();
 	}
 
 	inline bool IsDeath() override

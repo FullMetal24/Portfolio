@@ -36,6 +36,9 @@ public:
 	void FallPuyo(); //»Ñ¿ä È¥ÀÚ °¡¼Ó ³«ÇÏ
 	void FallAfterLanding();
 
+	int GradePuyoAnimation(int _Dx, int _Dy, Puyo* _Puyo);
+	void ConvertPuyoAnimtion(int _Dx, int _Dy, Puyo* _Puyo);
+
 	void DigitScore(int _Score);
 	void RenderToScore();
 
