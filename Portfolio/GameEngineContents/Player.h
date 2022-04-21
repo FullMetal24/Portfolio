@@ -19,7 +19,8 @@ public:
 
 	void Start() override;
 	void Update() override;
-	void Render() override;
+	
+	void PlayerInput();
 
 	void MoveLeft();
 	void MoveRight();
@@ -32,15 +33,21 @@ public:
 	void CurrentPairInit();
 	void AddPuyoPair(PuyoPair* _Pair);
 
-	void LandCheck();
-	void FallPuyo(); //»Ñ¿ä È¥ÀÚ °¡¼Ó ³«ÇÏ
-	void FallAfterLanding();
+	void CurrentPairPuyoLandCheck();
+
+	void AllPuyoLandCheck();
+	void AllPuyoLand();
+
+	void AutoFall();
+	void FallAlonePuyo();
 
 	int GradePuyoAnimation(int _Dx, int _Dy, Puyo* _Puyo);
 	void ConvertPuyoAnimtion(int _Dx, int _Dy, Puyo* _Puyo);
 
 	void DigitScore(int _Score);
 	void RenderToScore();
+
+
 
 	inline void SetCurrentPair(PuyoPair* _Current)
 	{

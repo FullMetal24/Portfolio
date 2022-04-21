@@ -29,12 +29,17 @@ public:
 		IsLanding_ = _Land;
 	}
 
-	inline void SetIsDestroy(bool _IsDestroy)
+	inline bool GetLandPlay()
+	{
+		return IsLandPlay_;
+	}
+
+	inline void SetDestroy(bool _IsDestroy)
 	{
 		IsDestroy_ = _IsDestroy;
 	}
 
-	inline bool GetIsDestroy()
+	inline bool GetDestroy()
 	{
 		return IsDestroy_;
 	}
@@ -139,6 +144,9 @@ public:
 
 	void LandAnimation();
 	void LandToNormal();
+
+	void SeltDestroy();
+
 
 protected:
 

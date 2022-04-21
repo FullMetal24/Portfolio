@@ -429,8 +429,6 @@ void InGame::CarbuncleAnimationInit()
 
 void InGame::Update()
 {
-	LevelCount_ -= GameEngineTime::GetDeltaTime();
-
 	if (true == IsStart_ && true == Player_->GetAllLanding() && false == Player_->GetLose())
 	{
 		Player_->AddPuyoPair(CreatePuyoPair());
@@ -438,6 +436,8 @@ void InGame::Update()
 
 	else if (true == Player_->GetAllLanding() && true == Player_->GetLose() && 0 >= LevelCount_)
 	{
+		LevelCount_ -= GameEngineTime::GetDeltaTime();
+
 		FadeBackground_->FadeOn();
 		FadeBackground_->GetMyRenderer()->SetOrder(20);
 		FadeBackground_->SetFadeSpeed(500.f);
