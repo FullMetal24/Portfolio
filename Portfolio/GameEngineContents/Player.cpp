@@ -60,12 +60,6 @@ void Player::Start()
 
 	GameEngineImage* LightImage1 = GameEngineImageManager::GetInst()->Find("IG_PLAYER_LIGHT_EXPLOSION.bmp");
 	LightImage1->CutCount(4, 1);
-
-	GameEngineRenderer* Renderer = CreateRenderer();
-	Renderer->SetPivot({ 100, 100 });
-	Renderer->CreateAnimation("IG_PLAYER_LIGHT.bmp", "IG_PLAYER_LIGHT", 0, 3, 0.1f, true);
-	Renderer->CreateAnimation("IG_PLAYER_LIGHT_EXPLOSION.bmp", "IG_PLAYER_LIGHT_EXPLOSION", 0, 3, 0.1f, false);
-	Renderer->ChangeAnimation("IG_PLAYER_LIGHT");
 }
 
 
@@ -508,6 +502,7 @@ void Player::BfsPuyo(Puyo* _Puyo)
 				PlayerMap_[Y][X]->Visit();
 
 				ConvertPuyoAnimtion(Dx[i], Dy[i], PlayerMap_[Y][X]);
+
 			}
 		}
 	}
@@ -552,7 +547,7 @@ void Player::DestroyPuyo()
 				if (true == PlayerMap_[Y][X]->GetMyRenderer()->IsAnimationName("IG_RED_DESTROY")
 					&& true == PlayerMap_[Y][X]->GetMyRenderer()->IsEndAnimation())
 				{
-					PlayerMap_[Y][X]->Death(); //순서 중요!
+					PlayerMap_[Y][X]->Death();
 					PlayerMap_[Y][X] = nullptr;
 				}
 
@@ -772,7 +767,6 @@ void Player::FallAfterLanding()
 						PlayerMap_[FallPuyo_->GetY()][X] = FallPuyo_;
 
 						PlayerMap_[FallPuyo_->GetY() - 1][X] = nullptr;
-
 					}
 				}
 			}

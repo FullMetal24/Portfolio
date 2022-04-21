@@ -104,7 +104,3 @@ private:
 	bool IsAllLanding_;
 	bool IsLose_;
 };
-
-//Å¥ Ãß°¡
-//
-

@@ -53,6 +53,12 @@ void GameEngineRenderer::SetImage(const std::string& _Name)
 	SetImageScale();
 }
 
+void GameEngineRenderer::SetImageAnimationReset(const std::string& _Name)
+{
+	SetImage(_Name);
+	CurrentAnimation_ = nullptr;
+}
+
 void GameEngineRenderer::SetRotationFilter(const std::string& _Name)
 {
 	GameEngineImage* FindImage = GameEngineImageManager::GetInst()->Find(_Name);
@@ -111,7 +117,7 @@ void GameEngineRenderer::Render()
 		float4 Scale = RenderScale_.Half();
 		Scale.y *= 2;
 
-		if (Alpha_ == 255)
+		if (Alpha_ != 255)
 		{
 			GameEngine::BackBufferImage()->AlphaCopy(Image_, RenderPos - Scale, RenderScale_, RenderImagePivot_, RenderImageScale_, Alpha_);
 		}
@@ -123,8 +129,6 @@ void GameEngineRenderer::Render()
 		{
 			GameEngine::BackBufferImage()->TransCopy(Image_, RenderPos - Scale, RenderScale_, RenderImagePivot_, RenderImageScale_, TransColor_);
 		}
-
-
 		break;
 	}
 	default:
@@ -150,7 +154,7 @@ void GameEngineRenderer::SetIndex(size_t _Index, float4 _Scale)
 	}
 
 	RenderImagePivot_ = Image_->GetCutPivot(_Index);	// 이미지의 몇번째칸(벡터의 배열상 Index값 접근)에 해당하는 좌표값
-	RenderImageScale_ = Image_->GetCutScale(_Index);		
+	RenderImageScale_ = Image_->GetCutScale(_Index);			// 
 }
 
 // Animation
@@ -304,12 +308,15 @@ void GameEngineRenderer::FrameAnimation::Update()
 
 	if (nullptr != Image_)
 	{
-		Renderer_->Image_ = Image_;		// 렌더러에게 이 애니메이션 만들때 세팅했떤 이미지를 세팅해준다.
+		Renderer_->Image_ = Image_;		// 렌더러에게 이 애니메이션 만들때 세팅했던 이미지를 세팅해준다.
+
 		if (Renderer_->ScaleMode_ == RenderScaleMode::User)
 		{
 			Renderer_->SetIndex(CurrentFrame_, Renderer_->RenderScale_);
 		}
-		else {
+
+		else 
+		{
 			Renderer_->SetIndex(CurrentFrame_);	// 렌더러에게 인덱스도 세팅해준다. 즉, 해당 애니메이션 이미지의 몇번째 칸(Index) 세팅해주면 렌더러는 알아서 출력한다.
 		}
 	}

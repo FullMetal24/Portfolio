@@ -11,7 +11,7 @@
 #include "Puyo.h"
 #include "FSM.h"
 
-InGame::InGame() 
+InGame::InGame()
 	: Stages_{ }
 	, Player_(nullptr)
 	, FSM_(nullptr)
@@ -21,11 +21,11 @@ InGame::InGame()
 	, StageClear_(0)
 	, LevelCount_(15.f)
 	, IsStart_(false) //일단 트루
-{ 
-} 
+{
+}
 
 InGame::~InGame()
-{ 
+{
 
 }
 
@@ -36,14 +36,14 @@ void InGame::Loading()
 	FadeBackground_ = CreateActor<FadeInOutBackground>();
 
 	Stages_[0] = CreateActor<Stage>();
-	 
+
 	Stages_[0]->SetPosition(GameEngineWindow::GetScale().Half());
 	Stages_[0]->CreateRenderer("IG_STAGE1.bmp", 2);
 	Stages_[0]->CreateRenderer("IG_STAGE1_BACK.bmp", 0);
 
 	GameEngineActor* ActorNext = CreateActor<Stage>(3);
-	ActorNext->CreateRenderer("IG_NEXT.bmp")->SetPivot({GameEngineWindow::GetScale().Half().x, GameEngineWindow::GetScale().Half().y - 360.f });
-	
+	ActorNext->CreateRenderer("IG_NEXT.bmp")->SetPivot({ GameEngineWindow::GetScale().Half().x, GameEngineWindow::GetScale().Half().y - 360.f });
+
 	GameEngineActor* PlayerName_ = CreateActor<Stage>(1);
 	PlayerName_->CreateRenderer("IG_ARLENAME.bmp")->SetPivot({ GameEngineWindow::GetScale().Half().x - 96.f, GameEngineWindow::GetScale().Half().y - 290.f });
 
@@ -85,12 +85,14 @@ void InGame::PuyoAnimationInit()
 
 		GameEngineImage* LandImage = GameEngineImageManager::GetInst()->Find("IG_RED_LAND.bmp");
 		LandImage->CutCount(2, 1);
-		
+
 		GameEngineImage* IdleImage = GameEngineImageManager::GetInst()->Find("IG_RED_IDLE.bmp");
 		IdleImage->CutCount(3, 1);
 
 		GameEngineImage* IdleImage1 = GameEngineImageManager::GetInst()->Find("IG_RED_IDLE1.bmp");
 		IdleImage1->CutCount(3, 1);
+
+
 
 		GameEngineImage* LeftImage = GameEngineImageManager::GetInst()->Find("IG_RED_LEFT.bmp");
 		LeftImage->CutCount(1, 1);
@@ -103,6 +105,38 @@ void InGame::PuyoAnimationInit()
 
 		GameEngineImage* DownImage = GameEngineImageManager::GetInst()->Find("IG_RED_DOWN.bmp");
 		DownImage->CutCount(1, 1);
+
+
+
+		GameEngineImage* LefeDownImage = GameEngineImageManager::GetInst()->Find("IG_RED_LEFT_DOWN.bmp");
+		LefeDownImage->CutCount(1, 1);
+
+		GameEngineImage* LefeUpImage = GameEngineImageManager::GetInst()->Find("IG_RED_LEFT_UP.bmp");
+		LefeUpImage->CutCount(1, 1);
+
+		GameEngineImage* LefeRightImage = GameEngineImageManager::GetInst()->Find("IG_RED_LEFT_RIGHT.bmp");
+		LefeRightImage->CutCount(1, 1);
+
+		GameEngineImage* LeftRightDownImage = GameEngineImageManager::GetInst()->Find("IG_RED_LEFT_RIGHT_DOWN.bmp");
+		LeftRightDownImage->CutCount(1, 1);
+
+		GameEngineImage* LeftRightUpImage = GameEngineImageManager::GetInst()->Find("IG_RED_LEFT_RIGHT_UP.bmp");
+		LeftRightUpImage->CutCount(1, 1);
+
+		GameEngineImage* LeftRightUpDownImage = GameEngineImageManager::GetInst()->Find("IG_RED_LEFT_RIGHT_UP_DOWN.bmp");
+		LeftRightUpDownImage->CutCount(1, 1);
+
+		GameEngineImage* LeftUpDownImage = GameEngineImageManager::GetInst()->Find("IG_RED_LEFT_UP_DOWN.bmp");
+		LeftUpDownImage->CutCount(1, 1);
+
+		GameEngineImage* RightDownImage = GameEngineImageManager::GetInst()->Find("IG_RED_RIGHT_DOWN.bmp");
+		RightDownImage->CutCount(1, 1);
+
+		GameEngineImage* RightUPDownImage = GameEngineImageManager::GetInst()->Find("IG_RED_RIGHT_UP_DOWN.bmp");
+		RightUPDownImage->CutCount(1, 1);
+
+		GameEngineImage* UpDownImage = GameEngineImageManager::GetInst()->Find("IG_RED_UP_DOWN.bmp");
+		UpDownImage->CutCount(1, 1);
 	}
 
 	{
@@ -117,6 +151,8 @@ void InGame::PuyoAnimationInit()
 
 		GameEngineImage* LandImage = GameEngineImageManager::GetInst()->Find("IG_BLUE_LAND.bmp");
 		LandImage->CutCount(2, 1);
+
+
 
 		GameEngineImage* IdleImage = GameEngineImageManager::GetInst()->Find("IG_BLUE_IDLE.bmp");
 		IdleImage->CutCount(3, 1);
@@ -135,6 +171,38 @@ void InGame::PuyoAnimationInit()
 
 		GameEngineImage* DownImage = GameEngineImageManager::GetInst()->Find("IG_BLUE_DOWN.bmp");
 		DownImage->CutCount(1, 1);
+
+
+
+		GameEngineImage* LefeDownImage = GameEngineImageManager::GetInst()->Find("IG_BLUE_LEFT_DOWN.bmp");
+		LefeDownImage->CutCount(1, 1);
+
+		GameEngineImage* LefeUpImage = GameEngineImageManager::GetInst()->Find("IG_BLUE_LEFT_UP.bmp");
+		LefeUpImage->CutCount(1, 1);
+
+		GameEngineImage* LefeRightImage = GameEngineImageManager::GetInst()->Find("IG_BLUE_LEFT_RIGHT.bmp");
+		LefeRightImage->CutCount(1, 1);
+
+		GameEngineImage* LeftRightDownImage = GameEngineImageManager::GetInst()->Find("IG_BLUE_LEFT_RIGHT_DOWN.bmp");
+		LeftRightDownImage->CutCount(1, 1);
+
+		GameEngineImage* LeftRightUpImage = GameEngineImageManager::GetInst()->Find("IG_BLUE_LEFT_RIGHT_UP.bmp");
+		LeftRightUpImage->CutCount(1, 1);
+
+		GameEngineImage* LeftRightUpDownImage = GameEngineImageManager::GetInst()->Find("IG_BLUE_LEFT_RIGHT_UP_DOWN.bmp");
+		LeftRightUpDownImage->CutCount(1, 1);
+
+		GameEngineImage* LeftUpDownImage = GameEngineImageManager::GetInst()->Find("IG_BLUE_LEFT_UP_DOWN.bmp");
+		LeftUpDownImage->CutCount(1, 1);
+
+		GameEngineImage* RightDownImage = GameEngineImageManager::GetInst()->Find("IG_BLUE_RIGHT_DOWN.bmp");
+		RightDownImage->CutCount(1, 1);
+
+		GameEngineImage* RightUPDownImage = GameEngineImageManager::GetInst()->Find("IG_BLUE_RIGHT_UP_DOWN.bmp");
+		RightUPDownImage->CutCount(1, 1);
+
+		GameEngineImage* UpDownImage = GameEngineImageManager::GetInst()->Find("IG_BLUE_UP_DOWN.bmp");
+		UpDownImage->CutCount(1, 1);
 	}
 
 	{
@@ -156,6 +224,8 @@ void InGame::PuyoAnimationInit()
 		GameEngineImage* IdleImage1 = GameEngineImageManager::GetInst()->Find("IG_GREEN_IDLE1.bmp");
 		IdleImage1->CutCount(4, 1);
 
+
+
 		GameEngineImage* LeftImage = GameEngineImageManager::GetInst()->Find("IG_GREEN_LEFT.bmp");
 		LeftImage->CutCount(1, 1);
 
@@ -167,6 +237,39 @@ void InGame::PuyoAnimationInit()
 
 		GameEngineImage* DownImage = GameEngineImageManager::GetInst()->Find("IG_GREEN_DOWN.bmp");
 		DownImage->CutCount(1, 1);
+
+
+
+
+		GameEngineImage* LefeDownImage = GameEngineImageManager::GetInst()->Find("IG_GREEN_LEFT_DOWN.bmp");
+		LefeDownImage->CutCount(1, 1);
+
+		GameEngineImage* LefeUpImage = GameEngineImageManager::GetInst()->Find("IG_GREEN_LEFT_UP.bmp");
+		LefeUpImage->CutCount(1, 1);
+
+		GameEngineImage* LefeRightImage = GameEngineImageManager::GetInst()->Find("IG_GREEN_LEFT_RIGHT.bmp");
+		LefeRightImage->CutCount(1, 1);
+
+		GameEngineImage* LeftRightDownImage = GameEngineImageManager::GetInst()->Find("IG_GREEN_LEFT_RIGHT_DOWN.bmp");
+		LeftRightDownImage->CutCount(1, 1);
+
+		GameEngineImage* LeftRightUpImage = GameEngineImageManager::GetInst()->Find("IG_GREEN_LFET_RIGHT_UP.bmp");
+		LeftRightUpImage->CutCount(1, 1);
+
+		GameEngineImage* LeftRightUpDownImage = GameEngineImageManager::GetInst()->Find("IG_GREEN_LEFT_RIGHT_UP_DOWN.bmp");
+		LeftRightUpDownImage->CutCount(1, 1);
+
+		GameEngineImage* LeftUpDownImage = GameEngineImageManager::GetInst()->Find("IG_GREEN_LEFT_UP_DOWN.bmp");
+		LeftUpDownImage->CutCount(1, 1);
+
+		GameEngineImage* RightDownImage = GameEngineImageManager::GetInst()->Find("IG_GREEN_RIGHT_DOWN.bmp");
+		RightDownImage->CutCount(1, 1);
+
+		GameEngineImage* RightUPDownImage = GameEngineImageManager::GetInst()->Find("IG_GREEN_RIGHT_UP_DOWN.bmp");
+		RightUPDownImage->CutCount(1, 1);
+
+		GameEngineImage* UpDownImage = GameEngineImageManager::GetInst()->Find("IG_GREEN_UP_DOWN.bmp");
+		UpDownImage->CutCount(1, 1);
 	}
 
 	{
@@ -188,6 +291,8 @@ void InGame::PuyoAnimationInit()
 		GameEngineImage* IdleImage1 = GameEngineImageManager::GetInst()->Find("IG_YELLOW_IDLE1.bmp");
 		IdleImage1->CutCount(3, 1);
 
+
+
 		GameEngineImage* LeftImage = GameEngineImageManager::GetInst()->Find("IG_YELLOW_LEFT.bmp");
 		LeftImage->CutCount(1, 1);
 
@@ -199,6 +304,37 @@ void InGame::PuyoAnimationInit()
 
 		GameEngineImage* DownImage = GameEngineImageManager::GetInst()->Find("IG_YELLOW_DOWN.bmp");
 		DownImage->CutCount(1, 1);
+
+
+		GameEngineImage* LefeDownImage = GameEngineImageManager::GetInst()->Find("IG_YELLOW_LEFT_DOWN.bmp");
+		LefeDownImage->CutCount(1, 1);
+
+		GameEngineImage* LefeUpImage = GameEngineImageManager::GetInst()->Find("IG_YELLOW_LEFT_UP.bmp");
+		LefeUpImage->CutCount(1, 1);
+
+		GameEngineImage* LefeRightImage = GameEngineImageManager::GetInst()->Find("IG_YELLOW_LEFT_RIGHT.bmp");
+		LefeRightImage->CutCount(1, 1);
+
+		GameEngineImage* LeftRightDownImage = GameEngineImageManager::GetInst()->Find("IG_YELLOW_LEFT_RIGHT_DOWN.bmp");
+		LeftRightDownImage->CutCount(1, 1);
+
+		GameEngineImage* LeftRightUpImage = GameEngineImageManager::GetInst()->Find("IG_YELLOW_LEFT_RIGHT_UP.bmp");
+		LeftRightUpImage->CutCount(1, 1);
+
+		GameEngineImage* LeftRightUpDownImage = GameEngineImageManager::GetInst()->Find("IG_YELLOW_LEFT_RIGHT_UP_DOWN.bmp");
+		LeftRightUpDownImage->CutCount(1, 1);
+
+		GameEngineImage* LeftUpDownImage = GameEngineImageManager::GetInst()->Find("IG_YELLOW_LEFT_UP_DOWN.bmp");
+		LeftUpDownImage->CutCount(1, 1);
+
+		GameEngineImage* RightDownImage = GameEngineImageManager::GetInst()->Find("IG_YELLOW_RIGHT_DOWN.bmp");
+		RightDownImage->CutCount(1, 1);
+
+		GameEngineImage* RightUPDownImage = GameEngineImageManager::GetInst()->Find("IG_YELLOW_RIGHT_UP_DOWN.bmp");
+		RightUPDownImage->CutCount(1, 1);
+
+		GameEngineImage* UpDownImage = GameEngineImageManager::GetInst()->Find("IG_YELLOW_UP_DOWN.bmp");
+		UpDownImage->CutCount(1, 1);
 	}
 
 	{
@@ -220,6 +356,7 @@ void InGame::PuyoAnimationInit()
 		GameEngineImage* IdleImage1 = GameEngineImageManager::GetInst()->Find("IG_PURPLE_IDLE1.bmp");
 		IdleImage1->CutCount(3, 1);
 
+
 		GameEngineImage* LeftImage = GameEngineImageManager::GetInst()->Find("IG_PURPLE_LEFT.bmp");
 		LeftImage->CutCount(1, 1);
 
@@ -231,6 +368,38 @@ void InGame::PuyoAnimationInit()
 
 		GameEngineImage* DownImage = GameEngineImageManager::GetInst()->Find("IG_PURPLE_DOWN.bmp");
 		DownImage->CutCount(1, 1);
+
+
+
+		GameEngineImage* LefeDownImage = GameEngineImageManager::GetInst()->Find("IG_PURPLE_LEFT_DOWN.bmp");
+		LefeDownImage->CutCount(1, 1);
+
+		GameEngineImage* LefeUpImage = GameEngineImageManager::GetInst()->Find("IG_PURPLE_LEFT_UP.bmp");
+		LefeUpImage->CutCount(1, 1);
+
+		GameEngineImage* LefeRightImage = GameEngineImageManager::GetInst()->Find("IG_PURPLE_LEFT_RIGHT.bmp");
+		LefeRightImage->CutCount(1, 1);
+
+		GameEngineImage* LeftRightDownImage = GameEngineImageManager::GetInst()->Find("IG_PURPLE_LEFT_RIGHT_DOWN.bmp");
+		LeftRightDownImage->CutCount(1, 1);
+
+		GameEngineImage* LeftRightUpImage = GameEngineImageManager::GetInst()->Find("IG_PURPLE_LEFT_RIGHT_UP.bmp");
+		LeftRightUpImage->CutCount(1, 1);
+
+		GameEngineImage* LeftRightUpDownImage = GameEngineImageManager::GetInst()->Find("IG_PURPLE_LEFT_RIGHT_UP_DOWN.bmp");
+		LeftRightUpDownImage->CutCount(1, 1);
+
+		GameEngineImage* LeftUpDownImage = GameEngineImageManager::GetInst()->Find("IG_PURPLE_LEFT_UP_DOWN.bmp");
+		LeftUpDownImage->CutCount(1, 1);
+
+		GameEngineImage* RightDownImage = GameEngineImageManager::GetInst()->Find("IG_PURPLE_RIGHT_DOWN.bmp");
+		RightDownImage->CutCount(1, 1);
+
+		GameEngineImage* RightUPDownImage = GameEngineImageManager::GetInst()->Find("IG_PURPLE_RIGHT_UP_DOWN.bmp");
+		RightUPDownImage->CutCount(1, 1);
+
+		GameEngineImage* UpDownImage = GameEngineImageManager::GetInst()->Find("IG_PURPLE_UP_DOWN.bmp");
+		UpDownImage->CutCount(1, 1);
 	}
 
 }
@@ -314,7 +483,7 @@ void InGame::SpewStar()
 
 	float4 Dir = float4::RadianToDirectionFloat4(0);
 	Stars_[0]->SetMove(Dir * Speed * GameEngineTime::GetDeltaTime());
-	
+
 	Dir = float4::RadianToDirectionFloat4(0.2f);
 	Stars_[1]->SetMove(Dir * Speed * 1.1f * GameEngineTime::GetDeltaTime());
 
@@ -422,7 +591,7 @@ void InGame::SpewStar()
 
 	for (int i = 0; i < 35; ++i)
 	{
-		if (GameEngineWindow::GetScale().x < Stars_[i]->GetPosition().x 
+		if (GameEngineWindow::GetScale().x < Stars_[i]->GetPosition().x
 			&& GameEngineWindow::GetScale().y < Stars_[i]->GetPosition().y)
 		{
 			Stars_[i]->Death();
@@ -448,55 +617,55 @@ PuyoPair* InGame::CreatePuyoPair()
 	switch (number)
 	{
 	case static_cast<int>(PuyoColor::RED):
-		{
-			GameEngineRenderer* NewRenderer = CenterPuyo->CreateRenderer();
-			CenterPuyo->SetColor(PuyoColor::RED);
-			CenterPuyo->SetMyRenderer(NewRenderer);
-			CreatePuyoAnimation(NewRenderer, CenterPuyo->GetColor());
+	{
+		GameEngineRenderer* NewRenderer = CenterPuyo->CreateRenderer();
+		CenterPuyo->SetColor(PuyoColor::RED);
+		CenterPuyo->SetMyRenderer(NewRenderer);
+		CreatePuyoAnimation(NewRenderer, CenterPuyo->GetColor());
 
-			NewRenderer->ChangeAnimation("IG_RED_PUYO");
-		}
-		break;
+		NewRenderer->ChangeAnimation("IG_RED_PUYO");
+	}
+	break;
 	case static_cast<int>(PuyoColor::BLUE):
-		{
-			GameEngineRenderer* NewRenderer = CenterPuyo->CreateRenderer();
-			CenterPuyo->SetColor(PuyoColor::BLUE);
-			CenterPuyo->SetMyRenderer(NewRenderer);
-			CreatePuyoAnimation(NewRenderer, CenterPuyo->GetColor());
+	{
+		GameEngineRenderer* NewRenderer = CenterPuyo->CreateRenderer();
+		CenterPuyo->SetColor(PuyoColor::BLUE);
+		CenterPuyo->SetMyRenderer(NewRenderer);
+		CreatePuyoAnimation(NewRenderer, CenterPuyo->GetColor());
 
-			NewRenderer->ChangeAnimation("IG_BLUE_PUYO");
-		}
-		break;
+		NewRenderer->ChangeAnimation("IG_BLUE_PUYO");
+	}
+	break;
 	case static_cast<int>(PuyoColor::GREEN):
-		{
-			GameEngineRenderer* NewRenderer = CenterPuyo->CreateRenderer();
-			CenterPuyo->SetColor(PuyoColor::GREEN);
-			CenterPuyo->SetMyRenderer(NewRenderer);
-			CreatePuyoAnimation(NewRenderer, CenterPuyo->GetColor());
+	{
+		GameEngineRenderer* NewRenderer = CenterPuyo->CreateRenderer();
+		CenterPuyo->SetColor(PuyoColor::GREEN);
+		CenterPuyo->SetMyRenderer(NewRenderer);
+		CreatePuyoAnimation(NewRenderer, CenterPuyo->GetColor());
 
-			NewRenderer->ChangeAnimation("IG_GREEN_PUYO");
-		}
-		break;
+		NewRenderer->ChangeAnimation("IG_GREEN_PUYO");
+	}
+	break;
 	case static_cast<int>(PuyoColor::YELLOW):
-		{
-			GameEngineRenderer* NewRenderer = CenterPuyo->CreateRenderer();
-			CenterPuyo->SetColor(PuyoColor::YELLOW);
-			CenterPuyo->SetMyRenderer(NewRenderer);
-			CreatePuyoAnimation(NewRenderer, CenterPuyo->GetColor());
+	{
+		GameEngineRenderer* NewRenderer = CenterPuyo->CreateRenderer();
+		CenterPuyo->SetColor(PuyoColor::YELLOW);
+		CenterPuyo->SetMyRenderer(NewRenderer);
+		CreatePuyoAnimation(NewRenderer, CenterPuyo->GetColor());
 
-			NewRenderer->ChangeAnimation("IG_YELLOW_PUYO");
-		}
-		break;
+		NewRenderer->ChangeAnimation("IG_YELLOW_PUYO");
+	}
+	break;
 	case static_cast<int>(PuyoColor::PURPLE):
-		{
-			GameEngineRenderer* NewRenderer = CenterPuyo->CreateRenderer();
-			CenterPuyo->SetColor(PuyoColor::PURPLE);
-			CenterPuyo->SetMyRenderer(NewRenderer);
-			CreatePuyoAnimation(NewRenderer, CenterPuyo->GetColor());
+	{
+		GameEngineRenderer* NewRenderer = CenterPuyo->CreateRenderer();
+		CenterPuyo->SetColor(PuyoColor::PURPLE);
+		CenterPuyo->SetMyRenderer(NewRenderer);
+		CreatePuyoAnimation(NewRenderer, CenterPuyo->GetColor());
 
-			NewRenderer->ChangeAnimation("IG_PURPLE_PUYO");
-		}
-		break;
+		NewRenderer->ChangeAnimation("IG_PURPLE_PUYO");
+	}
+	break;
 	}
 
 	number = RandomColor_.RandomInt(0, 4);
@@ -504,55 +673,55 @@ PuyoPair* InGame::CreatePuyoPair()
 	switch (number)
 	{
 	case static_cast<int>(PuyoColor::RED):
-		{
-			GameEngineRenderer* NewRenderer = ScecondPuyo->CreateRenderer();
-			ScecondPuyo->SetColor(PuyoColor::RED);
-			ScecondPuyo->SetMyRenderer(NewRenderer);
-			CreatePuyoAnimation(NewRenderer, ScecondPuyo->GetColor());
+	{
+		GameEngineRenderer* NewRenderer = ScecondPuyo->CreateRenderer();
+		ScecondPuyo->SetColor(PuyoColor::RED);
+		ScecondPuyo->SetMyRenderer(NewRenderer);
+		CreatePuyoAnimation(NewRenderer, ScecondPuyo->GetColor());
 
-			NewRenderer->ChangeAnimation("IG_RED_PUYO");
-		}
-		break;
+		NewRenderer->ChangeAnimation("IG_RED_PUYO");
+	}
+	break;
 	case static_cast<int>(PuyoColor::BLUE):
-		{
-			GameEngineRenderer* NewRenderer = ScecondPuyo->CreateRenderer();
-			ScecondPuyo->SetColor(PuyoColor::BLUE);
-			ScecondPuyo->SetMyRenderer(NewRenderer);
-			CreatePuyoAnimation(NewRenderer, ScecondPuyo->GetColor());
+	{
+		GameEngineRenderer* NewRenderer = ScecondPuyo->CreateRenderer();
+		ScecondPuyo->SetColor(PuyoColor::BLUE);
+		ScecondPuyo->SetMyRenderer(NewRenderer);
+		CreatePuyoAnimation(NewRenderer, ScecondPuyo->GetColor());
 
-			NewRenderer->ChangeAnimation("IG_BLUE_PUYO");
-		}
-		break;
+		NewRenderer->ChangeAnimation("IG_BLUE_PUYO");
+	}
+	break;
 	case static_cast<int>(PuyoColor::GREEN):
-		{
-			GameEngineRenderer* NewRenderer = ScecondPuyo->CreateRenderer();
-			ScecondPuyo->SetColor(PuyoColor::GREEN);
-			ScecondPuyo->SetMyRenderer(NewRenderer);
-			CreatePuyoAnimation(NewRenderer, ScecondPuyo->GetColor());
+	{
+		GameEngineRenderer* NewRenderer = ScecondPuyo->CreateRenderer();
+		ScecondPuyo->SetColor(PuyoColor::GREEN);
+		ScecondPuyo->SetMyRenderer(NewRenderer);
+		CreatePuyoAnimation(NewRenderer, ScecondPuyo->GetColor());
 
-			NewRenderer->ChangeAnimation("IG_GREEN_PUYO");
-		}
-		break;
+		NewRenderer->ChangeAnimation("IG_GREEN_PUYO");
+	}
+	break;
 	case static_cast<int>(PuyoColor::YELLOW):
-		{
-			GameEngineRenderer* NewRenderer = ScecondPuyo->CreateRenderer();
-			ScecondPuyo->SetColor(PuyoColor::YELLOW);
-			ScecondPuyo->SetMyRenderer(NewRenderer);
-			CreatePuyoAnimation(NewRenderer, ScecondPuyo->GetColor());
+	{
+		GameEngineRenderer* NewRenderer = ScecondPuyo->CreateRenderer();
+		ScecondPuyo->SetColor(PuyoColor::YELLOW);
+		ScecondPuyo->SetMyRenderer(NewRenderer);
+		CreatePuyoAnimation(NewRenderer, ScecondPuyo->GetColor());
 
-			NewRenderer->ChangeAnimation("IG_YELLOW_PUYO");
-		}
-		break;
+		NewRenderer->ChangeAnimation("IG_YELLOW_PUYO");
+	}
+	break;
 	case static_cast<int>(PuyoColor::PURPLE):
-		{
-			GameEngineRenderer* NewRenderer = ScecondPuyo->CreateRenderer();
-			ScecondPuyo->SetColor(PuyoColor::PURPLE);
-			ScecondPuyo->SetMyRenderer(NewRenderer);
-			CreatePuyoAnimation(NewRenderer, ScecondPuyo->GetColor());
+	{
+		GameEngineRenderer* NewRenderer = ScecondPuyo->CreateRenderer();
+		ScecondPuyo->SetColor(PuyoColor::PURPLE);
+		ScecondPuyo->SetMyRenderer(NewRenderer);
+		CreatePuyoAnimation(NewRenderer, ScecondPuyo->GetColor());
 
-			NewRenderer->ChangeAnimation("IG_PURPLE_PUYO");
-		}
-		break;
+		NewRenderer->ChangeAnimation("IG_PURPLE_PUYO");
+	}
+	break;
 	}
 
 	if (nullptr == NewPuyoPair)
@@ -593,7 +762,7 @@ void InGame::CreatePuyoAnimation(GameEngineRenderer* _Renderer, PuyoColor _Color
 
 		_Renderer->CreateAnimation("IG_RED_RIGHT_UP.bmp", "IG_RED_RIGHT_UP", 0, 0, 0.f, false);
 		_Renderer->CreateAnimation("IG_RED_RIGHT_DOWN.bmp", "IG_RED_RIGHT_DOWN", 0, 0, 0.f, false);
-		_Renderer->CreateAnimation("IG_RED_RIGHT_UP_DOW.bmp", "IG_RED_RIGHT_UP_DOW", 0, 0, 0.f, false);
+		_Renderer->CreateAnimation("IG_RED_RIGHT_UP_DOWN.bmp", "IG_RED_RIGHT_UP_DOWN", 0, 0, 0.f, false);
 
 		_Renderer->CreateAnimation("IG_RED_UP_DOWN.bmp", "IG_RED_UP_DOWN", 0, 0, 0.f, false);
 		break;
@@ -658,7 +827,7 @@ void InGame::CreatePuyoAnimation(GameEngineRenderer* _Renderer, PuyoColor _Color
 		_Renderer->CreateAnimation("IG_YELLOW_UP.bmp", "IG_YELLOW_UP", 0, 0, 0.f, false);
 		_Renderer->CreateAnimation("IG_YELLOW_DOWN.bmp", "IG_YELLOW_DOWN", 0, 0, 0.f, false);
 
-		_Renderer->CreateAnimation("IG_YELLOW_LEFT_RIGHT.bmp", "IG_YELLOW_LEFT_RIGHT", 0, 0, 0.f, false);		
+		_Renderer->CreateAnimation("IG_YELLOW_LEFT_RIGHT.bmp", "IG_YELLOW_LEFT_RIGHT", 0, 0, 0.f, false);
 		_Renderer->CreateAnimation("IG_YELLOW_LEFT_RIGHT_DOWN.bmp", "IG_YELLOW_LEFT_RIGHT_DOWN", 0, 0, 0.f, false);
 		_Renderer->CreateAnimation("IG_YELLOW_LEFT_RIGHT_UP_DOWN.bmp", "IG_YELLOW_LEFT_RIGHT_UP_DOWN", 0, 0, 0.f, false);
 		_Renderer->CreateAnimation("IG_YELLOW_LEFT_UP.bmp", "IG_YELLOW_LEFT_UP", 0, 0, 0.f, false);

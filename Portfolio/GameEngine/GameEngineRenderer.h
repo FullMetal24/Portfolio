@@ -1,3 +1,4 @@
+
 #pragma once
 #include "GameEngineActorSubObject.h"
 #include "GameEngineEnum.h"
@@ -76,12 +77,6 @@ public:
 		return Image_;
 	}
 
-	inline void SetImage(GameEngineImage* _Image)
-	{
-		Image_ = _Image;
-	}
-
-
 	inline void SetAlpha(unsigned int _Alpha)
 	{
 		Alpha_ = _Alpha;
@@ -107,11 +102,6 @@ public:
 		Pause_ = _Value;
 	}
 
-	inline bool GetPause()
-	{
-		return Pause_;
-	}
-
 	void PauseOn()
 	{
 		Pause_ = true;
@@ -133,7 +123,20 @@ public:
 
 	void SetIndex(size_t _Index, float4 _Scale = { -1.0f, -1.0f });
 
+	void SetImageAnimationReset(const std::string& _Name);
+
 	void SetOrder(int _Order) override;
+
+	
+	inline void SetImage(GameEngineImage* _Image)
+	{
+		Image_ = _Image;
+	}
+
+	inline bool GetPause()
+	{
+		return Pause_;
+	}
 
 
 protected:
