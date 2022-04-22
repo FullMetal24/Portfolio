@@ -36,7 +36,6 @@ public:
 
 	PuyoPair* CreatePuyoPair();
 	Puyo* CreateHindrancePuyo(GameEngineActor* _FromActor, GameEngineActor* _ToActor); //방해 뿌요 생성, 다운 캐스팅
-
 	void CreatePuyoAnimation(GameEngineRenderer* _Renderer, PuyoColor _Color);
 
 	void PuyoAnimationInit();
@@ -44,6 +43,8 @@ public:
 
 	void CarbuncleUpdate();
 	void SpewStar();
+
+	void VomitBubble();
 
 protected:
 
@@ -54,6 +55,7 @@ private:
 
 	InGameActor* Carbuncle_;
 	InGameActor* Stars_[36];
+
 	  
 	GameEngineRenderer* EnemyProfile_;
 	GameEngineRenderer* Stage_; //스테이지 이미지 (렌더러가 나을듯함
@@ -64,10 +66,16 @@ private:
 
 	GameEngineSoundPlayer InGameBgm_;
 
+	GameEngineRandom Random_;
+	InGameActor* Bubbles_[15 ];
+	float4 BubbleDir_[15];
+	int BubbleSpeed_[15];
+
 	int StageClear_;
 	float ChangeCount_;
 
 	bool IsStart_;
+	bool IsEnemyFlap_;
 };
 	
 

@@ -21,6 +21,7 @@ InGame::InGame()
 	, StageClear_(0)
 	, ChangeCount_(5.f)
 	, IsStart_(false) //일단 트루
+	, IsEnemyFlap_(false)
 {
 }
 
@@ -41,12 +42,14 @@ void InGame::Loading()
 	Stages_[0]->CreateRenderer("IG_STAGE1.bmp", 2);
 	Stages_[0]->CreateRenderer("IG_STAGE1_BACK.bmp", 0);
 
-	GameEngineActor* ActorNext = CreateActor<Stage>(3);
-	ActorNext->CreateRenderer("IG_NEXT.bmp")->SetPivot({ GameEngineWindow::GetScale().Half().x, GameEngineWindow::GetScale().Half().y - 360.f });
+	GameEngineActor* NextUi = CreateActor<Stage>(3);
+	NextUi->CreateRenderer("IG_NEXT.bmp")->SetPivot({ GameEngineWindow::GetScale().Half().x, GameEngineWindow::GetScale().Half().y - 360.f });
+
+	GameEngineActor* Stage1Ui = CreateActor<Stage>(3);
+	Stage1Ui->CreateRenderer("IG_STAGE_UI.bmp")->SetPivot({ GameEngineWindow::GetScale().Half().x, GameEngineWindow::GetScale().Half().y});
 
 	GameEngineActor* PlayerName_ = CreateActor<Stage>(1);
 	PlayerName_->CreateRenderer("IG_ARLENAME.bmp")->SetPivot({ GameEngineWindow::GetScale().Half().x - 96.f, GameEngineWindow::GetScale().Half().y - 290.f });
-
 
 	Player_ = CreateActor<Player>();
 	FSM_ = CreateActor<FSM>();
@@ -56,6 +59,7 @@ void InGame::Loading()
 	Player_->SetNextNextPair(CreatePuyoPair());
 
 	Player_->CurrentPairInit();
+
 
 	Carbuncle_ = CreateActor<InGameActor>(6);
 	Carbuncle_->SetPosition({ GameEngineWindow::GetScale().Half().x - 160.f, GameEngineWindow::GetScale().Half().y + 300.f });
@@ -68,6 +72,35 @@ void InGame::Loading()
 
 
 	CarbuncleAnimationInit();
+
+
+	GameEngineImage* Image = GameEngineImageManager::GetInst()->Find("IG_BUBBLE.bmp");
+	Image->CutCount(3, 1);
+
+	for (int i = 0; i < 15; ++i)
+	{
+		Bubbles_[i] = CreateActor<InGameActor>(12);
+		Bubbles_[i]->SetMyRenderer(Bubbles_[i]->CreateRenderer());
+		Bubbles_[i]->GetMyRenderer()->CreateAnimation("IG_BUBBLE.bmp", "IG_BUBBLE", 0, 2, 0.1f, true);
+		Bubbles_[i]->GetMyRenderer()->ChangeAnimation("IG_BUBBLE");
+		Bubbles_[i]->GetMyRenderer()->PauseOn();
+
+		float RanRadian = Random_.RandomFloat(0, 3.14256f);
+		BubbleDir_[i] = float4::RadianToDirectionFloat4(RanRadian * -1.f);
+
+		int RanSpeed = Random_.RandomInt(200, 400);
+		BubbleSpeed_[i] = RanSpeed;
+
+		if (nullptr != EnemyProfile_)
+		{
+			Bubbles_[i]->SetPosition(EnemyProfile_->GetActor()->GetPosition());
+		}
+
+		else
+		{
+			Bubbles_[i]->SetPosition(GameEngineWindow::GetScale().Half() + float4{ 0, 100.f });
+		}
+	}
 }
 
 
@@ -455,6 +488,7 @@ void InGame::Update()
 		}
 	}
 
+	VomitBubble();
 	CarbuncleUpdate();
 
 	if (true == IsStart_)
@@ -601,6 +635,43 @@ void InGame::SpewStar()
 			&& GameEngineWindow::GetScale().y < Stars_[i]->GetPosition().y)
 		{
 			Stars_[i]->Death();
+		}
+	}
+}
+
+void InGame::VomitBubble()
+{
+	if (true)
+	{
+		int RanCreate = Random_.RandomInt(0, 15);
+
+		for (int i = 0; i < 15; ++i)
+		{
+			if (i == RanCreate)
+			{
+				continue;
+			}
+
+			if (false == Bubbles_[i]->IsUpdate())
+			{
+				Bubbles_[i]->GetMyRenderer()->PauseOff();
+				Bubbles_[i]->SetPosition(GameEngineWindow::GetScale().Half() + float4{0, 100.f});
+				Bubbles_[i]->On();
+			}
+
+			Bubbles_[i]->SetMove(BubbleDir_[i] * BubbleSpeed_[i] * GameEngineTime::GetDeltaTime());
+		}
+
+		for (int i = 0; i < 15; ++i)
+		{
+			float4 Dis = GameEngineWindow::GetScale().Half() - Bubbles_[i]->GetPosition();
+
+			if (Dis.x > 250.f || Dis.x < -250.f
+				|| Dis.y > 250.f || Dis.y < -250.f)
+			{
+				Bubbles_[i]->GetMyRenderer()->PauseOn();
+				Bubbles_[i]->Off();
+			}
 		}
 	}
 }

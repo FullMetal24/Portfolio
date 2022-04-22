@@ -3,6 +3,7 @@
 #include <GameEngineBase/GameEngineSound.h>
 
 class FadeInOutBackground;
+class BestRecordsActor;
 class BestRecords : public GameEngineLevel
 {
 public:
@@ -26,6 +27,8 @@ protected:
 private:
 	GameEngineSoundPlayer MainMenuBgm_;
 	FadeInOutBackground* FadeInOutBackground_;
+
+	BestRecordsActor* Enemy_;
 
 	float Time_;
 

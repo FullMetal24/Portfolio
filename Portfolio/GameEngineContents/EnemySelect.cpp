@@ -5,6 +5,7 @@
 #include <GameEngine/GameEngine.h>
 #include <GameEngineBase/GameEngineInput.h>
 #include <GameEngineBase/GameEngineWindow.h>
+#include <GameEngine/GameEngineImageManager.h>
 #include <GameEngine/GameEngineImage.h>
 #include <GameEngineBase/GameEngineTime.h>
 #include <GameEngineBase/GameEngineMath.h>
@@ -49,7 +50,7 @@ void EnemySelect::Loading()
 
 	FadeBackground_ = CreateActor<FadeInOutBackground>();
 
-	BackgroundInit();
+	//BackgroundInit();
 	TopPositionInit();
 	EnemyInit();
 	FrameInit();
@@ -58,68 +59,70 @@ void EnemySelect::Loading()
 	{
 		GameEngineInput::GetInst()->CreateKey("EnemySelect", VK_SPACE);
 	}
+
+
 }
 
 
-void EnemySelect::BackgroundInit()
-{
-	{
-		EnemySelectActor* Background = CreateActor<EnemySelectActor>();
-		Background->SetMyRenderer(Background->CreateRenderer("ES_BACK.bmp"));
-		Background->SetPosition(GameEngineWindow::GetScale().Half());
-
-		EnemySelectActor* Background1 = CreateActor<EnemySelectActor>();
-		Background1->SetMyRenderer(Background1->CreateRenderer("ES_BACK.bmp"));
-		Background1->SetPosition(GameEngineWindow::GetScale().Half() + Background1->GetMyRenderer()->GetImageScale());
-
-		EnemySelectActor* Background2 = CreateActor<EnemySelectActor>();
-		Background2->SetMyRenderer(Background2->CreateRenderer("ES_BACK.bmp"));
-		Background2->SetPosition({ GameEngineWindow::GetScale().Half() - Background2->GetMyRenderer()->GetImageScale() });
-
-		EnemySelectActor* Background3 = CreateActor<EnemySelectActor>();
-		Background3->SetMyRenderer(Background3->CreateRenderer("ES_BACK.bmp"));
-		Background3->SetPosition(GameEngineWindow::GetScale().Half() - Background3->GetMyRenderer()->GetImageScale() * 2.f);
-
-		{
-
-			EnemySelectActor* Background1 = CreateActor<EnemySelectActor>();
-			Background1->SetMyRenderer(Background1->CreateRenderer("ES_BACK.bmp"));
-			Background1->SetPosition({ GameEngineWindow::GetScale().Half().x,  GameEngineWindow::GetScale().Half().y - Background2->GetMyRenderer()->GetImageScale().y });
-
-			EnemySelectActor* Background2 = CreateActor<EnemySelectActor>();
-			Background2->SetMyRenderer(Background2->CreateRenderer("ES_BACK.bmp"));
-			Background2->SetPosition({ GameEngineWindow::GetScale().Half().x + GameEngineWindow::GetScale().Half().x,  GameEngineWindow::GetScale().Half().y - Background2->GetMyRenderer()->GetImageScale().y });
-
-			EnemySelectActor* Background3 = CreateActor<EnemySelectActor>();
-			Background3->SetMyRenderer(Background3->CreateRenderer("ES_BACK.bmp"));
-			Background3->SetPosition({ GameEngineWindow::GetScale().Half().x + GameEngineWindow::GetScale().Half().x,  GameEngineWindow::GetScale().Half().y });
-
-			EnemySelectActor* Background4 = CreateActor<EnemySelectActor>();
-			Background4->SetMyRenderer(Background4->CreateRenderer("ES_BACK.bmp"));
-			Background4->SetPosition({ GameEngineWindow::GetScale().Half().x - GameEngineWindow::GetScale().Half().x,  GameEngineWindow::GetScale().Half().y });
-
-			EnemySelectActor* Background5 = CreateActor<EnemySelectActor>();
-			Background5->SetMyRenderer(Background5->CreateRenderer("ES_BACK.bmp"));
-			Background5->SetPosition({ GameEngineWindow::GetScale().Half().x + GameEngineWindow::GetScale().Half().x,  GameEngineWindow::GetScale().Half().y });
-		}
-		{
-			EnemySelectActor* Background5 = CreateActor<EnemySelectActor>();
-			Background5->SetMyRenderer(Background5->CreateRenderer("ES_BACK.bmp"));
-			Background5->SetPosition({ GameEngineWindow::GetScale().Half().x - GameEngineWindow::GetScale().Half().x , GameEngineWindow::GetScale().y });
-		}
-
-		{
-			EnemySelectActor* Background5 = CreateActor<EnemySelectActor>();
-			Background5->SetMyRenderer(Background5->CreateRenderer("ES_BACK.bmp"));
-			Background5->SetPosition({ GameEngineWindow::GetScale().Half().x - GameEngineWindow::GetScale().Half().x + GameEngineWindow::GetScale().Half().x,  GameEngineWindow::GetScale().y});
-		}
-		MidLine_.push_back(Background);
-		MidLine_.push_back(Background1);
-		MidLine_.push_back(Background2);
-		MidLine_.push_back(Background3);
-	}
-
-}
+//void EnemySelect::BackgroundInit()
+//{
+//	{
+//		EnemySelectActor* Background = CreateActor<EnemySelectActor>();
+//		Background->SetMyRenderer(Background->CreateRenderer("ES_BACK.bmp"));
+//		Background->SetPosition(GameEngineWindow::GetScale().Half());
+//
+//		EnemySelectActor* Background1 = CreateActor<EnemySelectActor>();
+//		Background1->SetMyRenderer(Background1->CreateRenderer("ES_BACK.bmp"));
+//		Background1->SetPosition(GameEngineWindow::GetScale().Half() + Background1->GetMyRenderer()->GetImageScale());
+//
+//		EnemySelectActor* Background2 = CreateActor<EnemySelectActor>();
+//		Background2->SetMyRenderer(Background2->CreateRenderer("ES_BACK.bmp"));
+//		Background2->SetPosition({ GameEngineWindow::GetScale().Half() - Background2->GetMyRenderer()->GetImageScale() });
+//
+//		EnemySelectActor* Background3 = CreateActor<EnemySelectActor>();
+//		Background3->SetMyRenderer(Background3->CreateRenderer("ES_BACK.bmp"));
+//		Background3->SetPosition(GameEngineWindow::GetScale().Half() - Background3->GetMyRenderer()->GetImageScale() * 2.f);
+//
+//		{
+//
+//			EnemySelectActor* Background1 = CreateActor<EnemySelectActor>();
+//			Background1->SetMyRenderer(Background1->CreateRenderer("ES_BACK.bmp"));
+//			Background1->SetPosition({ GameEngineWindow::GetScale().Half().x,  GameEngineWindow::GetScale().Half().y - Background2->GetMyRenderer()->GetImageScale().y });
+//
+//			EnemySelectActor* Background2 = CreateActor<EnemySelectActor>();
+//			Background2->SetMyRenderer(Background2->CreateRenderer("ES_BACK.bmp"));
+//			Background2->SetPosition({ GameEngineWindow::GetScale().Half().x + GameEngineWindow::GetScale().Half().x,  GameEngineWindow::GetScale().Half().y - Background2->GetMyRenderer()->GetImageScale().y });
+//
+//			EnemySelectActor* Background3 = CreateActor<EnemySelectActor>();
+//			Background3->SetMyRenderer(Background3->CreateRenderer("ES_BACK.bmp"));
+//			Background3->SetPosition({ GameEngineWindow::GetScale().Half().x + GameEngineWindow::GetScale().Half().x,  GameEngineWindow::GetScale().Half().y });
+//
+//			EnemySelectActor* Background4 = CreateActor<EnemySelectActor>();
+//			Background4->SetMyRenderer(Background4->CreateRenderer("ES_BACK.bmp"));
+//			Background4->SetPosition({ GameEngineWindow::GetScale().Half().x - GameEngineWindow::GetScale().Half().x,  GameEngineWindow::GetScale().Half().y });
+//
+//			EnemySelectActor* Background5 = CreateActor<EnemySelectActor>();
+//			Background5->SetMyRenderer(Background5->CreateRenderer("ES_BACK.bmp"));
+//			Background5->SetPosition({ GameEngineWindow::GetScale().Half().x + GameEngineWindow::GetScale().Half().x,  GameEngineWindow::GetScale().Half().y });
+//		}
+//		{
+//			EnemySelectActor* Background5 = CreateActor<EnemySelectActor>();
+//			Background5->SetMyRenderer(Background5->CreateRenderer("ES_BACK.bmp"));
+//			Background5->SetPosition({ GameEngineWindow::GetScale().Half().x - GameEngineWindow::GetScale().Half().x , GameEngineWindow::GetScale().y });
+//		}
+//
+//		{
+//			EnemySelectActor* Background5 = CreateActor<EnemySelectActor>();
+//			Background5->SetMyRenderer(Background5->CreateRenderer("ES_BACK.bmp"));
+//			Background5->SetPosition({ GameEngineWindow::GetScale().Half().x - GameEngineWindow::GetScale().Half().x + GameEngineWindow::GetScale().Half().x,  GameEngineWindow::GetScale().y});
+//		}
+//		MidLine_.push_back(Background);
+//		MidLine_.push_back(Background1);
+//		MidLine_.push_back(Background2);
+//		MidLine_.push_back(Background3);
+//	}
+//
+//}
 
 void EnemySelect::TopPositionInit()
 {
