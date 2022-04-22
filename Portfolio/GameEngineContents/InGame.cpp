@@ -19,7 +19,7 @@ InGame::InGame()
 	, Stage_(nullptr)
 	, RandomColor_{}
 	, StageClear_(0)
-	, LevelCount_(15.f)
+	, ChangeCount_(5.f)
 	, IsStart_(false) //일단 트루
 {
 }
@@ -436,16 +436,20 @@ void InGame::Update()
 		Player_->AddPuyoPair(CreatePuyoPair());
 	}
 
-	else if (true == Player_->GetReady() && true == Player_->GetLose() && 0 >= LevelCount_)
+	if (true == Player_->GetReady() && true == Player_->GetLose())
 	{
-		LevelCount_ -= GameEngineTime::GetDeltaTime();
+		ChangeCount_ -= GameEngineTime::GetDeltaTime();
 
-		FadeBackground_->FadeOn();
-		FadeBackground_->GetMyRenderer()->SetOrder(20);
-		FadeBackground_->SetFadeSpeed(500.f);
-
-		if (true == FadeBackground_->GetIsChage())
+		if (0 >= ChangeCount_)
 		{
+			FadeBackground_->FadeInOn();
+			FadeBackground_->GetMyRenderer()->SetOrder(20);
+			FadeBackground_->SetFadeSpeed(500.f);
+
+		}
+
+		if (true == FadeBackground_->GetIsInChange())
+		{			
 			GameEngine::GetInst().ChangeLevel("GameOver");
 			InGameBgm_.Stop();
 		}

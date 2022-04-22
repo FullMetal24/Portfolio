@@ -1,12 +1,14 @@
 #include "GameOver.h"
+#include <GameEngine/GameEngine.h>
 #include "FadeInOutBackground.h"
+#include "GameOverActor.h"
 
 GameOver::GameOver()
 	:BackRenderer_(nullptr)
 	, Background_(nullptr)
-	, GameOverBgm_{}
 	, Count_(0)
 	, Time_(0.f)
+	, IsLevelStart_(false)
 {
 }
 
@@ -17,8 +19,10 @@ GameOver::~GameOver()
 
 void GameOver::Loading()
 {
+	FadeBack_ = CreateActor<FadeInOutBackground>();
+	FadeBack_->SetMyRenderer(FadeBack_->CreateRenderer("GO_BACKGROUND.bmp"));
 
-	Background_ = CreateActor<FadeInOutBackground>();
+	Background_ = CreateActor<GameOverActor>(1);
 	Background_->SetPosition({GameEngineWindow::GetScale().Half()});
 	BackRenderer_ = Background_->CreateRenderer("GO_IMAGE0.bmp");
 }
@@ -27,21 +31,50 @@ void GameOver::Update()
 {
 	Time_ += GameEngineTime::GetDeltaTime();
 
-	if (Time_ >= 0.05f && Count_ != 412)
+	if (Time_ >= 0.08f && Count_ != 412)
 	{
 		BackRenderer_->SetImage("GO_IMAGE" + std::to_string(Count_) + ".bmp");
 		Time_ = 0.f;
 		Count_++;
 	}
+
+	if (Count_ >= 400)
+	{
+		FadeBack_->GetMyRenderer()->SetOrder(1);
+		FadeBack_->FadeInOn();
+		FadeBack_->SetFadeSpeed(1000);
+
+		if (true == FadeBack_->GetIsInChange())
+		{
+			GameEngine::GetInst().ChangeLevel("BestRecords");
+		}
+	}
 	
+
+	if (true == IsLevelStart_)
+	{
+		FadeBack_->FadeOutOn();
+		FadeBack_->SetFadeSpeed(300);
+
+		if (true == FadeBack_->GetIsOutChange())
+		{
+			IsLevelStart_ = false;
+			FadeBack_->GetMyRenderer()->SetOrder(0);
+			FadeBack_->SetAlphaValue(0);
+			FadeBack_->SetIsChage(false);
+		}
+	}
 }
 
 void GameOver::LevelChangeStart(GameEngineLevel* _PrevLevel)
 {
+	IsLevelStart_ = true;
+	FadeBack_->SetAlphaValue(255);
+	FadeBack_->GetMyRenderer()->SetOrder(3);
 	Time_ = 0.f;
 	Count_ = 0;
 
-	GameOverBgm_ = GameEngineSound::SoundPlayControl("GameOver.mp3");
+	GameEngineSound::SoundPlayOneShot("GameOver.mp3");
 
 }
 

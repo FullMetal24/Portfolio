@@ -61,14 +61,14 @@ void Title::Update()
 
     if (GameEngineInput::GetInst()->IsDown("Title") && 0 != TransCount_)
     {
-        LevelChangeBackground_->FadeOn();
+        LevelChangeBackground_->FadeInOn();
         LevelChangeBackground_->GetMyRenderer()->SetOrder(20);
         LevelChangeBackground_->SetFadeSpeed(800.f);
 
         TitleBgm_.Stop();
     }
 
-    if (true == LevelChangeBackground_->GetIsChage())
+    if (true == LevelChangeBackground_->GetIsInChange())
     {
         GameEngine::GetInst().ChangeLevel("MainMenu");
     }
@@ -490,14 +490,14 @@ void Title::FadeBackground()
     {
         FadeInOutBackground_->GetMyRenderer()->SetOrder((int)TitileOrder::COMPANYLOGO);
         FadeInOutBackground_->SetFadeSpeed(400.f);
-        FadeInOutBackground_->FadeOn();
+        FadeInOutBackground_->FadeInOn();
     }
 
     if (1.3f < TransTime_ && 1 == TransCount_)
     {
         FadeInOutBackground_->GetMyRenderer()->SetOrder((int)TitileOrder::COMPANYLOGO);
         FadeInOutBackground_->SetFadeSpeed(1000.f);
-        FadeInOutBackground_->FadeOn();
+        FadeInOutBackground_->FadeInOn();
     }
 
 
@@ -505,14 +505,14 @@ void Title::FadeBackground()
     {
         FadeInOutBackground_->GetMyRenderer()->SetOrder((int)TitileOrder::COMPANYLOGO);
         FadeInOutBackground_->SetFadeSpeed(1000.f);
-        FadeInOutBackground_->FadeOn();
+        FadeInOutBackground_->FadeInOn();
     }
 
     if (0.8f < TransTime_ && 3 == TransCount_)
     {
         FadeInOutBackground_->GetMyRenderer()->SetOrder((int)TitileOrder::COMPANYLOGO);
         FadeInOutBackground_->SetFadeSpeed(1000.f);
-        FadeInOutBackground_->FadeOn();
+        FadeInOutBackground_->FadeInOn();
     }
 
 
@@ -520,7 +520,7 @@ void Title::FadeBackground()
     {
         FadeInOutBackground_->GetMyRenderer()->SetOrder((int)TitileOrder::COMPANYLOGO);
         FadeInOutBackground_->SetFadeSpeed(1000.f);
-        FadeInOutBackground_->FadeOn();
+        FadeInOutBackground_->FadeInOn();
     }
 
 
@@ -528,20 +528,20 @@ void Title::FadeBackground()
     {
         FadeInOutBackground_->GetMyRenderer()->SetOrder((int)TitileOrder::COMPANYLOGO);
         FadeInOutBackground_->SetFadeSpeed(1000.f);
-        FadeInOutBackground_->FadeOn();
+        FadeInOutBackground_->FadeInOn();
     }
 
     if (1.9f < TransTime_ && 6 == TransCount_)
     {
         FadeInOutBackground_->GetMyRenderer()->SetOrder((int)TitileOrder::FADE_3);
         FadeInOutBackground_->SetFadeSpeed(200.f);
-        FadeInOutBackground_->FadeOn();
+        FadeInOutBackground_->FadeInOn();
     }
 
     if (6 == TransCount_)
     {
         FadeInOutBackground_->GetMyRenderer()->SetOrder((int)TitileOrder::FADE_3);
         FadeInOutBackground_->SetFadeSpeed(200.f);
-        FadeInOutBackground_->FadeOn();
+        FadeInOutBackground_->FadeInOn();
     }
 }

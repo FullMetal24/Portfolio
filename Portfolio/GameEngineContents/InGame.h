@@ -65,7 +65,7 @@ private:
 	GameEngineSoundPlayer InGameBgm_;
 
 	int StageClear_;
-	float LevelCount_;
+	float ChangeCount_;
 
 	bool IsStart_;
 };

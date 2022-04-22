@@ -557,7 +557,7 @@ void MainMenu::Update()
 {
 	MenuUpdate();
 
-	if (false == FadeBackground_->GetIsOn())
+	if (false == FadeBackground_->GetIsIn())
 	{
 		RandomAnimation();
 		ResetMenuAnimation();
@@ -941,13 +941,13 @@ void MainMenu::SelectMenu()
 		Puyos_[0]->GetMyRenderer()->PauseOff();
 		Puyos_[0]->GetMyRenderer()->ChangeAnimation("MM_PUYO_DESTROY");
 
-		FadeBackground_->FadeOn();
+		FadeBackground_->FadeInOn();
 		FadeBackground_->GetMyRenderer()->SetOrder(20);
 		FadeBackground_->SetFadeSpeed(700.f);
 
 		ChangeTime_ += GameEngineTime::GetDeltaTime();
 
-		if (2.f < ChangeTime_ && true == FadeBackground_->GetIsChage())
+		if (2.f < ChangeTime_ && true == FadeBackground_->GetIsInChange())
 		{
 			GameEngine::GetInst().ChangeLevel("EnemySelect");
 		}
@@ -955,7 +955,7 @@ void MainMenu::SelectMenu()
 
 	else if (true == MenuSelect_[1])
 	{
-		FadeBackground_->FadeOn();
+		FadeBackground_->FadeInOn();
 		FadeBackground_->GetMyRenderer()->SetOrder(20);
 		FadeBackground_->SetFadeSpeed(700.f);
 
@@ -966,7 +966,7 @@ void MainMenu::SelectMenu()
 
 		ChangeTime_ += GameEngineTime::GetDeltaTime();
 
-		if (2.f < ChangeTime_ && true == FadeBackground_->GetIsChage())
+		if (2.f < ChangeTime_ && true == FadeBackground_->GetIsInChange())
 		{
 			GameEngine::GetInst().ChangeLevel("Title");
 		}
@@ -974,7 +974,7 @@ void MainMenu::SelectMenu()
 
 	else if (true == MenuSelect_[2])
 	{
-		FadeBackground_->FadeOn();
+		FadeBackground_->FadeInOn();
 		FadeBackground_->GetMyRenderer()->SetOrder(20);
 		FadeBackground_->SetFadeSpeed(700.f);
 
@@ -985,7 +985,7 @@ void MainMenu::SelectMenu()
 
 		ChangeTime_ += GameEngineTime::GetDeltaTime();
 
-		if (2.f < ChangeTime_ && true == FadeBackground_->GetIsChage())
+		if (2.f < ChangeTime_ && true == FadeBackground_->GetIsInChange())
 		{
 			GameEngine::GetInst().ChangeLevel("Title");
 		}
@@ -993,7 +993,7 @@ void MainMenu::SelectMenu()
 
 	else if (true == MenuSelect_[3])
 	{
-		FadeBackground_->FadeOn();
+		FadeBackground_->FadeInOn();
 		FadeBackground_->GetMyRenderer()->SetOrder(20);
 		FadeBackground_->SetFadeSpeed(700.f);
 
@@ -1006,7 +1006,7 @@ void MainMenu::SelectMenu()
 
 		ChangeTime_ += GameEngineTime::GetDeltaTime();
 
-		if (2.f < ChangeTime_ && true == FadeBackground_->GetIsChage())
+		if (2.f < ChangeTime_ && true == FadeBackground_->GetIsInChange())
 		{
 			GameEngine::GetInst().ChangeLevel("Title");
 		}
@@ -1014,7 +1014,7 @@ void MainMenu::SelectMenu()
 
 	else if (true == MenuSelect_[4])
 	{
-		FadeBackground_->FadeOn();
+		FadeBackground_->FadeInOn();
 		FadeBackground_->GetMyRenderer()->SetOrder(20);
 		FadeBackground_->SetFadeSpeed(700.f);
 
@@ -1030,7 +1030,7 @@ void MainMenu::SelectMenu()
 
 		ChangeTime_ += GameEngineTime::GetDeltaTime();
 
-		if (2.f < ChangeTime_ && true == FadeBackground_->GetIsChage())
+		if (2.f < ChangeTime_ && true == FadeBackground_->GetIsInChange())
 		{
 			GameEngine::GetInst().ChangeLevel("Title");
 		}

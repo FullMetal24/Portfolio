@@ -18,44 +18,76 @@ public:
 	void Update() override;
 	void Render() override;
 
-	inline void FadeOn()
+	inline void FadeInOn()
 	{
-		IsOn_ = true;
+		IsIn_ = true;
 	}
+
+
+	inline void FadeOutOn()
+	{
+		IsOut_ = true;
+	}
+
 	inline void IsChangeOn()
 	{
-		IsChange_ = true;
+		IsInChange_ = true;
 	}
 
 	//하나의 배경으로 돌려 쓸 경우 쓰고 나서 한번 리셋
 	inline void Reset()
 	{
 		AlphaValue_ = 0;
-		IsOn_ = false;
-		IsChange_ = false;
+		IsIn_ = false;
+		IsInChange_ = false;
 		FadeSpeed_ = 0.f;
 		MyRenderer_->SetOrder(0);
 		MyRenderer_->SetAlpha(0);
 	}
 
-	inline bool GetIsOn()
+	inline bool GetIsIn()
 	{
-		return IsOn_;
+		return IsIn_;
 	}
 
-	inline bool GetIsChage()
+	inline bool GetIsInChange()
 	{
-		return IsChange_;
+		return IsInChange_;
+	}
+
+	inline bool GetIsOutChange()
+	{
+		return IsOutChange_;
 	}
 
 	inline void SetIsChage(bool _Change)
 	{
-		IsChange_ = _Change;
+		IsInChange_ = _Change;
 	}
 
 	inline void SetFadeSpeed(float _Speed)
 	{
 		FadeSpeed_ = _Speed;
+	}
+
+	inline int GetAlphaValue()
+	{
+		return AlphaValue_;
+	}
+
+	inline void SetAlphaValue(int _Value)
+	{
+		if (255 < _Value)
+		{
+			_Value = 255;
+		}
+
+		if (0 > _Value)
+		{
+			_Value = 0;
+		}
+
+		AlphaValue_ = _Value;
 	}
 
 	inline GameEngineRenderer* GetMyRenderer()
@@ -77,7 +109,9 @@ private:
 
 	float FadeSpeed_;
 
-	bool IsOn_;
-	bool IsChange_;
+	bool IsIn_;
+	bool IsOut_;
+	bool IsInChange_;
+	bool IsOutChange_;
 };
 

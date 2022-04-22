@@ -4,6 +4,7 @@
 #include "InGame.h"
 #include "EnemySelect.h"
 #include "GameOver.h"
+#include "BestRecords.h"
 #include <GameEngineBase/GameEngineWindow.h>
 #include <GameEngineBase/GameEngineDirectory.h>
 #include <GameEngineBase/GameEngineFile.h>
@@ -82,15 +83,14 @@ void PuyoPuyo::GameInit()
 	}
 
 
-
-
 	CreateLevel<Title>("Title"); 
 	CreateLevel<MainMenu>("MainMenu");
 	CreateLevel<EnemySelect>("EnemySelect");
 	CreateLevel<InGame>("InGame");
 	CreateLevel<GameOver>("GameOver");
+	CreateLevel<BestRecords>("BestRecords");
 
-	ChangeLevel("GameOver");
+	ChangeLevel("EnemySelect");
 }
 
 void PuyoPuyo::GameLoop()

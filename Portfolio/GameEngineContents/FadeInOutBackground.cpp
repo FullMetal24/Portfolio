@@ -9,8 +9,10 @@ FadeInOutBackground::FadeInOutBackground()
 	: MyRenderer_(nullptr)
 	, AlphaValue_(0)
 	, FadeSpeed_(0.f)
-	, IsOn_(false)
-	, IsChange_(false)
+	, IsIn_(false)
+	, IsOut_(false)
+	, IsInChange_(false)
+	, IsOutChange_(false)
 {
 }
 
@@ -26,15 +28,27 @@ void FadeInOutBackground::Start()
 
 void FadeInOutBackground::Update()
 {
-	if (true == IsOn_)
+	if (true == IsIn_)
 	{
 		AlphaValue_ += static_cast<int>(GameEngineTime::GetDeltaTime() * FadeSpeed_);
 		MyRenderer_->SetAlpha(AlphaValue_);
 
 		if (255 <= AlphaValue_)
 		{
-			IsOn_ = false;
-			IsChange_ = true;
+			IsIn_ = false;
+			IsInChange_ = true;
+		}
+	}
+
+	if (true == IsOut_)
+	{
+		AlphaValue_ -= static_cast<int>(GameEngineTime::GetDeltaTime() * FadeSpeed_);
+		MyRenderer_->SetAlpha(AlphaValue_);
+
+		if (0 >= AlphaValue_)
+		{
+			IsOut_ = false;
+			IsOutChange_ = true;
 		}
 	}
 }

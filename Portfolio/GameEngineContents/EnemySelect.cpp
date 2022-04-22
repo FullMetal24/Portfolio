@@ -33,6 +33,9 @@ EnemySelect::~EnemySelect()
 
 void EnemySelect::Loading()
 {
+	GameEngineActor* Level = CreateActor<EnemySelectActor>(5);
+	Level->SetPosition({ GameEngineWindow::GetScale().Half().x, GameEngineWindow::GetScale().Half().y - 200.f });
+	Level->CreateRenderer("ES_LEVEL1.bmp");
 
 	GameEngineActor* Enemys = CreateActor<EnemySelectActor>(4);
 	Enemys->SetPosition({ GameEngineWindow::GetScale().Half().x, GameEngineWindow::GetScale().Half().y + 300.f });
@@ -230,11 +233,11 @@ void EnemySelect::Update()
 
 		if (0.0f >= LevelChangeCount_)
 		{
-			FadeBackground_->FadeOn();
+			FadeBackground_->FadeInOn();
 			FadeBackground_->GetMyRenderer()->SetOrder(20);
 			FadeBackground_->SetFadeSpeed(500.f);
 
-			if (true == FadeBackground_->GetIsChage())
+			if (true == FadeBackground_->GetIsInChange())
 			{
 				GameEngine::GetInst().ChangeLevel("InGame");
 				EnemySelectBgm_.Stop();
@@ -279,7 +282,7 @@ void EnemySelect::PlayRoulette()
 		if (SpeedLimit_ < RouletteSpeed_) //제한속도보다 값이 크다면 제한 속도를 올린다.
 		{
 			//지금 선택된 캐릭터는 가리고
-			Enemys_[RouletteIndex_]->GetProfile()->SetOrder(0);
+			Enemys_[RouletteIndex_]->GetProfile()->SetOrder(-1);
 			Enemys_[RouletteIndex_]->GetIcon()->SetOrder(0);
 
 			RouletteSpeed_ = 0.0f; //룰렛속도를 0으로 초기화

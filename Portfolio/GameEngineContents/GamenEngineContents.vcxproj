@@ -164,6 +164,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="BestRecords.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="BestRecordsActor.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="EnemySelect.h">
       <SubType>
       </SubType>
@@ -222,6 +230,14 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="BestRecords.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="BestRecordsActor.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="EnemySelect.cpp">
       <SubType>
       </SubType>

@@ -56,6 +56,12 @@
     <ClCompile Include="EnemySelectActor.cpp">
       <Filter>Actor\Level\EnemySelect</Filter>
     </ClCompile>
+    <ClCompile Include="BestRecords.cpp">
+      <Filter>Level</Filter>
+    </ClCompile>
+    <ClCompile Include="BestRecordsActor.cpp">
+      <Filter>Actor\Level\BestRecords</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PuyoPuyo.h" />
@@ -116,6 +122,12 @@
     <ClInclude Include="FSM.h">
       <Filter>Actor\Level\InGame\Enemy</Filter>
     </ClInclude>
+    <ClInclude Include="BestRecords.h">
+      <Filter>Level</Filter>
+    </ClInclude>
+    <ClInclude Include="BestRecordsActor.h">
+      <Filter>Actor\Level\BestRecords</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Actor">
@@ -159,6 +171,9 @@
     </Filter>
     <Filter Include="Actor\Global">
       <UniqueIdentifier>{25f26537-767a-432d-ab54-eca5df2ee25a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\Level\BestRecords">
+      <UniqueIdentifier>{a343dbb4-308b-4fe2-956a-d8b3339338c7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
