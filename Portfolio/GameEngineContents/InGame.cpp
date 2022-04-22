@@ -46,7 +46,7 @@ void InGame::Loading()
 	NextUi->CreateRenderer("IG_NEXT.bmp")->SetPivot({ GameEngineWindow::GetScale().Half().x, GameEngineWindow::GetScale().Half().y - 360.f });
 
 	GameEngineActor* Stage1Ui = CreateActor<Stage>(3);
-	Stage1Ui->CreateRenderer("IG_STAGE_UI.bmp")->SetPivot({ GameEngineWindow::GetScale().Half().x, GameEngineWindow::GetScale().Half().y});
+	Stage1Ui->CreateRenderer("IG_STAGE_UI.bmp")->SetPivot({ GameEngineWindow::GetScale().Half().x, GameEngineWindow::GetScale().Half().y - 60.f});
 
 	GameEngineActor* PlayerName_ = CreateActor<Stage>(1);
 	PlayerName_->CreateRenderer("IG_ARLENAME.bmp")->SetPivot({ GameEngineWindow::GetScale().Half().x - 96.f, GameEngineWindow::GetScale().Half().y - 290.f });

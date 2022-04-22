@@ -30,14 +30,30 @@ public:
 		return MyIcon_;
 	}
 	
+
+	GameEngineRenderer* GetRenderName()
+	{
+		return MyName_;
+	}
+
 	void SetProfile(GameEngineRenderer* _Profile)
 	{
 		MyProfile_ = _Profile;
 	}
 
+	void SetMyAnimation(GameEngineRenderer* _Renderer)
+	{
+		MyAnimation_ = _Renderer;
+	}
+
 	void SetIcon(GameEngineRenderer* _Icon)
 	{
 		MyIcon_ = _Icon;
+	}
+
+	void SetRenderName(GameEngineRenderer* _Name)
+	{
+		MyName_ = _Name;
 	}
 
 protected:

@@ -34,6 +34,21 @@ EnemySelect::~EnemySelect()
 
 void EnemySelect::Loading()
 {
+	//UI
+	{
+		GameEngineActor* ExpUi = CreateActor<EnemySelectActor>(4);
+		ExpUi->SetPosition({ GameEngineWindow::GetScale().Half().x - 540.f, GameEngineWindow::GetScale().Half().y - 125.f});
+		ExpUi->CreateRenderer("ES_EXP_UI.bmp");
+
+		GameEngineActor* NextUi = CreateActor<EnemySelectActor>(4);
+		NextUi->SetPosition({ GameEngineWindow::GetScale().Half().x - 525.f, GameEngineWindow::GetScale().Half().y - 65.f });
+		NextUi->CreateRenderer("ES_NEXT_UI.bmp");
+
+		GameEngineActor* RestUi = CreateActor<EnemySelectActor>(4);
+		RestUi->SetPosition({ GameEngineWindow::GetScale().Half().x - 525.f, GameEngineWindow::GetScale().Half().y});
+		RestUi->CreateRenderer("ES_REST_UI.bmp");
+	}
+
 	GameEngineActor* Level = CreateActor<EnemySelectActor>(5);
 	Level->SetPosition({ GameEngineWindow::GetScale().Half().x, GameEngineWindow::GetScale().Half().y - 200.f });
 	Level->CreateRenderer("ES_LEVEL1.bmp");
@@ -207,6 +222,9 @@ void EnemySelect::EnemyInit()
 	Enemys_[7]->SetProfile(Enemys_[7]->CreateRenderer("ES_LV8.bmp"));
 	Enemys_[7]->GetProfile()->SetPivot({ 1070.f, 190.f });
 	Enemys_[7]->SetIcon(Enemys_[7]->CreateRenderer("ES_SELECT_L7.bmp"));
+	Enemys_[7]->SetRenderName(Enemys_[7]->CreateRenderer("ES_ENEMY_NAME7.bmp"));
+	Enemys_[7]->GetRenderName()->SetOrder(5);
+	Enemys_[7]->GetRenderName()->SetPivot({GameEngineWindow::GetScale().Half() + float4{430, -70}});
 	Enemys_[7]->GetIcon()->SetPivot({ Offset_ + Enemys_[6]->GetIcon()->GetImage()->GetScale().x, 749.f });
 }
 
@@ -281,12 +299,15 @@ void EnemySelect::PlayRoulette()
 	{
 		Enemys_[RouletteIndex_]->GetProfile()->SetOrder(8);
 		Enemys_[RouletteIndex_]->GetIcon()->SetOrder(8);
+		Enemys_[RouletteIndex_]->GetRenderName()->SetOrder(8);
 
 		if (SpeedLimit_ < RouletteSpeed_) //제한속도보다 값이 크다면 제한 속도를 올린다.
 		{
 			//지금 선택된 캐릭터는 가리고
 			Enemys_[RouletteIndex_]->GetProfile()->SetOrder(-1);
 			Enemys_[RouletteIndex_]->GetIcon()->SetOrder(0);
+			Enemys_[RouletteIndex_]->GetRenderName()->SetOrder(0);
+
 
 			RouletteSpeed_ = 0.0f; //룰렛속도를 0으로 초기화
 			++RouletteIndex_;
