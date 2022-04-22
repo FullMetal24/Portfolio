@@ -123,11 +123,13 @@ GameEngineSound* GameEngineSound::FindRes(const std::string& _Name)
 
 	return FindIter->second;
 }
+
 GameEngineSound* GameEngineSound::LoadRes(const std::string& _Path)
 {
 	GameEnginePath NewPath = GameEnginePath(_Path);
 	return LoadRes(_Path, NewPath.GetFileName());	//경로와 파일이름(ex.idle.bmp)을 Map의 key,value로 넣기위해 각각 넘겨준다.
 }
+
 GameEngineSound* GameEngineSound::LoadRes(const std::string& _Path, const std::string& _Name)
 {
 	std::string UpperName = GameEngineString::ToUpperReturn(_Name);

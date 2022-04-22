@@ -3,6 +3,7 @@
 #include "GameEngine/GameEngineLevel.h"
 #include <GameEngineBase/GameEngineSound.h>
 
+class GameEngineRenderer;
 class GameOver : public GameEngineLevel
 {
 public:
@@ -22,9 +23,12 @@ public:
 protected:
 
 private:
+	GameEngineRenderer* BackRenderer_;
 	FadeInOutBackground* Background_;
-
 	GameEngineSoundPlayer GameOverBgm_;
+
+	int Count_;
+	float Time_;
 
 };
 

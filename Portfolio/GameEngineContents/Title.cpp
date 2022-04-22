@@ -323,14 +323,14 @@ void Title::BackgroundInit()
 
     TitleActors_[(int)TitileOrder::PUYO_BACK]->CreateRenderer("TT_BACK.bmp");
 
-    GameEngineImage* Image0 = GameEngineImageManager::GetInst()->Find("TT_BACK1-1.bmp");
-    Image0->CutCount(6, 1);
+    {
+        GameEngineImage* Image = GameEngineImageManager::GetInst()->Find("TT_BACK1.bmp");
+        Image->CutCount(6, 1);
 
-    GameEngineRenderer* Renderer24 = TitleActors_[(int)TitileOrder::PUYO_BACK]->CreateRenderer();
-    Renderer24->CreateAnimation("TT_BACK1-1.bmp", "TT_BACK1-1", 0, 5, 0.05f, true);
-    Renderer24->ChangeAnimation("TT_BACK1-1");
-
-
+        GameEngineRenderer* Renderer = TitleActors_[(int)TitileOrder::PUYO_BACK]->CreateRenderer();
+        Renderer->CreateAnimation("TT_BACK1.bmp", "TT_BACK1", 0, 5, 0.05f, true);
+        Renderer->ChangeAnimation("TT_BACK1");
+    }
 
     GameEngineRenderer* RollRenderer = TitleActors_[(int)TitileOrder::ROLL_1]->CreateRenderer("TT_ROLL.bmp");
     RollRenderer->SetTransColor(RGB(0, 0, 0));
@@ -345,12 +345,14 @@ void Title::BackgroundInit()
     Renderer->CreateAnimation("TT_CARBUNCLE.bmp", "TT_CARBUNCLE", 0, 4, 0.1f, true);
     Renderer->ChangeAnimation("TT_CARBUNCLE");
 
-    GameEngineImage* Image2 = GameEngineImageManager::GetInst()->Find("TT_BACK1-2.bmp");
-    Image2->CutCount(6, 1);
+    {
+        GameEngineImage* Image = GameEngineImageManager::GetInst()->Find("TT_BACK2.bmp");
+        Image->CutCount(6, 1);
 
-    GameEngineRenderer* Renderer25 = TitleActors_[(int)TitileOrder::CARBUNCLE_BACK]->CreateRenderer();
-    Renderer25->CreateAnimation("TT_BACK1-2.bmp", "TT_BACK1-2", 0, 5, 0.05f, true);
-    Renderer25->ChangeAnimation("TT_BACK1-2");
+        GameEngineRenderer* Renderer = TitleActors_[(int)TitileOrder::CARBUNCLE_BACK]->CreateRenderer();
+        Renderer->CreateAnimation("TT_BACK2.bmp", "TT_BACK2", 0, 5, 0.05f, true);
+        Renderer->ChangeAnimation("TT_BACK2");
+    }
 
     GameEngineRenderer* RollRenderer2 = TitleActors_[(int)TitileOrder::ROLL_2]->CreateRenderer("TT_ROLL.bmp"); 
     RollRenderer2->SetTransColor(RGB(0, 0, 0));
@@ -361,12 +363,12 @@ void Title::BackgroundInit()
     TitleActors_[(int)TitileOrder::ARLE_FINGER]->SetPosition({ GameEngineWindow::GetScale().x / 2.7f, GameEngineWindow::GetScale().y + FingerRenderer->GetImage()->GetScale().y / 2});
     
     {
-        GameEngineImage* Image2 = GameEngineImageManager::GetInst()->Find("TT_BACK1-3.bmp");
-        Image2->CutCount(6, 1);
+        GameEngineImage* Image = GameEngineImageManager::GetInst()->Find("TT_BACK3.bmp");
+        Image->CutCount(6, 1);
 
-        GameEngineRenderer* Renderer25 = TitleActors_[(int)TitileOrder::ARLE_BACK]->CreateRenderer();
-        Renderer25->CreateAnimation("TT_BACK1-3.bmp", "TT_BACK1-3", 0, 5, 0.05f, true);
-        Renderer25->ChangeAnimation("TT_BACK1-3");
+        GameEngineRenderer* Renderer = TitleActors_[(int)TitileOrder::ARLE_BACK]->CreateRenderer();
+        Renderer->CreateAnimation("TT_BACK3.bmp", "TT_BACK3", 0, 5, 0.05f, true);
+        Renderer->ChangeAnimation("TT_BACK3");
     }
    
     //페이드 인 아웃

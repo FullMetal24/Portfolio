@@ -42,6 +42,21 @@ void PuyoPuyo::GameInit()
 		GameEngineDirectory ResourecesDir;
 		ResourecesDir.MoveParent("Portfolio");
 		ResourecesDir.Move("APIResources");
+		ResourecesDir.Move("Level");
+		ResourecesDir.Move("GO_IMAGES");
+
+		std::vector<GameEngineFile> AllImageFileList = ResourecesDir.GetAllFile("Bmp");
+
+		for (size_t i = 0; i < AllImageFileList.size(); i++)
+		{
+			GameEngineImageManager::GetInst()->Load(AllImageFileList[i].GetFullPath());
+		};
+	}
+
+	{
+		GameEngineDirectory ResourecesDir;
+		ResourecesDir.MoveParent("Portfolio");
+		ResourecesDir.Move("APIResources");
 		ResourecesDir.Move("Actor");
 
 		std::vector<GameEngineFile> AllImageFileList = ResourecesDir.GetAllFile("Bmp");
@@ -66,13 +81,16 @@ void PuyoPuyo::GameInit()
 		}
 	}
 
+
+
+
 	CreateLevel<Title>("Title"); 
 	CreateLevel<MainMenu>("MainMenu");
 	CreateLevel<EnemySelect>("EnemySelect");
 	CreateLevel<InGame>("InGame");
 	CreateLevel<GameOver>("GameOver");
 
-	ChangeLevel("Title");
+	ChangeLevel("GameOver");
 }
 
 void PuyoPuyo::GameLoop()
