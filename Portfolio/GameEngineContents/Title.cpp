@@ -359,8 +359,16 @@ void Title::BackgroundInit()
     TitleRenderers_[(int)TitileOrder::ARLE_FACE] = TitleActors_[(int)TitileOrder::ARLE_FACE]->CreateRenderer("TT_ARLE_FACE.bmp");
     GameEngineRenderer* FingerRenderer = TitleActors_[(int)TitileOrder::ARLE_FINGER]->CreateRenderer("TT_ARLE_FINGER.bmp");
     TitleActors_[(int)TitileOrder::ARLE_FINGER]->SetPosition({ GameEngineWindow::GetScale().x / 2.7f, GameEngineWindow::GetScale().y + FingerRenderer->GetImage()->GetScale().y / 2});
-    TitleActors_[(int)TitileOrder::ARLE_BACK]->CreateRenderer("TT_BACK.bmp");
+    
+    {
+        GameEngineImage* Image2 = GameEngineImageManager::GetInst()->Find("TT_BACK1-3.bmp");
+        Image2->CutCount(6, 1);
 
+        GameEngineRenderer* Renderer25 = TitleActors_[(int)TitileOrder::ARLE_BACK]->CreateRenderer();
+        Renderer25->CreateAnimation("TT_BACK1-3.bmp", "TT_BACK1-3", 0, 5, 0.05f, true);
+        Renderer25->ChangeAnimation("TT_BACK1-3");
+    }
+   
     //페이드 인 아웃
     GameEngineRenderer* RollRenderer3 = TitleActors_[(int)TitileOrder::ROLL_3]->CreateRenderer("TT_ROLL.bmp");
     RollRenderer3->SetTransColor(RGB(0, 0, 0));
