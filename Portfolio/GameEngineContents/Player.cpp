@@ -466,33 +466,32 @@ void Player::SearchPlayerMap()
 					&& PlayerMap_[Y][X] != CurrentPair_->GetSecondPuyo())
 				{
 					BfsPuyo(PlayerMap_[Y][X]);
+					DestroyPuyo();
 
-					//DestroyPuyo();
+					/*Puyo* FallPuyo_ = PlayerMap_[Y][X];
 
-					//Puyo* FallPuyo_ = PlayerMap_[Y][X];
+					while (28 >= FallPuyo_->GetY() + 1 && nullptr == PlayerMap_[FallPuyo_->GetY() + 2][X])
+					{
+						FallPuyo_->SetLand(false);
+						FallPuyo_->SetLandPlay(false);
+						FallPuyo_->GetLandAnimationEnd(false);
 
-					//while (28 >= FallPuyo_->GetY() + 1 && nullptr == PlayerMap_[FallPuyo_->GetY() + 2][X])
-					//{
-					//	FallPuyo_->SetLand(false);
-					//	FallPuyo_->SetLandPlay(false);
-					//	FallPuyo_->GetLandAnimationEnd(false);
+						FallPuyo_->SetMove(float4::DOWN * DownMoveDis_);
+						FallPuyo_->SetY(FallPuyo_->GetY() + 1);
 
-					//	FallPuyo_->SetMove(float4::DOWN * DownMoveDis_);
-					//	FallPuyo_->SetY(FallPuyo_->GetY() + 1);
+						PlayerMap_[FallPuyo_->GetY()][X] = FallPuyo_;
+						PlayerMap_[FallPuyo_->GetY() - 1][X] = nullptr;
+					}
 
-					//	PlayerMap_[FallPuyo_->GetY()][X] = FallPuyo_;
-					//	PlayerMap_[FallPuyo_->GetY() - 1][X] = nullptr;
-					//}
+					if (28 == FallPuyo_->GetY() + 1
+						|| nullptr != PlayerMap_[FallPuyo_->GetY() + 2][X]
+						&& false == FallPuyo_->GetLand())
+					{
+						FallPuyo_->SetLand(true);
+						continue;
+					}
 
-					//if (28 == FallPuyo_->GetY() + 1
-					//	|| nullptr != PlayerMap_[FallPuyo_->GetY() + 2][X]
-					//	&& false == FallPuyo_->GetLand())
-					//{
-					//	FallPuyo_->SetLand(true);
-					//	continue;
-					//}
-
-					//IsSearch_ = true;
+					IsSearch_ = true;*/
 				}
 			}
 		}
@@ -541,7 +540,8 @@ void Player::BfsPuyo(Puyo* _Puyo)
 
 						int a = Visited_.size();  
 						a = Visited_.size();
-						//ConvertPuyoAnimtion(Dx[i], Dy[i], NodePuyo);
+						
+						ConvertPuyoAnimtion(Dx[i], Dy[i], NodePuyo);
 					}
 				}
 			}
@@ -557,8 +557,7 @@ void Player::BfsPuyo(Puyo* _Puyo)
 		{
 			if (nullptr != (*StartVisited))
 			{
-				(*StartVisited)->Death();
-				PlayerMap_[(*StartVisited)->GetY()][(*StartVisited)->GetX()] = nullptr;
+				(*StartVisited)->SetDestroy(true);
  			}
 		} 
 	}
