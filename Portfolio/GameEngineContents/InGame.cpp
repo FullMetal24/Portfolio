@@ -429,12 +429,14 @@ void InGame::CarbuncleAnimationInit()
 
 void InGame::Update()
 {
-	if (true == IsStart_ && true == Player_->GetAllLanding() && false == Player_->GetLose())
+	if (true == IsStart_ 
+		&& true == Player_->GetReady()
+		&& false == Player_->GetLose())
 	{
 		Player_->AddPuyoPair(CreatePuyoPair());
 	}
 
-	else if (true == Player_->GetAllLanding() && true == Player_->GetLose() && 0 >= LevelCount_)
+	else if (true == Player_->GetReady() && true == Player_->GetLose() && 0 >= LevelCount_)
 	{
 		LevelCount_ -= GameEngineTime::GetDeltaTime();
 

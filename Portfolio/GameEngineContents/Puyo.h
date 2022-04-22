@@ -19,24 +19,44 @@ public:
 	void Update() override;
 
 	//내부 좌표 이동 관련 처리
-	inline bool GetLanding()
+	inline bool GetLand()
 	{
 		return IsLanding_;
 	}
 
-	inline void SetLanding(bool _Land)
+	inline void SetLand(bool _Land)
 	{
 		IsLanding_ = _Land;
 	}
 
-	inline bool GetLandPlay()
+	inline void SetLandPlay(bool _IsPlay)
+	{
+		IsLandPlay_ = _IsPlay;
+	}
+
+	inline bool GetLandPlay_()
 	{
 		return IsLandPlay_;
+	}
+
+	inline void GetLandAnimationEnd(bool _End)
+	{
+		LandAnimationEnd_ = _End;
+	}
+
+	inline bool GetLandAnimationEnd()
+	{
+		return LandAnimationEnd_;
 	}
 
 	inline void SetDestroy(bool _IsDestroy)
 	{
 		IsDestroy_ = _IsDestroy;
+	}
+
+	inline bool GetDestroyAnimationEnd()
+	{
+		return DestroyAnimationEnd_;
 	}
 
 	inline bool GetDestroy()
@@ -145,6 +165,9 @@ public:
 	void LandAnimation();
 	void LandToNormal();
 
+
+	void SelfDestroy();
+
 protected:
 
 private:
@@ -161,5 +184,9 @@ private:
 
 	//연결 상태 확인
 	bool IsConnect_[4];
+
+	bool LandAnimationEnd_;
+	bool DestroyAnimationEnd_; //이게 필요한가?
+
 };
 

@@ -16,6 +16,7 @@ Puyo::Puyo()
 	, IsLandPlay_(false)
 	, IsDestroy_(false)
 	, IsConnect_{false}
+	, LandAnimationEnd_(false)
 {
 }
 
@@ -31,6 +32,8 @@ void Puyo::Update()
 {
 	LandAnimation();
 	LandToNormal();
+
+	SelfDestroy();
 }
 
 
@@ -512,6 +515,7 @@ void Puyo::LandToNormal()
 			if (true == MyRenderer_->IsEndAnimation())
 			{
 				MyRenderer_->ChangeAnimation("IG_RED_PUYO");
+				LandAnimationEnd_ = true;
 			}
 		}
 		break;
@@ -521,6 +525,7 @@ void Puyo::LandToNormal()
 			if (true == MyRenderer_->IsEndAnimation())
 			{
 				MyRenderer_->ChangeAnimation("IG_BLUE_PUYO");
+				LandAnimationEnd_ = true;
 			}
 		}
 		break;
@@ -530,6 +535,7 @@ void Puyo::LandToNormal()
 			if (true == MyRenderer_->IsEndAnimation())
 			{
 				MyRenderer_->ChangeAnimation("IG_GREEN_PUYO");
+				LandAnimationEnd_ = true;
 			}
 		}
 		break;
@@ -539,6 +545,7 @@ void Puyo::LandToNormal()
 			if (true == MyRenderer_->IsEndAnimation())
 			{
 				MyRenderer_->ChangeAnimation("IG_YELLOW_PUYO");
+				LandAnimationEnd_ = true;
 			}
 		}
 		break;
@@ -548,8 +555,69 @@ void Puyo::LandToNormal()
 			if (true == MyRenderer_->IsEndAnimation())
 			{
 				MyRenderer_->ChangeAnimation("IG_PURPLE_PUYO");
+				LandAnimationEnd_ = true;
 			}
 		}
 		break;
+	}
+
+}
+
+void Puyo::SelfDestroy()
+{
+	if (true == IsDestroy_)
+	{
+		switch (MyColor_)
+		{
+		case PuyoColor::RED:
+			if (true == MyRenderer_->IsAnimationName("IG_RED_DESTROY"))
+			{
+				if (true == MyRenderer_->IsEndAnimation())
+				{
+					DestroyAnimationEnd_ = true;
+					Death();
+				}
+			}
+			break;
+		case PuyoColor::BLUE:
+			if (true == MyRenderer_->IsAnimationName("IG_BLUE_DESTROY"))
+			{
+				if (true == MyRenderer_->IsEndAnimation())
+				{
+					DestroyAnimationEnd_ = true;
+					Death();
+				}
+			}
+			break;
+		case PuyoColor::GREEN:
+			{
+				if (true == MyRenderer_->IsEndAnimation())
+				{
+					DestroyAnimationEnd_ = true;
+					Death();
+				}
+			}
+			break;
+		case PuyoColor::YELLOW:
+			if (true == MyRenderer_->IsAnimationName("IG_YELLOW_DESTROY"))
+			{
+				if (true == MyRenderer_->IsEndAnimation())
+				{
+					DestroyAnimationEnd_ = true;
+					Death();
+				}
+			}
+			break;
+		case PuyoColor::PURPLE:
+			if (true == MyRenderer_->IsAnimationName("IG_PURPLE_DESTROY"))
+			{
+				if (true == MyRenderer_->IsEndAnimation())
+				{
+					DestroyAnimationEnd_ = true;
+					Death();
+				}
+			}
+			break;
+		}
 	}
 }

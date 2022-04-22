@@ -30,13 +30,13 @@ public:
 	void BfsPuyo(Puyo* _Puyo);
 	void DestroyPuyo();
 
+	void SearchPlayerMap();
+
 	void CurrentPairInit();
 	void AddPuyoPair(PuyoPair* _Pair);
 
-	void CurrentPairPuyoLandCheck();
-
+	void CurrentPuyoLandCheck();
 	void AllPuyoLandCheck();
-	void AllPuyoLand();
 
 	void AutoFall();
 	void FallAlonePuyo();
@@ -46,7 +46,6 @@ public:
 
 	void DigitScore(int _Score);
 	void RenderToScore();
-
 
 
 	inline void SetCurrentPair(PuyoPair* _Current)
@@ -64,9 +63,9 @@ public:
 		NextNextPair_ = _NextNext;
 	}
 
-	inline bool GetAllLanding()
+	inline bool GetReady()
 	{
-		return IsAllLanding_;
+		return IsReady_;
 	}
 
 	inline bool GetLose()
@@ -108,6 +107,7 @@ private:
 	int DestroyFallTime_;
 
 	bool IsStart_;
-	bool IsAllLanding_;
+	bool IsReady_;
 	bool IsLose_;
+	bool IsSearch_;
 };

@@ -54,7 +54,7 @@ public:
 	}
 
 
-	inline 	void Death()
+	inline void Death()
 	{
 		IsDeath_ = true;
 	}
