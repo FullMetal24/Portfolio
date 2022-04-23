@@ -39,3 +39,18 @@ enum class PuyoDir
 	DOWN, // 2
 	UP // 3
 };
+
+
+
+enum class PlayerState
+{
+	NewPuyo,
+	MovePuyo,
+	LandPuyo,
+	PuyoLandEnd,
+	PuyoCheck,
+	PuyoDestroy,
+	PuyoDestroyEnd,
+	Win,
+	Lose
+};

@@ -6,7 +6,6 @@ class Puyo;
 class PuyoPair;
 class FSM : public GameEngineActor
 {
-
 public:
 	FSM();
 	~FSM();
@@ -18,13 +17,57 @@ public:
 
 	void Start() override;
 	void Update() override;
-	void Render() override;
 
 	void DigitScore(int _Score);
 	void RenderToScore();
 
-
 	void AddPuyoPair(PuyoPair* _Pair);
+	void CurrentPairInit();
+
+	void PlayerInput();
+
+	void MoveLeft();
+	void MoveRight();
+	void MoveDown();
+	void Rotate();
+
+	void CurrentPuyoLandCheck();
+
+	void AutoFall();
+	void FallAlonePuyo();
+
+	int GradePuyoAnimation(int _Dx, int _Dy, Puyo* _Puyo);
+	void ConvertPuyoAnimtion(int _Dx, int _Dy, Puyo* _Puyo);
+
+	void SearchPuyo();
+	void BfsPuyo(Puyo* _Puyo);
+	void DestroyPuyo();
+	void DestroyEndPuyo();
+	void LandPuyo();
+	void LandEndPuyo();
+
+	void GreedyCheck();
+
+	inline void SetCurrentPair(PuyoPair* _Current)
+	{
+		CurrentPair_ = _Current;
+	}
+
+	inline void SetNextPair(PuyoPair* _Next)
+	{
+		NextPair_ = _Next;
+	}
+
+	inline void SetNextNextPair(PuyoPair* _NextNext)
+	{
+		NextNextPair_ = _NextNext;
+	}
+
+
+	inline PlayerState GetState()
+	{
+		return FSMState_;
+	}
 
 	inline bool GetLose()
 	{
@@ -34,7 +77,11 @@ public:
 protected:
 
 private:
-	Puyo* FSMMap_[15][6];
+	Puyo* FSMMap_[30][6];
+	PlayerState FSMState_;
+
+	std::list<Puyo*> Visited_;
+	std::vector<Puyo*> Falls_;
 
 	PuyoPair* CurrentPair_;
 	PuyoPair* NextPair_;
@@ -53,9 +100,16 @@ private:
 	int SecondX_;
 	int SecondY_;
 
+	unsigned int Chain_;
+
 	float DownMoveDis_;
 	float SideMoveDis_;
 
+	float DownTime_;
+	int LimitTime_;
+	int FallTime_;
+
+	bool IsWin_;
 	bool IsLose_;
 };
 

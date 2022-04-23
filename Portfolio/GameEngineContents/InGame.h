@@ -55,7 +55,6 @@ private:
 
 	InGameActor* Carbuncle_;
 	InGameActor* Stars_[36];
-
 	  
 	GameEngineRenderer* EnemyProfile_;
 	GameEngineRenderer* Stage_; //스테이지 이미지 (렌더러가 나을듯함

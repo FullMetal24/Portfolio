@@ -27,16 +27,10 @@ public:
 	void MoveDown();
 	void Rotate();
 
-	void BfsPuyo(Puyo* _Puyo);
-	void DestroyPuyo();
-
-	void SearchPlayerMap();
-
-	void CurrentPairInit();
 	void AddPuyoPair(PuyoPair* _Pair);
+	void CurrentPairInit();
 
 	void CurrentPuyoLandCheck();
-	void AllPuyoLandCheck();
 
 	void AutoFall();
 	void FallAlonePuyo();
@@ -47,6 +41,12 @@ public:
 	void DigitScore(int _Score);
 	void RenderToScore();
 
+	void SearchPuyo(); 
+	void BfsPuyo(Puyo* _Puyo);
+	void DestroyPuyo();
+	void DestroyEndPuyo();
+	void LandPuyo();
+	void LandEndPuyo();
 
 	inline void SetCurrentPair(PuyoPair* _Current)
 	{
@@ -63,21 +63,19 @@ public:
 		NextNextPair_ = _NextNext;
 	}
 
-	inline bool GetReady()
+	inline PlayerState GetState()
 	{
-		return IsReady_;
-	}
-
-	inline bool GetLose()
-	{
-		return IsLose_;
+		return PlayerState_;
 	}
 
 protected:
 
 private:
+	PlayerState PlayerState_;
+
 	Puyo* PlayerMap_[30][6];
 	std::list<Puyo*> Visited_;
+	std::vector<Puyo*> Falls_;
 
 	PuyoPair* CurrentPair_;
 	PuyoPair* NextPair_;
@@ -104,10 +102,7 @@ private:
 	float DownTime_;
 	int LimitTime_;
 	int FallTime_;
-	int DestroyFallTime_;
 
-	bool IsStart_;
-	bool IsReady_;
+	bool IsWin_;
 	bool IsLose_;
-	bool IsSearch_;
 };

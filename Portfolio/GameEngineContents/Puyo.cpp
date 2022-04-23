@@ -15,6 +15,7 @@ Puyo::Puyo()
 	, IsVisited_(false)
 	, IsLandPlay_(false)
 	, IsDestroy_(false)
+	, IsFall_(false)
 	, IsConnect_{false}
 	, LandAnimationEnd_(false)
 {
@@ -388,30 +389,11 @@ void Puyo::RenderToLeftRightUpDown()
 	}
 }
 
-//void Puyo::RenderToLand()
-//{
-//	switch (MyColor_)
-//	{
-//	case PuyoColor::RED:
-//		MyRenderer_->ChangeAnimation("IG_RED_LAND");
-//		break;
-//	case PuyoColor::BLUE:
-//		MyRenderer_->ChangeAnimation("IG_BLUE_LAND");
-//		break;
-//	case PuyoColor::GREEN:
-//		MyRenderer_->ChangeAnimation("IG_GREEN_LAND");
-//		break;
-//	case PuyoColor::YELLOW:
-//		MyRenderer_->ChangeAnimation("IG_YELLOW_LAND");
-//		break;
-//	case PuyoColor::PURPLE:
-//		MyRenderer_->ChangeAnimation("IG_PURPLE_LAND");
-//		break;
-//	}
-//}
-
 void Puyo::RenderToDestroy()
 {
+	IsDestroy_ = true;
+	LandAnimationEnd_ = false;
+
 	switch (MyColor_)
 	{
 	case PuyoColor::RED:
@@ -476,6 +458,27 @@ void Puyo::RenderToOtherIdle()
 	}
 }
 
+void Puyo::RenderToLand()
+{
+	switch (MyColor_)
+	{
+	case PuyoColor::RED:
+		MyRenderer_->ChangeAnimation("IG_RED_LAND");
+		break;
+	case PuyoColor::BLUE:
+		MyRenderer_->ChangeAnimation("IG_BLUE_LAND");
+		break;
+	case PuyoColor::GREEN:
+		MyRenderer_->ChangeAnimation("IG_GREEN_LAND");
+		break;
+	case PuyoColor::YELLOW:
+		MyRenderer_->ChangeAnimation("IG_YELLOW_LAND");
+		break;
+	case PuyoColor::PURPLE:
+		MyRenderer_->ChangeAnimation("IG_PURPLE_LAND");
+		break;
+	}
+}
 
 
 void Puyo::LandAnimation()

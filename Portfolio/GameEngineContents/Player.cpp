@@ -26,9 +26,8 @@ Player::Player()
 	, DownTime_(0.5f)
 	, LimitTime_(0)
 	, FallTime_(0)
-	, DestroyFallTime_(0)
-	, IsReady_(false)
 	, IsLose_(false)
+	, IsWin_(false)
 {
 }
 
@@ -63,24 +62,50 @@ void Player::Start()
 
 void Player::Update()
 {
-	PlayerInput();
-
-	FallAlonePuyo();
-	AutoFall();
-
-	CurrentPuyoLandCheck();
+	switch (PlayerState_)
+	{
+	case PlayerState::NewPuyo:
+		break;
+	case PlayerState::MovePuyo:
+		PlayerInput();
+		CurrentPuyoLandCheck();
+		FallAlonePuyo();
+		AutoFall();
+		break;
+	case PlayerState::LandPuyo:
+		LandPuyo();
+		break;
+	case PlayerState::PuyoLandEnd:
+		LandEndPuyo();
+		break;
+	case PlayerState::PuyoCheck:
+ 		SearchPuyo();
+		break;
+	case PlayerState::PuyoDestroy:
+		DestroyPuyo();
+		break;
+	case PlayerState::PuyoDestroyEnd:
+		DestroyEndPuyo();
+		break;
+	case PlayerState::Win:
+		break;
+	case PlayerState::Lose:
+		break;
+	}
 
 	DigitScore(Score_);
 	RenderToScore();
 
-	SearchPlayerMap();
+	int a = static_cast<int>(PlayerState_);
+
+	int b = 0;
 }
 
 void Player::PlayerInput()
 {
 	++LimitTime_;
 
-	if (false == IsReady_)
+	if (PlayerState_ == PlayerState::MovePuyo)
 	{
 		if (true == GameEngineInput::GetInst()->IsDown("PuyoLeft"))
 		{
@@ -280,6 +305,7 @@ void Player::MoveDown()
 	}
 }
 
+
 void Player::Rotate()
 {
 	while (true)
@@ -287,7 +313,7 @@ void Player::Rotate()
 		switch (PuyoDir_)
 		{
 		case PuyoDir::LEFT:
-			if (nullptr == PlayerMap_[CenterY_ + 2][CenterX_] && nullptr == PlayerMap_[CenterY_ + 3][CenterX_])
+ 			if (nullptr == PlayerMap_[CenterY_ + 2][CenterX_] && nullptr == PlayerMap_[CenterY_ + 3][CenterX_])
 			{
 				PlayerMap_[SecondY_][SecondX_] = nullptr;
 
@@ -296,10 +322,17 @@ void Player::Rotate()
 
 				if (29 <= SecondY_)
 				{
-					CurrentPair_->GetCenterPuyo()->SetPosition(CurrentPair_->GetCenterPuyo()->GetPosition() - float4{ 0.f, 65.0f });
+
+					CurrentPair_->GetCenterPuyo()->SetMove(CurrentPair_->GetCenterPuyo()->GetPosition() - float4{ 0.f, 65.0f });
 					SecondY_ -= 2;
 					CenterY_ -= 2;
 				}
+
+				CurrentPair_->GetSecondPuyo()->SetX(SecondX_);
+				CurrentPair_->GetSecondPuyo()->SetY(SecondY_);
+
+				CurrentPair_->GetCenterPuyo()->SetX(CenterX_);
+				CurrentPair_->GetCenterPuyo()->SetY(CenterY_);
 
 				PlayerMap_[CenterY_ + 2][CenterX_] = CurrentPair_->GetSecondPuyo();
 				CurrentPair_->GetSecondPuyo()->SetPosition(CurrentPair_->GetCenterPuyo()->GetPosition() + float4{ 0.f, 65.0f });
@@ -316,6 +349,12 @@ void Player::Rotate()
 				CurrentPair_->GetCenterPuyo()->SetPosition(CurrentPair_->GetCenterPuyo()->GetPosition() - float4{ 0.f, 65.0f });
 				SecondY_ -= 2;
 				CenterY_ -= 2;
+
+				CurrentPair_->GetSecondPuyo()->SetX(SecondX_);
+				CurrentPair_->GetSecondPuyo()->SetY(SecondY_);
+
+				CurrentPair_->GetCenterPuyo()->SetX(CenterX_);
+				CurrentPair_->GetCenterPuyo()->SetY(CenterY_);
 
 				PlayerMap_[CenterY_ + 2][CenterX_] = CurrentPair_->GetSecondPuyo();
 				CurrentPair_->GetSecondPuyo()->SetPosition(CurrentPair_->GetCenterPuyo()->GetPosition() + float4{ 0.f, 65.0f });
@@ -339,6 +378,12 @@ void Player::Rotate()
 					CenterY_ -= 2;
 				}
 
+				CurrentPair_->GetSecondPuyo()->SetX(SecondX_);
+				CurrentPair_->GetSecondPuyo()->SetY(SecondY_);
+
+				CurrentPair_->GetCenterPuyo()->SetX(CenterX_);
+				CurrentPair_->GetCenterPuyo()->SetY(CenterY_);
+
 				PlayerMap_[CenterY_ - 2][CenterX_] = CurrentPair_->GetSecondPuyo();
 				CurrentPair_->GetSecondPuyo()->SetPosition(CurrentPair_->GetCenterPuyo()->GetPosition() + float4{ 0.f, -65.0f });
 
@@ -355,6 +400,12 @@ void Player::Rotate()
 				SecondY_ -= 2;
 				CenterY_ -= 2;
 
+				CurrentPair_->GetSecondPuyo()->SetX(SecondX_);
+				CurrentPair_->GetSecondPuyo()->SetY(SecondY_);
+
+				CurrentPair_->GetCenterPuyo()->SetX(CenterX_);
+				CurrentPair_->GetCenterPuyo()->SetY(CenterY_);
+
 				PlayerMap_[CenterY_ - 2][CenterX_] = CurrentPair_->GetSecondPuyo();
 				CurrentPair_->GetSecondPuyo()->SetPosition(CurrentPair_->GetCenterPuyo()->GetPosition() + float4{ 0.f, -65.0f });
 
@@ -370,6 +421,9 @@ void Player::Rotate()
 
 				SecondY_ = CenterY_;
 				SecondX_ = CenterX_ + 1;
+
+				CurrentPair_->GetSecondPuyo()->SetX(SecondX_);
+				CurrentPair_->GetSecondPuyo()->SetY(SecondY_);
 
 				PlayerMap_[CenterY_][CenterX_ + 1] = CurrentPair_->GetSecondPuyo();
 				CurrentPair_->GetSecondPuyo()->SetPosition(CurrentPair_->GetCenterPuyo()->GetPosition() + float4{ 65.0f, 0.0f });
@@ -395,6 +449,9 @@ void Player::Rotate()
 				SecondX_ -= 1;
 				CenterX_ -= 1;
 
+				CurrentPair_->GetSecondPuyo()->SetX(SecondX_);
+				CurrentPair_->GetSecondPuyo()->SetY(SecondY_);
+
 				PlayerMap_[CenterY_][CenterX_ + 1] = CurrentPair_->GetSecondPuyo();
 				CurrentPair_->GetSecondPuyo()->SetPosition(CurrentPair_->GetCenterPuyo()->GetPosition() + float4{ 65.0f, 0.0f });
 
@@ -411,6 +468,9 @@ void Player::Rotate()
 
 				SecondY_ = CenterY_;
 				SecondX_ = CenterX_ - 1;
+
+				CurrentPair_->GetSecondPuyo()->SetX(SecondX_);
+				CurrentPair_->GetSecondPuyo()->SetY(SecondY_);
 
 				PlayerMap_[CenterY_][CenterX_ - 1] = CurrentPair_->GetSecondPuyo();
 				CurrentPair_->GetSecondPuyo()->SetPosition(CurrentPair_->GetCenterPuyo()->GetPosition() + float4{ -65.0f, 0.0f });
@@ -436,6 +496,9 @@ void Player::Rotate()
 				SecondX_ += 1;
 				CenterX_ += 1;
 
+				CurrentPair_->GetSecondPuyo()->SetX(SecondX_);
+				CurrentPair_->GetSecondPuyo()->SetY(SecondY_);
+
 				PlayerMap_[CenterY_][CenterX_ - 1] = CurrentPair_->GetSecondPuyo();
 				CurrentPair_->GetSecondPuyo()->SetPosition(CurrentPair_->GetCenterPuyo()->GetPosition() + float4{ -65.0f, 0.0f });
 
@@ -448,161 +511,13 @@ void Player::Rotate()
 	}
 }
 
-////////////////////////////뿌요 탐색 및 파괴 관련
-void Player::SearchPlayerMap()
-{
-	if (true == CurrentPair_->GetCenterPuyo()->GetLandAnimationEnd()
-		&& true == CurrentPair_->GetSecondPuyo()->GetLandAnimationEnd()
-		&& false == IsReady_)
-	{
-		IsSearch_ = false;
-		
-		for (int Y = 0; Y < 30; Y++)
-		{
-			for (int X = 0; X < 6; X++)
-			{
-				if (nullptr != PlayerMap_[Y][X]
-					&& PlayerMap_[Y][X] != CurrentPair_->GetCenterPuyo()
-					&& PlayerMap_[Y][X] != CurrentPair_->GetSecondPuyo())
-				{
-					BfsPuyo(PlayerMap_[Y][X]);
-					DestroyPuyo();
-
-					/*Puyo* FallPuyo_ = PlayerMap_[Y][X];
-
-					while (28 >= FallPuyo_->GetY() + 1 && nullptr == PlayerMap_[FallPuyo_->GetY() + 2][X])
-					{
-						FallPuyo_->SetLand(false);
-						FallPuyo_->SetLandPlay(false);
-						FallPuyo_->GetLandAnimationEnd(false);
-
-						FallPuyo_->SetMove(float4::DOWN * DownMoveDis_);
-						FallPuyo_->SetY(FallPuyo_->GetY() + 1);
-
-						PlayerMap_[FallPuyo_->GetY()][X] = FallPuyo_;
-						PlayerMap_[FallPuyo_->GetY() - 1][X] = nullptr;
-					}
-
-					if (28 == FallPuyo_->GetY() + 1
-						|| nullptr != PlayerMap_[FallPuyo_->GetY() + 2][X]
-						&& false == FallPuyo_->GetLand())
-					{
-						FallPuyo_->SetLand(true);
-						continue;
-					}
-
-					IsSearch_ = true;*/
-				}
-			}
-		}
-
-	 	IsReady_ = true;
-	}
-
-
-}
-
-void Player::BfsPuyo(Puyo* _Puyo)
-{
-	std::queue<Puyo*> PuyoQueue;
-	PuyoQueue.push(_Puyo);
-
-	Visited_.push_back(_Puyo);
-	_Puyo->Visit();
-
-	int Dx[4] = { 0, 0, 1, -1 };
-	int Dy[4] = { 2, -2, 0, 0 };
-
-	while (false == PuyoQueue.empty())
-	{
-		Puyo* NodePuyo = PuyoQueue.front();
-		PuyoQueue.pop();
-
-		for (int i = 0; i < 4; ++i)
-		{
-			int X = NodePuyo->GetX() + Dx[i];
-			int Y = NodePuyo->GetY() + Dy[i];
-
-			if (0 > X || 6 <= X || 0 > Y || 30 <= Y)
-			{
-				continue;
-			}
-
-			if (nullptr != PlayerMap_[Y][X])
-			{
-				if (PlayerMap_[Y][X]->GetColor() == _Puyo->GetColor())
-				{
-					if (false == PlayerMap_[Y][X]->GetVisited())
-					{
-						PuyoQueue.push(PlayerMap_[Y][X]);
-						Visited_.push_back(PlayerMap_[Y][X]);
-						PlayerMap_[Y][X]->Visit();
-
-						int a = Visited_.size();  
-						a = Visited_.size();
-						
-						ConvertPuyoAnimtion(Dx[i], Dy[i], NodePuyo);
-					}
-				}
-			}
-		}
-	}
-
-	std::list<Puyo*>::iterator StartVisited = Visited_.begin();
-	std::list<Puyo*>::iterator EndVisited = Visited_.end();
-
-	if (4 <= Visited_.size())
-	{
-		for (; StartVisited != EndVisited; ++StartVisited)
-		{
-			if (nullptr != (*StartVisited))
-			{
-				(*StartVisited)->SetDestroy(true);
- 			}
-		} 
-	}
-
-	for (; StartVisited != EndVisited; ++StartVisited)
-	 {
-		if (nullptr != (*StartVisited))
-		{
-			(*StartVisited)->Exit();
-		}
-	}
- 
-	Visited_.clear();
-}
-
-void Player::DestroyPuyo()
-{
-	for (int Y = 0; Y < 30; ++Y)
-	{
-		for (int X = 0; X < 6; ++X)
-		{
-			if (nullptr != PlayerMap_[Y][X])
-			{
-				if (true == PlayerMap_[Y][X]->GetDestroy() &&
-					false == PlayerMap_[Y][X]->IsDeath() &&
-					true == PlayerMap_[Y][X]->GetMyRenderer()->IsEndAnimation())
-				{
-					PlayerMap_[Y][X]->RenderToDestroy();
-					PlayerMap_[Y][X] = nullptr;
-				}
-			}
-		}
-	}
-}
-
-
-
-
 
 ////////////////////////뿌요 추가 관련
 void Player::AddPuyoPair(PuyoPair* _Pair)
 {
 	if (nullptr != PlayerMap_[4][2])
 	{
-		IsLose_ = true;
+		PlayerState_ = PlayerState::Lose;
 		return;
 	}
 
@@ -610,12 +525,11 @@ void Player::AddPuyoPair(PuyoPair* _Pair)
 	NextPair_ = NextNextPair_;
 	NextNextPair_ = _Pair;
 
+	PlayerState_ = PlayerState::MovePuyo;
 	PuyoDir_ = PuyoDir::UP;
-	IsReady_ = false;
 
 	CurrentPairInit();
 }
-
 
 void Player::CurrentPairInit()
 {
@@ -697,14 +611,13 @@ void Player::CurrentPuyoLandCheck()
 			&& nullptr != PlayerMap_[CenterY_ + 2][CenterX_])
 		{
 			CurrentPair_->GetCenterPuyo()->SetLand(true);
-
 		}
 
 		else if (true == CurrentPair_->GetSecondPuyo()->GetLand()
 			&& nullptr != PlayerMap_[CenterY_ + 2][CenterX_])
 		{
 			CurrentPair_->GetCenterPuyo()->SetLand(true);
-		}
+ 		}
 	}
 
 	if (false == CurrentPair_->GetSecondPuyo()->GetLand())
@@ -716,7 +629,7 @@ void Player::CurrentPuyoLandCheck()
 
 		else if (CurrentPair_->GetCenterPuyo() != PlayerMap_[SecondY_ + 2][SecondX_]
 			&& nullptr != PlayerMap_[SecondY_ + 2][SecondX_])
-		{
+		{ 
 			CurrentPair_->GetSecondPuyo()->SetLand(true);
 		}
 
@@ -726,22 +639,12 @@ void Player::CurrentPuyoLandCheck()
 			CurrentPair_->GetSecondPuyo()->SetLand(true);
 		}
 	}
-}
 
-void Player::AllPuyoLandCheck()
-{
-
-
- 	//뿌요의 DestroytyEnd가 트루가 되면
-	//이중 포문으로 모든 전부 내리고 
-	//다시 bfs를 호출한다
-	//그리고 bfs는 다시 탐색하고 비지트의 뿌요를 넣는다
-	//그 안에서 삭제하고 
-	//여기서 계속 이중포문으로 체크
-	//그런데 가장 큰 문제
-	//얘가 내려가서 땅에 닿으면 트루가 된다.
-	//그걸 기다려주고 있기가 어렵다
-	//어떻게 기다려 줄까
+	if (true == CurrentPair_->GetCenterPuyo()->GetLand()
+		&& true == CurrentPair_->GetSecondPuyo()->GetLand())
+	{
+		PlayerState_ = PlayerState::PuyoCheck;
+	}
 }
 
 void Player::AutoFall()
@@ -786,7 +689,7 @@ int Player::GradePuyoAnimation(int _Dx, int _Dy, Puyo* _Puyo)
 	int INumber = 0; //식별 번호
 	bool* ConnectPtr = _Puyo->GetConnect();
 
-	if (-1 == _Dx)
+	if (1 == _Dx)
 	{
 		INumber += 10;
 		_Puyo->SetConnect(0, true);
@@ -815,7 +718,7 @@ int Player::GradePuyoAnimation(int _Dx, int _Dy, Puyo* _Puyo)
 		return INumber;
 	}
 
-	else if (1 == _Dx)
+	else if (-1 == _Dx)
 	{
 		++INumber;
 		_Puyo->SetConnect(1, true);
@@ -1066,3 +969,188 @@ void Player::RenderToScore()
 		ScoreRenderers_[0]->SetImage("IG_PLAYER_NUMBER_0.bmp");
 	}
 }
+
+
+
+
+void Player::SearchPuyo()
+{
+	while (PlayerState_ == PlayerState::PuyoCheck)
+	{
+		for (int Y = 0; Y < 30; ++Y)
+		{
+			for (int X = 0; X < 6; ++X)
+			{
+				if (nullptr != PlayerMap_[Y][X]
+					&& false == PlayerMap_[Y][X]->GetVisited())
+				{
+					BfsPuyo(PlayerMap_[Y][X]); 
+				}
+
+				std::list<Puyo*>::iterator StartIter = Visited_.begin();
+				std::list<Puyo*>::iterator EndIter = Visited_.end();
+
+				if (4 <= Visited_.size())
+				{
+					PlayerState_ = PlayerState::PuyoDestroy;
+					return;
+				}
+
+				for (; StartIter != EndIter; ++StartIter)
+				{ 
+					if (nullptr != (*StartIter))
+					{
+					 	(*StartIter)->Exit();
+					} 
+				}
+
+				Visited_.clear();
+			}
+		}
+
+		PlayerState_ = PlayerState::NewPuyo;
+	}
+}
+
+void Player::BfsPuyo(Puyo* _Puyo)
+{
+	int Dx[4] = { 0, 0, 1, -1 };
+	int Dy[4] = { 2, -2, 0, 0 };
+
+	Visited_.push_back(_Puyo);
+	_Puyo->Visit();
+
+	std::queue<Puyo*> PuyoQueue;
+	PuyoQueue.push(_Puyo);
+
+	while (false == PuyoQueue.empty())
+	{
+		Puyo* NodePuyo = PuyoQueue.front();
+		PuyoQueue.pop();
+
+		for (int i = 0; i < 4; i++)
+		{
+			int X = NodePuyo->GetX() + Dx[i];
+			int Y = NodePuyo->GetY() + Dy[i];
+
+			if (0 > X || X >= 6 ||
+				0 > Y || Y >= 30)
+			{
+				continue;
+			}
+
+			if (nullptr != PlayerMap_[Y][X])
+			{
+				Puyo* OtherPuyo = PlayerMap_[Y][X];
+
+				if (false == OtherPuyo->GetVisited())
+				{
+					if (NodePuyo->GetColor() == OtherPuyo->GetColor())
+					{
+						Visited_.push_back(OtherPuyo);
+						PuyoQueue.push(OtherPuyo);
+						OtherPuyo->Visit();
+
+						ConvertPuyoAnimtion(Dx[i], Dy[i], OtherPuyo);
+					}
+				}
+			}
+		}
+	}
+}
+
+void Player::DestroyPuyo()
+{
+	std::list<Puyo*>::iterator StartIter = Visited_.begin();
+	std::list<Puyo*>::iterator EndIter = Visited_.end();
+
+	for (StartIter; StartIter != EndIter; ++StartIter)
+	{
+		if (nullptr != (*StartIter))
+		{
+			PlayerMap_[(*StartIter)->GetY()][(*StartIter)->GetX()] = nullptr;
+			(*StartIter)->RenderToDestroy();
+		}
+	}
+
+	Visited_.clear();
+	PlayerState_ = PlayerState::PuyoDestroyEnd;
+}
+
+void Player::DestroyEndPuyo()
+{
+	for (int Y = 0; Y < 30; Y++)
+	{
+		for (int X = 0; X < 6; X++)
+		{
+			if (nullptr != PlayerMap_[Y][X]
+				&& true == PlayerMap_[Y][X]->GetDestroy())
+			{
+				if (false == PlayerMap_[Y][X]->GetDestroyAnimationEnd())
+				{
+					return;
+				}
+			}
+		}
+	}
+
+	PlayerState_ = PlayerState::LandPuyo;
+}
+
+void Player::LandPuyo()
+{
+	for (int Y = 0; Y < 30; Y++)
+	{
+		for (int X = 0; X < 6; X++)
+		{
+			if (nullptr != PlayerMap_[Y][X])
+			{
+				Puyo* FallPuyo_ = PlayerMap_[Y][X];
+
+				if (28 >= FallPuyo_->GetY() + 1
+					&& nullptr == PlayerMap_[FallPuyo_->GetY() + 2][X])
+				{
+					Falls_.push_back(FallPuyo_);
+					//FallPuyo_->SetFall(true);
+				}
+			}
+		}
+	}
+
+	if (0 < Falls_.size())
+	{
+		PlayerState_ = PlayerState::PuyoLandEnd;
+	}
+
+	else if (0 == Falls_.size())
+	{
+		PlayerState_ = PlayerState::PuyoCheck;
+	}
+}
+
+void Player::LandEndPuyo()
+{
+	std::vector<Puyo*>::iterator StartIter = Falls_.begin();
+	std::vector<Puyo*>::iterator EndIter = Falls_.end();
+
+	for (; StartIter != EndIter; ++StartIter)
+	{
+		if (nullptr != (*StartIter))
+		{
+			while (28 >= (*StartIter)->GetY() + 1
+				&& nullptr == PlayerMap_[(*StartIter)->GetY() + 2][(*StartIter)->GetX()])
+			{
+				(*StartIter)->SetFall(false);
+				(*StartIter)->SetMove(float4::DOWN * DownMoveDis_);
+				(*StartIter)->SetY((*StartIter)->GetY() + 1);
+
+				PlayerMap_[(*StartIter)->GetY() + 1][(*StartIter)->GetX()] = (*StartIter);
+				PlayerMap_[(*StartIter)->GetY() - 1][(*StartIter)->GetX()] = nullptr;
+			}
+
+		}
+	}
+	Falls_.clear();
+	PlayerState_ = PlayerState::LandPuyo;
+}
+

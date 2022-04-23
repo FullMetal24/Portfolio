@@ -10,6 +10,7 @@
 #include "PuyoPair.h"
 #include "Puyo.h"
 #include "FSM.h"
+#include "ContentsEnum.h"
 
 InGame::InGame()
 	: Stages_{ }
@@ -51,28 +52,25 @@ void InGame::Loading()
 	GameEngineActor* PlayerName_ = CreateActor<Stage>(1);
 	PlayerName_->CreateRenderer("IG_ARLENAME.bmp")->SetPivot({ GameEngineWindow::GetScale().Half().x - 96.f, GameEngineWindow::GetScale().Half().y - 290.f });
 
-	Player_ = CreateActor<Player>();
-	FSM_ = CreateActor<FSM>();
+	{
+		Player_ = CreateActor<Player>();
+		FSM_ = CreateActor<FSM>();
 
-	Player_->SetCurrentPair(CreatePuyoPair());
-	Player_->SetNextPair(CreatePuyoPair());
-	Player_->SetNextNextPair(CreatePuyoPair());
+		Player_->SetCurrentPair(CreatePuyoPair());
+		Player_->SetNextPair(CreatePuyoPair());
+		Player_->SetNextNextPair(CreatePuyoPair());
 
-	Player_->CurrentPairInit();
-
+		FSM_->SetCurrentPair(CreatePuyoPair());
+		FSM_->SetNextPair(CreatePuyoPair());
+		FSM_->SetNextNextPair(CreatePuyoPair());
+	}
 
 	Carbuncle_ = CreateActor<InGameActor>(6);
 	Carbuncle_->SetPosition({ GameEngineWindow::GetScale().Half().x - 160.f, GameEngineWindow::GetScale().Half().y + 300.f });
 	GameEngineRenderer* CarbuncleRenderer = Carbuncle_->CreateRenderer();
 	Carbuncle_->SetMyRenderer(CarbuncleRenderer);
 
-	//FSM_->CurrentPair_ = CreatePuyoPair();
-	//FSM_->NextPair_ = CreatePuyoPair();
-	//FSM_->NextNextPair_ = CreatePuyoPair();
-
-
 	CarbuncleAnimationInit();
-
 
 	GameEngineImage* Image = GameEngineImageManager::GetInst()->Find("IG_BUBBLE.bmp");
 	Image->CutCount(3, 1);
@@ -462,14 +460,17 @@ void InGame::CarbuncleAnimationInit()
 
 void InGame::Update()
 {
-	if (true == IsStart_ 
-		&& true == Player_->GetReady()
-		&& false == Player_->GetLose())
+	if (Player_->GetState() == PlayerState::NewPuyo)
 	{
 		Player_->AddPuyoPair(CreatePuyoPair());
+	}	
+	
+	if (FSM_->GetState() == PlayerState::NewPuyo)
+	{
+		FSM_->AddPuyoPair(CreatePuyoPair());
 	}
 
-	if (true == Player_->GetReady() && true == Player_->GetLose())
+	if (Player_->GetState() == PlayerState::Lose)
 	{
 		ChangeCount_ -= GameEngineTime::GetDeltaTime();
 
@@ -478,12 +479,29 @@ void InGame::Update()
 			FadeBackground_->FadeInOn();
 			FadeBackground_->GetMyRenderer()->SetOrder(20);
 			FadeBackground_->SetFadeSpeed(500.f);
-
 		}
 
 		if (true == FadeBackground_->GetIsInChange())
 		{			
 			GameEngine::GetInst().ChangeLevel("GameOver");
+			InGameBgm_.Stop();
+		}
+	}
+
+	if (FSM_->GetState() == PlayerState::Lose)
+	{
+		ChangeCount_ -= GameEngineTime::GetDeltaTime();
+
+		if (0 >= ChangeCount_)
+		{
+			FadeBackground_->FadeInOn();
+			FadeBackground_->GetMyRenderer()->SetOrder(20);
+			FadeBackground_->SetFadeSpeed(500.f);
+		}
+
+		if (true == FadeBackground_->GetIsInChange())
+		{
+			GameEngine::GetInst().ChangeLevel("EnemySelect");
 			InGameBgm_.Stop();
 		}
 	}

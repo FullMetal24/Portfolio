@@ -29,29 +29,29 @@ public:
 		IsLanding_ = _Land;
 	}
 
+	inline void SetFall(bool _Fall)
+	{
+		IsFall_ = _Fall;
+	}
+
+	inline bool GetFall()
+	{
+		return IsFall_;
+	}
+
 	inline void SetLandPlay(bool _IsPlay)
 	{
 		IsLandPlay_ = _IsPlay;
 	}
 
-	inline bool GetLandPlay_()
+	inline bool GetLandPlay()
 	{
 		return IsLandPlay_;
-	}
-
-	inline void GetLandAnimationEnd(bool _End)
-	{
-		LandAnimationEnd_ = _End;
 	}
 
 	inline bool GetLandAnimationEnd()
 	{
 		return LandAnimationEnd_;
-	}
-
-	inline void SetDestroy(bool _IsDestroy)
-	{
-		IsDestroy_ = _IsDestroy;
 	}
 
 	inline bool GetDestroyAnimationEnd()
@@ -157,7 +157,7 @@ public:
 	void RenderToLeftRightUpDown();
 
 	void RenderToDestroy();
-	//void RenderToLand();
+	void RenderToLand();
 
 	void RenderToIdle();
 	void RenderToOtherIdle();
@@ -181,6 +181,7 @@ private:
 	bool IsLanding_;
 	bool IsVisited_;
 	bool IsDestroy_;
+	bool IsFall_;
 
 	//연결 상태 확인
 	bool IsConnect_[4];

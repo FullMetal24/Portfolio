@@ -299,15 +299,14 @@ void EnemySelect::PlayRoulette()
 	{
 		Enemys_[RouletteIndex_]->GetProfile()->SetOrder(8);
 		Enemys_[RouletteIndex_]->GetIcon()->SetOrder(8);
-		Enemys_[RouletteIndex_]->GetRenderName()->SetOrder(8);
+		//Enemys_[RouletteIndex_]->GetRenderName()->SetOrder(8); //아직 없는 애들이 있음
 
 		if (SpeedLimit_ < RouletteSpeed_) //제한속도보다 값이 크다면 제한 속도를 올린다.
 		{
 			//지금 선택된 캐릭터는 가리고
 			Enemys_[RouletteIndex_]->GetProfile()->SetOrder(-1);
 			Enemys_[RouletteIndex_]->GetIcon()->SetOrder(0);
-			Enemys_[RouletteIndex_]->GetRenderName()->SetOrder(0);
-
+			//Enemys_[RouletteIndex_]->GetRenderName()->SetOrder(0);
 
 			RouletteSpeed_ = 0.0f; //룰렛속도를 0으로 초기화
 			++RouletteIndex_;
