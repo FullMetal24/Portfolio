@@ -275,6 +275,7 @@
     </ClCompile>
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="InGame.cpp" />
+    <ClCompile Include="Player_SearchPuyo.cpp" />
     <ClCompile Include="Puyo.cpp" />
     <ClCompile Include="PuyoPair.cpp">
       <SubType>

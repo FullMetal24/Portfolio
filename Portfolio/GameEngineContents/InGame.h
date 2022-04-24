@@ -34,10 +34,6 @@ public:
 		EnemyProfile_ = _Enemy;
 	}
 
-	PuyoPair* CreatePuyoPair();
-	Puyo* CreateHindrancePuyo(GameEngineActor* _FromActor, GameEngineActor* _ToActor); //방해 뿌요 생성, 다운 캐스팅
-	void CreatePuyoAnimation(GameEngineRenderer* _Renderer, PuyoColor _Color);
-
 	void PuyoAnimationInit();
 	void CarbuncleAnimationInit();
 
@@ -59,7 +55,6 @@ private:
 	GameEngineRenderer* EnemyProfile_;
 	GameEngineRenderer* Stage_; //스테이지 이미지 (렌더러가 나을듯함
 
-	GameEngineRandom RandomColor_;
 
 	FadeInOutBackground* FadeBackground_;
 

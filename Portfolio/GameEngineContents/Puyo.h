@@ -64,6 +64,11 @@ public:
 		return IsDestroy_;
 	}
 
+	inline float4 GetIndex()
+	{
+		return float4(X_, Y_);
+	}
+
 	inline int GetX()
 	{
 		return X_;
@@ -167,6 +172,8 @@ public:
 
 
 	void SelfDestroy();
+
+	void InitAnimation(PuyoColor color);
 
 protected:
 

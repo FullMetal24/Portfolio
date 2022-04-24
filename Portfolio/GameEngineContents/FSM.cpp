@@ -711,23 +711,27 @@ void FSM::DestroyPuyo()
 
 void FSM::DestroyEndPuyo()
 {
+	std::list<Puyo*>::iterator StartIter = Visited_.begin();
+	std::list<Puyo*>::iterator EndIter = Visited_.end();
 
-	for (int Y = 0; Y < 30; Y++)
+	int Index = 0;
+
+	for (StartIter; StartIter != EndIter; ++StartIter)
 	{
-		for (int X = 0; X < 6; X++)
+		if (nullptr != (*StartIter))
 		{
-			if (nullptr != FSMMap_[Y][X]
-				&& true == FSMMap_[Y][X]->GetDestroy())
+			if (true == (*StartIter)->GetMyRenderer()->IsEndAnimation())
 			{
-				if (false == FSMMap_[Y][X]->GetDestroyAnimationEnd())
-				{
-					return;
-				}
+				++Index;
 			}
 		}
 	}
 
-	FSMState_ = PlayerState::LandPuyo;
+	if (Visited_.size() <= Index)
+	{
+		Visited_.clear();
+		FSMState_ = PlayerState::LandPuyo;
+	}
 }
 
 void FSM::LandPuyo()
@@ -777,7 +781,7 @@ void FSM::LandEndPuyo()
 				(*StartIter)->SetMove(float4::DOWN * DownMoveDis_);
 				(*StartIter)->SetY((*StartIter)->GetY() + 1);
 
-				FSMMap_[(*StartIter)->GetY() + 1][(*StartIter)->GetX()] = (*StartIter);
+				FSMMap_[(*StartIter)->GetY()][(*StartIter)->GetX()] = (*StartIter);
 				FSMMap_[(*StartIter)->GetY() - 1][(*StartIter)->GetX()] = nullptr;
 			}
 		}

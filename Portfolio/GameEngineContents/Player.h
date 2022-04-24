@@ -1,8 +1,10 @@
 #pragma once
 #include "GameEngine/GameEngineActor.h"
 #include <list>
+#include <set>
 #include "Puyo.h"
 #include "ContentsEnum.h"
+#include <GameEngineBase/GameEngineRandom.h>
 
 class Puyo;
 class PuyoPair;
@@ -42,11 +44,12 @@ public:
 	void RenderToScore();
 
 	void SearchPuyo(); 
-	void BfsPuyo(Puyo* _Puyo);
 	void DestroyPuyo();
 	void DestroyEndPuyo();
 	void LandPuyo();
 	void LandEndPuyo();
+	void NewPuyoCreate();
+	PuyoPair* CreatePuyoPair();
 
 	inline void SetCurrentPair(PuyoPair* _Current)
 	{
@@ -68,14 +71,21 @@ public:
 		return PlayerState_;
 	}
 
+
+	// Sam
+	void OnePuyoSearch(Puyo* _Puyo, std::vector<Puyo*>& _Out);
+
 protected:
 
 private:
 	PlayerState PlayerState_;
 
 	Puyo* PlayerMap_[30][6];
-	std::list<Puyo*> Visited_;
+	std::vector<Puyo*> Destroys_;
 	std::vector<Puyo*> Falls_;
+
+	std::vector<std::vector<Puyo*>> AllDestroyPuyo; //삭제 탐색 대상
+	std::set<Puyo*> FindAllDestroy;
 
 	PuyoPair* CurrentPair_;
 	PuyoPair* NextPair_;
@@ -99,10 +109,14 @@ private:
 	float DownMoveDis_;
 	float SideMoveDis_;
 
-	float DownTime_;
+	float AutoDownTime_;
+	float DestroyDownTime_;
 	int LimitTime_;
 	int FallTime_;
 
 	bool IsWin_;
 	bool IsLose_;
+
+	GameEngineRandom RandomColor_;
 };
+

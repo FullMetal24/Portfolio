@@ -24,7 +24,7 @@
       <Filter>Actor\Level\InGame\Puyo</Filter>
     </ClCompile>
     <ClCompile Include="Player.cpp">
-      <Filter>Actor\Level\InGame\Player</Filter>
+      <Filter>Actor\Level\InGame\Enemy\Player</Filter>
     </ClCompile>
     <ClCompile Include="EnemyProfile.cpp">
       <Filter>Actor\Level\InGame\Enemy</Filter>
@@ -62,6 +62,9 @@
     <ClCompile Include="BestRecordsActor.cpp">
       <Filter>Actor\Level\BestRecords</Filter>
     </ClCompile>
+    <ClCompile Include="Player_SearchPuyo.cpp">
+      <Filter>Actor\Level\InGame\Enemy\Player</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PuyoPuyo.h" />
@@ -87,7 +90,7 @@
       <Filter>Actor\Level\InGame\Puyo</Filter>
     </ClInclude>
     <ClInclude Include="Player.h">
-      <Filter>Actor\Level\InGame\Player</Filter>
+      <Filter>Actor\Level\InGame\Enemy\Player</Filter>
     </ClInclude>
     <ClInclude Include="EnemyProfile.h">
       <Filter>Actor\Level\InGame\Enemy</Filter>
@@ -154,9 +157,6 @@
     <Filter Include="Actor\Level\InGame\Puyo">
       <UniqueIdentifier>{b06c5114-af39-4a99-af9f-2d08b6d7273e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Actor\Level\InGame\Player">
-      <UniqueIdentifier>{5af8637f-ce58-456c-a2e1-30715f6f18bd}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Actor\Level\InGame\Enemy">
       <UniqueIdentifier>{d1c6f7a8-f422-4421-9dc9-6620b92eea4d}</UniqueIdentifier>
     </Filter>
@@ -174,6 +174,9 @@
     </Filter>
     <Filter Include="Actor\Level\BestRecords">
       <UniqueIdentifier>{a343dbb4-308b-4fe2-956a-d8b3339338c7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\Level\InGame\Enemy\Player">
+      <UniqueIdentifier>{5af8637f-ce58-456c-a2e1-30715f6f18bd}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
