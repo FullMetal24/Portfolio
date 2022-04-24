@@ -71,8 +71,6 @@ public:
 		return PlayerState_;
 	}
 
-
-	// Sam
 	void OnePuyoSearch(Puyo* _Puyo, std::vector<Puyo*>& _Out);
 
 protected:
@@ -84,7 +82,7 @@ private:
 	std::vector<Puyo*> Destroys_;
 	std::vector<Puyo*> Falls_;
 
-	std::vector<std::vector<Puyo*>> AllDestroyPuyo; //삭제 탐색 대상
+	std::vector<std::vector<Puyo*>> AllDestroyPuyo; 
 	std::set<Puyo*> FindAllDestroy;
 
 	PuyoPair* CurrentPair_;
@@ -97,6 +95,8 @@ private:
 	unsigned int ScoreDigits_[10];
 	unsigned int DigitSize_;
 	GameEngineRenderer* ScoreRenderers_[10];
+
+	GameEngineRandom RandomColor_;
 
 	int CenterX_;
 	int CenterY_;
@@ -117,6 +117,5 @@ private:
 	bool IsWin_;
 	bool IsLose_;
 
-	GameEngineRandom RandomColor_;
 };
 
