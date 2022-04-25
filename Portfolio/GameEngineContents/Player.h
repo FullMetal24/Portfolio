@@ -4,10 +4,14 @@
 #include <set>
 #include "Puyo.h"
 #include "ContentsEnum.h"
+#include "InGameActor.h"
 #include <GameEngineBase/GameEngineRandom.h>
 
 class Puyo;
 class PuyoPair;
+class HindrancePuyo;
+class Fire;
+class FSM;
 class Player : public GameEngineActor
 {
 public:
@@ -51,6 +55,11 @@ public:
 	void NewPuyoCreate();
 	PuyoPair* CreatePuyoPair();
 
+	inline FSM* GetEnemy(FSM* _Enemy)
+	{
+		Enemy_ = _Enemy;
+	}
+
 	inline void SetCurrentPair(PuyoPair* _Current)
 	{
 		CurrentPair_ = _Current;
@@ -74,18 +83,27 @@ public:
 	void OnePuyoSearch(Puyo* _Puyo, std::vector<Puyo*>& _Out);
 
 	void PlayerToEnemyAttack(float4 _FromPos);
+	void CreateHindrancePuyo(int _Count); //방해 뿌요 만들기
+	void HindrancePuyoCheck();
+	void FallHindrancePuyo();
 
 protected:
 
 private:
 	PlayerState PlayerState_;
+	FSM* Enemy_;
 
 	Puyo* PlayerMap_[30][6];
 	std::vector<Puyo*> Destroys_;
 	std::vector<Puyo*> Falls_;
 
-	std::vector<std::vector<Puyo*>> AllDestroyPuyo; 
-	std::set<Puyo*> FindAllDestroy;
+	std::vector<std::vector<Puyo*>> AllDestroyPuyo_; 
+	std::set<Puyo*> FindAllDestroy_;
+
+	std::vector<HindrancePuyo*> HindrancePuyos_;
+
+	float4 EnemeyPoint_;
+	Fire* Fire_;
 
 	PuyoPair* CurrentPair_;
 	PuyoPair* NextPair_;

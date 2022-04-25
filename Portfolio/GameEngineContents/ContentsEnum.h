@@ -48,9 +48,18 @@ enum class PlayerState
 	MovePuyo,
 	LandPuyo,
 	PuyoLandEnd,
+	HindranceCheck,
 	PuyoCheck,
 	PuyoDestroy,
 	PuyoDestroyEnd,
 	Win,
 	Lose
+};
+
+
+enum class FireOwner
+{
+	NONE,
+	Player,
+	Enemy
 };

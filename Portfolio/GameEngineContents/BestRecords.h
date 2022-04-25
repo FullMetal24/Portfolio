@@ -18,17 +18,17 @@ public:
 	BestRecords& operator=(const BestRecords& _Other) = delete;
 	BestRecords& operator=(BestRecords&& _Other) noexcept = delete;
 
+	inline void SetEnemy(EnemyProfile* _Enemy)
+	{
+		EnemyProfile_ = _Enemy;
+	}
+
 protected:
 	void Loading() override;
 	void Update() override;
 
 	void LevelChangeStart(GameEngineLevel* _PrevLevel) override;
 	void LevelChangeEnd(GameEngineLevel* _NextLevel) override;
-
-	inline void SetEnemy(EnemyProfile* _Enemy)
-	{
-		EnemyProfile_ = _Enemy;
-	}
 
 private:
 	GameEngineSoundPlayer MainMenuBgm_;

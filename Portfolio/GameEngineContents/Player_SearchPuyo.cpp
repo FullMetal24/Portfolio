@@ -8,7 +8,6 @@
 #include "Puyo.h"
 #include "PuyoPair.h"
 
-
 bool IsOver(float4 _Index) 
 {
 	if (0 > _Index.ix())
@@ -36,12 +35,12 @@ bool IsOver(float4 _Index)
 
 void Player::OnePuyoSearch(Puyo* _Puyo, std::vector<Puyo*>& _Out)
 {
-	if (FindAllDestroy.end() !=  FindAllDestroy.find(_Puyo))
+	if (FindAllDestroy_.end() !=  FindAllDestroy_.find(_Puyo))
 	{
 		return;
 	}
 
-	FindAllDestroy.insert(_Puyo);
+	FindAllDestroy_.insert(_Puyo);
 	_Out.push_back(_Puyo);
 
 	static float4 ArrDir[4] = {
@@ -76,9 +75,10 @@ void Player::OnePuyoSearch(Puyo* _Puyo, std::vector<Puyo*>& _Out)
 	}
 }
 
+
 void Player::SearchPuyo()
 {
-	for (int Y = 29; Y >= 0; --Y)
+	for (int Y = 28; Y >= 0; --Y)
 	{
 		for (int X = 0; X < 6; ++X)
 		{
@@ -89,7 +89,7 @@ void Player::SearchPuyo()
 				continue;
 			}
 
-			if (FindAllDestroy.end() != FindAllDestroy.find(Current))
+			if (FindAllDestroy_.end() != FindAllDestroy_.find(Current))
 			{
 				continue;
 			}
@@ -114,16 +114,18 @@ void Player::SearchPuyo()
 			{
 				continue;
 			}
+			
+			++Chain_;
 
 			for (size_t i = 0; i < Check.size(); i++)
 			{
-				FindAllDestroy.insert(Check[i]);
+				FindAllDestroy_.insert(Check[i]);
 			}
 
-			AllDestroyPuyo.push_back(Check);
+			AllDestroyPuyo_.push_back(Check);
 		}
 	}
 
-	FindAllDestroy.clear();
+	FindAllDestroy_.clear();
 	PlayerState_ = PlayerState::PuyoDestroy;
 }

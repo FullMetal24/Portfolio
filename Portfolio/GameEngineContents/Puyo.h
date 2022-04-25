@@ -147,18 +147,18 @@ public:
 	void RenderToUp();
 	void RenderToDown();
 
-	void RenderToLeftRight(); 
+	void RenderToLeftRight();
 	void RenderToLeftRightDown();
-	void RenderToLefttUp(); 
-	void RenderToLeftRightUp(); 
+	void RenderToLefttUp();
+	void RenderToLeftRightUp();
 	void RenderToLeftUpDown();
-	void RenderToLeftDown(); 
-	
-	void RenderToRightUp(); 
+	void RenderToLeftDown();
+
+	void RenderToRightUp();
 	void RenderToRightUpDown();
-	void RenderToRightDown(); 
-	
-	void RenderToUpDown(); 
+	void RenderToRightDown();
+
+	void RenderToUpDown();
 	void RenderToLeftRightUpDown();
 
 	void RenderToDestroy();
@@ -190,11 +190,9 @@ private:
 	bool IsDestroy_;
 	bool IsFall_;
 
-	//연결 상태 확인
 	bool IsConnect_[4];
 
 	bool LandAnimationEnd_;
-	bool DestroyAnimationEnd_; //이게 필요한가?
+	bool DestroyAnimationEnd_;
 
 };
-

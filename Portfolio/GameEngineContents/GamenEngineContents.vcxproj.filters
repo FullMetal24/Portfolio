@@ -24,7 +24,7 @@
       <Filter>Actor\Level\InGame\Puyo</Filter>
     </ClCompile>
     <ClCompile Include="Player.cpp">
-      <Filter>Actor\Level\InGame\Enemy\Player</Filter>
+      <Filter>Actor\Level\InGame\Player</Filter>
     </ClCompile>
     <ClCompile Include="EnemyProfile.cpp">
       <Filter>Actor\Level\InGame\Enemy</Filter>
@@ -63,7 +63,16 @@
       <Filter>Actor\Level\BestRecords</Filter>
     </ClCompile>
     <ClCompile Include="Player_SearchPuyo.cpp">
-      <Filter>Actor\Level\InGame\Enemy\Player</Filter>
+      <Filter>Actor\Level\InGame\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="HindrancePuyo.cpp">
+      <Filter>Actor\Level\InGame\Puyo</Filter>
+    </ClCompile>
+    <ClCompile Include="Fire.cpp">
+      <Filter>Actor\Level\InGame</Filter>
+    </ClCompile>
+    <ClCompile Include="FSM_SearchPuyo.cpp">
+      <Filter>Actor\Level\InGame\Enemy</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -90,7 +99,7 @@
       <Filter>Actor\Level\InGame\Puyo</Filter>
     </ClInclude>
     <ClInclude Include="Player.h">
-      <Filter>Actor\Level\InGame\Enemy\Player</Filter>
+      <Filter>Actor\Level\InGame\Player</Filter>
     </ClInclude>
     <ClInclude Include="EnemyProfile.h">
       <Filter>Actor\Level\InGame\Enemy</Filter>
@@ -130,6 +139,12 @@
     </ClInclude>
     <ClInclude Include="BestRecordsActor.h">
       <Filter>Actor\Level\BestRecords</Filter>
+    </ClInclude>
+    <ClInclude Include="HindrancePuyo.h">
+      <Filter>Actor\Level\InGame\Puyo</Filter>
+    </ClInclude>
+    <ClInclude Include="Fire.h">
+      <Filter>Actor\Level\InGame</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -175,7 +190,7 @@
     <Filter Include="Actor\Level\BestRecords">
       <UniqueIdentifier>{a343dbb4-308b-4fe2-956a-d8b3339338c7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Actor\Level\InGame\Enemy\Player">
+    <Filter Include="Actor\Level\InGame\Player">
       <UniqueIdentifier>{5af8637f-ce58-456c-a2e1-30715f6f18bd}</UniqueIdentifier>
     </Filter>
   </ItemGroup>

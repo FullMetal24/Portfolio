@@ -1,6 +1,7 @@
 #pragma once
 #include <GameEngine/GameEngineActor.h>
 #include "ContentsEnum.h"
+#include "Player.h"
 
 class Puyo;
 class PuyoPair;

@@ -76,6 +76,7 @@ GameEngineRenderer* GameEngineActor::CreateRenderer(
 	{
 		NewRenderer->GameEngineUpdateObject::SetOrder(GetOrder());
 	}
+
 	NewRenderer->SetPivot(_PivotPos);
 	NewRenderer->SetPivotType(_PivotType);
 
