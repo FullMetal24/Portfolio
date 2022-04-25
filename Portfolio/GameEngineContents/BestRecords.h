@@ -4,6 +4,7 @@
 
 class FadeInOutBackground;
 class BestRecordsActor;
+class EnemyProfile;
 class BestRecords : public GameEngineLevel
 {
 public:
@@ -24,11 +25,17 @@ protected:
 	void LevelChangeStart(GameEngineLevel* _PrevLevel) override;
 	void LevelChangeEnd(GameEngineLevel* _NextLevel) override;
 
+	inline void SetEnemy(EnemyProfile* _Enemy)
+	{
+		EnemyProfile_ = _Enemy;
+	}
+
 private:
 	GameEngineSoundPlayer MainMenuBgm_;
 	FadeInOutBackground* FadeInOutBackground_;
 
 	BestRecordsActor* Enemy_;
+	EnemyProfile* EnemyProfile_;
 
 	float Time_;
 

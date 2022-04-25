@@ -5,6 +5,7 @@
 
 class GameOverActor;
 class GameEngineRenderer;
+class EnemyProfile;
 class GameOver : public GameEngineLevel
 {
 public:
@@ -21,6 +22,12 @@ public:
 	void LevelChangeStart(GameEngineLevel* _PrevLevel) override;
 	void LevelChangeEnd(GameEngineLevel* _NextLevel) override;
 
+	inline void SetEnemy(EnemyProfile* _Enemy)
+	{
+		EnemyProfile_ = _Enemy;
+	}
+
+
 protected:
 
 private:
@@ -28,6 +35,7 @@ private:
 	GameEngineRenderer* BackRenderer_;
 
 	FadeInOutBackground* FadeBack_;
+	EnemyProfile* EnemyProfile_;
 
 	int Count_;
 	float Time_;

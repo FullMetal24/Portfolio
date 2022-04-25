@@ -2,6 +2,7 @@
 #include <GameEngine/GameEngine.h>
 #include "FadeInOutBackground.h"
 #include "GameOverActor.h"
+#include "BestRecords.h"
 
 GameOver::GameOver()
 	:BackRenderer_(nullptr)
@@ -47,6 +48,11 @@ void GameOver::Update()
 		if (true == FadeBack_->GetIsInChange())
 		{
 			GameEngine::GetInst().ChangeLevel("BestRecords");
+
+			GameEngineLevel* NextLevel = GameEngine::GetNextLevel();
+			BestRecords* BestRecords_ = dynamic_cast<BestRecords*>(NextLevel);
+
+			BestRecords_->SetEnemy(EnemyProfile_);
 		}
 	}
 	

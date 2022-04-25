@@ -12,6 +12,7 @@
 class FSM;
 class PuyoPair;
 class InGameActor;
+class EnemyProfile;
 class InGame : public GameEngineLevel
 {
 public:
@@ -29,7 +30,7 @@ public:
 	void LevelChangeStart(GameEngineLevel* _PrevLevel) override;
 	void LevelChangeEnd(GameEngineLevel* _NextLevel) override;
 
-	inline void SetEnemy(GameEngineRenderer* _Enemy)
+	inline void SetEnemy(EnemyProfile* _Enemy)
 	{
 		EnemyProfile_ = _Enemy;
 	}
@@ -52,9 +53,8 @@ private:
 	InGameActor* Carbuncle_;
 	InGameActor* Stars_[36];
 	  
-	GameEngineRenderer* EnemyProfile_;
+	EnemyProfile* EnemyProfile_;
 	GameEngineRenderer* Stage_; //스테이지 이미지 (렌더러가 나을듯함
-
 
 	FadeInOutBackground* FadeBackground_;
 

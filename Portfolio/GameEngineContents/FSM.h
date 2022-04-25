@@ -47,6 +47,7 @@ public:
 	void LandEndPuyo();
 
 	void GreedyCheck();
+	void EnemyToPlayerAttack(float4 _FromPos);
 
 	inline void SetCurrentPair(PuyoPair* _Current)
 	{

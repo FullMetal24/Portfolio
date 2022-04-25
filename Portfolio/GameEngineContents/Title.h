@@ -47,6 +47,8 @@ private:
 	FadeInOutBackground* FadeInOutBackground_;
 	FadeInOutBackground* LevelChangeBackground_;
 
+	GameEngineActor* Stars_;
+
 	GameEngineSoundPlayer TitleBgm_;
 
 	int TransCount_;

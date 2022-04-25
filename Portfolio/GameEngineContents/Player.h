@@ -73,6 +73,8 @@ public:
 
 	void OnePuyoSearch(Puyo* _Puyo, std::vector<Puyo*>& _Out);
 
+	void PlayerToEnemyAttack(float4 _FromPos);
+
 protected:
 
 private:

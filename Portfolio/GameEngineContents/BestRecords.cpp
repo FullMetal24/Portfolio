@@ -39,7 +39,7 @@ void BestRecords::Loading()
 
 void BestRecords::Update()
 {
-	//Time_ += GameEngineTime::GetDeltaTime();
+	Time_ += GameEngineTime::GetDeltaTime();
 
 	if (Time_ >= 3.f)
 	{

@@ -78,7 +78,7 @@ void Player::OnePuyoSearch(Puyo* _Puyo, std::vector<Puyo*>& _Out)
 
 void Player::SearchPuyo()
 {
-	for (int Y = 28; Y >= 0; --Y)
+	for (int Y = 29; Y >= 0; --Y)
 	{
 		for (int X = 0; X < 6; ++X)
 		{

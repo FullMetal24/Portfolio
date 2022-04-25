@@ -46,6 +46,11 @@ public:
 		MyAnimation_ = _Renderer;
 	}
 
+	GameEngineRenderer* GetMyAnimation()
+	{
+		return MyAnimation_;
+	}
+
 	void SetIcon(GameEngineRenderer* _Icon)
 	{
 		MyIcon_ = _Icon;
@@ -56,13 +61,19 @@ public:
 		MyName_ = _Name;
 	}
 
+	void SetSD(GameEngineRenderer* _SD)
+	{
+		MySD_ = _SD;
+	}
+
 protected:
 
 private:
-	GameEngineRenderer* MyProfile_;
-	GameEngineRenderer* MyAnimation_;
-	GameEngineRenderer* MyIcon_;
-	GameEngineRenderer* MyName_;
+	GameEngineRenderer* MyProfile_; //에네미 셀렉트 레벨 프로필
+	GameEngineRenderer* MyAnimation_; //인게임 레벨 애니메이션(다 애니메이션으로 만들어야 함)
+	GameEngineRenderer* MyIcon_; 
+	GameEngineRenderer* MyName_; 
+	GameEngineRenderer* MySD_;
 
 
 };

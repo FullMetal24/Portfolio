@@ -11,6 +11,8 @@
 #include "Puyo.h"
 #include "FSM.h"
 #include "ContentsEnum.h"
+#include "GameOver.h"
+#include "EnemyProfile.h"
 
 InGame::InGame()
 	: Stages_{ }
@@ -53,6 +55,7 @@ void InGame::Loading()
 
 	Player_ = CreateActor<Player>();
 	FSM_ = CreateActor<FSM>();
+
 	Carbuncle_ = CreateActor<InGameActor>(6);
 	Carbuncle_->SetPosition({ GameEngineWindow::GetScale().Half().x - 160.f, GameEngineWindow::GetScale().Half().y + 300.f });
 	GameEngineRenderer* CarbuncleRenderer = Carbuncle_->CreateRenderer();
@@ -79,7 +82,7 @@ void InGame::Loading()
 
 		if (nullptr != EnemyProfile_)
 		{
-			Bubbles_[i]->SetPosition(EnemyProfile_->GetActor()->GetPosition());
+			Bubbles_[i]->SetPosition(EnemyProfile_->GetMyAnimation()->GetActor()->GetPosition());
 		}
 
 		else
@@ -463,6 +466,11 @@ void InGame::Update()
 		{			
 			GameEngine::GetInst().ChangeLevel("GameOver");
 			InGameBgm_.Stop();
+
+			GameEngineLevel* NextLevel = GameEngine::GetNextLevel();
+			GameOver* GameOver_ = dynamic_cast<GameOver*>(NextLevel);
+
+			GameOver_->SetEnemy(EnemyProfile_);
 		}
 	}
 
@@ -678,12 +686,12 @@ void InGame::LevelChangeStart(GameEngineLevel* _PrevLevel)
 
 	if (nullptr != EnemyProfile_)
 	{
-		GameEngineActor* Profile = CreateActor<Stage>(4);
-		GameEngineRenderer* Renderer = Profile->CreateRenderer();
-		Renderer->SetImage(EnemyProfile_->GetImage());
+		//GameEngineActor* Profile = CreateActor<Stage>(4);
+		//GameEngineRenderer* Renderer = Profile->CreateRenderer();
+		//Renderer->SetImage(EnemyProfile_->GetMyAnimation());
 
-		Renderer->SetImageScale();
-		Renderer->SetPivot({ GameEngineWindow::GetScale().Half().x, GameEngineWindow::GetScale().Half().y + 70.f });
+		//Renderer->SetImageScale();
+		//Renderer->SetPivot({ GameEngineWindow::GetScale().Half().x, GameEngineWindow::GetScale().Half().y + 70.f });
 	}
 }
 
