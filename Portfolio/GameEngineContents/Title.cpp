@@ -255,6 +255,12 @@ void Title::Update()
 
 void Title::LevelChangeStart(GameEngineLevel* _PrevLevel)
 {
+    TransCount_ = 0;
+    LevelChangeBackground_->SetIsChage(false);
+    LevelChangeBackground_->SetAlphaValue(0);
+    LevelChangeBackground_->SetFadeSpeed(0.f);
+
+    FadeInOutBackground_->Reset();
 }
 
 void Title::LevelChangeEnd(GameEngineLevel* _NextLevel)

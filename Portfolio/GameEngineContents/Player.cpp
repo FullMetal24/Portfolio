@@ -116,10 +116,10 @@ void Player::Update()
 		NewPuyoCreate();
 		break;
 	case PlayerState::MovePuyo:
-		PlayerInput();
-		CurrentPuyoLandCheck();
-		FallAlonePuyo();
-		AutoFall();
+		//CurrentPuyoLandCheck();
+		//FallAlonePuyo();
+		//AutoFall();
+		//PlayerInput();
 		break;
 	case PlayerState::LandPuyo:
 		if (ChangeTime_ >= 0.5f)

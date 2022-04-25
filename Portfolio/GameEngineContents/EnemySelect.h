@@ -33,6 +33,11 @@ public:
 	void PlayRoulette();
 	void TwinkleEnemyIcon();
 
+	inline EnemyProfile* GetEnemyProfile()
+	{
+		return MyEnemy_;
+	}
+
 protected:
 
 

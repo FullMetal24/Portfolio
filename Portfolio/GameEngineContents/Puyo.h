@@ -139,6 +139,9 @@ public:
 		IsConnect_[_Index] = _Value;
 	}
 
+	Puyo* LeftPuyo();
+
+
 	void RenderToNormal();
 
 	//局聪皋捞记 包访 贸府

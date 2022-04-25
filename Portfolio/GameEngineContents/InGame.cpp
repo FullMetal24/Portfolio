@@ -11,6 +11,7 @@
 #include "Puyo.h"
 #include "FSM.h"
 #include "ContentsEnum.h"
+#include "EnemySelect.h"
 #include "GameOver.h"
 #include "EnemyProfile.h"
 
@@ -680,19 +681,15 @@ void InGame::VomitBubble()
 	}
 }
 
-void InGame::LevelChangeStart(GameEngineLevel* _PrevLevel)
+void InGame::LevelChangeStart(GameEngineLevel* _PrevLevel )
 {
 	InGameBgm_ = GameEngineSound::SoundPlayControl("InGame.mp3");
 
-	if (nullptr != EnemyProfile_)
-	{
-		//GameEngineActor* Profile = CreateActor<Stage>(4);
-		//GameEngineRenderer* Renderer = Profile->CreateRenderer();
-		//Renderer->SetImage(EnemyProfile_->GetMyAnimation());
 
-		//Renderer->SetImageScale();
-		//Renderer->SetPivot({ GameEngineWindow::GetScale().Half().x, GameEngineWindow::GetScale().Half().y + 70.f });
-	}
+	GameEngineLevel* PrevLevel = _PrevLevel;
+	EnemySelect* EnemySelect_ = dynamic_cast<EnemySelect*>(PrevLevel);
+
+	EnemyProfile* CurEnemy = EnemySelect_->GetEnemyProfile();
 }
 
 void InGame::LevelChangeEnd(GameEngineLevel* _PrevLevel)

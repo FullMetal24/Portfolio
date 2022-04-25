@@ -61,7 +61,7 @@ private:
 	GameEngineSoundPlayer InGameBgm_;
 
 	GameEngineRandom Random_;
-	InGameActor* Bubbles_[15 ];
+	InGameActor* Bubbles_[15];
 	float4 BubbleDir_[15];
 	int BubbleSpeed_[15];
 

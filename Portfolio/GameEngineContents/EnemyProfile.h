@@ -30,7 +30,6 @@ public:
 		return MyIcon_;
 	}
 	
-
 	GameEngineRenderer* GetRenderName()
 	{
 		return MyName_;
@@ -64,6 +63,11 @@ public:
 	void SetSD(GameEngineRenderer* _SD)
 	{
 		MySD_ = _SD;
+	}
+
+	GameEngineRenderer* GetSD()
+	{
+		return MySD_;
 	}
 
 protected:

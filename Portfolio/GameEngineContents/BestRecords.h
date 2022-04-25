@@ -34,7 +34,6 @@ private:
 	GameEngineSoundPlayer MainMenuBgm_;
 	FadeInOutBackground* FadeInOutBackground_;
 
-	BestRecordsActor* Enemy_;
 	EnemyProfile* EnemyProfile_;
 
 	float Time_;

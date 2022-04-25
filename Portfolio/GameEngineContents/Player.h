@@ -83,7 +83,7 @@ public:
 	void OnePuyoSearch(Puyo* _Puyo, std::vector<Puyo*>& _Out);
 
 	void PlayerToEnemyAttack(float4 _FromPos);
-	void CreateHindrancePuyo(int _Count); //방해 뿌요 만들기
+	void CreateHindrancePuyo(int _Count);
 	void HindrancePuyoCheck();
 	void FallHindrancePuyo();
 
@@ -94,6 +94,7 @@ private:
 	FSM* Enemy_;
 
 	Puyo* PlayerMap_[30][6];
+
 	std::vector<Puyo*> Destroys_;
 	std::vector<Puyo*> Falls_;
 
