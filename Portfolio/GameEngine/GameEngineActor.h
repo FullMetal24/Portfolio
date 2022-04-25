@@ -59,7 +59,6 @@ public:
 	{
 		Position_ = _Value;
 	}
-
 	inline void SetScale(float4 _Value)
 	{
 		Scale_ = _Value;

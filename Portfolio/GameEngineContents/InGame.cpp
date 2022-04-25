@@ -54,7 +54,9 @@ void InGame::Loading()
 	GameEngineActor* PlayerName_ = CreateActor<Stage>(1);
 	PlayerName_->CreateRenderer("IG_ARLENAME.bmp")->SetPivot({ GameEngineWindow::GetScale().Half().x - 96.f, GameEngineWindow::GetScale().Half().y - 290.f });
 
-	Player_ = CreateActor<Player>();
+	Player_ = CreateActor<Player>(10);
+	Player_->SetPosition({95, 748});
+
 	FSM_ = CreateActor<FSM>();
 
 	Carbuncle_ = CreateActor<InGameActor>(6);
@@ -452,47 +454,6 @@ void InGame::CarbuncleAnimationInit()
 
 void InGame::Update()
 {
-	if (Player_->GetState() == PlayerState::Lose)
-	{
-		ChangeCount_ -= GameEngineTime::GetDeltaTime();
-
-		if (0 >= ChangeCount_)
-		{
-			FadeBackground_->FadeInOn();
-			FadeBackground_->GetMyRenderer()->SetOrder(20);
-			FadeBackground_->SetFadeSpeed(500.f);
-		}
-
-		if (true == FadeBackground_->GetIsInChange())
-		{			
-			GameEngine::GetInst().ChangeLevel("GameOver");
-			InGameBgm_.Stop();
-
-			GameEngineLevel* NextLevel = GameEngine::GetNextLevel();
-			GameOver* GameOver_ = dynamic_cast<GameOver*>(NextLevel);
-
-			GameOver_->SetEnemy(EnemyProfile_);
-		}
-	}
-
-	if (FSM_->GetState() == PlayerState::Lose)
-	{
-		ChangeCount_ -= GameEngineTime::GetDeltaTime();
-
-		if (0 >= ChangeCount_)
-		{
-			FadeBackground_->FadeInOn();
-			FadeBackground_->GetMyRenderer()->SetOrder(20);
-			FadeBackground_->SetFadeSpeed(500.f);
-		}
-
-		if (true == FadeBackground_->GetIsInChange())
-		{
-			GameEngine::GetInst().ChangeLevel("EnemySelect");
-			InGameBgm_.Stop();
-		}
-	}
-
 	VomitBubble();
 	CarbuncleUpdate();
 
@@ -685,11 +646,13 @@ void InGame::LevelChangeStart(GameEngineLevel* _PrevLevel )
 {
 	InGameBgm_ = GameEngineSound::SoundPlayControl("InGame.mp3");
 
+	if (nullptr != _PrevLevel)
+	{
+		GameEngineLevel* PrevLevel = _PrevLevel;
+		EnemySelect* EnemySelect_ = dynamic_cast<EnemySelect*>(PrevLevel);
 
-	GameEngineLevel* PrevLevel = _PrevLevel;
-	EnemySelect* EnemySelect_ = dynamic_cast<EnemySelect*>(PrevLevel);
-
-	EnemyProfile* CurEnemy = EnemySelect_->GetEnemyProfile();
+		EnemyProfile* CurEnemy = EnemySelect_->GetEnemyProfile();
+	}
 }
 
 void InGame::LevelChangeEnd(GameEngineLevel* _PrevLevel)

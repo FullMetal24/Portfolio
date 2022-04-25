@@ -216,8 +216,11 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="Player.h" />
     <ClInclude Include="InGame.h" />
+    <ClInclude Include="Player.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Puyo.h" />
     <ClInclude Include="PuyoPair.h">
       <SubType>
@@ -290,8 +293,11 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="Player.cpp" />
     <ClCompile Include="InGame.cpp" />
+    <ClCompile Include="Player.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Player_SearchPuyo.cpp" />
     <ClCompile Include="Puyo.cpp" />
     <ClCompile Include="PuyoPair.cpp">

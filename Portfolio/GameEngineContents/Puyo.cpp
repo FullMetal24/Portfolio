@@ -5,12 +5,15 @@
 #include <GameEngine/GameEngineRenderer.h>
 #include <GameEngine/GameEngine.h>
 #include <GameEngineBase/GameEngineTime.h>
+#include "Player.h"
 
 Puyo::Puyo()
 	: MyRenderer_(nullptr)
 	, MyColor_(PuyoColor::RED)
+	, CurDir_(PuyoDir::UP)
 	, X_(0)
 	, Y_(0)
+	, OffsetX_(0)
 	, IsLanding_(false)
 	, IsVisited_(false)
 	, IsLandPlay_(false)
@@ -183,6 +186,119 @@ void Puyo::InitAnimation(PuyoColor color)
 }
 
 
+void Puyo::SetIndex(int _X, int _Y)
+{
+	SetX(_X);
+	SetY(_Y);
+}
+
+void Puyo::Init(Player* _Player, int x, int y, PuyoColor _Color)
+{
+	Player_ = _Player;
+	SetIndex(x, y);
+	InitAnimation(_Color);
+
+	SetPosition(_Player->GetPosition() + float4{ static_cast<float>((x * 65) + OffsetX_), static_cast<float>(y * -60) });
+
+	OffsetX_ += 30;
+
+	if (x == 5)
+	{
+		OffsetX_ = 0;
+	}
+}
+
+
+//이동 관련 함수
+Puyo* Puyo::LeftPuyo(Puyo* Map[15][6])
+{
+	if (0 <= X_ - 1)
+	{
+		if (nullptr != Map[Y_][X_ - 1])
+		{
+			return nullptr;
+		}
+
+		else if (nullptr == Map[Y_][X_ - 1])
+		{
+			Map[Y_][X_] = nullptr;
+			Map[Y_][X_ - 1] = this;
+
+			SetMove(float4::LEFT * 65.0f);
+
+			--X_;
+			return this;
+		}
+	}
+}
+
+Puyo* Puyo::RightPuyo(Puyo* Map[15][6])
+{
+	if (5 >= X_ + 1)
+	{
+		if (nullptr != Map[Y_][X_ + 1])
+		{
+			return nullptr;
+		}
+
+		else if (nullptr == Map[Y_][X_ + 1])
+		{
+			Map[Y_][X_] = nullptr;
+			Map[Y_][X_ + 1] = this;
+			
+			SetMove(float4::RIGHT * 65.0f);
+			
+			++X_;
+			return this;
+		}
+	}
+}
+
+Puyo* Puyo::DownPuyo(Puyo* Map[15][6])
+{
+	if (0 <= Y_ - 1)
+	{
+		if (nullptr != Map[Y_ - 1][X_])
+		{
+			return nullptr;
+		}
+
+		else if (nullptr == Map[Y_ - 1][X_])
+		{
+			Map[Y_][X_] = nullptr;
+			Map[Y_ - 1][X_] = this;
+
+			SetMove(float4::DOWN * 60.0f);
+
+			--Y_;
+			return this;
+		}
+	}
+}
+
+Puyo* Puyo::RotatePuyo(Puyo* Map[15][6], Puyo* _Puyo)
+{
+	Puyo* CenterPuyo = _Puyo;
+
+	switch (CurDir_)
+	{
+	case PuyoDir::LEFT:
+		break;
+	case PuyoDir::RIGHT:
+		break;
+	case PuyoDir::DOWN:
+		break;
+	case PuyoDir::UP:
+		break;
+	}
+
+	return nullptr;
+}
+
+
+
+
+//애니메이션 관련 함수
 void Puyo::RenderToNormal()
 {
 	switch (MyColor_)

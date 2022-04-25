@@ -23,9 +23,6 @@
     <ClCompile Include="PuyoPair.cpp">
       <Filter>Actor\Level\InGame\Puyo</Filter>
     </ClCompile>
-    <ClCompile Include="Player.cpp">
-      <Filter>Actor\Level\InGame\Player</Filter>
-    </ClCompile>
     <ClCompile Include="EnemyProfile.cpp">
       <Filter>Actor\Level\InGame\Enemy</Filter>
     </ClCompile>
@@ -74,6 +71,9 @@
     <ClCompile Include="FSM_SearchPuyo.cpp">
       <Filter>Actor\Level\InGame\Enemy</Filter>
     </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Actor\Level\InGame\Player</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PuyoPuyo.h" />
@@ -97,9 +97,6 @@
     </ClInclude>
     <ClInclude Include="PuyoPair.h">
       <Filter>Actor\Level\InGame\Puyo</Filter>
-    </ClInclude>
-    <ClInclude Include="Player.h">
-      <Filter>Actor\Level\InGame\Player</Filter>
     </ClInclude>
     <ClInclude Include="EnemyProfile.h">
       <Filter>Actor\Level\InGame\Enemy</Filter>
@@ -145,6 +142,9 @@
     </ClInclude>
     <ClInclude Include="Fire.h">
       <Filter>Actor\Level\InGame</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Actor\Level\InGame\Player</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

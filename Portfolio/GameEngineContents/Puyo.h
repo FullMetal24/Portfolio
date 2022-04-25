@@ -2,7 +2,8 @@
 #include <GameEngine/GameEngineActor.h>
 #include "ContentsEnum.h"
 
-
+class Player;
+class FSM;
 class Puyo : public GameEngineActor
 {
 
@@ -89,6 +90,10 @@ public:
 		Y_ = _Y;
 	}
 
+	void SetIndex(int _X, int _Y);
+
+	void Init(Player* _Player, int x, int y, PuyoColor _Color);
+
 	inline GameEngineRenderer* GetMyRenderer()
 	{
 		return MyRenderer_;
@@ -139,12 +144,14 @@ public:
 		IsConnect_[_Index] = _Value;
 	}
 
-	Puyo* LeftPuyo();
-
-
-	void RenderToNormal();
+	//이동 관련 코드
+	Puyo* LeftPuyo(Puyo* Map[15][6]);
+	Puyo* RightPuyo(Puyo* Map[15][6]);
+	Puyo* DownPuyo(Puyo* Map[15][6]);
+	Puyo* RotatePuyo(Puyo* Map[15][6], Puyo* _Puyo);
 
 	//애니메이션 관련 처리
+	void RenderToNormal();
 	void RenderToLeft();
 	void RenderToRight();
 	void RenderToUp();
@@ -173,7 +180,6 @@ public:
 	void LandAnimation();
 	void LandToNormal();
 
-
 	void SelfDestroy();
 
 	void InitAnimation(PuyoColor color);
@@ -182,10 +188,15 @@ protected:
 
 private:
 	GameEngineRenderer* MyRenderer_;
+	Player* Player_;
+	FSM* FSM_;
 
 	PuyoColor MyColor_;
+	PuyoDir CurDir_;
 	int X_;
 	int Y_;
+
+	int OffsetX_;
 
 	bool IsLandPlay_;
 	bool IsLanding_;
@@ -197,5 +208,4 @@ private:
 
 	bool LandAnimationEnd_;
 	bool DestroyAnimationEnd_;
-
 };
