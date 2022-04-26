@@ -24,7 +24,6 @@ public:
 	void LevelChangeStart(GameEngineLevel* _PrevLevel) override;
 	void LevelChangeEnd(GameEngineLevel* _NextLevel) override;
 
-	void BackgroundInit();
 	void TopPositionInit();
 	void EnemyInit();
 	void EnemyAnimationInit();

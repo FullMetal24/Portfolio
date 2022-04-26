@@ -254,6 +254,7 @@ Puyo* Puyo::RightPuyo(Puyo* Map[15][6])
 	}
 }
 
+
 Puyo* Puyo::DownPuyo(Puyo* Map[15][6])
 {
 	if (0 <= Y_ - 1)
@@ -265,12 +266,13 @@ Puyo* Puyo::DownPuyo(Puyo* Map[15][6])
 
 		else if (nullptr == Map[Y_ - 1][X_])
 		{
+			SetMove(float4::DOWN * 60.0f);
+
 			Map[Y_][X_] = nullptr;
 			Map[Y_ - 1][X_] = this;
 
-			SetMove(float4::DOWN * 60.0f);
-
 			--Y_;
+
 			return this;
 		}
 	}

@@ -2,6 +2,7 @@
 #include "GameEngine/GameEngineActor.h"
 #include "Puyo.h"
 #include "ContentsEnum.h"
+#include "GameEngineBase/GameEngineRandom.h"
 
 class Player : public GameEngineActor
 {
@@ -17,6 +18,7 @@ public:
 	Puyo* CreatePuyo(int x, int y, PuyoColor _Color);
 
 	void NewPuyoPair();
+	void InitNextPair();
 	void InputCreatePuyo();
 
 	void InputPuyoMove();
@@ -31,8 +33,16 @@ private:
 
 	PlayerState PlayerState_;
 
+	GameEngineRandom Random_;
+
 	Puyo* CenterPuyo_;
 	Puyo* SecondPuyo_;
+
+	Puyo* NextCenterPuyo_;
+	Puyo* NextSecondPuyo_;
+
+	Puyo* NextNextCenterPuyo_;
+	Puyo* NextNextSecondPuyo_;
 
 	float DownTime;
 };

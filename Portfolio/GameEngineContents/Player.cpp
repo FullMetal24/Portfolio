@@ -20,6 +20,8 @@ void Player::Start()
 		GameEngineInput::GetInst()->CreateKey("Left", VK_LEFT);
 		GameEngineInput::GetInst()->CreateKey("Down", VK_DOWN);
 	}
+
+	InitNextPair();
 }
 
 void Player::Update()
@@ -33,7 +35,7 @@ void Player::Update()
 		break;
 	case PlayerState::MovePuyo:
 		InputPuyoMove();
-		//AutoDown();
+		AutoDown();
 		break;
 	case PlayerState::LandPuyo:
 		break;
@@ -56,28 +58,51 @@ void Player::Update()
 
 void Player::NewPuyoPair() 
 {
-	SecondPuyo_ = CreatePuyo(2, 12, PuyoColor::RED);
-	CenterPuyo_ = CreatePuyo(2, 11, PuyoColor::BLUE);
+	SecondPuyo_ = CreatePuyo(2, 14, NextSecondPuyo_->GetColor());
+	CenterPuyo_ = CreatePuyo(2, 13, NextCenterPuyo_->GetColor());
 
-	//static bool Check = false;
-	//if (true == Check)
-	//{
-	//	return;
-	//}
+	NextSecondPuyo_->SetColor(NextNextSecondPuyo_->GetColor());
+	NextCenterPuyo_->SetColor(NextNextCenterPuyo_->GetColor());
 
-	//for (int i = 0; i < 15; i++)
-	//{
-	//	CreatePuyo(0, i, PuyoColor::RED);
-	//	CreatePuyo(1, i, PuyoColor::RED);
-	//	CreatePuyo(2, i, PuyoColor::RED);
-	//	CreatePuyo(3, i, PuyoColor::RED);
-	//	CreatePuyo(4, i, PuyoColor::GREEN);
-	//	CreatePuyo(5, i, PuyoColor::GREEN);
-
-	//}
+	int Color = Random_.RandomInt(0, 4);
+	NextNextCenterPuyo_->SetColor(static_cast<PuyoColor>(Color));
+	Color = Random_.RandomInt(0, 4);
+	NextNextSecondPuyo_->SetColor(static_cast<PuyoColor>(Color));
 
 	PlayerState_ = PlayerState::MovePuyo;
-	//Check = true;
+}
+
+void Player::InitNextPair()
+{
+	int Color = Random_.RandomInt(0, 4);
+
+	NextNextCenterPuyo_ = GetLevel()->CreateActor<Puyo>(1);
+	NextNextCenterPuyo_->InitAnimation(static_cast<PuyoColor>(Color));
+	NextNextCenterPuyo_->SetColor(static_cast<PuyoColor>(Color));
+
+	Color = Random_.RandomInt(0, 4);
+
+	NextNextSecondPuyo_ = GetLevel()->CreateActor<Puyo>(1);
+	NextNextSecondPuyo_->InitAnimation(static_cast<PuyoColor>(Color));
+	NextNextSecondPuyo_->SetColor(static_cast<PuyoColor>(Color));
+
+	Color = Random_.RandomInt(0, 4);
+
+	NextCenterPuyo_ = GetLevel()->CreateActor<Puyo>(1);
+	NextCenterPuyo_->InitAnimation(static_cast<PuyoColor>(Color));
+	NextCenterPuyo_->SetColor(static_cast<PuyoColor>(Color));
+
+	Color = Random_.RandomInt(0, 4);
+
+	NextSecondPuyo_ = GetLevel()->CreateActor<Puyo>(1);
+	NextSecondPuyo_->InitAnimation(static_cast<PuyoColor>(Color));
+	NextSecondPuyo_->SetColor(static_cast<PuyoColor>(Color));
+
+	NextNextCenterPuyo_->SetPosition({ 605.f, 330.f });
+	NextNextSecondPuyo_->SetPosition({ 605.f, 270.f });
+
+	NextCenterPuyo_->SetPosition({ 540.f, 270.f });
+	NextSecondPuyo_->SetPosition({ 540.f, 210.f });
 }
 
 Puyo* Player::CreatePuyo(int x, int y, PuyoColor _Color)

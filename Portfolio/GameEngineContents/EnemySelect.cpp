@@ -47,6 +47,18 @@ void EnemySelect::Loading()
 		GameEngineActor* RestUi = CreateActor<EnemySelectActor>(4);
 		RestUi->SetPosition({ GameEngineWindow::GetScale().Half().x - 525.f, GameEngineWindow::GetScale().Half().y});
 		RestUi->CreateRenderer("ES_REST_UI.bmp");
+
+		GameEngineActor* ExpValneUi = CreateActor<EnemySelectActor>(4);
+		ExpValneUi->SetPosition({ GameEngineWindow::GetScale().Half().x - 290.f, GameEngineWindow::GetScale().Half().y - 125.f });
+		ExpValneUi->CreateRenderer("ES_0.bmp");
+
+		GameEngineActor* NexValuetUi = CreateActor<EnemySelectActor>(4);
+		NexValuetUi->SetPosition({ GameEngineWindow::GetScale().Half().x - 350.f, GameEngineWindow::GetScale().Half().y - 65.f });
+		NexValuetUi->CreateRenderer("ES_15000.bmp");
+
+		GameEngineActor* ResValuetUi = CreateActor<EnemySelectActor>(4);
+		ResValuetUi->SetPosition({ GameEngineWindow::GetScale().Half().x - 350.f, GameEngineWindow::GetScale().Half().y });
+		ResValuetUi->CreateRenderer("ES_15000.bmp");
 	}
 
 	GameEngineActor* Level = CreateActor<EnemySelectActor>(5);
@@ -70,7 +82,10 @@ void EnemySelect::Loading()
 		Enemys_[i] = CreateActor<EnemyProfile>(0);
 	}
 
-	BackgroundInit();
+	EnemySelectActor* Background = CreateActor<EnemySelectActor>(1);
+	Background->SetMyRenderer(Background->CreateRenderer("ES_BACK.bmp"));
+	Background->SetPosition(GameEngineWindow::GetScale().Half());
+
 	TopPositionInit();
 	EnemyAnimationInit();
 	EnemyInit();
@@ -82,33 +97,6 @@ void EnemySelect::Loading()
 	}
 }
 
-
-void EnemySelect::BackgroundInit()
-{
-	{
-		EnemySelectActor* Background = CreateActor<EnemySelectActor>(0);
-		Background->SetMyRenderer(Background->CreateRenderer("ES_BACK1.bmp"));
-		Background->SetPosition(GameEngineWindow::GetScale().Half());
-
-		EnemySelectActor* Background1 = CreateActor<EnemySelectActor>(0);
-		Background1->SetMyRenderer(Background1->CreateRenderer("ES_BACK1.bmp"));
-		Background1->SetPosition(GameEngineWindow::GetScale().Half() + Background1->GetMyRenderer()->GetImageScale());
-
-		EnemySelectActor* Background2 = CreateActor<EnemySelectActor>(0);
-		Background2->SetMyRenderer(Background2->CreateRenderer("ES_BACK1.bmp"));
-		Background2->SetPosition({ GameEngineWindow::GetScale().Half() - Background2->GetMyRenderer()->GetImageScale() });
-
-		EnemySelectActor* Background3 = CreateActor<EnemySelectActor>(0);
-		Background3->SetMyRenderer(Background3->CreateRenderer("ES_BACK1.bmp"));
-		Background3->SetPosition(GameEngineWindow::GetScale().Half() - Background3->GetMyRenderer()->GetImageScale() * 2.f);
-
-		MidLine_.push_back(Background);
-		MidLine_.push_back(Background1);
-		MidLine_.push_back(Background2);
-		MidLine_.push_back(Background3);
-	}
-
-}
 
 void EnemySelect::TopPositionInit()
 {
@@ -153,7 +141,7 @@ void EnemySelect::EnemyAnimationInit()
 		Enemys_[0]->GetMyAnimation()->CreateAnimation("IG_LV1_WIN.bmp", "IG_LV1_WIN", 0, 3, 0.5f, true);
 
 		Enemys_[0]->GetMyAnimation()->ChangeAnimation("IG_LV1_IDLE");
-		Enemys_[0]->GetMyAnimation()->SetOrder(0);
+		Enemys_[0]->GetMyAnimation()->SetOrder(-1);
 	}
 
 	//LV2
@@ -174,7 +162,7 @@ void EnemySelect::EnemyAnimationInit()
 		Enemys_[1]->GetMyAnimation()->CreateAnimation("IG_LV2_WIN.bmp", "IG_LV2_WIN", 0, 0, 0.5f, true);
 
 		Enemys_[1]->GetMyAnimation()->ChangeAnimation("IG_LV2_IDLE");
-		Enemys_[1]->GetMyAnimation()->SetOrder(0);
+		Enemys_[1]->GetMyAnimation()->SetOrder(-1);
 	}
 
 	//LV3
@@ -195,7 +183,7 @@ void EnemySelect::EnemyAnimationInit()
 		Enemys_[2]->GetMyAnimation()->CreateAnimation("IG_LV3_WIN.bmp", "IG_LV3_WIN", 0, 0, 0.5f, true);
 
 		Enemys_[2]->GetMyAnimation()->ChangeAnimation("IG_LV3_IDLE");
-		Enemys_[2]->GetMyAnimation()->SetOrder(0);
+		Enemys_[2]->GetMyAnimation()->SetOrder(-1);
 	}
 
 
@@ -217,7 +205,7 @@ void EnemySelect::EnemyAnimationInit()
 		Enemys_[3]->GetMyAnimation()->CreateAnimation("IG_LV4_WIN.bmp", "IG_LV4_WIN", 0, 0, 0.5f, true);
 
 		Enemys_[3]->GetMyAnimation()->ChangeAnimation("IG_LV4_IDLE");
-		Enemys_[3]->GetMyAnimation()->SetOrder(0);
+		Enemys_[3]->GetMyAnimation()->SetOrder(-1);
 	}
 
 	//LV5
@@ -238,7 +226,7 @@ void EnemySelect::EnemyAnimationInit()
 		Enemys_[4]->GetMyAnimation()->CreateAnimation("IG_LV5_WIN.bmp", "IG_LV5_WIN", 0, 0, 0.5f, true);
 
 		Enemys_[4]->GetMyAnimation()->ChangeAnimation("IG_LV5_IDLE");
-		Enemys_[4]->GetMyAnimation()->SetOrder(0);
+		Enemys_[4]->GetMyAnimation()->SetOrder(-1);
 	}
 
 	//LV6
@@ -259,7 +247,7 @@ void EnemySelect::EnemyAnimationInit()
 		Enemys_[5]->GetMyAnimation()->CreateAnimation("IG_LV6_WIN.bmp", "IG_LV6_WIN", 0, 0, 0.5f, true);
 
 		Enemys_[5]->GetMyAnimation()->ChangeAnimation("IG_LV6_IDLE");
-		Enemys_[5]->GetMyAnimation()->SetOrder(0);
+		Enemys_[5]->GetMyAnimation()->SetOrder(-1);
 	}
 
 	//LV7
@@ -280,7 +268,7 @@ void EnemySelect::EnemyAnimationInit()
 		Enemys_[6]->GetMyAnimation()->CreateAnimation("IG_LV7_WIN.bmp", "IG_LV7_WIN", 0, 0, 0.5f, true);
 
 		Enemys_[6]->GetMyAnimation()->ChangeAnimation("IG_LV7_IDLE");
-		Enemys_[6]->GetMyAnimation()->SetOrder(0);
+		Enemys_[6]->GetMyAnimation()->SetOrder(-1);
 	}
 
 	//LV8
@@ -301,7 +289,7 @@ void EnemySelect::EnemyAnimationInit()
 		Enemys_[7]->GetMyAnimation()->CreateAnimation("IG_LV8_WIN.bmp", "IG_LV8_WIN", 0, 0, 0.5f, true);
 
 		Enemys_[7]->GetMyAnimation()->ChangeAnimation("IG_LV8_IDLE");
-		Enemys_[7]->GetMyAnimation()->SetOrder(0);
+		Enemys_[7]->GetMyAnimation()->SetOrder(-1);
 	}
 }
 

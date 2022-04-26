@@ -52,7 +52,7 @@ void InGame::Loading()
 	Stage1Ui->CreateRenderer("IG_STAGE_UI.bmp")->SetPivot({ GameEngineWindow::GetScale().Half().x, GameEngineWindow::GetScale().Half().y - 60.f});
 
 	GameEngineActor* PlayerName_ = CreateActor<Stage>(1);
-	PlayerName_->CreateRenderer("IG_ARLENAME.bmp")->SetPivot({ GameEngineWindow::GetScale().Half().x - 96.f, GameEngineWindow::GetScale().Half().y - 290.f });
+	PlayerName_->CreateRenderer("IG_NAME_ARLE.bmp")->SetPivot({ GameEngineWindow::GetScale().Half().x - 96.f, GameEngineWindow::GetScale().Half().y - 290.f });
 
 	Player_ = CreateActor<Player>(10);
 	Player_->SetPosition({95, 748});
