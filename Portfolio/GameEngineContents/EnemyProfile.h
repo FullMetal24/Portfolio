@@ -65,6 +65,16 @@ public:
 		MySD_ = _SD;
 	}
 
+	void SetMyLevel(int _Level)
+	{
+		MyLevel_ = _Level;
+	}
+
+	int GetLevel()
+	{
+		return MyLevel_;
+	}
+
 	GameEngineRenderer* GetSD()
 	{
 		return MySD_;
@@ -78,6 +88,8 @@ private:
 	GameEngineRenderer* MyIcon_; 
 	GameEngineRenderer* MyName_; 
 	GameEngineRenderer* MySD_;
+
+	int MyLevel_;
 
 
 };

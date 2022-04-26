@@ -30,10 +30,15 @@ public:
 	void LevelChangeStart(GameEngineLevel* _PrevLevel) override;
 	void LevelChangeEnd(GameEngineLevel* _NextLevel) override;
 
-	inline void SetEnemy(EnemyProfile* _Enemy)
+	inline void SetEnemyProfile(EnemyProfile* _Enemy)
 	{
 		EnemyProfile_ = _Enemy;
 	}
+
+	inline EnemyProfile* GetEnemyProfile()
+	{
+		return EnemyProfile_;
+	}	
 
 	void PuyoAnimationInit();
 	void CarbuncleAnimationInit();
@@ -55,6 +60,8 @@ private:
 	  
 	EnemyProfile* EnemyProfile_;
 	GameEngineRenderer* Stage_; //스테이지 이미지 (렌더러가 나을듯함
+
+	GameEngineRenderer* EnemyAnimations_[8];
 
 	FadeInOutBackground* FadeBackground_;
 

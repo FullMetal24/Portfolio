@@ -22,12 +22,12 @@ public:
 	//내부 좌표 이동 관련 처리
 	inline bool GetLand()
 	{
-		return IsLanding_;
+		return IsLand_;
 	}
 
 	inline void SetLand(bool _Land)
 	{
-		IsLanding_ = _Land;
+		IsLand_ = _Land;
 	}
 
 	inline void SetFall(bool _Fall)
@@ -67,7 +67,7 @@ public:
 
 	inline float4 GetIndex()
 	{
-		return float4(X_, Y_);
+		return float4(static_cast<float>(X_), static_cast<float>(Y_));
 	}
 
 	inline int GetX()
@@ -93,6 +93,7 @@ public:
 	void SetIndex(int _X, int _Y);
 
 	void Init(Player* _Player, int x, int y, PuyoColor _Color);
+	void CoordinateMove(Player* _Player, int x, int y);
 
 	inline GameEngineRenderer* GetMyRenderer()
 	{
@@ -144,11 +145,18 @@ public:
 		IsConnect_[_Index] = _Value;
 	}
 
+	inline void SetDir(PuyoDir _Dir)
+	{
+		CurDir_ = _Dir;
+	}
+
 	//이동 관련 코드
-	Puyo* LeftPuyo(Puyo* Map[15][6]);
-	Puyo* RightPuyo(Puyo* Map[15][6]);
-	Puyo* DownPuyo(Puyo* Map[15][6]);
-	Puyo* RotatePuyo(Puyo* Map[15][6], Puyo* _Puyo);
+	Puyo* LeftPuyo(Puyo* Map[15][6], Puyo* _Other);
+	Puyo* RightPuyo(Puyo* Map[15][6], Puyo* _Other);
+	Puyo* DownPuyo(Puyo* Map[15][6], Puyo* _Other);
+	Puyo* RotatePuyo(Puyo* Map[15][6], Puyo* _Center);
+	void LandPuyo(Puyo* Map[15][6], Puyo* _Other);
+	void FallPuyo(Puyo* Map[15][6]);
 
 	//애니메이션 관련 처리
 	void RenderToNormal();
@@ -199,7 +207,7 @@ private:
 	int OffsetX_;
 
 	bool IsLandPlay_;
-	bool IsLanding_;
+	bool IsLand_;
 	bool IsVisited_;
 	bool IsDestroy_;
 	bool IsFall_;

@@ -57,7 +57,8 @@ void InGame::Loading()
 	Player_ = CreateActor<Player>(10);
 	Player_->SetPosition({95, 748});
 
-	FSM_ = CreateActor<FSM>();
+	FSM_ = CreateActor<FSM>(10);
+	FSM_->SetPosition({ 825, 748 });
 
 	Carbuncle_ = CreateActor<InGameActor>(6);
 	Carbuncle_->SetPosition({ GameEngineWindow::GetScale().Half().x - 160.f, GameEngineWindow::GetScale().Half().y + 300.f });
@@ -652,6 +653,36 @@ void InGame::LevelChangeStart(GameEngineLevel* _PrevLevel )
 		EnemySelect* EnemySelect_ = dynamic_cast<EnemySelect*>(PrevLevel);
 
 		EnemyProfile* CurEnemy = EnemySelect_->GetEnemyProfile();
+
+		if (nullptr != CurEnemy)
+		{
+			switch (CurEnemy->GetLevel())
+			{
+			case 1:
+				break;
+
+			case 2:
+				break;
+
+			case 3:
+				break;
+
+			case 4:
+				break;
+
+			case 5:
+				break;
+
+			case 6:
+				break;
+
+			case 7:
+				break;
+
+			case 8:
+				break;
+			}
+		}
 	}
 }
 

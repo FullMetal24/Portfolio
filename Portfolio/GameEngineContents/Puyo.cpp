@@ -14,7 +14,7 @@ Puyo::Puyo()
 	, X_(0)
 	, Y_(0)
 	, OffsetX_(0)
-	, IsLanding_(false)
+	, IsLand_(false)
 	, IsVisited_(false)
 	, IsLandPlay_(false)
 	, IsDestroy_(false)
@@ -208,18 +208,34 @@ void Puyo::Init(Player* _Player, int x, int y, PuyoColor _Color)
 	}
 }
 
+void Puyo::CoordinateMove(Player* _Player, int x, int y)
+{
+	SetIndex(x, y);
+	SetPosition(_Player->GetPosition() + float4{ static_cast<float>((x * 65)), static_cast<float>(y * -60) });
+}
+
+
+
 
 //이동 관련 함수
-Puyo* Puyo::LeftPuyo(Puyo* Map[15][6])
+Puyo* Puyo::LeftPuyo(Puyo* Map[15][6], Puyo* _Other)
 {
 	if (0 <= X_ - 1)
 	{
-		if (nullptr != Map[Y_][X_ - 1])
+		if (nullptr == Map[Y_][X_ - 1]
+			&& nullptr == Map[_Other->GetY()][_Other->GetX() - 1])
 		{
-			return nullptr;
+			Map[Y_][X_] = nullptr;
+			Map[Y_][X_ - 1] = this;
+
+			SetMove(float4::LEFT * 65.0f);
+
+			--X_;
+			return this;
 		}
 
-		else if (nullptr == Map[Y_][X_ - 1])
+		else if (nullptr == Map[Y_][X_ - 1]
+			&& this == Map[_Other->GetY()][_Other->GetX() - 1])
 		{
 			Map[Y_][X_] = nullptr;
 			Map[Y_][X_ - 1] = this;
@@ -232,30 +248,40 @@ Puyo* Puyo::LeftPuyo(Puyo* Map[15][6])
 	}
 }
 
-Puyo* Puyo::RightPuyo(Puyo* Map[15][6])
+Puyo* Puyo::RightPuyo(Puyo* Map[15][6], Puyo* _Other)
 {
 	if (5 >= X_ + 1)
 	{
-		if (nullptr != Map[Y_][X_ + 1])
-		{
-			return nullptr;
-		}
-
-		else if (nullptr == Map[Y_][X_ + 1])
+		if (nullptr == Map[Y_][X_ + 1]
+			&& nullptr == Map[_Other->GetY()][_Other->GetX() + 1])
 		{
 			Map[Y_][X_] = nullptr;
 			Map[Y_][X_ + 1] = this;
-			
+
 			SetMove(float4::RIGHT * 65.0f);
-			
+
+			++X_;
+			return this;
+		}
+
+		else if (nullptr == Map[Y_][X_ + 1]
+			&& this == Map[_Other->GetY()][_Other->GetX() + 1])
+		{
+			Map[Y_][X_] = nullptr;
+			Map[Y_][X_ + 1] = this;
+
+			SetMove(float4::RIGHT * 65.0f);
+
 			++X_;
 			return this;
 		}
 	}
+
+	return nullptr;
 }
 
 
-Puyo* Puyo::DownPuyo(Puyo* Map[15][6])
+Puyo* Puyo::DownPuyo(Puyo* Map[15][6], Puyo* _Other)
 {
 	if (0 <= Y_ - 1)
 	{
@@ -276,25 +302,193 @@ Puyo* Puyo::DownPuyo(Puyo* Map[15][6])
 			return this;
 		}
 	}
-}
-
-Puyo* Puyo::RotatePuyo(Puyo* Map[15][6], Puyo* _Puyo)
-{
-	Puyo* CenterPuyo = _Puyo;
-
-	switch (CurDir_)
-	{
-	case PuyoDir::LEFT:
-		break;
-	case PuyoDir::RIGHT:
-		break;
-	case PuyoDir::DOWN:
-		break;
-	case PuyoDir::UP:
-		break;
-	}
 
 	return nullptr;
+}
+
+Puyo* Puyo::RotatePuyo(Puyo* Map[15][6], Puyo* _Center)
+{
+	Puyo* CenterPuyo = _Center;
+
+	int CenterX = CenterPuyo->GetX();
+	int CenterY = CenterPuyo->GetY();
+
+	while (true)
+	{
+		switch (CenterPuyo->CurDir_)
+		{
+		case PuyoDir::UP:
+			if (0 <= CenterX - 1 && nullptr == Map[CenterY][CenterX - 1])
+			{
+				Map[Y_][X_] = nullptr;
+
+				Y_ = CenterY;
+				X_ = CenterX - 1;
+
+				Map[Y_][X_] = this;
+
+				SetPosition(CenterPuyo->GetPosition() + float4{ -65.0f, 0.0f });
+
+				CenterPuyo->SetDir(PuyoDir::LEFT);
+			}
+			else if (0 > CenterX - 1)
+			{
+				if (nullptr != Map[CenterY][CenterX + 1])
+				{
+					CenterPuyo->SetDir(PuyoDir::LEFT);
+					continue;
+				}
+
+				Map[Y_][X_] = nullptr;
+				Map[CenterY][CenterX] = nullptr;
+				
+				X_ = CenterX;
+				Y_ = CenterY;
+
+				CenterX += 1;
+
+				Map[Y_][X_] = this;
+				Map[CenterY][CenterX] = CenterPuyo;
+
+				CenterPuyo->CoordinateMove(Player_, CenterX, CenterY);
+				this->CoordinateMove(Player_, X_, Y_);
+
+				CenterPuyo->SetDir(PuyoDir::LEFT);
+			}
+			break;
+		case PuyoDir::LEFT:
+			if (0 <= CenterY - 1 && nullptr == Map[CenterY - 1][CenterX])
+			{
+				Map[Y_][X_] = nullptr;
+
+				Y_ = CenterY - 1;
+				X_ = CenterX;
+
+				Map[Y_][X_] = this;
+				SetPosition(CenterPuyo->GetPosition() + float4{ 0.f, 65.0f });
+
+				CenterPuyo->SetDir(PuyoDir::DOWN);
+			}
+			else if (0 > CenterY - 1)
+			{
+				if (nullptr != Map[CenterY + 1][CenterX])
+				{
+					CenterPuyo->SetDir(PuyoDir::DOWN);
+					continue;
+				}
+
+				Map[Y_][X_] = nullptr;
+				Map[CenterY][CenterX] = nullptr;
+
+				Y_ = CenterY;
+				X_ = CenterX;
+
+				CenterY += 1;
+
+				Map[Y_][X_] = this;
+				Map[CenterY][CenterX] = CenterPuyo;
+
+				CenterPuyo->CoordinateMove(Player_, CenterX, CenterY);
+				this->CoordinateMove(Player_, X_, Y_);
+
+				CenterPuyo->SetDir(PuyoDir::DOWN);
+			}
+			break;
+		case PuyoDir::DOWN:
+			if (5 >= CenterX + 1 && nullptr == Map[CenterY][CenterX + 1])
+			{
+				Map[Y_][X_] = nullptr;
+
+				Y_ = CenterY;
+				X_ = CenterX + 1;
+
+				Map[Y_][X_] = this;
+				SetPosition(CenterPuyo->GetPosition() + float4{ 65.f, 0.f });
+
+				CenterPuyo->SetDir(PuyoDir::RIGHT);
+			}
+			else if (5 < CenterX + 1)
+			{
+				if (nullptr != Map[CenterY + 1][CenterX])
+				{
+					CenterPuyo->SetDir(PuyoDir::RIGHT);
+					continue;
+				}
+
+				Map[Y_][X_] = nullptr;
+				Map[CenterY][CenterX] = nullptr;
+
+				Y_ = CenterY;
+				X_ = CenterX;
+
+				CenterX -= 1;
+
+				Map[Y_][X_] = this;
+				Map[CenterY][CenterX] = CenterPuyo;
+
+				CenterPuyo->CoordinateMove(Player_, CenterX, CenterY);
+				this->CoordinateMove(Player_, X_, Y_);
+				//CenterPuyo->SetPosition(CenterPuyo->GetPosition() - float4{ 65.0f, 0.0f });
+				//this->SetPosition(CenterPuyo->GetPosition() + float4{ 65.0f, 0.0f });
+
+				CenterPuyo->SetDir(PuyoDir::RIGHT);
+			}
+			break;
+		case PuyoDir::RIGHT:
+			if (14 >= CenterY + 1 && nullptr == Map[CenterY + 1][CenterX])
+			{
+				Map[Y_][X_] = nullptr;
+
+				Y_ = CenterY + 1;
+				X_ = CenterX;
+
+				Map[Y_][X_] = this;
+				SetPosition(CenterPuyo->GetPosition() + float4{ 0.f, -65.0f });
+
+				CenterPuyo->SetDir(PuyoDir::UP);
+			}
+			break;
+		}
+		break;
+	}
+	
+ 	return nullptr;
+}
+
+
+//_Other를 제외하고 널 체크한다
+void Puyo::LandPuyo(Puyo* Map[15][6], Puyo* _Other)
+{
+	if (0 == Y_)
+	{
+		IsLand_ = true;
+	}
+
+	else if (nullptr != Map[Y_ - 1][X_]
+		&& _Other != Map[Y_ - 1][X_])
+	{
+		IsLand_ = true;
+	}
+
+	else if (true == _Other->GetLand()
+		&& nullptr != Map[Y_ - 1][X_])
+	{
+		IsLand_ = true;
+	}
+}
+
+void Puyo::FallPuyo(Puyo* Map[15][6])
+{
+	if (0 <= Y_ - 1 && nullptr == Map[Y_ - 1][X_])
+	{
+		Map[Y_][X_] = nullptr;
+		Map[Y_ - 1][X_] = this;
+	
+		Y_ -= 1;
+
+		SetMove(float4::DOWN * 60.0f);
+	}
+
 }
 
 
@@ -746,7 +940,7 @@ void Puyo::RenderToLand()
 
 void Puyo::LandAnimation()
 {
-	if (true == IsLanding_ && false == IsLandPlay_)
+	if (true == IsLand_ && false == IsLandPlay_)
 	{
 		switch (MyColor_)
 		{

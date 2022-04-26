@@ -18,7 +18,7 @@ public:
 	BestRecords& operator=(const BestRecords& _Other) = delete;
 	BestRecords& operator=(BestRecords&& _Other) noexcept = delete;
 
-	inline void SetEnemy(EnemyProfile* _Enemy)
+	inline void SetEnemyProfile(EnemyProfile* _Enemy)
 	{
 		EnemyProfile_ = _Enemy;
 	}

@@ -50,22 +50,6 @@ public:
 	void GreedyCheck();
 	void EnemyToPlayerAttack(float4 _FromPos);
 
-	inline void SetCurrentPair(PuyoPair* _Current)
-	{
-		CurrentPair_ = _Current;
-	}
-
-	inline void SetNextPair(PuyoPair* _Next)
-	{
-		NextPair_ = _Next;
-	}
-
-	inline void SetNextNextPair(PuyoPair* _NextNext)
-	{
-		NextNextPair_ = _NextNext;
-	}
-
-
 	inline PlayerState GetState()
 	{
 		return FSMState_;

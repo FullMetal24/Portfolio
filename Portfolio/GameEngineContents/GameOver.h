@@ -22,11 +22,15 @@ public:
 	void LevelChangeStart(GameEngineLevel* _PrevLevel) override;
 	void LevelChangeEnd(GameEngineLevel* _NextLevel) override;
 
-	inline void SetEnemy(EnemyProfile* _Enemy)
+	inline void SetEnemyProfile(EnemyProfile* _Enemy)
 	{
 		EnemyProfile_ = _Enemy;
 	}
 
+	inline EnemyProfile* GetEnemyProfile()
+	{
+		return EnemyProfile_;
+	}
 
 protected:
 

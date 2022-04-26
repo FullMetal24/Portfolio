@@ -4,6 +4,7 @@
 #include "BestRecordsActor.h"
 #include "GameEngine/GameEngineImage.h"
 #include "EnemyProfile.h"
+#include "GameOver.h"
 
 BestRecords::BestRecords() 
 {
@@ -51,13 +52,18 @@ void BestRecords::Update()
 
 void BestRecords::LevelChangeStart(GameEngineLevel* _PrevLevel)
 {
-	if (nullptr != EnemyProfile_)
+	if (nullptr != _PrevLevel)
 	{
-		BestRecordsActor* SDEnemy_ = CreateActor<BestRecordsActor>(9);
-		SDEnemy_->SetPosition({ GameEngineWindow::GetScale().Half().x, GameEngineWindow::GetScale().Half().y + 70.f });
-		GameEngineRenderer* Renderer = EnemyProfile_->CreateRenderer();
-		Renderer->SetImage(EnemyProfile_->GetSD()->GetImage());
-		SDEnemy_->SetMyRenderer(Renderer);
+		GameEngineLevel* PrevLevel = _PrevLevel;
+		GameOver* GameOver_ = dynamic_cast<GameOver*>(PrevLevel);
+
+		EnemyProfile* CurEnemy = GameOver_->GetEnemyProfile();
+
+		if (nullptr != CurEnemy)
+		{
+			BestRecordsActor* SDEnemy = CreateActor<BestRecordsActor>();
+			SDEnemy->CreateRenderer(CurEnemy->GetSD()->GetImage()->GetNameConstRef());
+		}
 	}
 	
 	MainMenuBgm_ = GameEngineSound::SoundPlayControl("MainMenu.mp3");

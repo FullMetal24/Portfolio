@@ -34,10 +34,10 @@ enum class PuyoColor
 
 enum class PuyoDir
 {
-	LEFT, // 0
-	RIGHT, // 1
-	DOWN, // 2
-	UP // 3
+	UP, // 0
+	DOWN, // 1
+	LEFT, // 2
+	RIGHT // 3
 };
 
 
@@ -46,12 +46,12 @@ enum class PlayerState
 {
 	NewPuyo,
 	MovePuyo,
-	LandPuyo,
-	PuyoLandEnd,
-	HindranceCheck,
 	PuyoCheck,
 	PuyoDestroy,
 	PuyoDestroyEnd,
+	LandPuyo,
+	PuyoLandEnd,
+	HindranceCheck,
 	Win,
 	Lose
 };
