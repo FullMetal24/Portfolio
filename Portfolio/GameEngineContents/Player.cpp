@@ -1,6 +1,8 @@
 #include "Player.h"
 #include "GameEngineBase/GameEngineInput.h"
 #include "HindrancePuyo.h"
+#include <GameEngine/GameEngineRenderer.h>
+#include <GameEngine/GameEngineImageManager.h>
 #include "Fire.h"
 
 Player::Player()
@@ -8,6 +10,7 @@ Player::Player()
 	, PlayerState_(PlayerState::NewPuyo)
 	, AutoDownTime_(1.0f)
 	, InputDownTime_(0.f)
+	, Score_(0)
 {
 }
 
@@ -26,6 +29,19 @@ void Player::Start()
 	}
 
 	InitNextPair();
+	ScoreInit();
+
+	GameEngineImage* LightImage = GameEngineImageManager::GetInst()->Find("IG_PLAYER_LIGHT.bmp");
+	LightImage->CutCount(4, 1);
+
+	GameEngineImage* LightImage1 = GameEngineImageManager::GetInst()->Find("IG_PLAYER_LIGHT_EXPLOSION.bmp");
+	LightImage1->CutCount(4, 1);
+
+	EnemeyPoint_ = GameEngineWindow::GetScale().Half() + float4{ 400, -400 };
+
+	Fire_ = GetLevel()->CreateActor<Fire>();
+	Fire_->SetFireOwner(FireOwner::Player);
+
 }
 
 void Player::Update()
@@ -64,6 +80,9 @@ void Player::Update()
 	case PlayerState::Lose:
 		break;
 	}
+
+	DigitScore(Score_);
+	RenderToScore();
 }
 
 void Player::NewPuyoPair() 
@@ -204,7 +223,7 @@ void Player::AutoDown()
 {
 	AutoDownTime_ -= GameEngineTime::GetDeltaTime();
 
-	if (AutoDownTime_ <= 0.3f 
+	if (AutoDownTime_ <= 0.2f 
 		&& CenterPuyo_->GetY() <= SecondPuyo_->GetY())
 	{
 		AutoDownTime_ = 1.0f;
@@ -212,7 +231,7 @@ void Player::AutoDown()
 		Puyo* DownPuyo1 = SecondPuyo_->DownPuyo(PlayerMap_, CenterPuyo_);
 	}
 
-	else if(AutoDownTime_ <= 0.3f
+	else if(AutoDownTime_ <= 0.2f
 		&& CenterPuyo_->GetY() >= SecondPuyo_->GetY())
 	{
 		AutoDownTime_ = 1.0f;
@@ -223,6 +242,8 @@ void Player::AutoDown()
 
 void Player::InputDown()
 {
+	Score_ += 1;
+
 	if (CenterPuyo_->GetY() <= SecondPuyo_->GetY())
 	{
 		Puyo* DownPuyo = CenterPuyo_->DownPuyo(PlayerMap_, SecondPuyo_);
@@ -275,11 +296,11 @@ void Player::DestroyPuyo()
 		std::vector<Puyo*>::iterator PuyoStartIter = PuyoVector.begin();
 		std::vector<Puyo*>::iterator PuyoEndIter = PuyoVector.end();
 
-		//if (PuyoVector.size() > 0)
-		//{
-		//	int CenterActor = PuyoVector.size() / 2;
-		//	PlayerToEnemyAttack(PuyoVector[CenterActor]->GetPosition());
-		//}
+		if (PuyoVector.size() > 0)
+		{
+			int CenterActor = PuyoVector.size() / 2;
+			PlayerToEnemyAttack(PuyoVector[CenterActor]->GetPosition());
+		}
 
 		for (; PuyoStartIter != PuyoEndIter; ++PuyoStartIter)
 		{
@@ -421,5 +442,92 @@ void Player::HindrancePuyoCheck()
 
 void Player::FallHindrancePuyo()
 {
+
 }
 
+
+void Player::ScoreInit()
+{
+	for (int i = 0; i < 9; ++i)
+	{
+		ScoreRenderers_[i] = CreateRenderer("IG_PLAYER_NUMBER_0.bmp");
+		ScoreRenderers_[i]->SetOrder(-1);
+		ScoreRenderers_[i]->SetPivot({ 620 - (33.f * i) , -60 });
+	}
+}
+
+void Player::DigitScore(int _Score)
+{
+	if (0 >= _Score)
+	{
+		DigitSize_ = 0;
+	}
+
+	int Index = 0;
+	int Temp = _Score;
+
+	while (Temp > 0)
+	{
+		ScoreDigits_[Index] = Temp % 10;
+		Temp /= 10;
+		++Index;
+	}
+
+	DigitSize_ = Index;
+}
+
+void Player::RenderToScore()
+{
+	for (int i = 0; i < DigitSize_; ++i)
+	{
+		switch (ScoreDigits_[i])
+		{
+		case 0:
+			ScoreRenderers_[i]->SetOrder(10);
+			ScoreRenderers_[i]->SetImage("IG_PLAYER_NUMBER_0.bmp");
+			break;
+		case 1:
+			ScoreRenderers_[i]->SetOrder(10);
+			ScoreRenderers_[i]->SetImage("IG_PLAYER_NUMBER_1.bmp");
+			break;
+		case 2:
+			ScoreRenderers_[i]->SetOrder(10);
+			ScoreRenderers_[i]->SetImage("IG_PLAYER_NUMBER_2.bmp");
+			break;
+		case 3:
+			ScoreRenderers_[i]->SetOrder(10);
+			ScoreRenderers_[i]->SetImage("IG_PLAYER_NUMBER_3.bmp");
+			break;
+		case 4:
+			ScoreRenderers_[i]->SetOrder(10);
+			ScoreRenderers_[i]->SetImage("IG_PLAYER_NUMBER_4.bmp");
+			break;
+		case 5:
+			ScoreRenderers_[i]->SetOrder(10);
+			ScoreRenderers_[i]->SetImage("IG_PLAYER_NUMBER_5.bmp");
+			break;
+		case 6:
+			ScoreRenderers_[i]->SetOrder(10);
+			ScoreRenderers_[i]->SetImage("IG_PLAYER_NUMBER_6.bmp");
+			break;
+		case 7:
+			ScoreRenderers_[i]->SetOrder(10);
+			ScoreRenderers_[i]->SetImage("IG_PLAYER_NUMBER_7.bmp");
+			break;
+		case 8:
+			ScoreRenderers_[i]->SetOrder(10);
+			ScoreRenderers_[i]->SetImage("IG_PLAYER_NUMBER_8.bmp");
+			break;
+		case 9:
+			ScoreRenderers_[i]->SetOrder(10);
+			ScoreRenderers_[i]->SetImage("IG_PLAYER_NUMBER_9.bmp");
+			break;
+		}
+	}
+
+	if (0 == DigitSize_)
+	{
+		ScoreRenderers_[0]->SetOrder(10);
+		ScoreRenderers_[0]->SetImage("IG_PLAYER_NUMBER_0.bmp");
+	}
+}

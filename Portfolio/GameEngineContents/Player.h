@@ -47,11 +47,16 @@ public:
 	//PuyoLandEnd 관련 함수
 	void LandEndPuyo();
 
+	//HindrancePuyo 관련 함수
 	void PlayerToEnemyAttack(float4 _FromPos);
 	void CreateHindrancePuyo(int _Count);
 	void HindrancePuyoCheck();
 	void FallHindrancePuyo();
 
+	//스코어 관련 함수
+	void ScoreInit();
+	void DigitScore(int _Score);
+	void RenderToScore();
 
 protected:
 	void Start() override;
@@ -84,5 +89,12 @@ private:
 
 	float AutoDownTime_;
 	float InputDownTime_;
+
+	unsigned int Score_;
+	unsigned int ScoreDigits_[10];
+	unsigned int DigitSize_;
+	GameEngineRenderer* ScoreRenderers_[10];
+
+	unsigned int Chain_;
 };
 
