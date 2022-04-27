@@ -45,6 +45,9 @@ void Player::Start()
 	Fire_ = GetLevel()->CreateActor<Fire>();
 	Fire_->SetFireOwner(FireOwner::Player);
 
+	ChainActor_ = GetLevel()->CreateActor<InGameActor>();
+	ChainActor_->SetMyRenderer(ChainActor_->CreateRenderer("IG_CHAIN.bmp"));
+	ChianNumberRenderer_ = ChainActor_->CreateRenderer("IG_PLAYER_NUMBER_1.bmp");
 }
 
 void Player::Update()
@@ -547,4 +550,12 @@ void Player::RenderToScore()
 		ScoreRenderers_[0]->SetOrder(10);
 		ScoreRenderers_[0]->SetImage("IG_PLAYER_NUMBER_0.bmp");
 	}
+}
+
+void Player::RenderChain(int _Count, float4 _Pos)
+{
+	ChainActor_->GetMyRenderer()->SetOrder(5);
+	ChianNumberRenderer_->SetOrder(5);
+	ChainActor_->SetMove(_Pos * GameEngineTime::GetDeltaTime()); //매 프레임 호출해야 함
+	ChianNumberRenderer_ = ChainActor_->CreateRenderer("IG_PLAYER_NUMBER_1.bmp");
 }
