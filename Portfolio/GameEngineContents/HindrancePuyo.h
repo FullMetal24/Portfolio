@@ -1,5 +1,6 @@
 #pragma once
 #include "Puyo.h"
+#include <GameEngine/GameEngineRenderer.h>
 
 class HindrancePuyo : public Puyo
 {
@@ -13,8 +14,12 @@ public:
 	HindrancePuyo& operator=(HindrancePuyo&& _Other) noexcept = delete;
 
 protected:
+	void Start() override;
+	void Update() override;
+
 
 private:
+
 
 };
 

@@ -19,11 +19,10 @@ public:
 	Player& operator=(const Player& _Other) = delete;
 	Player& operator=(Player&& _Other) noexcept = delete;
 
-
 	//NewPuyo 관련 함수
 	void NewPuyoPair();
 	void InitNextPair();
-	Puyo* CreatePuyo(int x, int y, PuyoColor _Color);
+	Puyo* CreatePuyo(int _X, int _Y, PuyoColor _Color);
 	void RenderToCenterPuyo();
 	void RenderToLinkedPuyo();
 	void ResetLinkedPuyo();
@@ -38,7 +37,7 @@ public:
 	//PuyoCheck 관련 함수
 	void SearchPuyo();
 	void OnePuyoSearch(Puyo* _Puyo, std::vector<Puyo*>& _Out);
-
+	bool IsOver(float4 _Index);
 	//PuyoDestroy 관련 함수
 	void DestroyPuyo();
 
@@ -47,7 +46,7 @@ public:
 
 	//HindrancePuyo 관련 함수
 	void PlayerToEnemyAttack(float4 _FromPos);
-	void CreateHindrancePuyo(int _Count);
+	void CreateHindrancePuyo();
 	void HindrancePuyoCheck();
 	void FallHindrancePuyo();
 
@@ -56,9 +55,14 @@ public:
 	void DigitScore(int _Score);
 	void RenderToScore();
 
-	inline void SetEnemy()
+	inline void SetEnemyFSM(EnemyFSM* _Enemy)
 	{
+		Enemy_ = _Enemy;
+	}
 
+	inline PlayerState GetState()
+	{
+		return PlayerState_;
 	}
 
 protected:
@@ -74,8 +78,6 @@ private:
 
 	std::vector<std::vector<Puyo*>> AllDestroyPuyo_;
 	std::set<Puyo*> FindAllDestroy_;
-
-	std::vector<Puyo*> Destroys_;
 
 	std::vector<HindrancePuyo*> Hindrances_;
 

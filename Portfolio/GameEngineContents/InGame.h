@@ -34,26 +34,32 @@ public:
 	{
 		EnemyProfile_ = _Enemy;
 	}
-
 	inline EnemyProfile* GetEnemyProfile()
 	{
 		return EnemyProfile_;
 	}	
 
+	void InitPlayerEndEnemy();
+	void InitBubble();
+
 	void PuyoAnimationInit();
 	void CarbuncleAnimationInit();
 
+	void GameOverCheck();
 	void CarbuncleUpdate();
 	void SpewStar();
 
 	void VomitBubble();
+
+	int GetRandomInt(int _At, int _Until);
+	float GetRandomFloat(int _At, int _Until);
 
 protected:
 
 private:
 	Stage* Stages_[3];
 	Player*	Player_; 
-	EnemyFSM* FSM_;
+	EnemyFSM* EnemyFSM_;
 
 	InGameActor* Carbuncle_;
 	InGameActor* Stars_[36];

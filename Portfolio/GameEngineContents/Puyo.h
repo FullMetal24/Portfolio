@@ -6,7 +6,6 @@ class Player;
 class EnemyFSM;
 class Puyo : public GameEngineActor
 {
-
 public:
 	Puyo();
 	~Puyo();
@@ -50,16 +49,6 @@ public:
 		return IsLandPlay_;
 	}
 
-	inline bool GetLandAnimationEnd()
-	{
-		return LandAnimationEnd_;
-	}
-
-	inline bool GetDestroyAnimationEnd()
-	{
-		return DestroyAnimationEnd_;
-	}
-
 	inline bool GetDestroy()
 	{
 		return IsDestroy_;
@@ -94,9 +83,14 @@ public:
 	void InitAllAnimation();
 	void SetColorImage(PuyoColor _Color);
 
+	void ChangeState(PuyoState _State);
+
 	void Init(Player* _Player, int x, int y, PuyoColor _Color);
+	void Init(EnemyFSM* _Enemy, int x, int y, PuyoColor _Color);
 	void CoordinateMove(Player* _Player, int x, int y);
+	void CoordinateMove(EnemyFSM* _Enemy, int x, int y);
 	float4 CoordinatePos(Player* _Player, int x, int y);
+	float4 CoordinatePos(EnemyFSM* _Enemy, int x, int y);
 
 	inline GameEngineRenderer* GetMyRenderer()
 	{
@@ -161,6 +155,11 @@ public:
 		CurDir_ = _Dir;
 	}
 
+	inline PuyoState GetState()
+	{
+		return PuyoState_;
+	}
+
 	//이동 관련 함수
 	Puyo* LeftPuyo(Puyo* Map[15][6], Puyo* _Other);
 	Puyo* RightPuyo(Puyo* Map[15][6], Puyo* _Other);
@@ -168,11 +167,9 @@ public:
 	Puyo* RotatePuyo(Puyo* Map[15][6], Puyo* _Center);
 	void LandPuyo(Puyo* Map[15][6], Puyo* _Other);
 	void AloneFallPuyo(Puyo* Map[15][6]);
-	void FallPuyo(Puyo* Map[15][6]);
+	void FallPuyo(Puyo* Map[15][6], Player* _Player);
+	void FallPuyo(Puyo* Map[15][6], EnemyFSM* _Enemy);
 	float4 LerpPuyo(float4 A, float4 B, float Alpha);
-
-	//파괴 관련 함수
-	void Destroy(Puyo* Map[15][6]);
 
 	//애니메이션 관련 처리
 	void RenderToNormal();
@@ -213,9 +210,11 @@ public:
 protected:
 
 private:
+	PuyoState PuyoState_;
+
 	GameEngineRenderer* MyRenderer_;
 	Player* Player_;
-	EnemyFSM* FSM_;
+	EnemyFSM* Enemy_;
 
 	PuyoColor MyColor_;
 	PuyoDir CurDir_;
@@ -223,6 +222,10 @@ private:
 	int Y_;
 
 	int OffsetX_;
+
+	float4 StartPos_;
+	float4 EndPos_;
+	float Alpha_;
 
 	bool IsLandPlay_;
 	bool IsLand_;
@@ -233,6 +236,4 @@ private:
 	//상하좌우
 	bool IsConnect_[4];
 
-	bool LandAnimationEnd_;
-	bool DestroyAnimationEnd_;
 };

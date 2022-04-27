@@ -66,6 +66,7 @@ public:
 	}
 
 public:
+	void Reset();
 	void Update(float _DeltaTime = 0.0f);
 	void CreateKey(const std::string& _Name, int _Key);
 

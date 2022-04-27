@@ -8,31 +8,6 @@
 #include "Puyo.h"
 #include "PuyoPair.h"
 
-bool IsOver(float4 _Index) 
-{
-	if (0 > _Index.ix())
-	{
-		return true;
-	}
-
-	if (0 > _Index.iy())
-	{
-		return true;
-	}
-
-	if (6 <= _Index.ix())
-	{
-		return true;
-	}
-
-	if (15 <= _Index.iy())
-	{
-		return true;
-	}
-
-	return false;
-}
-
 void Player::OnePuyoSearch(Puyo* _Puyo, std::vector<Puyo*>& _Out)
 {
 	if (FindAllDestroy_.end() !=  FindAllDestroy_.find(_Puyo))
@@ -73,6 +48,31 @@ void Player::OnePuyoSearch(Puyo* _Puyo, std::vector<Puyo*>& _Out)
 			OnePuyoSearch(Other, _Out);
 		}
 	}
+}
+
+bool Player::IsOver(float4 _Index)
+{
+	if (0 > _Index.ix())
+	{
+		return true;
+	}
+
+	if (0 > _Index.iy())
+	{
+		return true;
+	}
+
+	if (6 <= _Index.ix())
+	{
+		return true;
+	}
+
+	if (15 <= _Index.iy())
+	{
+		return true;
+	}
+
+	return false;
 }
 
 

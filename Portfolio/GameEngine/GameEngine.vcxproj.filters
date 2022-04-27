@@ -32,6 +32,9 @@
     <ClInclude Include="GameEngineRendererTileMap.h">
       <Filter>Contents</Filter>
     </ClInclude>
+    <ClInclude Include="GameEngineFont.h">
+      <Filter>Font</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameEngine.cpp" />
@@ -62,6 +65,9 @@
     <ClCompile Include="GameEngineActor.cpp">
       <Filter>Object\Actor\SubObject</Filter>
     </ClCompile>
+    <ClCompile Include="GameEngineFont.cpp">
+      <Filter>Font</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Object">
@@ -84,6 +90,9 @@
     </Filter>
     <Filter Include="Contents">
       <UniqueIdentifier>{1f762832-1ba0-4e47-be22-b69d7c900c5f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Font">
+      <UniqueIdentifier>{8748f6df-56c0-42bc-95a8-2afd143c20c5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

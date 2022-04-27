@@ -18,7 +18,7 @@
 InGame::InGame()
 	: Stages_{ }
 	, Player_(nullptr)
-	, FSM_(nullptr)
+	, EnemyFSM_(nullptr)
 	, EnemyProfile_(nullptr)
 	, Stage_(nullptr)
 	, StageClear_(0)
@@ -36,6 +36,7 @@ InGame::~InGame()
 void InGame::Loading()
 {
 	PuyoAnimationInit();
+	InitPlayerEndEnemy();
 
 	FadeBackground_ = CreateActor<FadeInOutBackground>();
 
@@ -49,16 +50,10 @@ void InGame::Loading()
 	NextUi->CreateRenderer("IG_NEXT.bmp")->SetPivot({ GameEngineWindow::GetScale().Half().x, GameEngineWindow::GetScale().Half().y - 360.f });
 
 	GameEngineActor* Stage1Ui = CreateActor<Stage>(3);
-	Stage1Ui->CreateRenderer("IG_STAGE_UI.bmp")->SetPivot({ GameEngineWindow::GetScale().Half().x, GameEngineWindow::GetScale().Half().y - 60.f});
+	Stage1Ui->CreateRenderer("IG_STAGE_UI.bmp")->SetPivot({ GameEngineWindow::GetScale().Half().x, GameEngineWindow::GetScale().Half().y - 60.f });
 
 	GameEngineActor* PlayerName_ = CreateActor<Stage>(1);
 	PlayerName_->CreateRenderer("IG_NAME_ARLE.bmp")->SetPivot({ GameEngineWindow::GetScale().Half().x - 96.f, GameEngineWindow::GetScale().Half().y - 290.f });
-
-	Player_ = CreateActor<Player>(10);
-	Player_->SetPosition({95, 748});
-
-	FSM_ = CreateActor<EnemyFSM>(10);
-	FSM_->SetPosition({ 825, 748 });
 
 	Carbuncle_ = CreateActor<InGameActor>(6);
 	Carbuncle_->SetPosition({ GameEngineWindow::GetScale().Half().x - 160.f, GameEngineWindow::GetScale().Half().y + 300.f });
@@ -66,7 +61,24 @@ void InGame::Loading()
 	Carbuncle_->SetMyRenderer(CarbuncleRenderer);
 
 	CarbuncleAnimationInit();
+	InitBubble();
+}
 
+
+void InGame::InitPlayerEndEnemy()
+{
+	Player_ = CreateActor<Player>(10);
+	Player_->SetPosition({ 95, 748 });
+
+	EnemyFSM_ = CreateActor<EnemyFSM>(10);
+	EnemyFSM_->SetPosition({ 860, 748 });
+
+	Player_->SetEnemyFSM(EnemyFSM_);
+	EnemyFSM_->SetPlayer(Player_);
+}
+
+void InGame::InitBubble()
+{
 	GameEngineImage* Image = GameEngineImageManager::GetInst()->Find("IG_BUBBLE.bmp");
 	Image->CutCount(3, 1);
 
@@ -95,7 +107,6 @@ void InGame::Loading()
 		}
 	}
 }
-
 
 void InGame::PuyoAnimationInit()
 {
@@ -462,6 +473,52 @@ void InGame::Update()
 	{
 		SpewStar();
 	}
+
+	GameOverCheck();
+}
+
+void InGame::GameOverCheck()
+{
+	if (Player_->GetState() == PlayerState::Lose)
+	{
+		ChangeCount_ -= GameEngineTime::GetDeltaTime();
+
+		if (0 >= ChangeCount_)
+		{
+			FadeBackground_->FadeInOn();
+			FadeBackground_->GetMyRenderer()->SetOrder(20);
+			FadeBackground_->SetFadeSpeed(500.f);
+		}
+
+		if (true == FadeBackground_->GetIsInChange())
+		{
+			GameEngine::GetInst().ChangeLevel("GameOver");
+			InGameBgm_.Stop();
+
+			GameEngineLevel* NextLevel = GameEngine::GetNextLevel();
+			GameOver* GameOver_ = dynamic_cast<GameOver*>(NextLevel);
+
+			GameOver_->SetEnemyProfile(EnemyProfile_);
+		}
+	}
+
+	if (EnemyFSM_->GetState() == EnemyState::Lose)
+	{
+		ChangeCount_ -= GameEngineTime::GetDeltaTime();
+
+		if (0 >= ChangeCount_)
+		{
+			FadeBackground_->FadeInOn();
+			FadeBackground_->GetMyRenderer()->SetOrder(20);
+			FadeBackground_->SetFadeSpeed(500.f);
+		}
+
+		if (true == FadeBackground_->GetIsInChange())
+		{
+			GameEngine::GetInst().ChangeLevel("EnemySelect");
+			InGameBgm_.Stop();
+		}
+	}
 }
 
 void InGame::CarbuncleUpdate()
@@ -622,7 +679,7 @@ void InGame::VomitBubble()
 			if (false == Bubbles_[i]->IsUpdate())
 			{
 				Bubbles_[i]->GetMyRenderer()->PauseOff();
-				Bubbles_[i]->SetPosition(GameEngineWindow::GetScale().Half() + float4{0, 100.f});
+				Bubbles_[i]->SetPosition(GameEngineWindow::GetScale().Half() + float4{ 0, 100.f });
 				Bubbles_[i]->On();
 			}
 
@@ -641,9 +698,21 @@ void InGame::VomitBubble()
 			}
 		}
 	}
+
 }
 
-void InGame::LevelChangeStart(GameEngineLevel* _PrevLevel )
+int InGame::GetRandomInt(int _At, int _Until)
+{
+	return Random_.RandomInt(_At, _Until);
+}
+
+float InGame::GetRandomFloat(int _At, int _Until)
+{
+	return Random_.RandomFloat(_At, _Until);
+}
+
+
+void InGame::LevelChangeStart(GameEngineLevel* _PrevLevel)
 {
 	InGameBgm_ = GameEngineSound::SoundPlayControl("InGame.mp3");
 

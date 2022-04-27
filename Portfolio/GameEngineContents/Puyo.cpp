@@ -1,5 +1,4 @@
 #include "Puyo.h"
-#include "ContentsEnum.h"
 #include "GameEngineBase/GameEngineWindow.h"
 #include <GameEngine/GameEngineImageManager.h>
 #include <GameEngine/GameEngineRenderer.h>
@@ -7,21 +6,25 @@
 #include <GameEngine/GameEngine.h>
 #include <GameEngineBase/GameEngineTime.h>
 #include "Player.h"
+#include "EnemyFSM.h"
 
 Puyo::Puyo()
-	: MyRenderer_(nullptr)
+	: PuyoState_{}
+	, MyRenderer_(nullptr)
 	, MyColor_(PuyoColor::RED)
 	, CurDir_(PuyoDir::UP)
 	, X_(0)
 	, Y_(0)
 	, OffsetX_(0)
+	, StartPos_{}
+	, EndPos_{}
+	, Alpha_(0.f)
 	, IsLand_(false)
 	, IsVisited_(false)
 	, IsLandPlay_(false)
 	, IsDestroy_(false)
 	, IsFall_(false)
 	, IsConnect_{ false }
-	, LandAnimationEnd_(false)
 {
 }
 
@@ -31,14 +34,39 @@ Puyo::~Puyo()
 
 void Puyo::Start()
 {
+	PuyoState_ = PuyoState::Normal;
 }
 
 void Puyo::Update()
 {
-	LandAnimation();
-	LandToNormal();
+	switch (PuyoState_)
+	{
+	case PuyoState::Normal:
+		break;
+	case PuyoState::Land:
+		LandAnimation();
+		LandToNormal();
+		break;
+	case PuyoState::Fall:
+		Alpha_ += GameEngineTime::GetDeltaTime() * 4;
 
-	SelfDestroy();
+		if (1.f <= Alpha_)
+		{
+			Alpha_ = 1.f;
+		}
+
+		SetPosition(LerpPuyo(StartPos_, EndPos_, Alpha_));
+
+		if (1 <= Alpha_)
+		{
+			ChangeState(PuyoState::Land);
+		}
+		break;
+	case PuyoState::Destroy:
+		RenderToDestroy();
+		SelfDestroy();
+		break;
+	}
 }
 
 void Puyo::InitAnimation(PuyoColor color)
@@ -347,6 +375,11 @@ void Puyo::SetColorImage(PuyoColor _Color)
 
 }
 
+void Puyo::ChangeState(PuyoState _State)
+{
+	PuyoState_ = _State;
+}
+
 void Puyo::Init(Player* _Player, int x, int y, PuyoColor _Color)
 {
 	Player_ = _Player;
@@ -363,16 +396,44 @@ void Puyo::Init(Player* _Player, int x, int y, PuyoColor _Color)
 	}
 }
 
+void Puyo::Init(EnemyFSM* _Enemy, int x, int y, PuyoColor _Color)
+{
+	Enemy_ = _Enemy;
+	SetIndex(x, y);
+	InitAnimation(_Color);
+
+	SetPosition(Enemy_->GetPosition() + float4{ static_cast<float>((x * 65) + OffsetX_), static_cast<float>(y * -60) });
+
+	OffsetX_ += 30;
+
+	if (x == 5)
+	{
+		OffsetX_ = 0;
+	}
+}
+
 void  Puyo::CoordinateMove(Player* _Player, int x, int y)
 {
 	SetIndex(x, y);
 	SetPosition(_Player->GetPosition() + float4{ static_cast<float>((x * 65)), static_cast<float>(y * -60) });
 }
 
+void Puyo::CoordinateMove(EnemyFSM* _Enemy, int x, int y)
+{
+	SetIndex(x, y);
+	SetPosition(_Enemy->GetPosition() + float4{ static_cast<float>((x * 65)), static_cast<float>(y * -60) });
+}
+
 float4 Puyo::CoordinatePos(Player* _Player, int x, int y)
 {
 	return float4{ _Player->GetPosition() + float4{ static_cast<float>((x * 65)), static_cast<float>(y * -60) } };
 }
+
+float4 Puyo::CoordinatePos(EnemyFSM* _Enemy, int x, int y)
+{
+	return float4{ _Enemy->GetPosition() + float4{ static_cast<float>((x * 65)), static_cast<float>(y * -60) } };
+}
+
 
 //이동 관련 함수
 Puyo* Puyo::LeftPuyo(Puyo* Map[15][6], Puyo* _Other)
@@ -404,6 +465,7 @@ Puyo* Puyo::LeftPuyo(Puyo* Map[15][6], Puyo* _Other)
 		}
 	}
 }
+
 
 Puyo* Puyo::RightPuyo(Puyo* Map[15][6], Puyo* _Other)
 {
@@ -475,7 +537,7 @@ Puyo* Puyo::RotatePuyo(Puyo* Map[15][6], Puyo* _Center)
 		switch (CenterPuyo->CurDir_)
 		{
 		case PuyoDir::UP:
-			if (0 <= CenterX - 1 && nullptr == Map[CenterY][CenterX - 1])
+ 			if (0 <= CenterX - 1 && nullptr == Map[CenterY][CenterX - 1])
 			{
 				Map[Y_][X_] = nullptr;
 
@@ -488,9 +550,9 @@ Puyo* Puyo::RotatePuyo(Puyo* Map[15][6], Puyo* _Center)
 
 				CenterPuyo->SetDir(PuyoDir::LEFT);
 			}
-			else if (0 > CenterX - 1)
+			else if (0 > CenterX - 1 || nullptr != Map[CenterY][CenterX - 1])
 			{
-				if (nullptr != Map[CenterY][CenterX + 1])
+				if (5 < CenterX + 1 ||nullptr != Map[CenterY][CenterX + 1])
 				{
 					CenterPuyo->SetDir(PuyoDir::LEFT);
 					continue;
@@ -526,7 +588,7 @@ Puyo* Puyo::RotatePuyo(Puyo* Map[15][6], Puyo* _Center)
 
 				CenterPuyo->SetDir(PuyoDir::DOWN);
 			}
-			else if (0 > CenterY - 1)
+			else if (0 > CenterY - 1 || nullptr != Map[CenterY - 1][CenterX])
 			{
 				if (nullptr != Map[CenterY + 1][CenterX])
 				{
@@ -564,9 +626,9 @@ Puyo* Puyo::RotatePuyo(Puyo* Map[15][6], Puyo* _Center)
 
 				CenterPuyo->SetDir(PuyoDir::RIGHT);
 			}
-			else if (5 < CenterX + 1)
+			else if (5 < CenterX + 1 || nullptr != Map[CenterY][CenterX + 1])
 			{
-				if (nullptr != Map[CenterY + 1][CenterX])
+				if (0 > CenterY - 1 || nullptr != Map[CenterY][CenterX - 1])
 				{
 					CenterPuyo->SetDir(PuyoDir::RIGHT);
 					continue;
@@ -644,12 +706,30 @@ void Puyo::AloneFallPuyo(Puyo* Map[15][6])
 	}
 }
 
-void Puyo::FallPuyo(Puyo* Map[15][6])
+void Puyo::FallPuyo(Puyo* Map[15][6], Player* _Player)
 {
 	if (0 == Y_)
 	{
 		return;
 	}
+
+	int Count = 0;
+
+	for (int i = Y_; i >= 0; --i)
+	{
+		if (nullptr == Map[i][X_])
+		{
+			++Count;
+		}
+	}
+
+	if (0 == Count)
+	{
+		return;
+	}
+
+
+	Alpha_ = 0.f;
 
 	Map[Y_][X_] = nullptr;
 
@@ -665,22 +745,66 @@ void Puyo::FallPuyo(Puyo* Map[15][6])
 	}
 
 	SetY(PuyoCount);
-	CoordinateMove(Player_, X_, Y_);
+
+	StartPos_ = GetPosition();
+	EndPos_ = CoordinatePos(_Player, X_, Y_);
 	Map[Y_][X_] = this;
+
+	ChangeState(PuyoState::Fall);
 }
 
+void Puyo::FallPuyo(Puyo* Map[15][6], EnemyFSM* _Enemy)
+{
+	if (0 == Y_)
+	{
+		return;
+	}
+
+	int Count = 0;
+
+	for (int i = Y_; i >= 0; --i)
+	{
+		if (nullptr == Map[i][X_])
+		{
+			++Count;
+		}
+	}
+
+	if (0 == Count)
+	{
+		return;
+	}
+
+
+	Alpha_ = 0.f;
+
+	Map[Y_][X_] = nullptr;
+
+	int PuyoCount = 0;
+
+	for (int i = 0; i < Y_; ++i)
+	{
+		if (nullptr != Map[i][X_]
+			&& false == Map[i][X_]->GetDestroy())
+		{
+			++PuyoCount;
+		}
+	}
+
+	SetY(PuyoCount);
+
+	StartPos_ = GetPosition();
+	EndPos_ = CoordinatePos(_Enemy, X_, Y_);
+	Map[Y_][X_] = this;
+
+	ChangeState(PuyoState::Fall);
+}
 
 float4 Puyo::LerpPuyo(float4 A, float4 B, float Alpha)
 {
 	return A * (1 - Alpha) + B * Alpha;
 }
 
-
-void Puyo::Destroy(Puyo* Map[15][6])
-{
-	Map[Y_][X_] = nullptr;
-	RenderToDestroy();
-}
 
 
 
@@ -1039,9 +1163,6 @@ void Puyo::RenderToLeftRightUpDown()
 
 void Puyo::RenderToDestroy()
 {
-	IsDestroy_ = true;
-	LandAnimationEnd_ = false;
-
 	switch (MyColor_)
 	{
 	case PuyoColor::RED:
@@ -1131,28 +1252,23 @@ void Puyo::RenderToLand()
 
 void Puyo::LandAnimation()
 {
-	if (true == IsLand_ && false == IsLandPlay_)
+	switch (MyColor_)
 	{
-		switch (MyColor_)
-		{
-		case PuyoColor::RED:
-			MyRenderer_->ChangeAnimation("IG_RED_LAND");
-			break;
-		case PuyoColor::BLUE:
-			MyRenderer_->ChangeAnimation("IG_BLUE_LAND");
-			break;
-		case PuyoColor::GREEN:
-			MyRenderer_->ChangeAnimation("IG_GREEN_LAND");
-			break;
-		case PuyoColor::YELLOW:
-			MyRenderer_->ChangeAnimation("IG_YELLOW_LAND");
-			break;
-		case PuyoColor::PURPLE:
-			MyRenderer_->ChangeAnimation("IG_PURPLE_LAND");
-			break;
-		}
-
-		IsLandPlay_ = true;
+	case PuyoColor::RED:
+		MyRenderer_->ChangeAnimation("IG_RED_LAND");
+		break;
+	case PuyoColor::BLUE:
+		MyRenderer_->ChangeAnimation("IG_BLUE_LAND");
+		break;
+	case PuyoColor::GREEN:
+		MyRenderer_->ChangeAnimation("IG_GREEN_LAND");
+		break;
+	case PuyoColor::YELLOW:
+		MyRenderer_->ChangeAnimation("IG_YELLOW_LAND");
+		break;
+	case PuyoColor::PURPLE:
+		MyRenderer_->ChangeAnimation("IG_PURPLE_LAND");
+		break;
 	}
 }
 
@@ -1166,7 +1282,7 @@ void Puyo::LandToNormal()
 			if (true == MyRenderer_->IsEndAnimation())
 			{
 				MyRenderer_->ChangeAnimation("IG_RED_PUYO");
-				LandAnimationEnd_ = true;
+				PuyoState_= PuyoState::Normal;
 			}
 		}
 		break;
@@ -1176,7 +1292,7 @@ void Puyo::LandToNormal()
 			if (true == MyRenderer_->IsEndAnimation())
 			{
 				MyRenderer_->ChangeAnimation("IG_BLUE_PUYO");
-				LandAnimationEnd_ = true;
+				PuyoState_ = PuyoState::Normal;
 			}
 		}
 		break;
@@ -1186,7 +1302,7 @@ void Puyo::LandToNormal()
 			if (true == MyRenderer_->IsEndAnimation())
 			{
 				MyRenderer_->ChangeAnimation("IG_GREEN_PUYO");
-				LandAnimationEnd_ = true;
+				PuyoState_ = PuyoState::Normal;
 			}
 		}
 		break;
@@ -1196,7 +1312,7 @@ void Puyo::LandToNormal()
 			if (true == MyRenderer_->IsEndAnimation())
 			{
 				MyRenderer_->ChangeAnimation("IG_YELLOW_PUYO");
-				LandAnimationEnd_ = true;
+				PuyoState_ = PuyoState::Normal;
 			}
 		}
 		break;
@@ -1206,7 +1322,7 @@ void Puyo::LandToNormal()
 			if (true == MyRenderer_->IsEndAnimation())
 			{
 				MyRenderer_->ChangeAnimation("IG_PURPLE_PUYO");
-				LandAnimationEnd_ = true;
+				PuyoState_ = PuyoState::Normal;
 			}
 		}
 		break;
@@ -1216,60 +1332,52 @@ void Puyo::LandToNormal()
 
 void Puyo::SelfDestroy()
 {
-	if (true == IsDestroy_)
+	switch (MyColor_)
 	{
-		switch (MyColor_)
-		{
-		case PuyoColor::RED:
-			if (true == MyRenderer_->IsAnimationName("IG_RED_DESTROY"))
-			{
-				if (true == MyRenderer_->IsEndAnimation())
-				{
-					DestroyAnimationEnd_ = true;
-					Death();
-				}
-			}
-			break;
-		case PuyoColor::BLUE:
-			if (true == MyRenderer_->IsAnimationName("IG_BLUE_DESTROY"))
-			{
-				if (true == MyRenderer_->IsEndAnimation())
-				{
-					DestroyAnimationEnd_ = true;
-					Death();
-				}
-			}
-			break;
-		case PuyoColor::GREEN:
+	case PuyoColor::RED:
+		if (true == MyRenderer_->IsAnimationName("IG_RED_DESTROY"))
 		{
 			if (true == MyRenderer_->IsEndAnimation())
 			{
-				DestroyAnimationEnd_ = true;
 				Death();
 			}
 		}
 		break;
-		case PuyoColor::YELLOW:
-			if (true == MyRenderer_->IsAnimationName("IG_YELLOW_DESTROY"))
+	case PuyoColor::BLUE:
+		if (true == MyRenderer_->IsAnimationName("IG_BLUE_DESTROY"))
+		{
+			if (true == MyRenderer_->IsEndAnimation())
 			{
-				if (true == MyRenderer_->IsEndAnimation())
-				{
-					DestroyAnimationEnd_ = true;
-					Death();
-				}
+				Death();
 			}
-			break;
-		case PuyoColor::PURPLE:
-			if (true == MyRenderer_->IsAnimationName("IG_PURPLE_DESTROY"))
-			{
-				if (true == MyRenderer_->IsEndAnimation())
-				{
-					DestroyAnimationEnd_ = true;
-					Death();
-				}
-			}
-			break;
 		}
+		break;
+	case PuyoColor::GREEN:
+	{
+		if (true == MyRenderer_->IsEndAnimation())
+		{
+			Death();
+		}
+	}
+	break;
+	case PuyoColor::YELLOW:
+		if (true == MyRenderer_->IsAnimationName("IG_YELLOW_DESTROY"))
+		{
+			if (true == MyRenderer_->IsEndAnimation())
+			{
+				Death();
+			}
+		}
+		break;
+	case PuyoColor::PURPLE:
+		if (true == MyRenderer_->IsAnimationName("IG_PURPLE_DESTROY"))
+		{
+			if (true == MyRenderer_->IsEndAnimation())
+			{
+				Death();
+			}
+		}
+		break;
 	}
 }
 

@@ -22,6 +22,13 @@ enum class MenuType
 };
 
 
+enum class PuyoState
+{
+	Normal,
+	Land,
+	Fall,
+	Destroy
+};
 
 enum class PuyoColor
 {

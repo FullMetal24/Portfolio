@@ -17,7 +17,7 @@ void Fire::Start()
 	MyRenderer_->CreateAnimation("IG_PLAYER_LIGHT.bmp", "IG_PLAYER_LIGHT", 0, 3, 0.1f, true);
 	MyRenderer_->CreateAnimation("IG_PLAYER_LIGHT_EXPLOSION.bmp", "IG_PLAYER_LIGHT_EXPLOSION", 0, 3, 0.1f, false);
 	MyRenderer_->CreateAnimation("IG_ENEMY_LIGHT.bmp", "IG_ENEMY_LIGHT", 0, 3, 0.1f, true);
-	MyRenderer_->CreateAnimation("IG_ENEMY_EXPLOSION.bmp", "IG_ENEMY_EXPLOSION", 0, 3, 0.1f, false);
+	MyRenderer_->CreateAnimation("IG_ENEMY_LIGHT_EXPLOSION.bmp", "IG_ENEMY_LIGHT_EXPLOSION", 0, 3, 0.1f, false);
 
 	MyRenderer_->ChangeAnimation("IG_PLAYER_LIGHT");
 	MyRenderer_->SetOrder(0);
@@ -87,7 +87,7 @@ void Fire::ExplosionCheck()
 	}
 
 	else if (true == MyRenderer_->IsEndAnimation()
-		&& true == MyRenderer_->IsAnimationName("IG_ENEMY_EXPLOSION"))
+		&& true == MyRenderer_->IsAnimationName("IG_ENEMY_LIGHT_EXPLOSION"))
 	{
 		MyRenderer_->SetOrder(-1);
 		MyRenderer_->ChangeAnimation("IG_ENEMY_LIGHT");
