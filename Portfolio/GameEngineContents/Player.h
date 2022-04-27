@@ -5,6 +5,7 @@
 #include "GameEngineBase/GameEngineRandom.h"
 #include <set>
 
+class EnemyFSM;
 class Fire;
 class HindrancePuyo;
 class Player : public GameEngineActor
@@ -23,6 +24,9 @@ public:
 	void NewPuyoPair();
 	void InitNextPair();
 	Puyo* CreatePuyo(int x, int y, PuyoColor _Color);
+	void RenderToCenterPuyo();
+	void RenderToLinkedPuyo();
+	void ResetLinkedPuyo();
 
 	//MovePuyo 관련 함수
 	void InputPuyoMove();
@@ -38,14 +42,8 @@ public:
 	//PuyoDestroy 관련 함수
 	void DestroyPuyo();
 
-	//PuyoDestroyEnd 관련 함수
-	void DestroyEndPuyo();
-
 	//PuyoLand 관련 함수
 	void LandPuyo();
-
-	//PuyoLandEnd 관련 함수
-	void LandEndPuyo();
 
 	//HindrancePuyo 관련 함수
 	void PlayerToEnemyAttack(float4 _FromPos);
@@ -58,6 +56,11 @@ public:
 	void DigitScore(int _Score);
 	void RenderToScore();
 
+	inline void SetEnemy()
+	{
+
+	}
+
 protected:
 	void Start() override;
 	void Update() override;
@@ -67,11 +70,12 @@ private:
 
 	PlayerState PlayerState_;
 
+	EnemyFSM* Enemy_;
+
 	std::vector<std::vector<Puyo*>> AllDestroyPuyo_;
 	std::set<Puyo*> FindAllDestroy_;
 
 	std::vector<Puyo*> Destroys_;
-	std::vector<Puyo*> Falls_;
 
 	std::vector<HindrancePuyo*> Hindrances_;
 
@@ -89,6 +93,8 @@ private:
 
 	float AutoDownTime_;
 	float InputDownTime_;
+	float CheckTime_;
+	float LandTime_;
 
 	unsigned int Score_;
 	unsigned int ScoreDigits_[10];

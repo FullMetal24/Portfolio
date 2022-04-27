@@ -4,12 +4,15 @@
 #include <GameEngine/GameEngineRenderer.h>
 #include <GameEngine/GameEngineImageManager.h>
 #include "Fire.h"
+#include "EnemyFSM.h"
 
 Player::Player()
 	: PlayerMap_{ nullptr }
 	, PlayerState_(PlayerState::NewPuyo)
 	, AutoDownTime_(1.0f)
 	, InputDownTime_(0.f)
+	, CheckTime_(0.f)
+	, LandTime_(0.f)
 	, Score_(0)
 {
 }
@@ -58,19 +61,24 @@ void Player::Update()
 		OtherPuyoLandCheck();
 		break;
 	case PlayerState::PuyoCheck:
-		SearchPuyo();
+		CheckTime_ += GameEngineTime::GetDeltaTime();
+		if (0.7f < CheckTime_)
+		{
+			CheckTime_ = 0.f;
+			SearchPuyo();
+		}
 		break;
 	case PlayerState::PuyoDestroy:
 		DestroyPuyo();
 		break;
-	case PlayerState::PuyoDestroyEnd:
-		DestroyEndPuyo();
-		break;
 	case PlayerState::LandPuyo:
-		LandPuyo();
+		LandTime_ += GameEngineTime::GetDeltaTime();
+		if (0.7f < LandTime_)
+		{
+			LandTime_ = 0.f;
+			LandPuyo();
+		}
 		break;
-	case PlayerState::PuyoLandEnd:
-		LandEndPuyo();
 		break;
 	case PlayerState::HindranceCheck:
 		HindrancePuyoCheck();
@@ -93,11 +101,18 @@ void Player::NewPuyoPair()
 	NextSecondPuyo_->SetColor(NextNextSecondPuyo_->GetColor());
 	NextCenterPuyo_->SetColor(NextNextCenterPuyo_->GetColor());
 
+	NextCenterPuyo_->SetColorImage(NextCenterPuyo_->GetColor());
+	NextSecondPuyo_->SetColorImage(NextSecondPuyo_->GetColor());
+
 	int Color = Random_.RandomInt(0, 4);
 	NextNextCenterPuyo_->SetColor(static_cast<PuyoColor>(Color));
+	NextNextCenterPuyo_->SetColorImage(static_cast<PuyoColor>(Color));
+
 	Color = Random_.RandomInt(0, 4);
 	NextNextSecondPuyo_->SetColor(static_cast<PuyoColor>(Color));
+	NextNextSecondPuyo_->SetColorImage(static_cast<PuyoColor>(Color));
 
+	RenderToCenterPuyo();
 	PlayerState_ = PlayerState::MovePuyo;
 }
 
@@ -106,26 +121,26 @@ void Player::InitNextPair()
 	int Color = Random_.RandomInt(0, 4);
 
 	NextNextCenterPuyo_ = GetLevel()->CreateActor<Puyo>(1);
-	NextNextCenterPuyo_->InitAnimation(static_cast<PuyoColor>(Color));
-	NextNextCenterPuyo_->SetColor(static_cast<PuyoColor>(Color));
+	NextNextCenterPuyo_->InitAllAnimation();
+	NextNextCenterPuyo_->SetColorImage(static_cast<PuyoColor>(Color));
 
 	Color = Random_.RandomInt(0, 4);
 
 	NextNextSecondPuyo_ = GetLevel()->CreateActor<Puyo>(1);
-	NextNextSecondPuyo_->InitAnimation(static_cast<PuyoColor>(Color));
-	NextNextSecondPuyo_->SetColor(static_cast<PuyoColor>(Color));
+	NextNextSecondPuyo_->InitAllAnimation();
+	NextNextSecondPuyo_->SetColorImage(static_cast<PuyoColor>(Color));
 
 	Color = Random_.RandomInt(0, 4);
 
 	NextCenterPuyo_ = GetLevel()->CreateActor<Puyo>(1);
-	NextCenterPuyo_->InitAnimation(static_cast<PuyoColor>(Color));
-	NextCenterPuyo_->SetColor(static_cast<PuyoColor>(Color));
+	NextCenterPuyo_->InitAllAnimation();
+	NextCenterPuyo_->SetColorImage(static_cast<PuyoColor>(Color));
 
 	Color = Random_.RandomInt(0, 4);
 
 	NextSecondPuyo_ = GetLevel()->CreateActor<Puyo>(1);
-	NextSecondPuyo_->InitAnimation(static_cast<PuyoColor>(Color));
-	NextSecondPuyo_->SetColor(static_cast<PuyoColor>(Color));
+	NextSecondPuyo_->InitAllAnimation();
+	NextSecondPuyo_->SetColorImage(static_cast<PuyoColor>(Color));
 
 	NextNextCenterPuyo_->SetPosition({ 605.f, 330.f });
 	NextNextSecondPuyo_->SetPosition({ 605.f, 270.f });
@@ -149,6 +164,7 @@ Puyo* Player::CreatePuyo(int x, int y, PuyoColor _Color)
 	if (nullptr != PlayerMap_[y][x])
 	{
 		return nullptr;
+		PlayerState_ = PlayerState::NewPuyo;
 	}
 
 	Puyo* NewPuyo_ = GetLevel()->CreateActor<Puyo>(0);
@@ -157,6 +173,68 @@ Puyo* Player::CreatePuyo(int x, int y, PuyoColor _Color)
 	NewPuyo_->Init(this, x, y, _Color);
 
 	return NewPuyo_;
+}
+
+void Player::RenderToCenterPuyo()
+{
+	switch (CenterPuyo_->GetColor())
+	{
+	case PuyoColor::RED:
+	{
+		CenterPuyo_->GetMyRenderer()->ChangeAnimation("IG_RED_CENTER");
+	}
+	break;
+
+	case PuyoColor::BLUE:
+	{
+		CenterPuyo_->GetMyRenderer()->ChangeAnimation("IG_BLUE_CENTER");
+	}
+	break;
+
+	case PuyoColor::GREEN:
+	{
+		CenterPuyo_->GetMyRenderer()->ChangeAnimation("IG_GREEN_CENTER");
+	}
+	break;
+	case PuyoColor::YELLOW:
+	{
+		CenterPuyo_->GetMyRenderer()->ChangeAnimation("IG_YELLOW_CENTER");
+	}
+	break;
+	case PuyoColor::PURPLE:
+	{
+		CenterPuyo_->GetMyRenderer()->ChangeAnimation("IG_PURPLE_CENTER");
+	}
+	break;
+	}
+}
+
+void Player::RenderToLinkedPuyo()
+{
+	for (int Y = 0; Y <= 14; ++Y)
+	{
+		for (int X = 0; X < 6; ++X)
+		{
+			if (nullptr != PlayerMap_[Y][X])
+			{
+				PlayerMap_[Y][X]->LinkedPuyoAnimtaion(PlayerMap_);
+			}
+		}
+	}
+}
+
+void Player::ResetLinkedPuyo()
+{
+	for (int Y = 0; Y <= 14; ++Y)
+	{
+		for (int X = 0; X < 6; ++X)
+		{
+			if (nullptr != PlayerMap_[Y][X])
+			{
+				PlayerMap_[Y][X]->ResetConnect();
+			}
+		}
+	}
 }
 
 void Player::InputPuyoMove()
@@ -192,7 +270,7 @@ void Player::InputPuyoMove()
 			SecondPuyo_->RightPuyo(PlayerMap_, CenterPuyo_);
 		}
 
-		if (CenterPuyo_->GetX() <= SecondPuyo_->GetX())
+		else if (CenterPuyo_->GetX() <= SecondPuyo_->GetX())
 		{
 			SecondPuyo_->RightPuyo(PlayerMap_, CenterPuyo_);
 			CenterPuyo_->RightPuyo(PlayerMap_, SecondPuyo_);
@@ -265,6 +343,7 @@ void Player::LandCheck()
 	if (true == CenterPuyo_->GetLand()
 		&& true == SecondPuyo_->GetLand())
 	{
+		RenderToLinkedPuyo();
 		PlayerState_ = PlayerState::PuyoCheck;
 	}
 }
@@ -274,13 +353,13 @@ void Player::OtherPuyoLandCheck()
 	if (true == CenterPuyo_->GetLand())
 	{
 		SecondPuyo_->SetFall(true);
-		SecondPuyo_->FallPuyo(PlayerMap_);
+		SecondPuyo_->AloneFallPuyo(PlayerMap_);
 	}
 
 	if (true == SecondPuyo_->GetLand())
 	{
 		CenterPuyo_->SetFall(true);
-		CenterPuyo_->FallPuyo(PlayerMap_);
+		CenterPuyo_->AloneFallPuyo(PlayerMap_);
 	}
 }
 
@@ -288,6 +367,12 @@ void Player::DestroyPuyo()
 {
 	std::vector<std::vector<Puyo*>>::iterator StartIter = AllDestroyPuyo_.begin();
 	std::vector<std::vector<Puyo*>>::iterator EndIter = AllDestroyPuyo_.end();
+
+	if (0 == AllDestroyPuyo_.size())
+	{
+		PlayerState_ = PlayerState::HindranceCheck;
+		return;
+	}
 
 	for (StartIter; StartIter != EndIter; ++StartIter)
 	{
@@ -306,106 +391,30 @@ void Player::DestroyPuyo()
 		{
 			if (nullptr != (*PuyoStartIter))
 			{
-				PlayerMap_[(*PuyoStartIter)->GetY()][(*PuyoStartIter)->GetX()] = nullptr;
-				Destroys_.push_back((*PuyoStartIter));
-				(*PuyoStartIter)->RenderToDestroy();
+				(*PuyoStartIter)->Destroy(PlayerMap_);
 			}
 		}
 	}
 
 	AllDestroyPuyo_.clear();
-	PlayerState_ = PlayerState::PuyoDestroyEnd;
-}
-
-void Player::DestroyEndPuyo()
-{
-	std::vector<Puyo*>::iterator StartIter = Destroys_.begin();
-	std::vector<Puyo*>::iterator EndIter = Destroys_.end();
-
-	int Index = 0;
-
-	for (StartIter; StartIter != EndIter; ++StartIter)
-	{
-		if (nullptr != (*StartIter))
-		{
-			if (true == (*StartIter)->GetDestroyAnimationEnd())
-			{
-				++Index;
-			}
-		}
-	}
-
-	if (Destroys_.size() <= Index)
-	{
-		PlayerState_ = PlayerState::LandPuyo;
-	}
-
-	Destroys_.clear();
+	PlayerState_ = PlayerState::LandPuyo;
 }
 
 void Player::LandPuyo()
 {
-	for (int Y = 14; Y >= 0; --Y)
+	for (int Y = 0; Y < 15; ++Y)
 	{
 		for (int X = 0; X < 6; ++X)
 		{
 			if (nullptr != PlayerMap_[Y][X])
 			{
 				Puyo* FallPuyo = PlayerMap_[Y][X];
-
-				if (0 <= FallPuyo->GetY() - 1
-					&& nullptr == PlayerMap_[FallPuyo->GetY() - 1][X])
-				{
-					Falls_.push_back(FallPuyo);
-					continue;
-				}
+				FallPuyo->FallPuyo(PlayerMap_);
 			}
 		}
 	}
 
-	PlayerState_ = PlayerState::PuyoLandEnd;
-}
-
-
-void Player::LandEndPuyo()
-{
-	std::vector<Puyo*>::iterator StartIter = Falls_.begin();
-	std::vector<Puyo*>::iterator EndIter = Falls_.end();
-
-	int Index = 0;
-
-	for (; StartIter != EndIter; ++StartIter)
-	{
-		if (nullptr != (*StartIter))
-		{
-			Puyo* FallPuyo = (*StartIter);
-
-			while (0 <= FallPuyo->GetY() - 1
-				&& nullptr == PlayerMap_[FallPuyo->GetY() - 1][FallPuyo->GetX()])
-			{
-				PlayerMap_[FallPuyo->GetY()][FallPuyo->GetX()] = nullptr;
-
-				FallPuyo->SetY(FallPuyo->GetY() - 1);
-				FallPuyo->CoordinateMove(this, FallPuyo->GetX(), FallPuyo->GetY());
-
-				PlayerMap_[FallPuyo->GetY()][FallPuyo->GetX()] = FallPuyo;
-			}
-
-			++Index;
-		}
-	}
-
-	if (Falls_.size() <= Index)
-	{
-		PlayerState_ = PlayerState::PuyoCheck;
-	}
-
-	if (Index <= 0)
-	{
-		PlayerState_ = PlayerState::HindranceCheck;
-	}
-
-	Falls_.clear();
+	PlayerState_ = PlayerState::PuyoCheck;
 }
 
 void Player::PlayerToEnemyAttack(float4 _FromPos)

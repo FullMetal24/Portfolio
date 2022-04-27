@@ -3,7 +3,7 @@
 #include "ContentsEnum.h"
 
 class Player;
-class FSM;
+class EnemyFSM;
 class Puyo : public GameEngineActor
 {
 
@@ -91,9 +91,12 @@ public:
 	}
 
 	void SetIndex(int _X, int _Y);
+	void InitAllAnimation();
+	void SetColorImage(PuyoColor _Color);
 
 	void Init(Player* _Player, int x, int y, PuyoColor _Color);
 	void CoordinateMove(Player* _Player, int x, int y);
+	float4 CoordinatePos(Player* _Player, int x, int y);
 
 	inline GameEngineRenderer* GetMyRenderer()
 	{
@@ -145,18 +148,31 @@ public:
 		IsConnect_[_Index] = _Value;
 	}
 
+	inline void ResetConnect()
+	{
+		IsConnect_[0] = false;
+		IsConnect_[1] = false;
+		IsConnect_[2] = false;
+		IsConnect_[3] = false;
+	}
+
 	inline void SetDir(PuyoDir _Dir)
 	{
 		CurDir_ = _Dir;
 	}
 
-	//이동 관련 코드
+	//이동 관련 함수
 	Puyo* LeftPuyo(Puyo* Map[15][6], Puyo* _Other);
 	Puyo* RightPuyo(Puyo* Map[15][6], Puyo* _Other);
 	Puyo* DownPuyo(Puyo* Map[15][6], Puyo* _Other);
 	Puyo* RotatePuyo(Puyo* Map[15][6], Puyo* _Center);
 	void LandPuyo(Puyo* Map[15][6], Puyo* _Other);
+	void AloneFallPuyo(Puyo* Map[15][6]);
 	void FallPuyo(Puyo* Map[15][6]);
+	float4 LerpPuyo(float4 A, float4 B, float Alpha);
+
+	//파괴 관련 함수
+	void Destroy(Puyo* Map[15][6]);
 
 	//애니메이션 관련 처리
 	void RenderToNormal();
@@ -191,13 +207,15 @@ public:
 	void SelfDestroy();
 
 	void InitAnimation(PuyoColor color);
+	void LinkedPuyoAnimtaion(Puyo* Map[15][6]);
+	int GradeLinkAnimation(Puyo* Map[15][6]);
 
 protected:
 
 private:
 	GameEngineRenderer* MyRenderer_;
 	Player* Player_;
-	FSM* FSM_;
+	EnemyFSM* FSM_;
 
 	PuyoColor MyColor_;
 	PuyoDir CurDir_;
@@ -212,6 +230,7 @@ private:
 	bool IsDestroy_;
 	bool IsFall_;
 
+	//상하좌우
 	bool IsConnect_[4];
 
 	bool LandAnimationEnd_;

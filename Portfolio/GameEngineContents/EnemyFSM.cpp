@@ -1,10 +1,10 @@
-#include "FSM.h"
+#include "EnemyFSM.h"
 #include "PuyoPair.h"
 #include <GameEngine/GameEngineRenderer.h>
 #include "Puyo.h"
 #include <queue>
 
-FSM::FSM() 
+EnemyFSM::EnemyFSM() 
 	: Visited_{}
 	, PuyoDir_(PuyoDir::UP)
 	, Score_(0)
@@ -25,11 +25,11 @@ FSM::FSM()
 {
 }
 
-FSM::~FSM() 
+EnemyFSM::~EnemyFSM() 
 {
 }
 
-void FSM::Start()
+void EnemyFSM::Start()
 {
 	for (int i = 0; i < 9; ++i)
 	{
@@ -39,34 +39,28 @@ void FSM::Start()
 	}
 }
 
-void FSM::Update()
+void EnemyFSM::Update()
 {
-	switch (FSMState_)
+	switch (EnemyState_)
 	{
-	case PlayerState::NewPuyo:
+	case EnemyState::NewPuyo:
 		break;
-	case PlayerState::MovePuyo:
+	case EnemyState::MovePuyo:
 		AutoFall();
 		CurrentPuyoLandCheck();
 		break;
-	case PlayerState::LandPuyo:
+	case EnemyState::LandPuyo:
 		LandPuyo();
 		break;
-	case PlayerState::PuyoLandEnd:
-		LandEndPuyo();
-		break;
-	case PlayerState::PuyoCheck:
+	case EnemyState::PuyoCheck:
 		SearchPuyo();
 		break;
-	case PlayerState::PuyoDestroy:
+	case EnemyState::PuyoDestroy:
 		DestroyPuyo();
 		break;
-	case PlayerState::PuyoDestroyEnd:
-		DestroyEndPuyo();
+	case EnemyState::Win:
 		break;
-	case PlayerState::Win:
-		break;
-	case PlayerState::Lose:
+	case EnemyState::Lose:
 		break;
 	}
 
@@ -74,11 +68,11 @@ void FSM::Update()
 	RenderToScore();
 }
 
-void FSM::AddPuyoPair(PuyoPair* _Pair)
+void EnemyFSM::AddPuyoPair(PuyoPair* _Pair)
 {
-	if (nullptr != FSMMap_[4][2])
+	if (nullptr != EnemyMap_[4][2])
 	{
-		FSMState_ = PlayerState::Lose;
+		EnemyState_ = EnemyState::Lose;
 		return;
 	}
 
@@ -86,19 +80,19 @@ void FSM::AddPuyoPair(PuyoPair* _Pair)
 	NextPair_ = NextNextPair_;
 	NextNextPair_ = _Pair;
 
-	FSMState_ = PlayerState::MovePuyo;
+	EnemyState_ = EnemyState::MovePuyo;
 	PuyoDir_ = PuyoDir::UP;
 
 	CurrentPairInit();
 }
 
-void FSM::CurrentPairInit()
+void EnemyFSM::CurrentPairInit()
 {
 	Puyo* SecondPuyo = CurrentPair_->GetSecondPuyo();
 	Puyo* CenterPuyo = CurrentPair_->GetCenterPuyo();
 
-	FSMMap_[0][2] = SecondPuyo;
-	FSMMap_[2][2] = CenterPuyo;
+	EnemyMap_[0][2] = SecondPuyo;
+	EnemyMap_[2][2] = CenterPuyo;
 
 	CenterPuyo->SetY(2);
 	CenterPuyo->SetX(2);
@@ -154,32 +148,32 @@ void FSM::CurrentPairInit()
 }
 
 
-void FSM::PlayerInput()
+void EnemyFSM::PlayerInput()
 {
 }
 
-void FSM::MoveLeft()
+void EnemyFSM::MoveLeft()
 {
 	if (SecondX_ < CenterX_ || SecondY_ > CenterY_)
 	{
-		if (0 <= SecondX_ - 1 && nullptr == FSMMap_[SecondY_][SecondX_ - 1] && nullptr == FSMMap_[SecondY_ + 1][SecondX_ - 1])
+		if (0 <= SecondX_ - 1 && nullptr == EnemyMap_[SecondY_][SecondX_ - 1] && nullptr == EnemyMap_[SecondY_ + 1][SecondX_ - 1])
 		{
-			FSMMap_[SecondY_][SecondX_ - 1] = CurrentPair_->GetSecondPuyo();
-			FSMMap_[SecondY_][SecondX_] = nullptr;
+			EnemyMap_[SecondY_][SecondX_ - 1] = CurrentPair_->GetSecondPuyo();
+			EnemyMap_[SecondY_][SecondX_] = nullptr;
 
 			CurrentPair_->GetSecondPuyo()->SetMove(float4::LEFT * SideMoveDis_);
 			CurrentPair_->GetSecondPuyo()->SetX(SecondX_ - 1);
 			SecondX_ = CurrentPair_->GetSecondPuyo()->GetX();
 		}
 
-		if (0 <= CenterX_ - 1 && nullptr == FSMMap_[CenterY_][CenterX_ - 1]
-			&& nullptr == FSMMap_[CenterY_ + 1][CenterX_ - 1]
-			&& nullptr == FSMMap_[CenterY_ + 3][CenterX_ - 1])
+		if (0 <= CenterX_ - 1 && nullptr == EnemyMap_[CenterY_][CenterX_ - 1]
+			&& nullptr == EnemyMap_[CenterY_ + 1][CenterX_ - 1]
+			&& nullptr == EnemyMap_[CenterY_ + 3][CenterX_ - 1])
 		{
-			if (nullptr == FSMMap_[SecondY_ + 2][SecondX_ - 1] || CurrentPair_->GetSecondPuyo() == FSMMap_[SecondY_ + 2][SecondX_ - 1])
+			if (nullptr == EnemyMap_[SecondY_ + 2][SecondX_ - 1] || CurrentPair_->GetSecondPuyo() == EnemyMap_[SecondY_ + 2][SecondX_ - 1])
 			{
-				FSMMap_[CenterY_][CenterX_ - 1] = CurrentPair_->GetCenterPuyo();
-				FSMMap_[CenterY_][CenterX_] = nullptr;
+				EnemyMap_[CenterY_][CenterX_ - 1] = CurrentPair_->GetCenterPuyo();
+				EnemyMap_[CenterY_][CenterX_] = nullptr;
 
 				CurrentPair_->GetCenterPuyo()->SetMove(float4::LEFT * SideMoveDis_);
 				CurrentPair_->GetCenterPuyo()->SetX(CenterX_ - 1);
@@ -190,24 +184,24 @@ void FSM::MoveLeft()
 
 	else if (SecondX_ > CenterX_ || SecondY_ < CenterY_)
 	{
-		if (0 <= CenterX_ - 1 && nullptr == FSMMap_[CenterY_][CenterX_ - 1] && nullptr == FSMMap_[CenterY_ + 1][CenterX_ - 1])
+		if (0 <= CenterX_ - 1 && nullptr == EnemyMap_[CenterY_][CenterX_ - 1] && nullptr == EnemyMap_[CenterY_ + 1][CenterX_ - 1])
 		{
-			FSMMap_[CenterY_][CenterX_ - 1] = CurrentPair_->GetCenterPuyo();
-			FSMMap_[CenterY_][CenterX_] = nullptr;
+			EnemyMap_[CenterY_][CenterX_ - 1] = CurrentPair_->GetCenterPuyo();
+			EnemyMap_[CenterY_][CenterX_] = nullptr;
 
 			CurrentPair_->GetCenterPuyo()->SetMove(float4::LEFT * SideMoveDis_);
 			CurrentPair_->GetCenterPuyo()->SetX(CenterX_ - 1);
 			CenterX_ = CurrentPair_->GetCenterPuyo()->GetX();
 		}
 
-		if (0 <= SecondX_ - 1 && nullptr == FSMMap_[SecondY_][SecondX_ - 1]
-			&& nullptr == FSMMap_[SecondY_ + 1][SecondX_ - 1]
-			&& nullptr == FSMMap_[SecondY_ + 3][SecondX_ - 1])
+		if (0 <= SecondX_ - 1 && nullptr == EnemyMap_[SecondY_][SecondX_ - 1]
+			&& nullptr == EnemyMap_[SecondY_ + 1][SecondX_ - 1]
+			&& nullptr == EnemyMap_[SecondY_ + 3][SecondX_ - 1])
 		{
-			if (nullptr == FSMMap_[SecondY_ + 2][SecondX_ - 1] || CurrentPair_->GetCenterPuyo() == FSMMap_[SecondY_ + 2][SecondX_ - 1])
+			if (nullptr == EnemyMap_[SecondY_ + 2][SecondX_ - 1] || CurrentPair_->GetCenterPuyo() == EnemyMap_[SecondY_ + 2][SecondX_ - 1])
 			{
-				FSMMap_[SecondY_][SecondX_ - 1] = CurrentPair_->GetSecondPuyo();
-				FSMMap_[SecondY_][SecondX_] = nullptr;
+				EnemyMap_[SecondY_][SecondX_ - 1] = CurrentPair_->GetSecondPuyo();
+				EnemyMap_[SecondY_][SecondX_] = nullptr;
 
 				CurrentPair_->GetSecondPuyo()->SetMove(float4::LEFT * SideMoveDis_);
 				CurrentPair_->GetSecondPuyo()->SetX(SecondX_ - 1);
@@ -217,28 +211,28 @@ void FSM::MoveLeft()
 	}
 }
 
-void FSM::MoveRight()
+void EnemyFSM::MoveRight()
 {
 	if (SecondX_ < CenterX_ || SecondY_ < CenterY_)
 	{
-		if (5 >= CenterX_ + 1 && nullptr == FSMMap_[CenterY_][CenterX_ + 1] && nullptr == FSMMap_[CenterY_ + 1][CenterX_ + 1])
+		if (5 >= CenterX_ + 1 && nullptr == EnemyMap_[CenterY_][CenterX_ + 1] && nullptr == EnemyMap_[CenterY_ + 1][CenterX_ + 1])
 		{
-			FSMMap_[CenterY_][CenterX_ + 1] = CurrentPair_->GetCenterPuyo();
-			FSMMap_[CenterY_][CenterX_] = nullptr;
+			EnemyMap_[CenterY_][CenterX_ + 1] = CurrentPair_->GetCenterPuyo();
+			EnemyMap_[CenterY_][CenterX_] = nullptr;
 
 			CurrentPair_->GetCenterPuyo()->SetMove(float4::RIGHT * SideMoveDis_);
 			CurrentPair_->GetCenterPuyo()->SetX(CenterX_ + 1);
 			CenterX_ = CurrentPair_->GetCenterPuyo()->GetX();
 		}
 
-		if (5 >= SecondX_ + 1 && nullptr == FSMMap_[SecondY_][SecondX_ + 1]
-			&& nullptr == FSMMap_[SecondY_ + 1][SecondX_ + 1]
-			&& nullptr == FSMMap_[SecondY_ + 3][SecondX_ + 1])
+		if (5 >= SecondX_ + 1 && nullptr == EnemyMap_[SecondY_][SecondX_ + 1]
+			&& nullptr == EnemyMap_[SecondY_ + 1][SecondX_ + 1]
+			&& nullptr == EnemyMap_[SecondY_ + 3][SecondX_ + 1])
 		{
-			if (nullptr == FSMMap_[SecondY_ + 2][SecondX_ + 1] || CurrentPair_->GetCenterPuyo() == FSMMap_[SecondY_ + 2][SecondX_ + 1])
+			if (nullptr == EnemyMap_[SecondY_ + 2][SecondX_ + 1] || CurrentPair_->GetCenterPuyo() == EnemyMap_[SecondY_ + 2][SecondX_ + 1])
 			{
-				FSMMap_[SecondY_][SecondX_ + 1] = CurrentPair_->GetSecondPuyo();
-				FSMMap_[SecondY_][SecondX_] = nullptr;
+				EnemyMap_[SecondY_][SecondX_ + 1] = CurrentPair_->GetSecondPuyo();
+				EnemyMap_[SecondY_][SecondX_] = nullptr;
 
 				CurrentPair_->GetSecondPuyo()->SetMove(float4::RIGHT * SideMoveDis_);
 				CurrentPair_->GetSecondPuyo()->SetX(SecondX_ + 1);
@@ -249,24 +243,24 @@ void FSM::MoveRight()
 
 	else if (SecondX_ > CenterX_ || SecondY_ > CenterY_)
 	{
-		if (5 >= SecondX_ + 1 && nullptr == FSMMap_[SecondY_][SecondX_ + 1] && nullptr == FSMMap_[SecondY_ + 1][SecondX_ + 1])
+		if (5 >= SecondX_ + 1 && nullptr == EnemyMap_[SecondY_][SecondX_ + 1] && nullptr == EnemyMap_[SecondY_ + 1][SecondX_ + 1])
 		{
-			FSMMap_[SecondY_][SecondX_ + 1] = CurrentPair_->GetSecondPuyo();
-			FSMMap_[SecondY_][SecondX_] = nullptr;
+			EnemyMap_[SecondY_][SecondX_ + 1] = CurrentPair_->GetSecondPuyo();
+			EnemyMap_[SecondY_][SecondX_] = nullptr;
 
 			CurrentPair_->GetSecondPuyo()->SetMove(float4::RIGHT * SideMoveDis_);
 			CurrentPair_->GetSecondPuyo()->SetX(SecondX_ + 1);
 			SecondX_ = CurrentPair_->GetSecondPuyo()->GetX();
 		}
 
-		if (5 >= CenterX_ + 1 && nullptr == FSMMap_[CenterY_][CenterX_ + 1]
-			&& nullptr == FSMMap_[CenterY_ + 1][CenterX_ + 1]
-			&& nullptr == FSMMap_[CenterY_ + 3][CenterX_ + 1])
+		if (5 >= CenterX_ + 1 && nullptr == EnemyMap_[CenterY_][CenterX_ + 1]
+			&& nullptr == EnemyMap_[CenterY_ + 1][CenterX_ + 1]
+			&& nullptr == EnemyMap_[CenterY_ + 3][CenterX_ + 1])
 		{
-			if (nullptr == FSMMap_[CenterY_ + 2][CenterX_ + 1] || CurrentPair_->GetSecondPuyo() == FSMMap_[CenterY_ + 2][CenterX_ + 1])
+			if (nullptr == EnemyMap_[CenterY_ + 2][CenterX_ + 1] || CurrentPair_->GetSecondPuyo() == EnemyMap_[CenterY_ + 2][CenterX_ + 1])
 			{
-				FSMMap_[CenterY_][CenterX_ + 1] = CurrentPair_->GetCenterPuyo();
-				FSMMap_[CenterY_][CenterX_] = nullptr;
+				EnemyMap_[CenterY_][CenterX_ + 1] = CurrentPair_->GetCenterPuyo();
+				EnemyMap_[CenterY_][CenterX_] = nullptr;
 
 				CurrentPair_->GetCenterPuyo()->SetMove(float4::RIGHT * SideMoveDis_);
 				CurrentPair_->GetCenterPuyo()->SetX(CenterX_ + 1);
@@ -276,24 +270,24 @@ void FSM::MoveRight()
 	}
 }
 
-void FSM::MoveDown()
+void EnemyFSM::MoveDown()
 {
 	if (SecondY_ > CenterY_)
 	{
-		if (28 >= SecondY_ + 1 && nullptr == FSMMap_[SecondY_ + 2][SecondX_])
+		if (28 >= SecondY_ + 1 && nullptr == EnemyMap_[SecondY_ + 2][SecondX_])
 		{
-			FSMMap_[SecondY_ + 1][SecondX_] = CurrentPair_->GetSecondPuyo();
-			FSMMap_[SecondY_][SecondX_] = nullptr;
+			EnemyMap_[SecondY_ + 1][SecondX_] = CurrentPair_->GetSecondPuyo();
+			EnemyMap_[SecondY_][SecondX_] = nullptr;
 
 			CurrentPair_->GetSecondPuyo()->SetMove(float4::DOWN * DownMoveDis_);
 			CurrentPair_->GetSecondPuyo()->SetY(SecondY_ + 1);
 			SecondY_ = CurrentPair_->GetSecondPuyo()->GetY();
 		}
 
-		if (28 >= CenterY_ + 1 && nullptr == FSMMap_[CenterY_ + 2][CenterX_])
+		if (28 >= CenterY_ + 1 && nullptr == EnemyMap_[CenterY_ + 2][CenterX_])
 		{
-			FSMMap_[CenterY_ + 1][CenterX_] = CurrentPair_->GetCenterPuyo();
-			FSMMap_[CenterY_][CenterX_] = nullptr;
+			EnemyMap_[CenterY_ + 1][CenterX_] = CurrentPair_->GetCenterPuyo();
+			EnemyMap_[CenterY_][CenterX_] = nullptr;
 
 			CurrentPair_->GetCenterPuyo()->SetMove(float4::DOWN * DownMoveDis_);
 			CurrentPair_->GetCenterPuyo()->SetY(CenterY_ + 1);
@@ -303,20 +297,20 @@ void FSM::MoveDown()
 
 	else
 	{
-		if (28 >= CenterY_ + 1 && nullptr == FSMMap_[CenterY_ + 2][CenterX_])
+		if (28 >= CenterY_ + 1 && nullptr == EnemyMap_[CenterY_ + 2][CenterX_])
 		{
-			FSMMap_[CenterY_ + 1][CenterX_] = CurrentPair_->GetCenterPuyo();
-			FSMMap_[CenterY_][CenterX_] = nullptr;
+			EnemyMap_[CenterY_ + 1][CenterX_] = CurrentPair_->GetCenterPuyo();
+			EnemyMap_[CenterY_][CenterX_] = nullptr;
 
 			CurrentPair_->GetCenterPuyo()->SetMove(float4::DOWN * DownMoveDis_);
 			CurrentPair_->GetCenterPuyo()->SetY(CenterY_ + 1);
 			CenterY_ = CurrentPair_->GetCenterPuyo()->GetY();
 		}
 
-		if (28 >= SecondY_ + 1 && nullptr == FSMMap_[SecondY_ + 2][SecondX_])
+		if (28 >= SecondY_ + 1 && nullptr == EnemyMap_[SecondY_ + 2][SecondX_])
 		{
-			FSMMap_[SecondY_ + 1][SecondX_] = CurrentPair_->GetSecondPuyo();
-			FSMMap_[SecondY_][SecondX_] = nullptr;
+			EnemyMap_[SecondY_ + 1][SecondX_] = CurrentPair_->GetSecondPuyo();
+			EnemyMap_[SecondY_][SecondX_] = nullptr;
 
 			CurrentPair_->GetSecondPuyo()->SetMove(float4::DOWN * DownMoveDis_);
 			CurrentPair_->GetSecondPuyo()->SetY(SecondY_ + 1);
@@ -325,16 +319,16 @@ void FSM::MoveDown()
 	}
 }
 
-void FSM::Rotate()
+void EnemyFSM::Rotate()
 {
 	while (true)
 	{
 		switch (PuyoDir_)
 		{
 		case PuyoDir::LEFT:
-			if (nullptr == FSMMap_[CenterY_ + 2][CenterX_] && nullptr == FSMMap_[CenterY_ + 3][CenterX_])
+			if (nullptr == EnemyMap_[CenterY_ + 2][CenterX_] && nullptr == EnemyMap_[CenterY_ + 3][CenterX_])
 			{
-				FSMMap_[SecondY_][SecondX_] = nullptr;
+				EnemyMap_[SecondY_][SecondX_] = nullptr;
 
 				SecondY_ = CenterY_ + 2;
 				SecondX_ = CenterX_;
@@ -352,14 +346,14 @@ void FSM::Rotate()
 				CurrentPair_->GetCenterPuyo()->SetX(CenterX_);
 				CurrentPair_->GetCenterPuyo()->SetY(CenterY_);
 
-				FSMMap_[CenterY_ + 2][CenterX_] = CurrentPair_->GetSecondPuyo();
+				EnemyMap_[CenterY_ + 2][CenterX_] = CurrentPair_->GetSecondPuyo();
 				CurrentPair_->GetSecondPuyo()->SetPosition(CurrentPair_->GetCenterPuyo()->GetPosition() + float4{ 0.f, 65.0f });
 
 				PuyoDir_ = PuyoDir::DOWN;
 			}
 			else
 			{
-				FSMMap_[SecondY_][SecondX_] = nullptr;
+				EnemyMap_[SecondY_][SecondX_] = nullptr;
 
 				SecondY_ = CenterY_ + 2;
 				SecondX_ = CenterX_;
@@ -374,7 +368,7 @@ void FSM::Rotate()
 				CurrentPair_->GetCenterPuyo()->SetX(CenterX_);
 				CurrentPair_->GetCenterPuyo()->SetY(CenterY_);
 
-				FSMMap_[CenterY_ + 2][CenterX_] = CurrentPair_->GetSecondPuyo();
+				EnemyMap_[CenterY_ + 2][CenterX_] = CurrentPair_->GetSecondPuyo();
 				CurrentPair_->GetSecondPuyo()->SetPosition(CurrentPair_->GetCenterPuyo()->GetPosition() + float4{ 0.f, 65.0f });
 
 				PuyoDir_ = PuyoDir::DOWN;
@@ -382,9 +376,9 @@ void FSM::Rotate()
 			break;
 
 		case PuyoDir::RIGHT:
-			if (nullptr == FSMMap_[CenterY_ - 2][CenterX_] && nullptr == FSMMap_[CenterY_ - 3][CenterX_])
+			if (nullptr == EnemyMap_[CenterY_ - 2][CenterX_] && nullptr == EnemyMap_[CenterY_ - 3][CenterX_])
 			{
-				FSMMap_[SecondY_][SecondX_] = nullptr;
+				EnemyMap_[SecondY_][SecondX_] = nullptr;
 
 				SecondY_ = CenterY_ - 2;
 				SecondX_ = CenterX_;
@@ -402,14 +396,14 @@ void FSM::Rotate()
 				CurrentPair_->GetCenterPuyo()->SetX(CenterX_);
 				CurrentPair_->GetCenterPuyo()->SetY(CenterY_);
 
-				FSMMap_[CenterY_ - 2][CenterX_] = CurrentPair_->GetSecondPuyo();
+				EnemyMap_[CenterY_ - 2][CenterX_] = CurrentPair_->GetSecondPuyo();
 				CurrentPair_->GetSecondPuyo()->SetPosition(CurrentPair_->GetCenterPuyo()->GetPosition() + float4{ 0.f, -65.0f });
 
 				PuyoDir_ = PuyoDir::UP;
 			}
 			else
 			{
-				FSMMap_[SecondY_][SecondX_] = nullptr;
+				EnemyMap_[SecondY_][SecondX_] = nullptr;
 
 				SecondY_ = CenterY_ - 2;
 				SecondX_ = CenterX_;
@@ -424,7 +418,7 @@ void FSM::Rotate()
 				CurrentPair_->GetCenterPuyo()->SetX(CenterX_);
 				CurrentPair_->GetCenterPuyo()->SetY(CenterY_);
 
-				FSMMap_[CenterY_ - 2][CenterX_] = CurrentPair_->GetSecondPuyo();
+				EnemyMap_[CenterY_ - 2][CenterX_] = CurrentPair_->GetSecondPuyo();
 				CurrentPair_->GetSecondPuyo()->SetPosition(CurrentPair_->GetCenterPuyo()->GetPosition() + float4{ 0.f, -65.0f });
 
 				PuyoDir_ = PuyoDir::UP;
@@ -432,10 +426,10 @@ void FSM::Rotate()
 			break;
 
 		case PuyoDir::DOWN:
-			if (nullptr == FSMMap_[CenterY_][CenterX_ + 1] && nullptr == FSMMap_[CenterY_ + 1][CenterX_ + 1]
+			if (nullptr == EnemyMap_[CenterY_][CenterX_ + 1] && nullptr == EnemyMap_[CenterY_ + 1][CenterX_ + 1]
 				&& 5 > SecondX_)
 			{
-				FSMMap_[SecondY_][SecondX_] = nullptr;
+				EnemyMap_[SecondY_][SecondX_] = nullptr;
 
 				SecondY_ = CenterY_;
 				SecondX_ = CenterX_ + 1;
@@ -443,7 +437,7 @@ void FSM::Rotate()
 				CurrentPair_->GetSecondPuyo()->SetX(SecondX_);
 				CurrentPair_->GetSecondPuyo()->SetY(SecondY_);
 
-				FSMMap_[CenterY_][CenterX_ + 1] = CurrentPair_->GetSecondPuyo();
+				EnemyMap_[CenterY_][CenterX_ + 1] = CurrentPair_->GetSecondPuyo();
 				CurrentPair_->GetSecondPuyo()->SetPosition(CurrentPair_->GetCenterPuyo()->GetPosition() + float4{ 65.0f, 0.0f });
 
 				PuyoDir_ = PuyoDir::RIGHT;
@@ -451,14 +445,14 @@ void FSM::Rotate()
 
 			else
 			{
-				if (nullptr != FSMMap_[CenterY_][CenterX_ - 1] || nullptr != FSMMap_[CenterY_ + 1][CenterX_ - 1]
+				if (nullptr != EnemyMap_[CenterY_][CenterX_ - 1] || nullptr != EnemyMap_[CenterY_ + 1][CenterX_ - 1]
 					|| 0 > SecondX_ - 1 || 0 > CenterX_)
 				{
 					PuyoDir_ = PuyoDir::RIGHT;
 					continue;
 				}
 
-				FSMMap_[SecondY_][SecondX_] = nullptr;
+				EnemyMap_[SecondY_][SecondX_] = nullptr;
 
 				SecondY_ = CenterY_;
 				SecondX_ = CenterX_ + 1;
@@ -470,7 +464,7 @@ void FSM::Rotate()
 				CurrentPair_->GetSecondPuyo()->SetX(SecondX_);
 				CurrentPair_->GetSecondPuyo()->SetY(SecondY_);
 
-				FSMMap_[CenterY_][CenterX_ + 1] = CurrentPair_->GetSecondPuyo();
+				EnemyMap_[CenterY_][CenterX_ + 1] = CurrentPair_->GetSecondPuyo();
 				CurrentPair_->GetSecondPuyo()->SetPosition(CurrentPair_->GetCenterPuyo()->GetPosition() + float4{ 65.0f, 0.0f });
 
 				PuyoDir_ = PuyoDir::RIGHT;
@@ -479,10 +473,10 @@ void FSM::Rotate()
 			break;
 
 		case PuyoDir::UP:
-			if (nullptr == FSMMap_[CenterY_][CenterX_ - 1] && nullptr == FSMMap_[CenterY_ + 1][CenterX_ - 1]
+			if (nullptr == EnemyMap_[CenterY_][CenterX_ - 1] && nullptr == EnemyMap_[CenterY_ + 1][CenterX_ - 1]
 				&& 0 <= SecondX_ - 1)
 			{
-				FSMMap_[SecondY_][SecondX_] = nullptr;
+				EnemyMap_[SecondY_][SecondX_] = nullptr;
 
 				SecondY_ = CenterY_;
 				SecondX_ = CenterX_ - 1;
@@ -490,7 +484,7 @@ void FSM::Rotate()
 				CurrentPair_->GetSecondPuyo()->SetX(SecondX_);
 				CurrentPair_->GetSecondPuyo()->SetY(SecondY_);
 
-				FSMMap_[CenterY_][CenterX_ - 1] = CurrentPair_->GetSecondPuyo();
+				EnemyMap_[CenterY_][CenterX_ - 1] = CurrentPair_->GetSecondPuyo();
 				CurrentPair_->GetSecondPuyo()->SetPosition(CurrentPair_->GetCenterPuyo()->GetPosition() + float4{ -65.0f, 0.0f });
 
 				PuyoDir_ = PuyoDir::LEFT;
@@ -498,14 +492,14 @@ void FSM::Rotate()
 
 			else
 			{
-				if (nullptr != FSMMap_[CenterY_][CenterX_ + 1] || nullptr != FSMMap_[CenterY_ + 1][CenterX_ + 1]
+				if (nullptr != EnemyMap_[CenterY_][CenterX_ + 1] || nullptr != EnemyMap_[CenterY_ + 1][CenterX_ + 1]
 					|| 5 < SecondX_ || 5 < CenterX_ + 1)
 				{
 					PuyoDir_ = PuyoDir::LEFT;
 					continue;
 				}
 
-				FSMMap_[SecondY_][SecondX_] = nullptr;
+				EnemyMap_[SecondY_][SecondX_] = nullptr;
 
 				SecondY_ = CenterY_;
 				SecondX_ = CenterX_ - 1;
@@ -517,7 +511,7 @@ void FSM::Rotate()
 				CurrentPair_->GetSecondPuyo()->SetX(SecondX_);
 				CurrentPair_->GetSecondPuyo()->SetY(SecondY_);
 
-				FSMMap_[CenterY_][CenterX_ - 1] = CurrentPair_->GetSecondPuyo();
+				EnemyMap_[CenterY_][CenterX_ - 1] = CurrentPair_->GetSecondPuyo();
 				CurrentPair_->GetSecondPuyo()->SetPosition(CurrentPair_->GetCenterPuyo()->GetPosition() + float4{ -65.0f, 0.0f });
 
 				PuyoDir_ = PuyoDir::LEFT;
@@ -530,7 +524,7 @@ void FSM::Rotate()
 }
 
 
-void FSM::CurrentPuyoLandCheck()
+void EnemyFSM::CurrentPuyoLandCheck()
 {
 	if (false == CurrentPair_->GetCenterPuyo()->GetLand())
 	{
@@ -539,14 +533,14 @@ void FSM::CurrentPuyoLandCheck()
 			CurrentPair_->GetCenterPuyo()->SetLand(true);
 		}
 
-		else if (CurrentPair_->GetSecondPuyo() != FSMMap_[CenterY_ + 2][CenterX_]
-			&& nullptr != FSMMap_[CenterY_ + 2][CenterX_])
+		else if (CurrentPair_->GetSecondPuyo() != EnemyMap_[CenterY_ + 2][CenterX_]
+			&& nullptr != EnemyMap_[CenterY_ + 2][CenterX_])
 		{
 			CurrentPair_->GetCenterPuyo()->SetLand(true);
 		}
 
 		else if (true == CurrentPair_->GetSecondPuyo()->GetLand()
-			&& nullptr != FSMMap_[CenterY_ + 2][CenterX_])
+			&& nullptr != EnemyMap_[CenterY_ + 2][CenterX_])
 		{
 			CurrentPair_->GetCenterPuyo()->SetLand(true);
 		}
@@ -559,14 +553,14 @@ void FSM::CurrentPuyoLandCheck()
 			CurrentPair_->GetSecondPuyo()->SetLand(true);
 		}
 
-		else if (CurrentPair_->GetCenterPuyo() != FSMMap_[SecondY_ + 2][SecondX_]
-			&& nullptr != FSMMap_[SecondY_ + 2][SecondX_])
+		else if (CurrentPair_->GetCenterPuyo() != EnemyMap_[SecondY_ + 2][SecondX_]
+			&& nullptr != EnemyMap_[SecondY_ + 2][SecondX_])
 		{
 			CurrentPair_->GetSecondPuyo()->SetLand(true);
 		}
 
 		else if (true == CurrentPair_->GetCenterPuyo()->GetLand()
-			&& nullptr != FSMMap_[SecondY_ + 2][SecondX_])
+			&& nullptr != EnemyMap_[SecondY_ + 2][SecondX_])
 		{
 			CurrentPair_->GetSecondPuyo()->SetLand(true);
 		}
@@ -575,12 +569,12 @@ void FSM::CurrentPuyoLandCheck()
 	if (true == CurrentPair_->GetCenterPuyo()->GetLand()
 		&& true == CurrentPair_->GetSecondPuyo()->GetLand())
 	{
-		FSMState_ = PlayerState::PuyoCheck;
+		EnemyState_ = EnemyState::PuyoCheck;
 	}
 
 }
 
-void FSM::AutoFall()
+void EnemyFSM::AutoFall()
 {
 	DownTime_ -= GameEngineTime::GetDeltaTime();
 
@@ -592,31 +586,31 @@ void FSM::AutoFall()
 	}
 }
 
-void FSM::FallAlonePuyo()
+void EnemyFSM::FallAlonePuyo()
 {
 }
 
-int FSM::GradePuyoAnimation(int _Dx, int _Dy, Puyo* _Puyo)
+int EnemyFSM::GradePuyoAnimation(int _Dx, int _Dy, Puyo* _Puyo)
 {
 	return 0;
 }
 
-void FSM::ConvertPuyoAnimtion(int _Dx, int _Dy, Puyo* _Puyo)
+void EnemyFSM::ConvertPuyoAnimtion(int _Dx, int _Dy, Puyo* _Puyo)
 {
 }
 
-void FSM::SearchPuyo()
+void EnemyFSM::SearchPuyo()
 {
-	while (FSMState_ == PlayerState::PuyoCheck)
+	while (EnemyState_ == EnemyState::PuyoCheck)
 	{
 		for (int Y = 0; Y < 30; ++Y)
 		{
 			for (int X = 0; X < 6; ++X)
 			{
-				if (nullptr != FSMMap_[Y][X]
-					&& false == FSMMap_[Y][X]->GetVisited())
+				if (nullptr != EnemyMap_[Y][X]
+					&& false == EnemyMap_[Y][X]->GetVisited())
 				{
-					BfsPuyo(FSMMap_[Y][X]);
+					BfsPuyo(EnemyMap_[Y][X]);
 				}
 
 				std::list<Puyo*>::iterator StartIter = Visited_.begin();
@@ -624,7 +618,7 @@ void FSM::SearchPuyo()
 
 				if (4 <= Visited_.size())
 				{
-					FSMState_ = PlayerState::PuyoDestroy;
+					EnemyState_ = EnemyState::PuyoDestroy;
 					return;
 				}
 
@@ -640,11 +634,11 @@ void FSM::SearchPuyo()
 			}
 		}
 
-		FSMState_ = PlayerState::NewPuyo;
+		EnemyState_ = EnemyState::NewPuyo;
 	}
 }
 
-void FSM::BfsPuyo(Puyo* _Puyo)
+void EnemyFSM::BfsPuyo(Puyo* _Puyo)
 {
 	int Dx[4] = { 0, 0, 1, -1 };
 	int Dy[4] = { 2, -2, 0, 0 };
@@ -671,9 +665,9 @@ void FSM::BfsPuyo(Puyo* _Puyo)
 				continue;
 			}
 
-			if (nullptr != FSMMap_[Y][X])
+			if (nullptr != EnemyMap_[Y][X])
 			{
-				Puyo* OtherPuyo = FSMMap_[Y][X];
+				Puyo* OtherPuyo = EnemyMap_[Y][X];
 
 				if (false == OtherPuyo->GetVisited())
 				{
@@ -691,7 +685,7 @@ void FSM::BfsPuyo(Puyo* _Puyo)
 	}
 }
 
-void FSM::DestroyPuyo()
+void EnemyFSM::DestroyPuyo()
 {
 	std::list<Puyo*>::iterator StartIter = Visited_.begin();
 	std::list<Puyo*>::iterator EndIter = Visited_.end();
@@ -700,16 +694,15 @@ void FSM::DestroyPuyo()
 	{
 		if (nullptr != (*StartIter))
 		{
-			FSMMap_[(*StartIter)->GetY()][(*StartIter)->GetX()] = nullptr;
+			EnemyMap_[(*StartIter)->GetY()][(*StartIter)->GetX()] = nullptr;
 			(*StartIter)->RenderToDestroy();
 		}
 	}
 
 	Visited_.clear();
-	FSMState_ = PlayerState::PuyoDestroyEnd;
 }
 
-void FSM::DestroyEndPuyo()
+void EnemyFSM::DestroyEndPuyo()
 {
 	std::list<Puyo*>::iterator StartIter = Visited_.begin();
 	std::list<Puyo*>::iterator EndIter = Visited_.end();
@@ -730,22 +723,22 @@ void FSM::DestroyEndPuyo()
 	if (Visited_.size() <= Index)
 	{
 		Visited_.clear();
-		FSMState_ = PlayerState::LandPuyo;
+		EnemyState_ = EnemyState::LandPuyo;
 	}
 }
 
-void FSM::LandPuyo()
+void EnemyFSM::LandPuyo()
 {
 	for (int Y = 0; Y < 30; Y++)
 	{
 		for (int X = 0; X < 6; X++)
 		{
-			if (nullptr != FSMMap_[Y][X])
+			if (nullptr != EnemyMap_[Y][X])
 			{
-				Puyo* FallPuyo_ = FSMMap_[Y][X];
+				Puyo* FallPuyo_ = EnemyMap_[Y][X];
 
 				if (28 >= FallPuyo_->GetY() + 1
-					&& nullptr == FSMMap_[FallPuyo_->GetY() + 2][X])
+					&& nullptr == EnemyMap_[FallPuyo_->GetY() + 2][X])
 				{
 					Falls_.push_back(FallPuyo_);
 					//FallPuyo_->SetFall(true);
@@ -756,16 +749,15 @@ void FSM::LandPuyo()
 
 	if (0 < Falls_.size())
 	{
-		FSMState_ = PlayerState::PuyoLandEnd;
 	}
 
 	else if (0 == Falls_.size())
 	{
-		FSMState_ = PlayerState::PuyoCheck;
+		EnemyState_ = EnemyState::PuyoCheck;
 	}
 }
 
-void FSM::LandEndPuyo()
+void EnemyFSM::LandEndPuyo()
 {
 	std::vector<Puyo*>::iterator StartIter = Falls_.begin();
 	std::vector<Puyo*>::iterator EndIter = Falls_.end();
@@ -775,24 +767,24 @@ void FSM::LandEndPuyo()
 		if (nullptr != (*StartIter))
 		{
 			while (28 >= (*StartIter)->GetY() + 1
-				&& nullptr == FSMMap_[(*StartIter)->GetY() + 2][(*StartIter)->GetX()])
+				&& nullptr == EnemyMap_[(*StartIter)->GetY() + 2][(*StartIter)->GetX()])
 			{
 				(*StartIter)->SetFall(false);
 				(*StartIter)->SetMove(float4::DOWN * DownMoveDis_);
 				(*StartIter)->SetY((*StartIter)->GetY() + 1);
 
-				FSMMap_[(*StartIter)->GetY()][(*StartIter)->GetX()] = (*StartIter);
-				FSMMap_[(*StartIter)->GetY() - 1][(*StartIter)->GetX()] = nullptr;
+				EnemyMap_[(*StartIter)->GetY()][(*StartIter)->GetX()] = (*StartIter);
+				EnemyMap_[(*StartIter)->GetY() - 1][(*StartIter)->GetX()] = nullptr;
 			}
 		}
 	}
 	Falls_.clear();
-	FSMState_ = PlayerState::LandPuyo;
+	EnemyState_ = EnemyState::LandPuyo;
 }
 
 
 
-void FSM::DigitScore(int _Score)
+void EnemyFSM::DigitScore(int _Score)
 {
 	if (0 >= _Score)
 	{
@@ -812,7 +804,7 @@ void FSM::DigitScore(int _Score)
 	DigitSize_ = Index;
 }
 
-void FSM::RenderToScore()
+void EnemyFSM::RenderToScore()
 {
 	for (int i = 0; i < DigitSize_; ++i)
 	{

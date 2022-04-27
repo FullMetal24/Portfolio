@@ -32,7 +32,7 @@
     <ClCompile Include="EnemyRoulette.cpp">
       <Filter>Actor\Level\EnemySelect</Filter>
     </ClCompile>
-    <ClCompile Include="FSM.cpp">
+    <ClCompile Include="EnemyFSM.cpp">
       <Filter>Actor\Level\InGame\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="TitleActor.cpp">
@@ -128,7 +128,7 @@
     <ClInclude Include="EnemySelectActor.h">
       <Filter>Actor\Level\EnemySelect</Filter>
     </ClInclude>
-    <ClInclude Include="FSM.h">
+    <ClInclude Include="EnemyFSM.h">
       <Filter>Actor\Level\InGame\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="BestRecords.h">

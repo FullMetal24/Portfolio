@@ -3,6 +3,7 @@
 #include "GameEngineBase/GameEngineWindow.h"
 #include <GameEngine/GameEngineImageManager.h>
 #include <GameEngine/GameEngineRenderer.h>
+#include <GameEngineBase/GameEngineInput.h>
 #include <GameEngine/GameEngine.h>
 #include <GameEngineBase/GameEngineTime.h>
 #include "Player.h"
@@ -19,7 +20,7 @@ Puyo::Puyo()
 	, IsLandPlay_(false)
 	, IsDestroy_(false)
 	, IsFall_(false)
-	, IsConnect_{false}
+	, IsConnect_{ false }
 	, LandAnimationEnd_(false)
 {
 }
@@ -185,11 +186,165 @@ void Puyo::InitAnimation(PuyoColor color)
 	}
 }
 
+void Puyo::InitAllAnimation()
+{
+	MyRenderer_ = CreateRenderer();
+
+	MyRenderer_->CreateAnimation("IG_RED_PUYO.bmp", "IG_RED_PUYO", 0, 0, 0.f, false);
+	MyRenderer_->CreateAnimation("IG_RED_CENTER.bmp", "IG_RED_CENTER", 0, 1, 0.1f, true);
+	MyRenderer_->CreateAnimation("IG_RED_LAND.bmp", "IG_RED_LAND", 0, 1, 0.1f, false);
+	MyRenderer_->CreateAnimation("IG_RED_DESTROY.bmp", "IG_RED_DESTROY", 0, 5, 0.1f, false);
+
+	MyRenderer_->CreateAnimation("IG_RED_LEFT.bmp", "IG_RED_LEFT", 0, 0, 0.f, false);
+	MyRenderer_->CreateAnimation("IG_RED_RIGHT.bmp", "IG_RED_RIGHT", 0, 0, 0.f, false);
+	MyRenderer_->CreateAnimation("IG_RED_UP.bmp", "IG_RED_UP", 0, 0, 0.f, false);
+	MyRenderer_->CreateAnimation("IG_RED_DOWN.bmp", "IG_RED_DOWN", 0, 0, 0.f, false);
+
+	MyRenderer_->CreateAnimation("IG_RED_LEFT_RIGHT.bmp", "IG_RED_LEFT_RIGHT", 0, 0, 0.f, false);
+	MyRenderer_->CreateAnimation("IG_RED_LEFT_RIGHT_UP.bmp", "IG_RED_LEFT_RIGHT_UP", 0, 0, 0.f, false);
+	MyRenderer_->CreateAnimation("IG_RED_LEFT_RIGHT_DOWN.bmp", "IG_RED_LEFT_RIGHT_DOWN", 0, 0, 0.f, false);
+	MyRenderer_->CreateAnimation("IG_RED_LEFT_RIGHT_UP_DOWN.bmp", "IG_RED_LEFT_RIGHT_UP_DOWN", 0, 0, 0.f, false);
+	MyRenderer_->CreateAnimation("IG_RED_LEFT_UP.bmp", "IG_RED_LEFT_UP", 0, 0, 0.f, false);
+	MyRenderer_->CreateAnimation("IG_RED_LEFT_UP_DOWN.bmp", "IG_RED_LEFT_UP_DOWN", 0, 0, 0.f, false);
+	MyRenderer_->CreateAnimation("IG_RED_LEFT_DOWN.bmp", "IG_RED_LEFT_DOWN", 0, 0, 0.f, false);
+
+	MyRenderer_->CreateAnimation("IG_RED_RIGHT_UP.bmp", "IG_RED_RIGHT_UP", 0, 0, 0.f, false);
+	MyRenderer_->CreateAnimation("IG_RED_RIGHT_DOWN.bmp", "IG_RED_RIGHT_DOWN", 0, 0, 0.f, false);
+	MyRenderer_->CreateAnimation("IG_RED_RIGHT_UP_DOWN.bmp", "IG_RED_RIGHT_UP_DOWN", 0, 0, 0.f, false);
+
+	MyRenderer_->CreateAnimation("IG_RED_UP_DOWN.bmp", "IG_RED_UP_DOWN", 0, 0, 0.f, false);
+
+	MyRenderer_->CreateAnimation("IG_BLUE_PUYO.bmp", "IG_BLUE_PUYO", 0, 0, 0.f, false);
+	MyRenderer_->CreateAnimation("IG_BLUE_CENTER.bmp", "IG_BLUE_CENTER", 0, 1, 0.1f, true);
+	MyRenderer_->CreateAnimation("IG_BLUE_LAND.bmp", "IG_BLUE_LAND", 0, 1, 0.1f, false);
+	MyRenderer_->CreateAnimation("IG_BLUE_DESTROY.bmp", "IG_BLUE_DESTROY", 0, 5, 0.1f, false);
+
+	MyRenderer_->CreateAnimation("IG_BLUE_LEFT.bmp", "IG_BLUE_LEFT", 0, 0, 0.f, false);
+	MyRenderer_->CreateAnimation("IG_BLUE_RIGHT.bmp", "IG_BLUE_RIGHT", 0, 0, 0.f, false);
+	MyRenderer_->CreateAnimation("IG_BLUE_UP.bmp", "IG_BLUE_UP", 0, 0, 0.f, false);
+	MyRenderer_->CreateAnimation("IG_BLUE_DOWN.bmp", "IG_BLUE_DOWN", 0, 0, 0.f, false);
+
+	MyRenderer_->CreateAnimation("IG_BLUE_LEFT_RIGHT.bmp", "IG_BLUE_LEFT_RIGHT", 0, 0, 0.f, false);
+	MyRenderer_->CreateAnimation("IG_BLUE_LEFT_RIGHT_UP.bmp", "IG_BLUE_LEFT_RIGHT_UP", 0, 0, 0.f, false);
+	MyRenderer_->CreateAnimation("IG_BLUE_LEFT_RIGHT_DOWN.bmp", "IG_BLUE_LEFT_RIGHT_DOWN", 0, 0, 0.f, false);
+	MyRenderer_->CreateAnimation("IG_BLUE_LEFT_RIGHT_UP_DOWN.bmp", "IG_BLUE_LEFT_RIGHT_UP_DOWN", 0, 0, 0.f, false);
+	MyRenderer_->CreateAnimation("IG_BLUE_LEFT_UP.bmp", "IG_BLUE_LEFT_UP", 0, 0, 0.f, false);
+	MyRenderer_->CreateAnimation("IG_BLUE_LEFT_UP_DOWN.bmp", "IG_BLUE_LEFT_UP_DOWN", 0, 0, 0.f, false);
+	MyRenderer_->CreateAnimation("IG_BLUE_LEFT_DOWN.bmp", "IG_BLUE_LEFT_DOWN", 0, 0, 0.f, false);
+
+	MyRenderer_->CreateAnimation("IG_BLUE_RIGHT_UP.bmp", "IG_BLUE_RIGHT_UP", 0, 0, 0.f, false);
+	MyRenderer_->CreateAnimation("IG_BLUE_RIGHT_DOWN.bmp", "IG_BLUE_RIGHT_DOWN", 0, 0, 0.f, false);
+	MyRenderer_->CreateAnimation("IG_BLUE_RIGHT_UP_DOWN.bmp", "IG_BLUE_RIGHT_UP_DOWN", 0, 0, 0.f, false);
+
+	MyRenderer_->CreateAnimation("IG_BLUE_UP_DOWN.bmp", "IG_BLUE_UP_DOWN", 0, 0, 0.f, false);
+
+	MyRenderer_->CreateAnimation("IG_GREEN_PUYO.bmp", "IG_GREEN_PUYO", 0, 0, 0.f, false);
+	MyRenderer_->CreateAnimation("IG_GREEN_CENTER.bmp", "IG_GREEN_CENTER", 0, 1, 0.1f, true);
+	MyRenderer_->CreateAnimation("IG_GREEN_LAND.bmp", "IG_GREEN_LAND", 0, 1, 0.1f, false);
+	MyRenderer_->CreateAnimation("IG_GREEN_DESTROY.bmp", "IG_GREEN_DESTROY", 0, 5, 0.1f, false);
+
+	MyRenderer_->CreateAnimation("IG_GREEN_LEFT.bmp", "IG_GREEN_LEFT", 0, 0, 0.f, false);
+	MyRenderer_->CreateAnimation("IG_GREEN_RIGHT.bmp", "IG_GREEN_RIGHT", 0, 0, 0.f, false);
+	MyRenderer_->CreateAnimation("IG_GREEN_UP.bmp", "IG_GREEN_UP", 0, 0, 0.f, false);
+	MyRenderer_->CreateAnimation("IG_GREEN_DOWN.bmp", "IG_GREEN_DOWN", 0, 0, 0.f, false);
+
+	MyRenderer_->CreateAnimation("IG_GREEN_LEFT_RIGHT.bmp", "IG_GREEN_LEFT_RIGHT", 0, 0, 0.f, false);
+	MyRenderer_->CreateAnimation("IG_GREEN_LFET_RIGHT_UP.bmp", "IG_GREEN_LFET_RIGHT_UP", 0, 0, 0.f, false);
+	MyRenderer_->CreateAnimation("IG_GREEN_LEFT_RIGHT_DOWN.bmp", "IG_GREEN_LEFT_RIGHT_DOWN", 0, 0, 0.f, false);
+	MyRenderer_->CreateAnimation("IG_GREEN_LEFT_RIGHT_UP_DOWN.bmp", "IG_GREEN_LEFT_RIGHT_UP_DOWN", 0, 0, 0.f, false);
+	MyRenderer_->CreateAnimation("IG_GREEN_LEFT_UP.bmp", "IG_GREEN_LEFT_UP", 0, 0, 0.f, false);
+	MyRenderer_->CreateAnimation("IG_GREEN_LEFT_UP_DOWN.bmp", "IG_GREEN_LEFT_UP_DOWN", 0, 0, 0.f, false);
+	MyRenderer_->CreateAnimation("IG_GREEN_LEFT_DOWN.bmp", "IG_GREEN_LEFT_DOWN", 0, 0, 0.f, false);
+
+	MyRenderer_->CreateAnimation("IG_GREEN_RIGHT_UP.bmp", "IG_GREEN_RIGHT_UP", 0, 0, 0.f, false);
+	MyRenderer_->CreateAnimation("IG_GREEN_RIGHT_DOWN.bmp", "IG_GREEN_RIGHT_DOWN", 0, 0, 0.f, false);
+	MyRenderer_->CreateAnimation("IG_GREEN_RIGHT_UP_DOWN.bmp", "IG_GREEN_RIGHT_UP_DOWN", 0, 0, 0.f, false);
+
+	MyRenderer_->CreateAnimation("IG_GREEN_UP_DOWN.bmp", "IG_GREEN_UP_DOWN", 0, 0, 0.f, false);
+
+	MyRenderer_->CreateAnimation("IG_YELLOW_PUYO.bmp", "IG_YELLOW_PUYO", 0, 0, 0.f, false);
+	MyRenderer_->CreateAnimation("IG_YELLOW_CENTER.bmp", "IG_YELLOW_CENTER", 0, 1, 0.1f, true);
+	MyRenderer_->CreateAnimation("IG_YELLOW_LAND.bmp", "IG_YELLOW_LAND", 0, 1, 0.1f, false);
+	MyRenderer_->CreateAnimation("IG_YELLOW_DESTROY.bmp", "IG_YELLOW_DESTROY", 0, 5, 0.1f, false);
+
+	MyRenderer_->CreateAnimation("IG_YELLOW_LEFT.bmp", "IG_YELLOW_LEFT", 0, 0, 0.f, false);
+	MyRenderer_->CreateAnimation("IG_YELLOW_RIGHT.bmp", "IG_YELLOW_RIGHT", 0, 0, 0.f, false);
+	MyRenderer_->CreateAnimation("IG_YELLOW_UP.bmp", "IG_YELLOW_UP", 0, 0, 0.f, false);
+	MyRenderer_->CreateAnimation("IG_YELLOW_DOWN.bmp", "IG_YELLOW_DOWN", 0, 0, 0.f, false);
+
+	MyRenderer_->CreateAnimation("IG_YELLOW_LEFT_RIGHT.bmp", "IG_YELLOW_LEFT_RIGHT", 0, 0, 0.f, false);
+	MyRenderer_->CreateAnimation("IG_YELLOW_LEFT_RIGHT_DOWN.bmp", "IG_YELLOW_LEFT_RIGHT_DOWN", 0, 0, 0.f, false);
+	MyRenderer_->CreateAnimation("IG_YELLOW_LEFT_RIGHT_UP_DOWN.bmp", "IG_YELLOW_LEFT_RIGHT_UP_DOWN", 0, 0, 0.f, false);
+	MyRenderer_->CreateAnimation("IG_YELLOW_LEFT_UP.bmp", "IG_YELLOW_LEFT_UP", 0, 0, 0.f, false);
+	MyRenderer_->CreateAnimation("IG_YELLOW_LEFT_UP_DOWN.bmp", "IG_YELLOW_LEFT_UP_DOWN", 0, 0, 0.f, false);
+	MyRenderer_->CreateAnimation("IG_YELLOW_LEFT_DOWN.bmp", "IG_YELLOW_LEFT_DOWN", 0, 0, 0.f, false);
+
+	MyRenderer_->CreateAnimation("IG_YELLOW_RIGHT_UP.bmp", "IG_YELLOW_RIGHT_UP", 0, 0, 0.f, false);
+	MyRenderer_->CreateAnimation("IG_YELLOW_RIGHT_DOWN.bmp", "IG_YELLOW_RIGHT_DOWN", 0, 0, 0.f, false);
+	MyRenderer_->CreateAnimation("IG_YELLOW_RIGHT_UP_DOWN.bmp", "IG_YELLOW_RIGHT_UP_DOWN", 0, 0, 0.f, false);
+
+	MyRenderer_->CreateAnimation("IG_YELLOW_UP_DOWN.bmp", "IG_YELLOW_UP_DOWN", 0, 0, 0.f, false);
+
+	MyRenderer_->CreateAnimation("IG_PURPLE_PUYO.bmp", "IG_PURPLE_PUYO", 0, 0, 0.f, false);
+	MyRenderer_->CreateAnimation("IG_PURPLE_CENTER.bmp", "IG_PURPLE_CENTER", 0, 1, 0.1f, true);
+	MyRenderer_->CreateAnimation("IG_PURPLE_LAND.bmp", "IG_PURPLE_LAND", 0, 1, 0.1f, false);
+	MyRenderer_->CreateAnimation("IG_PURPLE_DESTROY.bmp", "IG_PURPLE_DESTROY", 0, 5, 0.1f, false);
+
+	MyRenderer_->CreateAnimation("IG_PURPLE_LEFT.bmp", "IG_PURPLE_LEFT", 0, 0, 0.f, false);
+	MyRenderer_->CreateAnimation("IG_PURPLE_RIGHT.bmp", "IG_PURPLE_RIGHT", 0, 0, 0.f, false);
+	MyRenderer_->CreateAnimation("IG_PURPLE_UP.bmp", "IG_PURPLE_UP", 0, 0, 0.f, false);
+	MyRenderer_->CreateAnimation("IG_PURPLE_DOWN.bmp", "IG_PURPLE_DOWN", 0, 0, 0.f, false);
+
+	MyRenderer_->CreateAnimation("IG_PURPLE_LEFT_RIGHT.bmp", "IG_PURPLE_LEFT_RIGHT", 0, 0, 0.f, false);
+	MyRenderer_->CreateAnimation("IG_PURPLE_LEFT_RIGHT_UP.bmp", "IG_PURPLE_LEFT_RIGHT_UP", 0, 0, 0.f, false);
+	MyRenderer_->CreateAnimation("IG_PURPLE_LEFT_RIGHT_DOWN.bmp", "IG_PURPLE_LEFT_RIGHT_DOWN", 0, 0, 0.f, false);
+	MyRenderer_->CreateAnimation("IG_PURPLE_LEFT_RIGHT_UP_DOWN.bmp", "IG_PURPLE_LEFT_RIGHT_UP_DOWN", 0, 0, 0.f, false);
+	MyRenderer_->CreateAnimation("IG_PURPLE_LEFT_UP.bmp", "IG_PURPLE_LEFT_UP", 0, 0, 0.f, false);
+	MyRenderer_->CreateAnimation("IG_PURPLE_LEFT_UP_DOWN.bmp", "IG_PURPLE_LEFT_UP_DOWN", 0, 0, 0.f, false);
+	MyRenderer_->CreateAnimation("IG_PURPLE_LEFT_DOWN.bmp", "IG_PURPLE_LEFT_DOWN", 0, 0, 0.f, false);
+
+	MyRenderer_->CreateAnimation("IG_PURPLE_RIGHT_DOWN.bmp", "IG_PURPLE_RIGHT_DOWN", 0, 0, 0.f, false);
+	MyRenderer_->CreateAnimation("IG_PURPLE_RIGHT_UP.bmp", "IG_PURPLE_RIGHT_UP", 0, 0, 0.f, false);
+	MyRenderer_->CreateAnimation("IG_PURPLE_RIGHT_UP_DOWN.bmp", "IG_PURPLE_RIGHT_UP_DOWN", 0, 0, 0.f, false);
+
+	MyRenderer_->CreateAnimation("IG_PURPLE_UP_DOWN.bmp", "IG_PURPLE_UP_DOWN", 0, 0, 0.f, false);
+}
+
 
 void Puyo::SetIndex(int _X, int _Y)
 {
 	SetX(_X);
 	SetY(_Y);
+}
+
+void Puyo::SetColorImage(PuyoColor _Color)
+{
+	MyColor_ = _Color;
+
+	switch (MyColor_)
+	{
+	case PuyoColor::RED:
+
+		MyRenderer_->ChangeAnimation("IG_RED_PUYO");
+		break;
+
+	case PuyoColor::BLUE:
+
+		MyRenderer_->ChangeAnimation("IG_BLUE_PUYO");
+		break;
+	case PuyoColor::GREEN:
+
+		MyRenderer_->ChangeAnimation("IG_GREEN_PUYO");
+		break;
+	case PuyoColor::YELLOW:
+		MyRenderer_->ChangeAnimation("IG_YELLOW_PUYO");
+		break;
+	case PuyoColor::PURPLE:
+
+		MyRenderer_->ChangeAnimation("IG_PURPLE_PUYO");
+		break;
+	}
+
 }
 
 void Puyo::Init(Player* _Player, int x, int y, PuyoColor _Color)
@@ -208,14 +363,16 @@ void Puyo::Init(Player* _Player, int x, int y, PuyoColor _Color)
 	}
 }
 
-void Puyo::CoordinateMove(Player* _Player, int x, int y)
+void  Puyo::CoordinateMove(Player* _Player, int x, int y)
 {
 	SetIndex(x, y);
 	SetPosition(_Player->GetPosition() + float4{ static_cast<float>((x * 65)), static_cast<float>(y * -60) });
 }
 
-
-
+float4 Puyo::CoordinatePos(Player* _Player, int x, int y)
+{
+	return float4{ _Player->GetPosition() + float4{ static_cast<float>((x * 65)), static_cast<float>(y * -60) } };
+}
 
 //ÀÌµ¿ °ü·Ã ÇÔ¼ö
 Puyo* Puyo::LeftPuyo(Puyo* Map[15][6], Puyo* _Other)
@@ -341,7 +498,7 @@ Puyo* Puyo::RotatePuyo(Puyo* Map[15][6], Puyo* _Center)
 
 				Map[Y_][X_] = nullptr;
 				Map[CenterY][CenterX] = nullptr;
-				
+
 				X_ = CenterX;
 				Y_ = CenterY;
 
@@ -428,8 +585,6 @@ Puyo* Puyo::RotatePuyo(Puyo* Map[15][6], Puyo* _Center)
 
 				CenterPuyo->CoordinateMove(Player_, CenterX, CenterY);
 				this->CoordinateMove(Player_, X_, Y_);
-				//CenterPuyo->SetPosition(CenterPuyo->GetPosition() - float4{ 65.0f, 0.0f });
-				//this->SetPosition(CenterPuyo->GetPosition() + float4{ 65.0f, 0.0f });
 
 				CenterPuyo->SetDir(PuyoDir::RIGHT);
 			}
@@ -451,8 +606,8 @@ Puyo* Puyo::RotatePuyo(Puyo* Map[15][6], Puyo* _Center)
 		}
 		break;
 	}
-	
- 	return nullptr;
+
+	return nullptr;
 }
 
 
@@ -477,18 +632,54 @@ void Puyo::LandPuyo(Puyo* Map[15][6], Puyo* _Other)
 	}
 }
 
-void Puyo::FallPuyo(Puyo* Map[15][6])
+void Puyo::AloneFallPuyo(Puyo* Map[15][6])
 {
 	if (0 <= Y_ - 1 && nullptr == Map[Y_ - 1][X_])
 	{
 		Map[Y_][X_] = nullptr;
 		Map[Y_ - 1][X_] = this;
-	
-		Y_ -= 1;
 
-		SetMove(float4::DOWN * 60.0f);
+		Y_ -= 1;
+		CoordinateMove(Player_, X_, Y_);
+	}
+}
+
+void Puyo::FallPuyo(Puyo* Map[15][6])
+{
+	if (0 == Y_)
+	{
+		return;
 	}
 
+	Map[Y_][X_] = nullptr;
+
+	int PuyoCount = 0;
+
+	for (int i = 0; i < Y_; ++i)
+	{
+		if (nullptr != Map[i][X_]
+			&& false == Map[i][X_]->GetDestroy())
+		{
+			++PuyoCount;
+		}
+	}
+
+	SetY(PuyoCount);
+	CoordinateMove(Player_, X_, Y_);
+	Map[Y_][X_] = this;
+}
+
+
+float4 Puyo::LerpPuyo(float4 A, float4 B, float Alpha)
+{
+	return A * (1 - Alpha) + B * Alpha;
+}
+
+
+void Puyo::Destroy(Puyo* Map[15][6])
+{
+	Map[Y_][X_] = nullptr;
+	RenderToDestroy();
 }
 
 
@@ -1050,14 +1241,14 @@ void Puyo::SelfDestroy()
 			}
 			break;
 		case PuyoColor::GREEN:
+		{
+			if (true == MyRenderer_->IsEndAnimation())
 			{
-				if (true == MyRenderer_->IsEndAnimation())
-				{
-					DestroyAnimationEnd_ = true;
-					Death();
-				}
+				DestroyAnimationEnd_ = true;
+				Death();
 			}
-			break;
+		}
+		break;
 		case PuyoColor::YELLOW:
 			if (true == MyRenderer_->IsAnimationName("IG_YELLOW_DESTROY"))
 			{
@@ -1079,5 +1270,211 @@ void Puyo::SelfDestroy()
 			}
 			break;
 		}
+	}
+}
+
+
+void Puyo::LinkedPuyoAnimtaion(Puyo* Map[15][6])
+{
+	int Value = GradeLinkAnimation(Map);
+
+	switch (Value)
+	{
+		//¿ì
+	case 1:
+		RenderToRight();
+		break;
+
+		//ÁÂ
+	case 10:
+		RenderToLeft();
+		break;
+
+		//ÁÂ¿ì
+	case 11:
+		RenderToLeftRight();
+		break;
+
+		//ÇÏ
+	case 100:
+		RenderToDown();
+		break;
+
+		//ÇÏÁÂ
+	case 110:
+		RenderToLeftDown();
+		break;
+
+		//ÇÏ¿ì
+	case 101:
+		RenderToRightDown();
+		break;
+
+		//ÇÏÁÂ¿ì
+	case 111:
+		RenderToLeftRightDown();
+		break;
+
+		//»ó
+	case 1000:
+		RenderToUp();
+		break;
+
+		//»óÇÏ
+	case 1100:
+		RenderToUpDown();
+		break;
+
+		//»óÇÏÁÂ
+	case 1110:
+		RenderToLeftUpDown();
+		break;
+
+		//»óÇÏ¿ì
+	case 1101:
+		RenderToRightUpDown();
+		break;
+
+		//»óÁÂ
+	case 1010:
+		RenderToLefttUp();
+		break;
+
+		//»ó¿ì
+	case 1001:
+		RenderToRightUp();
+		break;
+
+		//»óÁÂ¿ì
+	case 1011:
+		RenderToLeftRightUp();
+		break;
+
+		//»óÇÏÁÂ¿ì
+	case 1111:
+		RenderToLeftRightUpDown();
+		break;
+
+	}
+}
+
+int Puyo::GradeLinkAnimation(Puyo* Map[15][6])
+{
+	int INumber = 0;
+	bool* ConnectPtr = GetConnect();
+
+	if (Y_ - 1 < 0 || 14 < Y_ + 1
+		&& X_ - 1 < 0 || X_ + 1 > 5)
+	{
+		return 0;
+	}
+
+	if (nullptr != Map[Y_][X_ - 1]
+		&& MyColor_ == Map[Y_][X_ - 1]->GetColor())
+	{
+		INumber += 10;
+		SetConnect(static_cast<int>(PuyoDir::LEFT), true);
+
+		if (true == ConnectPtr[static_cast<int>(PuyoDir::RIGHT)])
+		{
+			++INumber;
+			SetConnect(static_cast<int>(PuyoDir::RIGHT), true);
+		}
+
+		else if (true == ConnectPtr[static_cast<int>(PuyoDir::DOWN)])
+		{
+			INumber += 100;
+			SetConnect(static_cast<int>(PuyoDir::DOWN), true);
+		}
+
+		else if (true == ConnectPtr[static_cast<int>(PuyoDir::UP)])
+		{
+			INumber += 1000;
+			SetConnect(static_cast<int>(PuyoDir::UP), true);
+		}
+
+		return INumber;
+	}
+
+	else if (nullptr != Map[Y_][X_ + 1]
+		&& MyColor_ == Map[Y_][X_ + 1]->GetColor())
+	{
+		++INumber;
+		SetConnect(static_cast<int>(PuyoDir::RIGHT), true);
+
+		if (true == ConnectPtr[static_cast<int>(PuyoDir::LEFT)])
+		{
+			INumber += 10;
+			SetConnect(static_cast<int>(PuyoDir::LEFT), true);
+		}
+
+		else if (true == ConnectPtr[static_cast<int>(PuyoDir::DOWN)])
+		{
+			INumber += 100;
+			SetConnect(static_cast<int>(PuyoDir::DOWN), true);
+		}
+
+		else if (true == ConnectPtr[static_cast<int>(PuyoDir::UP)])
+		{
+			INumber += 1000;
+			SetConnect(static_cast<int>(PuyoDir::UP), true);
+		}
+
+		return INumber;
+
+	}
+
+	else if (nullptr != Map[Y_ + 1][X_]
+		&& MyColor_ == Map[Y_ + 1][X_]->GetColor())
+	{
+		INumber += 1000;
+		SetConnect(static_cast<int>(PuyoDir::UP), true);
+
+		if (true == ConnectPtr[static_cast<int>(PuyoDir::RIGHT)])
+		{
+			++INumber;
+			SetConnect(static_cast<int>(PuyoDir::RIGHT), true);
+		}
+
+		else if (true == ConnectPtr[static_cast<int>(PuyoDir::LEFT)])
+		{
+			INumber += 10;
+			SetConnect(static_cast<int>(PuyoDir::LEFT), true);
+		}
+
+		else if (true == ConnectPtr[static_cast<int>(PuyoDir::DOWN)])
+		{
+			INumber += 100;
+			SetConnect(static_cast<int>(PuyoDir::DOWN), true);
+		}
+
+		return INumber;
+	}
+
+	else if (nullptr != Map[Y_ - 1][X_]
+		&& MyColor_ == Map[Y_ - 1][X_]->GetColor())
+	{
+		INumber += 100;
+		SetConnect(static_cast<int>(PuyoDir::DOWN), true);
+
+		if (true == ConnectPtr[static_cast<int>(PuyoDir::RIGHT)])
+		{
+			++INumber;
+			SetConnect(static_cast<int>(PuyoDir::RIGHT), true);
+		}
+
+		else if (true == ConnectPtr[static_cast<int>(PuyoDir::LEFT)])
+		{
+			INumber += 10;
+			SetConnect(static_cast<int>(PuyoDir::LEFT), true);
+		}
+
+		if (true == ConnectPtr[static_cast<int>(PuyoDir::UP)])
+		{
+			INumber += 1000;
+			SetConnect(static_cast<int>(PuyoDir::UP), true);
+		}
+
+		return INumber;
 	}
 }

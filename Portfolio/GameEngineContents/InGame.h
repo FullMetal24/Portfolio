@@ -9,7 +9,7 @@
 #include "Player.h"
 #include <vector>
 
-class FSM;
+class EnemyFSM;
 class PuyoPair;
 class InGameActor;
 class EnemyProfile;
@@ -53,7 +53,7 @@ protected:
 private:
 	Stage* Stages_[3];
 	Player*	Player_; 
-	FSM* FSM_;
+	EnemyFSM* FSM_;
 
 	InGameActor* Carbuncle_;
 	InGameActor* Stars_[36];

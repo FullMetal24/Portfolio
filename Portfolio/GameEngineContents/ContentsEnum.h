@@ -48,9 +48,19 @@ enum class PlayerState
 	MovePuyo,
 	PuyoCheck,
 	PuyoDestroy,
-	PuyoDestroyEnd,
 	LandPuyo,
-	PuyoLandEnd,
+	HindranceCheck,
+	Win,
+	Lose
+};
+
+enum class EnemyState
+{
+	NewPuyo,
+	MovePuyo,
+	PuyoCheck,
+	PuyoDestroy,
+	LandPuyo,
 	HindranceCheck,
 	Win,
 	Lose

@@ -5,16 +5,16 @@
 
 class Puyo;
 class PuyoPair;
-class FSM : public GameEngineActor
+class EnemyFSM : public GameEngineActor
 {
 public:
-	FSM();
-	~FSM();
+	EnemyFSM();
+	~EnemyFSM();
 
-	FSM(const FSM& _Other) = delete;
-	FSM(FSM&& _Other) noexcept = delete;
-	FSM& operator=(const FSM& _Other) = delete;
-	FSM& operator=(FSM&& _Other) noexcept = delete;
+	EnemyFSM(const EnemyFSM& _Other) = delete;
+	EnemyFSM(EnemyFSM&& _Other) noexcept = delete;
+	EnemyFSM& operator=(const EnemyFSM& _Other) = delete;
+	EnemyFSM& operator=(EnemyFSM&& _Other) noexcept = delete;
 
 	void Start() override;
 	void Update() override;
@@ -50,9 +50,9 @@ public:
 	void GreedyCheck();
 	void EnemyToPlayerAttack(float4 _FromPos);
 
-	inline PlayerState GetState()
+	inline EnemyState GetState()
 	{
-		return FSMState_;
+		return EnemyState_;
 	}
 
 	inline bool GetLose()
@@ -63,8 +63,8 @@ public:
 protected:
 
 private:
-	Puyo* FSMMap_[30][6];
-	PlayerState FSMState_;
+	Puyo* EnemyMap_[30][6];
+	EnemyState EnemyState_;
 
 	std::list<Puyo*> Visited_;
 	std::vector<Puyo*> Falls_;

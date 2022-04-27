@@ -9,7 +9,7 @@
 #include "InGameActor.h"
 #include "PuyoPair.h"
 #include "Puyo.h"
-#include "FSM.h"
+#include "EnemyFSM.h"
 #include "ContentsEnum.h"
 #include "EnemySelect.h"
 #include "GameOver.h"
@@ -57,7 +57,7 @@ void InGame::Loading()
 	Player_ = CreateActor<Player>(10);
 	Player_->SetPosition({95, 748});
 
-	FSM_ = CreateActor<FSM>(10);
+	FSM_ = CreateActor<EnemyFSM>(10);
 	FSM_->SetPosition({ 825, 748 });
 
 	Carbuncle_ = CreateActor<InGameActor>(6);

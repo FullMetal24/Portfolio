@@ -193,7 +193,7 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="FSM.h">
+    <ClInclude Include="EnemyFSM.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -270,7 +270,7 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="FSM.cpp">
+    <ClCompile Include="EnemyFSM.cpp">
       <SubType>
       </SubType>
     </ClCompile>
