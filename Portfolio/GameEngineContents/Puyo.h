@@ -1,5 +1,6 @@
 #pragma once
 #include <GameEngine/GameEngineActor.h>
+#include "GameEngineBase/GameEngineRandom.h"
 #include "ContentsEnum.h"
 
 class Player;
@@ -200,8 +201,11 @@ public:
 	void RenderToDestroy();
 	void RenderToLand();
 
+	void RandomIdleAnimation();
 	void RenderToIdle();
 	void RenderToOtherIdle();
+
+	void IdleToNomal();
 
 	void LandAnimation();
 	void LandToNormal();
@@ -217,6 +221,8 @@ protected:
 private:
 	PuyoState PuyoState_;
 
+	GameEngineRandom Random_;
+
 	GameEngineRenderer* MyRenderer_;
 	Player* Player_;
 	EnemyFSM* Enemy_;
@@ -231,7 +237,10 @@ private:
 	float4 StartPos_;
 	float4 EndPos_;
 	float Alpha_;
-
+	float IdleTime_;
+	float NormalTime_;
+	
+	bool IsIdle_;
 	bool IsLandPlay_;
 	bool IsLand_;
 	bool IsVisited_;

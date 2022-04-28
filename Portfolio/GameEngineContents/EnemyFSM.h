@@ -32,6 +32,7 @@ public:
 
 	//MovePuyo 관련 함수
 	void GreedyPuyoMove();
+	void RandomRotate();
 	void AutoDown();
 	void LandCheck();
 	void OtherPuyoLandCheck();
@@ -102,6 +103,8 @@ private:
 	Puyo* NextNextCenterPuyo_;
 	Puyo* NextNextSecondPuyo_;
 
+	float MoveTime_;
+	float RotateTime_;
 	float AutoDownTime_;
 	float InputDownTime_;
 	float CheckTime_;

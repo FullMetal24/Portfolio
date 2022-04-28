@@ -10,6 +10,8 @@
 EnemyFSM::EnemyFSM()
 	: EnemyMap_{ nullptr }
 	, EnemyState_(EnemyState::NewPuyo)
+	, MoveTime_(0.f)
+	, RotateTime_(0.f)
 	, AutoDownTime_(1.0f)
 	, InputDownTime_(0.f)
 	, CheckTime_(0.f)
@@ -51,7 +53,6 @@ void EnemyFSM::Start()
 	if (false == GameEngineInput::GetInst()->IsKey("Hindrance"))
 	{
 		GameEngineInput::GetInst()->CreateKey("Hindrance", VK_SPACE);
-
 	}
 }
 
@@ -64,6 +65,7 @@ void EnemyFSM::Update()
 		break;
 	case EnemyState::MovePuyo:
 		GreedyPuyoMove();
+		RandomRotate();
 		AutoDown();
 		LandCheck();
 		OtherPuyoLandCheck();
@@ -97,10 +99,10 @@ void EnemyFSM::Update()
 		break;
 	}
 
-	if (true == GameEngineInput::GetInst()->IsDown("Hindrance"))
-	{
-		EnemyToPlayerAttack({ GameEngineWindow::GetScale().Half() });
-	}
+	//if (true == GameEngineInput::GetInst()->IsDown("Hindrance"))
+	//{
+	//	EnemyToPlayerAttack({ GameEngineWindow::GetScale().Half() });
+	//}
 	
 	DigitScore(Score_);
 	RenderToScore();
@@ -274,15 +276,13 @@ void EnemyFSM::RenderToCenterPuyo()
 	}
 }
 
-float Time_;
-
 void EnemyFSM::GreedyPuyoMove()
 {
-	Time_ += GameEngineTime::GetDeltaTime();
+	MoveTime_ += GameEngineTime::GetDeltaTime();
 
-	if (2.f < Time_)
+	if (2.f < MoveTime_)
 	{
-		Time_ = 0.f;
+		MoveTime_ = 0.f;
 		int Distance[6] = { 0 };
 
 		if (12 < CenterPuyo_->GetY())
@@ -303,10 +303,10 @@ void EnemyFSM::GreedyPuyoMove()
 			}
 		}
 
+		int Index = 0;
+
 		for (int i = 0; i < 6; ++i)
 		{
-			int Temp;
-
 			int CurIndex = i;
 			int NextIndex = i + 1;
 
@@ -317,13 +317,11 @@ void EnemyFSM::GreedyPuyoMove()
 
 			if (Distance[CurIndex] < Distance[NextIndex])
 			{
-				Temp = Distance[NextIndex];
-				Distance[NextIndex] = Distance[CurIndex];
-				Distance[CurIndex] = Temp;
+				Index = CurIndex;
 			}
 		}
 
-		if (CenterPuyo_->GetX() < Distance[0])
+		if (CenterPuyo_->GetX() > Index)
 		{
 			if (CenterPuyo_->GetX() >= SecondPuyo_->GetX())
 			{
@@ -339,7 +337,7 @@ void EnemyFSM::GreedyPuyoMove()
 		}
 
 
-		else
+		else if (CenterPuyo_->GetX() < Index)
 		{
 			if (CenterPuyo_->GetX() >= SecondPuyo_->GetX())
 			{
@@ -352,10 +350,30 @@ void EnemyFSM::GreedyPuyoMove()
 				SecondPuyo_->RightPuyo(EnemyMap_, CenterPuyo_);
 				CenterPuyo_->RightPuyo(EnemyMap_, SecondPuyo_);
 			}
+		}
+
+		else if (CenterPuyo_->GetX() == Index)
+		{
+			return;
 		}
 	}
 }
 
+void EnemyFSM::RandomRotate()
+{
+	RotateTime_ += GameEngineTime::GetDeltaTime();
+
+	if (4.5f <= RotateTime_)
+	{
+		RotateTime_ = 0.f;
+		int Count = Random_.RandomInt(0, 3);
+
+		CenterPuyo_->SetDir(static_cast<PuyoDir>(Count));
+		SecondPuyo_->RotatePuyo(EnemyMap_, CenterPuyo_);
+	}
+
+}
+ 
 void EnemyFSM::AutoDown()
 {
 	AutoDownTime_ -= GameEngineTime::GetDeltaTime();
@@ -445,7 +463,7 @@ void EnemyFSM::DestroyPuyo()
 				(*PuyoStartIter)->DestroyHindracePuyo(EnemyMap_);
 				EnemyMap_[(*PuyoStartIter)->GetY()][(*PuyoStartIter)->GetX()] = nullptr;
 
-				Score_ += static_cast<int>(GameEngineTime::GetDeltaTime() * 10);
+				Score_ += static_cast<int>(GameEngineTime::GetDeltaTime() * 100);
 			}
 		}
 	}
@@ -497,6 +515,7 @@ void EnemyFSM::CreateHindrancePuyo()
 	Puyo* NewPuyo = GetLevel()->CreateActor<Puyo>();
 	NewPuyo->SetColor(PuyoColor::Hindrance);
 	NewPuyo->InitAnimation(PuyoColor::Hindrance);
+
 	Hindrances_.push_back(NewPuyo);
 }
 

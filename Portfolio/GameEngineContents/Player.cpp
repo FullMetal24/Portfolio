@@ -11,6 +11,7 @@ Player::Player()
 	, PlayerState_(PlayerState::NewPuyo)
 	, AutoDownTime_(1.0f)
 	, InputDownTime_(0.f)
+	, InputDownAcc_(0.f)
 	, CheckTime_(0.f)
 	, LandTime_(0.f)
 	, Score_(0)
@@ -267,6 +268,9 @@ void Player::InputPuyoMove()
 
 	if (GameEngineInput::GetInst()->IsPress("Down"))
 	{
+		InputDownAcc_ += GameEngineTime::GetDeltaTime() * 2.0f;
+		InputDownTime_ += InputDownAcc_;
+
 		if (0.15f <= InputDownTime_)
 		{
 			InputDownTime_ = 0.f;
@@ -317,6 +321,8 @@ void Player::InputDown()
 
 void Player::LandCheck()
 {
+	InputDownAcc_ = 0.f;
+
 	CenterPuyo_->LandPuyo(PlayerMap_, SecondPuyo_);
 	SecondPuyo_->LandPuyo(PlayerMap_, CenterPuyo_);
 
@@ -380,11 +386,10 @@ void Player::DestroyPuyo()
 				(*PuyoStartIter)->DestroyHindracePuyo(PlayerMap_);
 				PlayerMap_[(*PuyoStartIter)->GetY()][(*PuyoStartIter)->GetX()] = nullptr;
 
-				Score_ += static_cast<int>(GameEngineTime::GetDeltaTime() * 10);
+				Score_ += static_cast<int>(GameEngineTime::GetDeltaTime() * 100);
 			}
 		}
 	}
-
 
 	AllDestroyPuyo_.clear();
 	PlayerState_ = PlayerState::LandPuyo;

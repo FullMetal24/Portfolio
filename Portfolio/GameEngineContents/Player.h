@@ -106,6 +106,7 @@ private:
 
 	float AutoDownTime_;
 	float InputDownTime_;
+	float InputDownAcc_;
 	float CheckTime_;
 	float LandTime_;
 

@@ -45,10 +45,9 @@ void Fire::Update()
 	//	PlayerRenderChain(1, GameEngineWindow::GetScale().Half());
 	//}
 
-	 
 	if (true == IsChainUp_)
 	{
-		Alpha_ += GameEngineTime::GetDeltaTime() * 1.5f;
+		Alpha_ += GameEngineTime::GetDeltaTime() * 2.f;
 
 		if (1.f <= Alpha_)
 		{
@@ -136,7 +135,7 @@ void Fire::PlayerRenderChain(int _Count, float4 _From)
 	Alpha_ = 0.f;
 	IsChainUp_ = true;
 	StartPos_ = _From;
-	EndPos_ = StartPos_ + float4{ 0, -200.f };
+	EndPos_ = StartPos_ + float4{ 0, -150.f };
 
 	switch (_Count)
 	{
@@ -148,6 +147,12 @@ void Fire::PlayerRenderChain(int _Count, float4 _From)
 		break;
 	case 3:
 		ChainActor_->GetMyRenderer()->SetImage("IG_CHAIN_3.bmp");
+		break;
+	case 4:
+		ChainActor_->GetMyRenderer()->SetImage("IG_CHAIN_4.bmp");
+		break;
+	case 5:
+		ChainActor_->GetMyRenderer()->SetImage("IG_CHAIN_5.bmp");
 		break;
 	}
 
@@ -159,18 +164,24 @@ void Fire::EnemyRenderChain(int _Count, float4 _From)
 	Alpha_ = 0.f;   
 	IsChainUp_ = true;
 	StartPos_ = _From;
-	EndPos_ = StartPos_ + float4{ 0, -200.f };
+	EndPos_ = StartPos_ + float4{ 0, -150.f };
 
 	switch (_Count)
 	{
 	case 1:
-		ChainActor_->GetMyRenderer()->SetImage("IG_CHAIN_1.bmp");
+		ChainActor_->GetMyRenderer()->SetImage("IG_CHAIN_ENEMY_1.bmp");
 		break;
 	case 2:
-		ChainActor_->GetMyRenderer()->SetImage("IG_CHAIN_2.bmp");
+		ChainActor_->GetMyRenderer()->SetImage("IG_CHAIN_ENEMY_2.bmp");
 		break;
 	case 3:
-		ChainActor_->GetMyRenderer()->SetImage("IG_CHAIN_3.bmp");
+		ChainActor_->GetMyRenderer()->SetImage("IG_CHAIN_ENEMY_3.bmp");
+		break;
+	case 4:
+		ChainActor_->GetMyRenderer()->SetImage("IG_CHAIN_ENEMY_4.bmp");
+		break;
+	case 5:
+		ChainActor_->GetMyRenderer()->SetImage("IG_CHAIN_ENEMY_5.bmp");
 		break;
 	}
 

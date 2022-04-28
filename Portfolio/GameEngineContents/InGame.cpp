@@ -159,7 +159,6 @@ void InGame::PuyoAnimationInit()
 		LandImage->CutCount(2, 1);
 
 
-
 		GameEngineImage* IdleImage = GameEngineImageManager::GetInst()->Find("IG_BLUE_IDLE.bmp");
 		IdleImage->CutCount(3, 1);
 

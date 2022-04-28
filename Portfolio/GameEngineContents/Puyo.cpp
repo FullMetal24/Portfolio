@@ -35,6 +35,8 @@ Puyo::~Puyo()
 void Puyo::Start()
 {
 	PuyoState_ = PuyoState::Normal;
+
+	IdleTime_ = Random_.RandomFloat(10.f, 30.f);
 }
 
 void Puyo::Update()
@@ -42,6 +44,19 @@ void Puyo::Update()
 	switch (PuyoState_)
 	{
 	case PuyoState::Normal:
+		if (true == IsLand_)
+		{
+			for (int i = 0; i < 4; i++)
+			{
+				if (true == IsConnect_[i])
+				{
+					return;
+				}
+			}
+
+			RandomIdleAnimation();
+			IdleToNomal();
+		}
 		break;
 	case PuyoState::Land:
 		LandAnimation();
@@ -88,6 +103,8 @@ void Puyo::InitAnimation(PuyoColor color)
 		MyRenderer_->CreateAnimation("IG_RED_RIGHT_UP_DOWN.bmp", "IG_RED_RIGHT_UP_DOWN", 0, 0, 0.f, false);
 
 		MyRenderer_->CreateAnimation("IG_RED_UP_DOWN.bmp", "IG_RED_UP_DOWN", 0, 0, 0.f, false);
+		MyRenderer_->CreateAnimation("IG_RED_IDLE.bmp", "IG_RED_IDLE", 0, 2, 0.1f, false);
+		MyRenderer_->CreateAnimation("IG_RED_IDLE1.bmp", "IG_RED_IDLE1", 0, 2, 0.5f, false);
 
 		MyRenderer_->ChangeAnimation("IG_RED_PUYO");
 		break;
@@ -116,9 +133,12 @@ void Puyo::InitAnimation(PuyoColor color)
 		MyRenderer_->CreateAnimation("IG_BLUE_RIGHT_UP_DOWN.bmp", "IG_BLUE_RIGHT_UP_DOWN", 0, 0, 0.f, false);
 
 		MyRenderer_->CreateAnimation("IG_BLUE_UP_DOWN.bmp", "IG_BLUE_UP_DOWN", 0, 0, 0.f, false);
+		MyRenderer_->CreateAnimation("IG_BLUE_IDLE.bmp", "IG_BLUE_IDLE", 0, 2, 0.1f, false);
+		MyRenderer_->CreateAnimation("IG_BLUE_IDLE1.bmp", "IG_BLUE_IDLE1", 0, 2, 0.1f, false);
 
 		MyRenderer_->ChangeAnimation("IG_BLUE_PUYO");
 		break;
+
 	case PuyoColor::GREEN:
 		MyRenderer_->CreateAnimation("IG_GREEN_PUYO.bmp", "IG_GREEN_PUYO", 0, 0, 0.f, false);
 		MyRenderer_->CreateAnimation("IG_GREEN_CENTER.bmp", "IG_GREEN_CENTER", 0, 1, 0.1f, true);
@@ -143,6 +163,8 @@ void Puyo::InitAnimation(PuyoColor color)
 		MyRenderer_->CreateAnimation("IG_GREEN_RIGHT_UP_DOWN.bmp", "IG_GREEN_RIGHT_UP_DOWN", 0, 0, 0.f, false);
 
 		MyRenderer_->CreateAnimation("IG_GREEN_UP_DOWN.bmp", "IG_GREEN_UP_DOWN", 0, 0, 0.f, false);
+		MyRenderer_->CreateAnimation("IG_GREEN_IDLE.bmp", "IG_GREEN_IDLE", 0, 3, 0.1f, false);
+		MyRenderer_->CreateAnimation("IG_GREEN_IDLE1.bmp", "IG_GREEN_IDLE1", 0, 3, 0.1f, false);
 
 		MyRenderer_->ChangeAnimation("IG_GREEN_PUYO");
 		break;
@@ -169,6 +191,8 @@ void Puyo::InitAnimation(PuyoColor color)
 		MyRenderer_->CreateAnimation("IG_YELLOW_RIGHT_UP_DOWN.bmp", "IG_YELLOW_RIGHT_UP_DOWN", 0, 0, 0.f, false);
 
 		MyRenderer_->CreateAnimation("IG_YELLOW_UP_DOWN.bmp", "IG_YELLOW_UP_DOWN", 0, 0, 0.f, false);
+		MyRenderer_->CreateAnimation("IG_YELLOW_IDLE.bmp", "IG_YELLOW_IDLE", 0, 3, 0.1f, false);
+		MyRenderer_->CreateAnimation("IG_YELLOW_IDLE1.bmp", "IG_YELLOW_IDLE1", 0, 2, 0.1f, false);
 
 		MyRenderer_->ChangeAnimation("IG_YELLOW_PUYO");
 		break;
@@ -196,6 +220,8 @@ void Puyo::InitAnimation(PuyoColor color)
 		MyRenderer_->CreateAnimation("IG_PURPLE_RIGHT_UP_DOWN.bmp", "IG_PURPLE_RIGHT_UP_DOWN", 0, 0, 0.f, false);
 
 		MyRenderer_->CreateAnimation("IG_PURPLE_UP_DOWN.bmp", "IG_PURPLE_UP_DOWN", 0, 0, 0.f, false);
+		MyRenderer_->CreateAnimation("IG_PURPLE_IDLE.bmp", "IG_PURPLE_IDLE", 0, 4, 0.1f, false);
+		MyRenderer_->CreateAnimation("IG_PURPLE_IDLE1.bmp", "IG_PURPLE_IDLE1", 0, 2, 0.1f, false);
 
 		MyRenderer_->ChangeAnimation("IG_PURPLE_PUYO");
 		break;
@@ -332,7 +358,6 @@ void Puyo::InitAllAnimation()
 	MyRenderer_->CreateAnimation("IG_PURPLE_UP_DOWN.bmp", "IG_PURPLE_UP_DOWN", 0, 0, 0.f, false);
 }
 
-
 void Puyo::SetIndex(int _X, int _Y)
 {
 	SetX(_X);
@@ -392,7 +417,7 @@ void Puyo::DestroyHindracePuyo(Puyo* Map[15][6])
 	{
 		float4 Index = GetIndex() + ArrDir[i];
 
-		if (0 > Index.x || 6 < Index.x || 0 > Index.y || 14 < Index.y)
+		if (0 > Index.x || 5 < Index.x || 0 > Index.y || 14 < Index.y)
 		{
 			return;
 		}
@@ -404,11 +429,10 @@ void Puyo::DestroyHindracePuyo(Puyo* Map[15][6])
 			Map[Index.iy()][Index.ix()] = nullptr;
 		}
 	}
-
 }
 
 void Puyo::Init(Player* _Player, int x, int y, PuyoColor _Color)
-  {
+{
 	Player_ = _Player;
 	SetIndex(x, y);
 	InitAnimation(_Color);
@@ -480,6 +504,18 @@ Puyo* Puyo::LeftPuyo(Puyo* Map[15][6], Puyo* _Other)
 		}
 
 		else if (nullptr == Map[Y_][X_ - 1]
+			&& nullptr != Map[_Other->GetY()][_Other->GetX() - 1])
+		{
+			Map[Y_][X_] = nullptr;
+			Map[Y_][X_ - 1] = this;
+
+			SetMove(float4::LEFT * 65.0f);
+
+			--X_;
+			return this;
+		}
+
+		else if (nullptr == Map[Y_][X_ - 1]
 			&& this == Map[_Other->GetY()][_Other->GetX() - 1])
 		{
 			Map[Y_][X_] = nullptr;
@@ -500,6 +536,18 @@ Puyo* Puyo::RightPuyo(Puyo* Map[15][6], Puyo* _Other)
 	{
 		if (nullptr == Map[Y_][X_ + 1]
 			&& nullptr == Map[_Other->GetY()][_Other->GetX() + 1])
+		{
+			Map[Y_][X_] = nullptr;
+			Map[Y_][X_ + 1] = this;
+
+			SetMove(float4::RIGHT * 65.0f);
+
+			++X_;
+			return this;
+		}
+
+		else if (nullptr == Map[Y_][X_ + 1]
+			&& nullptr != Map[_Other->GetY()][_Other->GetX() + 1])
 		{
 			Map[Y_][X_] = nullptr;
 			Map[Y_][X_ + 1] = this;
@@ -611,6 +659,7 @@ Puyo* Puyo::RotatePuyo(Puyo* Map[15][6], Puyo* _Center)
 				CenterPuyo->SetDir(PuyoDir::LEFT);
 			}
 			break;
+
 		case PuyoDir::LEFT:
 			if (0 <= CenterY - 1 && nullptr == Map[CenterY - 1][CenterX])
 			{
@@ -658,6 +707,7 @@ Puyo* Puyo::RotatePuyo(Puyo* Map[15][6], Puyo* _Center)
 				CenterPuyo->SetDir(PuyoDir::DOWN);
 			}
 			break;
+
 		case PuyoDir::DOWN:
 			if (5 >= CenterX + 1 && nullptr == Map[CenterY][CenterX + 1])
 			{
@@ -706,6 +756,7 @@ Puyo* Puyo::RotatePuyo(Puyo* Map[15][6], Puyo* _Center)
 				CenterPuyo->SetDir(PuyoDir::RIGHT);
 			}
 			break;
+
 		case PuyoDir::RIGHT:
 			if (14 >= CenterY + 1 && nullptr == Map[CenterY + 1][CenterX])
 			{
@@ -817,45 +868,6 @@ void Puyo::FallPuyo(Puyo* Map[15][6], Player* _Player)
 	ChangeState(PuyoState::Fall);
 }
 
-void Puyo::FallingPuyo()
-{
-	if (PuyoColor::Hindrance == MyColor_)
-	{
-		Alpha_ += GameEngineTime::GetDeltaTime();
-
-		if (1.f <= Alpha_)
-		{
-			Alpha_ = 1.f;
-		}
-
-		SetPosition(LerpPuyo(StartPos_, EndPos_, Alpha_));
-
-		if (1.f <= Alpha_)
-		{
-			ChangeState(PuyoState::Land);
-		}
-	}
-
-	else
-	{
-		Alpha_ += GameEngineTime::GetDeltaTime() * 4;
-
-		if (1.f <= Alpha_)
-		{
-			Alpha_ = 1.f;
-		}
-
-		SetPosition(LerpPuyo(StartPos_, EndPos_, Alpha_));
-
-		if (1.f <= Alpha_)
-		{
-			ChangeState(PuyoState::Land);
-		}
-
-	}
-}
-
-
 void Puyo::FallPuyo(Puyo* Map[15][6], EnemyFSM* _Enemy)
 {
 	//if (0 == Y_)
@@ -904,6 +916,44 @@ void Puyo::FallPuyo(Puyo* Map[15][6], EnemyFSM* _Enemy)
 	Map[Y_][X_] = this;
 
 	ChangeState(PuyoState::Fall);
+}
+
+void Puyo::FallingPuyo()
+{
+	if (PuyoColor::Hindrance == MyColor_)
+	{
+		Alpha_ += GameEngineTime::GetDeltaTime();
+
+		if (1.f <= Alpha_)
+		{
+			Alpha_ = 1.f;
+		}
+
+		SetPosition(LerpPuyo(StartPos_, EndPos_, Alpha_));
+
+		if (1.f <= Alpha_)
+		{
+			ChangeState(PuyoState::Land);
+		}
+	}
+
+	else
+	{
+		Alpha_ += GameEngineTime::GetDeltaTime() * 4;
+
+		if (1.f <= Alpha_)
+		{
+			Alpha_ = 1.f;
+		}
+
+		SetPosition(LerpPuyo(StartPos_, EndPos_, Alpha_));
+
+		if (1.f <= Alpha_)
+		{
+			ChangeState(PuyoState::Land);
+		}
+
+	}
 }
 
 float4 Puyo::LerpPuyo(float4 A, float4 B, float Alpha)
@@ -1292,6 +1342,35 @@ void Puyo::RenderToDestroy()
 	}
 }
 
+void Puyo::RandomIdleAnimation()
+{
+	NormalTime_ += GameEngineTime::GetDeltaTime();
+
+	if (NormalTime_ >= IdleTime_)
+	{
+		IsIdle_ = true;
+	}
+
+	if (true == IsIdle_)
+	{
+		IsIdle_ = false;
+		NormalTime_ = 0.f;
+		IdleTime_ = Random_.RandomFloat(10.f, 30.f);
+
+		int Rand = Random_.RandomInt(0, 1);
+
+		if (0 == Rand)
+		{
+			RenderToIdle();
+		}
+
+		else
+		{
+			RenderToOtherIdle();
+		}
+	}
+}
+
 void Puyo::RenderToIdle()
 {
 	switch (MyColor_)
@@ -1335,6 +1414,34 @@ void Puyo::RenderToOtherIdle()
 		break;
 	}
 }
+
+
+void Puyo::IdleToNomal()
+{
+	if (false == MyRenderer_->IsEndAnimation())
+	{
+		return;
+	}
+
+	switch (MyColor_)
+	{
+	case PuyoColor::RED:
+		MyRenderer_->ChangeAnimation("IG_RED_PUYO");
+		break;
+	case PuyoColor::BLUE:
+		MyRenderer_->ChangeAnimation("IG_BLUE_PUYO");
+		break;
+		MyRenderer_->ChangeAnimation("IG_GREEN_PUYO");
+		break;
+	case PuyoColor::YELLOW:
+		MyRenderer_->ChangeAnimation("IG_YELLOW_PUYO");
+		break;
+	case PuyoColor::PURPLE:
+		MyRenderer_->ChangeAnimation("IG_PURPLE_PUYO");
+		break;
+	}
+}
+
 
 void Puyo::RenderToLand()
 {
@@ -1392,7 +1499,7 @@ void Puyo::LandToNormal()
 		{
 			if (true == MyRenderer_->IsEndAnimation())
 			{
-				MyRenderer_->ChangeAnimation("IG_RED_PUYO");				
+				MyRenderer_->ChangeAnimation("IG_RED_PUYO");
 				PuyoState_ = PuyoState::Normal;
 
 			}
