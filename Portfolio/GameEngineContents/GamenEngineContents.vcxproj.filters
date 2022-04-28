@@ -65,7 +65,7 @@
     <ClCompile Include="Fire.cpp">
       <Filter>Actor\Level\InGame</Filter>
     </ClCompile>
-    <ClCompile Include="FSM_SearchPuyo.cpp">
+    <ClCompile Include="EnemyFSM_SearchPuyo.cpp">
       <Filter>Actor\Level\InGame\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="Player.cpp">

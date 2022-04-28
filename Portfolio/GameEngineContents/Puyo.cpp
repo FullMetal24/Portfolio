@@ -386,11 +386,6 @@ void Puyo::ChangeHindraceState(PuyoState _State)
 
 void Puyo::DestroyHindracePuyo(Puyo* Map[15][6])
 {
-	if (PuyoColor::Hindrance != MyColor_)
-	{
-		return;
-	}
-
 	int Dx[4] = { 0, 0, 1, -1 };
 	int Dy[4] = { 1, -1, 0, 0 };
 
@@ -405,16 +400,17 @@ void Puyo::DestroyHindracePuyo(Puyo* Map[15][6])
 		}
 
 		if (nullptr != Map[X][Y]
-			&& PuyoState::Destroy == Map[X][Y]->GetState())
+			&& PuyoColor::Hindrance == Map[X][Y]->GetColor())
 		{
-			ChangeState(PuyoState::Destroy);
+			Map[X][Y]->ChangeState(PuyoState::Destroy);
+			Map[X][Y] = nullptr;
 		}
 	}
 
 }
 
 void Puyo::Init(Player* _Player, int x, int y, PuyoColor _Color)
-{
+  {
 	Player_ = _Player;
 	SetIndex(x, y);
 	InitAnimation(_Color);
@@ -836,7 +832,7 @@ void Puyo::FallingPuyo()
 
 		SetPosition(LerpPuyo(StartPos_, EndPos_, Alpha_));
 
-		if (1 <= Alpha_)
+		if (1.f <= Alpha_)
 		{
 			ChangeState(PuyoState::Land);
 		}
@@ -853,7 +849,7 @@ void Puyo::FallingPuyo()
 
 		SetPosition(LerpPuyo(StartPos_, EndPos_, Alpha_));
 
-		if (1 <= Alpha_)
+		if (1.f <= Alpha_)
 		{
 			ChangeState(PuyoState::Land);
 		}

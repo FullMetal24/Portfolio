@@ -270,7 +270,7 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="FSM_SearchPuyo.cpp" />
+    <ClCompile Include="EnemyFSM_SearchPuyo.cpp" />
     <ClCompile Include="GameOver.cpp" />
     <ClCompile Include="GameOverActor.cpp">
       <SubType>

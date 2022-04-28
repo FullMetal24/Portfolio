@@ -38,7 +38,7 @@ void Player::OnePuyoSearch(Puyo* _Puyo, std::vector<Puyo*>& _Out)
 
 		Puyo* Other = PlayerMap_[CheckIndex.iy()][CheckIndex.ix()];
 
-		if (nullptr == Other)
+		if (nullptr == Other || PuyoColor::Hindrance == Other->GetColor())
 		{
 			continue;
 		}

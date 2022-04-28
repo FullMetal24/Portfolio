@@ -62,7 +62,7 @@ void EnemyFSM::OnePuyoSearch(Puyo* _Puyo, std::vector<Puyo*>& _Out)
 
 		Puyo* Other = EnemyMap_[CheckIndex.iy()][CheckIndex.ix()];
 
-		if (nullptr == Other)
+		if (nullptr == Other || PuyoColor::Hindrance == Other->GetColor())
 		{
 			continue;
 		}
@@ -113,7 +113,7 @@ void EnemyFSM::SearchPuyo()
 			{
 				continue;
 			}
-
+				
 			for (size_t i = 0; i < Check.size(); i++)
 			{
 				FindAllDestroy_.insert(Check[i]);

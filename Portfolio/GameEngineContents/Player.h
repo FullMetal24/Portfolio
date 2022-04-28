@@ -54,8 +54,6 @@ public:
 	void DigitScore(int _Score);
 	void RenderToScore();
 
-	void RenderChain(int _Count, float4 _Pos);
-
 	inline void SetEnemyFSM(EnemyFSM* _Enemy)
 	{
 		Enemy_ = _Enemy;
@@ -117,8 +115,5 @@ private:
 	GameEngineRenderer* ScoreRenderers_[10];
 
 	unsigned int Chain_;
-
-	InGameActor* ChainActor_;
-	GameEngineRenderer* ChianNumberRenderer_;
 };
 

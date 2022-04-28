@@ -15,6 +15,7 @@ EnemyFSM::EnemyFSM()
 	, CheckTime_(0.f)
 	, LandTime_(0.f)
 	, Score_(0)
+	, Chain_(0)
 	, IsDanger_(false)
 {
 }
@@ -87,6 +88,7 @@ void EnemyFSM::Update()
 		}
 		break;
 	case EnemyState::HindranceCheck:
+		Chain_ = 0;
 		HindrancePuyoCheck();
 		break;
 	case EnemyState::Win:
@@ -99,7 +101,7 @@ void EnemyFSM::Update()
 	{
 		EnemyToPlayerAttack({ GameEngineWindow::GetScale().Half() });
 	}
-
+	
 	DigitScore(Score_);
 	RenderToScore();
 
@@ -419,6 +421,8 @@ void EnemyFSM::DestroyPuyo()
 		return;
 	}
 
+	++Chain_;
+
 	for (StartIter; StartIter != EndIter; ++StartIter)
 	{
 		std::vector<Puyo*> PuyoVector = (*StartIter);
@@ -430,14 +434,28 @@ void EnemyFSM::DestroyPuyo()
 		{
 			size_t CenterActor = PuyoVector.size() / 2;
 			EnemyToPlayerAttack(PuyoVector[CenterActor]->GetPosition());
+			Fire_->EnemyRenderChain(Chain_, PuyoVector[CenterActor]->GetPosition());
 		}
 
 		for (; PuyoStartIter != PuyoEndIter; ++PuyoStartIter)
 		{
 			if (nullptr != (*PuyoStartIter))
 			{
-				EnemyMap_[(*PuyoStartIter)->GetY()][(*PuyoStartIter)->GetX()] = nullptr;
 				(*PuyoStartIter)->ChangeState(PuyoState::Destroy);
+				(*PuyoStartIter)->DestroyHindracePuyo(EnemyMap_);
+				EnemyMap_[(*PuyoStartIter)->GetY()][(*PuyoStartIter)->GetX()] = nullptr;
+			}
+		}
+	}
+
+	for (int Y = 0; Y < 15; ++Y)
+	{
+		for (int X = 0; X < 6; ++X)
+		{
+			if (nullptr != EnemyMap_[Y][X]
+				&& PuyoColor::Hindrance == EnemyMap_[Y][X]->GetColor())
+			{
+				EnemyMap_[Y][X]->DestroyHindracePuyo(EnemyMap_);
 			}
 		}
 	}

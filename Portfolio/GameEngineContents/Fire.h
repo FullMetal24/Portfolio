@@ -1,6 +1,7 @@
 #pragma once
 #include <GameEngine/GameEngineActor.h>
 #include "ContentsEnum.h"
+#include "InGameActor.h"
 
 class GameEngineRenderer;
 class Fire : public GameEngineActor
@@ -35,21 +36,36 @@ public:
 	}
 
 	void ExplosionCheck();
+	void PlayerRenderChain(int _Count, float4 _From);
+	void EnemyRenderChain(int _Count, float4 _From);
+
+	float4 LerpMove(float4 A, float4 B, float Alpha);
+
+
+private:
+	void PlayerFire();
+	void EnemyFire();
 
 protected:
 	void Start() override;
 	void Update() override;
+
 private:
 	float4 TargetPos_;
 	GameEngineRenderer* MyRenderer_;
+
+	InGameActor* ChainActor_;
+
+	float4 StartPos_;
+	float4 EndPos_;
+	float Alpha_;
 
 	FireOwner FireOwner_;
 
 	float Acc_;
 
 	bool IsAttack_;
+	bool IsChainUp_;
 
-	void PlayerFire();
-	void EnemyFire();
 };
 

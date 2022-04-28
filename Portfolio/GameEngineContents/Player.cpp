@@ -14,6 +14,7 @@ Player::Player()
 	, CheckTime_(0.f)
 	, LandTime_(0.f)
 	, Score_(0)
+	, Chain_(0)
 {
 }
 
@@ -45,9 +46,6 @@ void Player::Start()
 	Fire_ = GetLevel()->CreateActor<Fire>();
 	Fire_->SetFireOwner(FireOwner::Player);
 
-	ChainActor_ = GetLevel()->CreateActor<InGameActor>();
-	ChainActor_->SetMyRenderer(ChainActor_->CreateRenderer("IG_CHAIN.bmp"));
-	ChianNumberRenderer_ = ChainActor_->CreateRenderer("IG_PLAYER_NUMBER_1.bmp");
 }
 
 void Player::Update()
@@ -83,6 +81,7 @@ void Player::Update()
 		}
 		break;
 	case PlayerState::HindranceCheck:
+		Chain_ = 0;
 		HindrancePuyoCheck();
 		break;
 	case PlayerState::Win:
@@ -356,6 +355,8 @@ void Player::DestroyPuyo()
 		return;
 	}
 
+	++Chain_;
+
 	for (StartIter; StartIter != EndIter; ++StartIter)
 	{
 		std::vector<Puyo*> PuyoVector = (*StartIter);
@@ -367,29 +368,21 @@ void Player::DestroyPuyo()
 		{
 			size_t CenterActor = PuyoVector.size() / 2;
 			PlayerToEnemyAttack(PuyoVector[CenterActor]->GetPosition());
+			Fire_->PlayerRenderChain(Chain_, PuyoVector[CenterActor]->GetPosition());
 		}
+
 
 		for (; PuyoStartIter != PuyoEndIter; ++PuyoStartIter)
 		{
 			if (nullptr != (*PuyoStartIter))
 			{
-				PlayerMap_[(*PuyoStartIter)->GetY()][(*PuyoStartIter)->GetX()] = nullptr;
 				(*PuyoStartIter)->ChangeState(PuyoState::Destroy);
+				(*PuyoStartIter)->DestroyHindracePuyo(PlayerMap_);
+				PlayerMap_[(*PuyoStartIter)->GetY()][(*PuyoStartIter)->GetX()] = nullptr;
 			}
 		}
 	}
 
-	for (int Y = 0; Y < 15; ++Y)
-	{
-		for (int X = 0; X < 6; ++X)
-		{
-			if (nullptr != PlayerMap_[Y][X]
-				&& PuyoColor::Hindrance == PlayerMap_[Y][X]->GetColor())
-			{
-				PlayerMap_[Y][X]->DestroyHindracePuyo(PlayerMap_);
-			}
-		}
-	}
 
 	AllDestroyPuyo_.clear();
 	PlayerState_ = PlayerState::LandPuyo;
@@ -567,43 +560,4 @@ void Player::RenderToScore()
 		ScoreRenderers_[0]->SetOrder(10);
 		ScoreRenderers_[0]->SetImage("IG_PLAYER_NUMBER_0.bmp");
 	}
-}
-
-void Player::RenderChain(int _Count, float4 _Pos)
-{
-	ChainActor_->GetMyRenderer()->SetOrder(5);
-	ChianNumberRenderer_->SetOrder(5);
-	//ChainActor_->SetMove(_Pos * GameEngineTime::GetDeltaTime());
-
-	switch (_Count)
-	{
-	case 1:
-		ChianNumberRenderer_->SetImage("IG_PLAYER_NUMBER_1.bmp");
-		break;
-	case 2:
-		ChianNumberRenderer_->SetImage("IG_PLAYER_NUMBER_2.bmp");
-		break;
-	case 3:
-		ChianNumberRenderer_->SetImage("IG_PLAYER_NUMBER_3.bmp");
-		break;
-	case 4:
-		ChianNumberRenderer_->SetImage("IG_PLAYER_NUMBER_4.bmp");
-		break;
-	case 5:
-		ChianNumberRenderer_->SetImage("IG_PLAYER_NUMBER_5.bmp");
-		break;
-	case 6:
-		ChianNumberRenderer_->SetImage("IG_PLAYER_NUMBER_6.bmp");
-		break;
-	case 7:
-		ChianNumberRenderer_->SetImage("IG_PLAYER_NUMBER_7.bmp");
-		break;
-	case 8:
-		ChianNumberRenderer_->SetImage("IG_PLAYER_NUMBER_8.bmp");
-		break;
-	case 9:
-		ChianNumberRenderer_->SetImage("IG_PLAYER_NUMBER_9.bmp");
-		break;
-	}
-
 }
