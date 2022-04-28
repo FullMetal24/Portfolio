@@ -203,10 +203,6 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="HindrancePuyo.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
     <ClInclude Include="InGameActor.h">
       <SubType>
       </SubType>
@@ -277,10 +273,6 @@
     <ClCompile Include="FSM_SearchPuyo.cpp" />
     <ClCompile Include="GameOver.cpp" />
     <ClCompile Include="GameOverActor.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
-    <ClCompile Include="HindrancePuyo.cpp">
       <SubType>
       </SubType>
     </ClCompile>

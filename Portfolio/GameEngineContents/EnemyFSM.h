@@ -7,7 +7,6 @@
 class Player;
 class Fire;
 class Puyo;
-class HindrancePuyo;
 class EnemyProfile;
 class EnemyFSM : public GameEngineActor
 {

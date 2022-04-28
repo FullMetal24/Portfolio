@@ -62,9 +62,6 @@
     <ClCompile Include="Player_SearchPuyo.cpp">
       <Filter>Actor\Level\InGame\Player</Filter>
     </ClCompile>
-    <ClCompile Include="HindrancePuyo.cpp">
-      <Filter>Actor\Level\InGame\Puyo</Filter>
-    </ClCompile>
     <ClCompile Include="Fire.cpp">
       <Filter>Actor\Level\InGame</Filter>
     </ClCompile>
@@ -136,9 +133,6 @@
     </ClInclude>
     <ClInclude Include="BestRecordsActor.h">
       <Filter>Actor\Level\BestRecords</Filter>
-    </ClInclude>
-    <ClInclude Include="HindrancePuyo.h">
-      <Filter>Actor\Level\InGame\Puyo</Filter>
     </ClInclude>
     <ClInclude Include="Fire.h">
       <Filter>Actor\Level\InGame</Filter>

@@ -2,7 +2,6 @@
 #include <GameEngine/GameEngineRenderer.h>
 #include <GameEngine/GameEngineImageManager.h>
 #include "Puyo.h"
-#include "HindrancePuyo.h"
 #include <GameEngineBase/GameEngineInput.h>
 #include "Fire.h"
 #include "Player.h"

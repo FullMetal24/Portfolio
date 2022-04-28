@@ -1,10 +1,10 @@
 #include "Player.h"
 #include "GameEngineBase/GameEngineInput.h"
-#include "HindrancePuyo.h"
 #include <GameEngine/GameEngineRenderer.h>
 #include <GameEngine/GameEngineImageManager.h>
 #include "Fire.h"
 #include "EnemyFSM.h"
+#include "Puyo.h"
 
 Player::Player()
 	: PlayerMap_{ nullptr }
