@@ -1,16 +1,17 @@
 #pragma once
-#include "GameEngine/GameEngineActor.h"
-#include "Puyo.h"
 #include "ContentsEnum.h"
 #include "InGameActor.h"
 #include "GameEngineBase/GameEngineRandom.h"
 #include <set>
 
+class Puyo;
 class EnemyFSM;
 class Fire;
 class HindrancePuyo;
 class Player : public GameEngineActor
 {
+	friend EnemyFSM;
+
 public:
 	Player();
 	~Player();
@@ -66,6 +67,18 @@ public:
 	inline PlayerState GetState()
 	{
 		return PlayerState_;
+	}
+
+	inline int GetRandomInt(int _At, int _Untill)
+	{
+		int Value = Random_.RandomInt(_At, _Untill);
+		return Value;
+	}
+
+	inline float GetRandomFloat(float _At, float _Untill)
+	{
+		float Value = Random_.RandomFloat(_At, _Untill);
+		return Value;
 	}
 
 protected:

@@ -537,7 +537,7 @@ Puyo* Puyo::RotatePuyo(Puyo* Map[15][6], Puyo* _Center)
 		switch (CenterPuyo->CurDir_)
 		{
 		case PuyoDir::UP:
- 			if (0 <= CenterX - 1 && nullptr == Map[CenterY][CenterX - 1])
+			if (0 <= CenterX - 1 && nullptr == Map[CenterY][CenterX - 1])
 			{
 				Map[Y_][X_] = nullptr;
 
@@ -552,7 +552,7 @@ Puyo* Puyo::RotatePuyo(Puyo* Map[15][6], Puyo* _Center)
 			}
 			else if (0 > CenterX - 1 || nullptr != Map[CenterY][CenterX - 1])
 			{
-				if (5 < CenterX + 1 ||nullptr != Map[CenterY][CenterX + 1])
+				if (5 < CenterX + 1 || nullptr != Map[CenterY][CenterX + 1])
 				{
 					CenterPuyo->SetDir(PuyoDir::LEFT);
 					continue;
@@ -1282,7 +1282,7 @@ void Puyo::LandToNormal()
 			if (true == MyRenderer_->IsEndAnimation())
 			{
 				MyRenderer_->ChangeAnimation("IG_RED_PUYO");
-				PuyoState_= PuyoState::Normal;
+				PuyoState_ = PuyoState::Normal;
 			}
 		}
 		break;

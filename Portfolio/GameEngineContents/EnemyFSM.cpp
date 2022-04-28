@@ -3,10 +3,20 @@
 #include <GameEngine/GameEngineImageManager.h>
 #include "Puyo.h"
 #include "HindrancePuyo.h"
+#include <GameEngineBase/GameEngineInput.h>
 #include "Fire.h"
 #include "Player.h"
+#include <cstdlib>
 
 EnemyFSM::EnemyFSM()
+	: EnemyMap_{ nullptr }
+	, EnemyState_(EnemyState::NewPuyo)
+	, AutoDownTime_(1.0f)
+	, InputDownTime_(0.f)
+	, CheckTime_(0.f)
+	, LandTime_(0.f)
+	, Score_(0)
+	, IsDanger_(false)
 {
 }
 
@@ -35,6 +45,16 @@ void EnemyFSM::Start()
 
 	Fire_ = GetLevel()->CreateActor<Fire>();
 	Fire_->SetFireOwner(FireOwner::Player);
+
+	if (false == GameEngineInput::GetInst()->IsKey("Right"))
+	{
+		GameEngineInput::GetInst()->CreateKey("Right", VK_RIGHT);
+	}
+
+	if (false == GameEngineInput::GetInst()->IsKey("Right"))
+	{
+	GameEngineInput::GetInst()->CreateKey("Right", VK_LEFT);
+	}
 }
 
 void EnemyFSM::Update()
@@ -94,10 +114,26 @@ void EnemyFSM::NewPuyoPair()
 	NextSecondPuyo_->SetColorImage(NextSecondPuyo_->GetColor());
 
 	int Color = Random_.RandomInt(0, 4);
+
+	--Color;
+
+	if (0 > Color)
+	{
+		Color = 4;
+	}
+
 	NextNextCenterPuyo_->SetColor(static_cast<PuyoColor>(Color));
 	NextNextCenterPuyo_->SetColorImage(static_cast<PuyoColor>(Color));
 
 	Color = Random_.RandomInt(0, 4);
+
+	--Color;
+
+	if (0 > Color)
+	{
+		Color = 4;
+	}
+
 	NextNextSecondPuyo_->SetColor(static_cast<PuyoColor>(Color));
 	NextNextSecondPuyo_->SetColorImage(static_cast<PuyoColor>(Color));
 
@@ -115,11 +151,25 @@ void EnemyFSM::InitNextPair()
 {
 	int Color = Random_.RandomInt(0, 4);
 
+	--Color;
+
+	if (0 > Color)
+	{
+		Color = 4;
+	}
+
 	NextNextCenterPuyo_ = GetLevel()->CreateActor<Puyo>(1);
 	NextNextCenterPuyo_->InitAllAnimation();
 	NextNextCenterPuyo_->SetColorImage(static_cast<PuyoColor>(Color));
 
 	Color = Random_.RandomInt(0, 4);
+
+	--Color;
+
+	if (0 > Color)
+	{
+		Color = 4;
+	}
 
 	NextNextSecondPuyo_ = GetLevel()->CreateActor<Puyo>(1);
 	NextNextSecondPuyo_->InitAllAnimation();
@@ -127,11 +177,25 @@ void EnemyFSM::InitNextPair()
 
 	Color = Random_.RandomInt(0, 4);
 
+	--Color;
+
+	if (0 > Color)
+	{
+		Color = 4;
+	}
+
 	NextCenterPuyo_ = GetLevel()->CreateActor<Puyo>(1);
 	NextCenterPuyo_->InitAllAnimation();
 	NextCenterPuyo_->SetColorImage(static_cast<PuyoColor>(Color));
 
 	Color = Random_.RandomInt(0, 4);
+
+	--Color;
+
+	if (0 > Color)
+	{
+		Color = 4;
+	}
 
 	NextSecondPuyo_ = GetLevel()->CreateActor<Puyo>(1);
 	NextSecondPuyo_->InitAllAnimation();
@@ -553,5 +617,96 @@ void EnemyFSM::RenderToScore()
 	{
 		ScoreRenderers_[0]->SetOrder(10);
 		ScoreRenderers_[0]->SetImage("IG_ENEMY_NUMBER_0.bmp");
+	}
+}
+
+
+void EnemyFSM::InitBubble()
+{
+	GameEngineImage* Image = GameEngineImageManager::GetInst()->Find("IG_BUBBLE.bmp");
+	Image->CutCount(3, 1);
+
+	for (int i = 0; i < 15; ++i)
+	{
+		Bubbles_[i] = GetLevel()->CreateActor<InGameActor>(12);
+		Bubbles_[i]->SetMyRenderer(Bubbles_[i]->CreateRenderer());
+		Bubbles_[i]->GetMyRenderer()->CreateAnimation("IG_BUBBLE.bmp", "IG_BUBBLE", 0, 2, 0.1f, true);
+		Bubbles_[i]->GetMyRenderer()->ChangeAnimation("IG_BUBBLE");
+		Bubbles_[i]->GetMyRenderer()->PauseOn();
+
+		float RanRadian = Random_.RandomFloat(0, 3.14256f);
+		BubbleDir_[i] = float4::RadianToDirectionFloat4(RanRadian * -1.f);
+
+		int RanSpeed = Random_.RandomInt(200, 400);
+		BubbleSpeed_[i] = RanSpeed;
+
+		Bubbles_[i]->SetPosition(GameEngineWindow::GetScale().Half() + float4{ 0, 100.f });
+	}
+}
+
+
+
+void EnemyFSM::VomitBubble()
+{
+	int RanCreate = Random_.RandomInt(0, 15);
+
+	for (int i = 0; i < 15; ++i)
+	{
+		if (i == RanCreate)
+		{
+			continue;
+		}
+
+		if (false == Bubbles_[i]->IsUpdate())
+		{
+			Bubbles_[i]->GetMyRenderer()->PauseOff();
+			Bubbles_[i]->SetPosition(GameEngineWindow::GetScale().Half() + float4{ 0, 100.f });
+			Bubbles_[i]->On();
+		}
+
+		Bubbles_[i]->SetMove(BubbleDir_[i] * BubbleSpeed_[i] * GameEngineTime::GetDeltaTime());
+	}
+
+	for (int i = 0; i < 15; ++i)
+	{
+		float4 Dis = GameEngineWindow::GetScale().Half() - Bubbles_[i]->GetPosition();
+
+		if (Dis.x > 250.f || Dis.x < -250.f
+			|| Dis.y > 250.f || Dis.y < -250.f)
+		{
+			Bubbles_[i]->GetMyRenderer()->PauseOn();
+			Bubbles_[i]->Off();
+		}
+	}
+
+	RanCreate = Random_.RandomInt(0, 15);
+
+	for (int i = 0; i < 15; ++i)
+	{
+		if (i == RanCreate)
+		{
+			continue;
+		}
+
+		if (false == Bubbles_[i]->IsUpdate())
+		{
+			Bubbles_[i]->GetMyRenderer()->PauseOff();
+			Bubbles_[i]->SetPosition(GameEngineWindow::GetScale().Half() + float4{ 0, 100.f });
+			Bubbles_[i]->On();
+		}
+
+		Bubbles_[i]->SetMove(BubbleDir_[i] * BubbleSpeed_[i] * GameEngineTime::GetDeltaTime());
+	}
+
+	for (int i = 0; i < 15; ++i)
+	{
+		float4 Dis = GameEngineWindow::GetScale().Half() - Bubbles_[i]->GetPosition();
+
+		if (Dis.x > 250.f || Dis.x < -250.f
+			|| Dis.y > 250.f || Dis.y < -250.f)
+		{
+			Bubbles_[i]->GetMyRenderer()->PauseOn();
+			Bubbles_[i]->Off();
+		}
 	}
 }

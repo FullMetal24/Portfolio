@@ -462,7 +462,29 @@ void Player::HindrancePuyoCheck()
 
 void Player::FallHindrancePuyo()
 {
+	std::vector<HindrancePuyo*>::iterator StartIter = Hindrances_.begin();
+	std::vector<HindrancePuyo*>::iterator EndIter = Hindrances_.end();
 
+	for (; StartIter != EndIter; ++StartIter)
+	{
+		int X = Random_.RandomInt(0, 5);
+		int Y = 0;
+
+		for (int i = 14; i >= 0; --i)
+		{
+			if (PlayerMap_[i][X] = nullptr)
+			{
+				Y = i;
+			}
+		}
+
+		(*StartIter)->SetIndex(X, Y);
+		(*StartIter)->SetPosition((*StartIter)->CoordinatePos(this, X, Y));
+		PlayerMap_[Y][X] = (*StartIter);
+	}
+
+	Hindrances_.clear();
+	PlayerState_ = PlayerState::NewPuyo;
 }
 
 
@@ -557,5 +579,36 @@ void Player::RenderChain(int _Count, float4 _Pos)
 	ChainActor_->GetMyRenderer()->SetOrder(5);
 	ChianNumberRenderer_->SetOrder(5);
 	ChainActor_->SetMove(_Pos * GameEngineTime::GetDeltaTime()); //매 프레임 호출해야 함
-	ChianNumberRenderer_ = ChainActor_->CreateRenderer("IG_PLAYER_NUMBER_1.bmp");
+
+	switch (_Count)
+	{
+	case 1:
+		ChianNumberRenderer_->SetImage("IG_PLAYER_NUMBER_1.bmp");
+		break;
+	case 2:
+		ChianNumberRenderer_->SetImage("IG_PLAYER_NUMBER_2.bmp");
+		break;
+	case 3:
+		ChianNumberRenderer_->SetImage("IG_PLAYER_NUMBER_3.bmp");
+		break;
+	case 4:
+		ChianNumberRenderer_->SetImage("IG_PLAYER_NUMBER_4.bmp");
+		break;
+	case 5:
+		ChianNumberRenderer_->SetImage("IG_PLAYER_NUMBER_5.bmp");
+		break;
+	case 6:
+		ChianNumberRenderer_->SetImage("IG_PLAYER_NUMBER_6.bmp");
+		break;
+	case 7:
+		ChianNumberRenderer_->SetImage("IG_PLAYER_NUMBER_7.bmp");
+		break;
+	case 8:
+		ChianNumberRenderer_->SetImage("IG_PLAYER_NUMBER_8.bmp");
+		break;
+	case 9:
+		ChianNumberRenderer_->SetImage("IG_PLAYER_NUMBER_9.bmp");
+		break;
+	}
+
 }

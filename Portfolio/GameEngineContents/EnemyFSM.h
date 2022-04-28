@@ -1,12 +1,12 @@
 #pragma once
-#include <GameEngine/GameEngineActor.h>
+#include "InGameActor.h"
 #include "ContentsEnum.h"
-#include "Puyo.h"
 #include "GameEngineBase/GameEngineRandom.h"
 #include <set>
 
 class Player;
 class Fire;
+class Puyo;
 class HindrancePuyo;
 class EnemyFSM : public GameEngineActor
 {
@@ -56,6 +56,10 @@ public:
 	void DigitScore(int _Score);
 	void RenderToScore();
 
+	//위험 시 거품 이펙트
+	void InitBubble();
+	void VomitBubble();
+
 	inline void SetPlayer(Player* _Player)
 	{
 		Player_ = _Player;
@@ -64,6 +68,11 @@ public:
 	inline EnemyState GetState()
 	{
 		return EnemyState_;
+	}
+
+	inline bool GetEnemyDander()
+	{
+		return IsDanger_;
 	}
 	
 protected:
@@ -79,10 +88,10 @@ private:
 	std::set<Puyo*> FindAllDestroy_;
 	std::vector<HindrancePuyo*> Hindrances_;
 
-	GameEngineRandom Random_;
-
 	Fire* Fire_;
 	float4 PlayerPoint_;
+
+	GameEngineRandom Random_;
 
 	Puyo* CenterPuyo_;
 	Puyo* SecondPuyo_;
@@ -102,6 +111,11 @@ private:
 	GameEngineRenderer* ScoreRenderers_[10];
 
 	unsigned int Chain_;
+
+	InGameActor* Bubbles_[15];
+	float4 BubbleDir_[15];
+	int BubbleSpeed_[15];
+	bool IsDanger_;
 
 };
 

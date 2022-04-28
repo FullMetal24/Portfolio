@@ -1,14 +1,13 @@
 #pragma once
-#include <GameEngineBase/GameEngineRandom.h>
 #include <GameEngineBase/GameEngineSound.h>
 #include <GameEngine/GameEngineLevel.h>
 #include <GameEngine/GameEngineActor.h>
 #include <GameEngine/GameEngineRenderer.h>
 #include "FadeInOutBackground.h"
 #include "Stage.h"
-#include "Player.h"
 #include <vector>
 
+class Player;
 class EnemyFSM;
 class PuyoPair;
 class InGameActor;
@@ -40,7 +39,6 @@ public:
 	}	
 
 	void InitPlayerEndEnemy();
-	void InitBubble();
 
 	void PuyoAnimationInit();
 	void CarbuncleAnimationInit();
@@ -48,11 +46,6 @@ public:
 	void GameOverCheck();
 	void CarbuncleUpdate();
 	void SpewStar();
-
-	void VomitBubble();
-
-	int GetRandomInt(int _At, int _Until);
-	float GetRandomFloat(int _At, int _Until);
 
 protected:
 
@@ -72,11 +65,6 @@ private:
 	FadeInOutBackground* FadeBackground_;
 
 	GameEngineSoundPlayer InGameBgm_;
-
-	GameEngineRandom Random_;
-	InGameActor* Bubbles_[15];
-	float4 BubbleDir_[15];
-	int BubbleSpeed_[15];
 
 	int StageClear_;
 	float ChangeCount_;
