@@ -6,7 +6,7 @@
 #include <GameEngineBase/GameEngineInput.h>
 #include "Fire.h"
 #include "Player.h"
-#include <cstdlib>
+#include "EnemyProfile.h"
 
 EnemyFSM::EnemyFSM()
 	: EnemyMap_{ nullptr }
@@ -26,7 +26,9 @@ EnemyFSM::~EnemyFSM()
 
 void EnemyFSM::Start()
 {
+	EnemyAnimatioInit();
 	InitNextPair();
+	InitBubble();
 
 	for (int i = 0; i < 9; ++i)
 	{
@@ -45,16 +47,6 @@ void EnemyFSM::Start()
 
 	Fire_ = GetLevel()->CreateActor<Fire>();
 	Fire_->SetFireOwner(FireOwner::Player);
-
-	if (false == GameEngineInput::GetInst()->IsKey("Right"))
-	{
-		GameEngineInput::GetInst()->CreateKey("Right", VK_RIGHT);
-	}
-
-	if (false == GameEngineInput::GetInst()->IsKey("Right"))
-	{
-	GameEngineInput::GetInst()->CreateKey("Right", VK_LEFT);
-	}
 }
 
 void EnemyFSM::Update()
@@ -100,6 +92,9 @@ void EnemyFSM::Update()
 
 	DigitScore(Score_);
 	RenderToScore();
+
+	DisappearBubble();
+	VomitBubble();
 }
 
 void EnemyFSM::NewPuyoPair()
@@ -409,6 +404,8 @@ void EnemyFSM::LandCheck()
 		&& true == SecondPuyo_->GetLand())
 	{
 		RenderToLinkedPuyo();
+		DangerCheck();
+
 		CenterPuyo_->ChangeState(PuyoState::Land);
 		SecondPuyo_->ChangeState(PuyoState::Land);
 		EnemyState_ = EnemyState::PuyoCheck;
@@ -621,6 +618,33 @@ void EnemyFSM::RenderToScore()
 }
 
 
+void EnemyFSM::DangerCheck()
+{
+	int Count = 0;
+
+	for (int Y = 14; Y >= 0; --Y)
+	{
+		for (int X = 0; X < 6; ++X)
+		{
+			if (nullptr != EnemyMap_[Y][X])
+			{
+				++Count;
+			}
+		}
+	}
+
+	if (Count >= 20)
+	{
+		IsDanger_ = true;
+	}
+
+	else if (Count < 20)
+	{
+		IsDanger_ = false;
+	}
+}
+
+
 void EnemyFSM::InitBubble()
 {
 	GameEngineImage* Image = GameEngineImageManager::GetInst()->Find("IG_BUBBLE.bmp");
@@ -637,7 +661,7 @@ void EnemyFSM::InitBubble()
 		float RanRadian = Random_.RandomFloat(0, 3.14256f);
 		BubbleDir_[i] = float4::RadianToDirectionFloat4(RanRadian * -1.f);
 
-		int RanSpeed = Random_.RandomInt(200, 400);
+		int RanSpeed = Random_.RandomInt(100, 300);
 		BubbleSpeed_[i] = RanSpeed;
 
 		Bubbles_[i]->SetPosition(GameEngineWindow::GetScale().Half() + float4{ 0, 100.f });
@@ -648,65 +672,302 @@ void EnemyFSM::InitBubble()
 
 void EnemyFSM::VomitBubble()
 {
-	int RanCreate = Random_.RandomInt(0, 15);
-
-	for (int i = 0; i < 15; ++i)
+	if (true == IsDanger_)
 	{
-		if (i == RanCreate)
+		int RanCreate = Random_.RandomInt(0, 15);
+
+		for (int i = 0; i < 15; ++i)
 		{
-			continue;
+			if (i == RanCreate)
+			{
+				continue;
+			}
+
+			if (false == Bubbles_[i]->IsUpdate())
+			{
+				Bubbles_[i]->GetMyRenderer()->PauseOff();
+				Bubbles_[i]->SetPosition(GameEngineWindow::GetScale().Half() + float4{ 0, 100.f });
+				Bubbles_[i]->On();
+			}
+
+			Bubbles_[i]->SetMove(BubbleDir_[i] * BubbleSpeed_[i] * GameEngineTime::GetDeltaTime());
 		}
 
-		if (false == Bubbles_[i]->IsUpdate())
+		for (int i = 0; i < 15; ++i)
 		{
-			Bubbles_[i]->GetMyRenderer()->PauseOff();
-			Bubbles_[i]->SetPosition(GameEngineWindow::GetScale().Half() + float4{ 0, 100.f });
-			Bubbles_[i]->On();
+			float4 Dis = GameEngineWindow::GetScale().Half() - Bubbles_[i]->GetPosition();
+
+			if (Dis.x > 250.f || Dis.x < -250.f
+				|| Dis.y > 250.f || Dis.y < -250.f)
+			{
+				Bubbles_[i]->GetMyRenderer()->PauseOn();
+				Bubbles_[i]->Off();
+			}
 		}
 
-		Bubbles_[i]->SetMove(BubbleDir_[i] * BubbleSpeed_[i] * GameEngineTime::GetDeltaTime());
+		RanCreate = Random_.RandomInt(0, 15);
+
+		for (int i = 0; i < 15; ++i)
+		{
+			if (i == RanCreate)
+			{
+				continue;
+			}
+
+			if (false == Bubbles_[i]->IsUpdate())
+			{
+				Bubbles_[i]->GetMyRenderer()->PauseOff();
+				Bubbles_[i]->SetPosition(GameEngineWindow::GetScale().Half() + float4{ 0, 100.f });
+				Bubbles_[i]->On();
+			}
+
+			Bubbles_[i]->SetMove(BubbleDir_[i] * BubbleSpeed_[i] * GameEngineTime::GetDeltaTime());
+		}
+
+		for (int i = 0; i < 15; ++i)
+		{
+			float4 Dis = GameEngineWindow::GetScale().Half() - Bubbles_[i]->GetPosition();
+
+			if (Dis.x > 250.f || Dis.x < -250.f
+				|| Dis.y > 250.f || Dis.y < -250.f)
+			{
+				Bubbles_[i]->GetMyRenderer()->PauseOn();
+				Bubbles_[i]->Off();
+			}
+		}
+	}
+}
+
+void EnemyFSM::DisappearBubble()
+{
+	if (false == IsDanger_)
+	{
+		for (int i = 0; i < 15; ++i)
+		{
+			if (true == Bubbles_[i]->GetMyRenderer()->IsEndAnimation())
+			{
+				Bubbles_[i]->GetMyRenderer()->Off();
+			}
+		}
+	}
+}
+
+void EnemyFSM::EnemyAnimatioInit()
+{
+	EnemyActors_ = GetLevel()->CreateActor<InGameActor>();
+	EnemyActors_->SetPosition({ GameEngineWindow::GetScale().Half() + float4{0, 75} });
+
+	{
+		GameEngineImage* Image = GameEngineImageManager::GetInst()->Find("IG_LV1_IDLE.bmp");
+		Image->CutCount(4, 1);
+
+		GameEngineImage* Image1 = GameEngineImageManager::GetInst()->Find("IG_LV1_LOSE.bmp");
+		Image1->CutCount(4, 1);
+
+		GameEngineImage* Image2 = GameEngineImageManager::GetInst()->Find("IG_LV1_EXCITED.bmp");
+		Image2->CutCount(4, 1);
+
+		GameEngineImage* Image3 = GameEngineImageManager::GetInst()->Find("IG_LV1_WIN.bmp");
+		Image3->CutCount(1, 1);
 	}
 
-	for (int i = 0; i < 15; ++i)
 	{
-		float4 Dis = GameEngineWindow::GetScale().Half() - Bubbles_[i]->GetPosition();
+		GameEngineImage* Image = GameEngineImageManager::GetInst()->Find("IG_LV2_IDLE.bmp");
+		Image->CutCount(1, 1);
 
-		if (Dis.x > 250.f || Dis.x < -250.f
-			|| Dis.y > 250.f || Dis.y < -250.f)
-		{
-			Bubbles_[i]->GetMyRenderer()->PauseOn();
-			Bubbles_[i]->Off();
-		}
+		GameEngineImage* Image1 = GameEngineImageManager::GetInst()->Find("IG_LV2_LOSE.bmp");
+		Image1->CutCount(4, 1);
+
+		GameEngineImage* Image2 = GameEngineImageManager::GetInst()->Find("IG_LV2_EXCITED.bmp");
+		Image2->CutCount(1, 1);
+
+		GameEngineImage* Image3 = GameEngineImageManager::GetInst()->Find("IG_LV2_WIN.bmp");
+		Image3->CutCount(1, 1);
 	}
 
-	RanCreate = Random_.RandomInt(0, 15);
-
-	for (int i = 0; i < 15; ++i)
 	{
-		if (i == RanCreate)
-		{
-			continue;
-		}
+		GameEngineImage* Image = GameEngineImageManager::GetInst()->Find("IG_LV3_IDLE.bmp");
+		Image->CutCount(4, 1);
 
-		if (false == Bubbles_[i]->IsUpdate())
-		{
-			Bubbles_[i]->GetMyRenderer()->PauseOff();
-			Bubbles_[i]->SetPosition(GameEngineWindow::GetScale().Half() + float4{ 0, 100.f });
-			Bubbles_[i]->On();
-		}
+		GameEngineImage* Image1 = GameEngineImageManager::GetInst()->Find("IG_LV3_LOSE.bmp");
+		Image1->CutCount(4, 1);
 
-		Bubbles_[i]->SetMove(BubbleDir_[i] * BubbleSpeed_[i] * GameEngineTime::GetDeltaTime());
+		GameEngineImage* Image2 = GameEngineImageManager::GetInst()->Find("IG_LV3_EXCITED.bmp");
+		Image2->CutCount(4, 1);
+
+		GameEngineImage* Image3 = GameEngineImageManager::GetInst()->Find("IG_LV3_WIN.bmp");
+		Image3->CutCount(1, 1);
 	}
 
-	for (int i = 0; i < 15; ++i)
 	{
-		float4 Dis = GameEngineWindow::GetScale().Half() - Bubbles_[i]->GetPosition();
+		GameEngineImage* Image = GameEngineImageManager::GetInst()->Find("IG_LV4_IDLE.bmp");
+		Image->CutCount(1, 1);
 
-		if (Dis.x > 250.f || Dis.x < -250.f
-			|| Dis.y > 250.f || Dis.y < -250.f)
+		GameEngineImage* Image1 = GameEngineImageManager::GetInst()->Find("IG_LV4_LOSE.bmp");
+		Image1->CutCount(1, 1);
+
+		GameEngineImage* Image3 = GameEngineImageManager::GetInst()->Find("IG_LV4_WIN.bmp");
+		Image3->CutCount(1, 1);
+	}
+
+	{
+		GameEngineImage* Image = GameEngineImageManager::GetInst()->Find("IG_LV5_IDLE.bmp");
+		Image->CutCount(1, 1);
+
+		GameEngineImage* Image1 = GameEngineImageManager::GetInst()->Find("IG_LV5_LOSE.bmp");
+		Image1->CutCount(1, 1);
+
+		GameEngineImage* Image3 = GameEngineImageManager::GetInst()->Find("IG_LV5_WIN.bmp");
+		Image3->CutCount(1, 1);
+	}
+
+	{
+		GameEngineImage* Image = GameEngineImageManager::GetInst()->Find("IG_LV6_IDLE.bmp");
+		Image->CutCount(1, 1);
+
+		GameEngineImage* Image1 = GameEngineImageManager::GetInst()->Find("IG_LV6_LOSE.bmp");
+		Image1->CutCount(1, 1);
+
+		GameEngineImage* Image3 = GameEngineImageManager::GetInst()->Find("IG_LV6_WIN.bmp");
+		Image3->CutCount(1, 1);
+	}
+
+	{
+		GameEngineImage* Image = GameEngineImageManager::GetInst()->Find("IG_LV7_IDLE.bmp");
+		Image->CutCount(1, 1);
+
+		GameEngineImage* Image1 = GameEngineImageManager::GetInst()->Find("IG_LV7_LOSE.bmp");
+		Image1->CutCount(1, 1);
+
+		GameEngineImage* Image3 = GameEngineImageManager::GetInst()->Find("IG_LV7_WIN.bmp");
+		Image3->CutCount(1, 1);
+	}
+}
+
+
+void EnemyFSM::SetMyProfile(EnemyProfile* _Porifle)
+{
+	if (nullptr != _Porifle)
+	{
+		float XPos = 95.f;
+		float YPos = 370.f;
+
+		switch (_Porifle->GetMyLevel())
 		{
-			Bubbles_[i]->GetMyRenderer()->PauseOn();
-			Bubbles_[i]->Off();
+		case 1:
+			EnemyAnimations_[0] = EnemyActors_->CreateRenderer();
+			EnemyAnimations_[0]->SetOrder(2);
+			EnemyAnimations_[0]->CreateAnimation("IG_LV1_IDLE.bmp", "IG_LV1_IDLE", 0, 3, 0.2f, true);
+			EnemyAnimations_[0]->CreateAnimation("IG_LV1_LOSE.bmp", "IG_LV1_LOSE", 0, 3, 0.2f, false);
+			EnemyAnimations_[0]->CreateAnimation("IG_LV1_WIN.bmp", "IG_LV1_WIN", 0, 0, 0.0f, false);
+			EnemyAnimations_[0]->CreateAnimation("IG_LV1_EXCITED.bmp", "IG_LV1_EXCITED", 0, 3, 0.2f, true);
+			EnemyAnimations_[0]->ChangeAnimation("IG_LV1_IDLE");
+
+			EnemyNames_[0] = EnemyActors_->CreateRenderer();
+			EnemyNames_[0]->SetOrder(2);
+			EnemyNames_[0]->SetPivot({ XPos, -YPos });
+			EnemyNames_[0]->SetImage("IG_NAME_SKEL.bmp");
+			break;
+
+		case 2:
+			EnemyAnimations_[1] = EnemyActors_->CreateRenderer();
+			EnemyAnimations_[1]->SetOrder(2);
+			EnemyAnimations_[1]->CreateAnimation("IG_LV2_IDLE.bmp", "IG_LV2_IDLE", 0, 0, 0.0f, false);
+			EnemyAnimations_[1]->CreateAnimation("IG_LV2_LOSE.bmp", "IG_LV2_LOSE", 0, 3, 0.2f, false);
+			EnemyAnimations_[1]->CreateAnimation("IG_LV2_WIN.bmp", "IG_LV2_WIN", 0, 0, 0.0f, false);
+			EnemyAnimations_[1]->CreateAnimation("IG_LV2_EXCITED.bmp", "IG_LV2_EXCITED", 0, 0, 0.0f, false);
+			EnemyAnimations_[1]->ChangeAnimation("IG_LV2_IDLE");
+
+			EnemyNames_[1] = EnemyActors_->CreateRenderer();
+			EnemyNames_[1]->SetOrder(2);
+			EnemyNames_[1]->SetPivot({ XPos, -YPos });
+			EnemyNames_[1]->SetImage("IG_NAME_WISP.bmp");
+			break;
+
+		case 3:
+			EnemyAnimations_[2] = EnemyActors_->CreateRenderer();
+			EnemyAnimations_[2]->SetOrder(2);
+			EnemyAnimations_[2]->CreateAnimation("IG_LV3_IDLE.bmp", "IG_LV3_IDLE", 0, 3, 0.2f, true);
+			EnemyAnimations_[2]->CreateAnimation("IG_LV3_LOSE.bmp", "IG_LV3_LOSE", 0, 3, 0.2f, false);
+			EnemyAnimations_[2]->CreateAnimation("IG_LV3_WIN.bmp", "IG_LV3_WIN", 0, 0, 0.0f, false);
+			EnemyAnimations_[2]->CreateAnimation("IG_LV3_EXCITED.bmp", "IG_LV3_EXCITED", 0, 3, 0.2f, true);
+			EnemyAnimations_[2]->ChangeAnimation("IG_LV3_IDLE");
+
+			EnemyNames_[2] = EnemyActors_->CreateRenderer();
+			EnemyNames_[2]->SetOrder(2);
+			EnemyNames_[2]->SetPivot({ XPos, -YPos });
+			EnemyNames_[2]->SetImage("IG_NAME_PODE.bmp");
+			break;
+
+		case 4:
+			EnemyAnimations_[3] = EnemyActors_->CreateRenderer();
+			EnemyAnimations_[3]->SetOrder(2);
+			EnemyAnimations_[3]->CreateAnimation("IG_LV4_IDLE.bmp", "IG_LV4_IDLE", 0, 0, 0.0f, false);
+			EnemyAnimations_[3]->CreateAnimation("IG_LV4_LOSE.bmp", "IG_LV4_LOSE", 0, 0, 0.0f, false);
+			EnemyAnimations_[3]->CreateAnimation("IG_LV4_WIN.bmp", "IG_LV4_WIN", 0, 0, 0.0f, false);
+			EnemyAnimations_[3]->ChangeAnimation("IG_LV4_IDLE");
+
+			EnemyNames_[3] = EnemyActors_->CreateRenderer();
+			EnemyNames_[3]->SetOrder(2);
+			EnemyNames_[3]->SetPivot({ XPos, -YPos });
+			EnemyNames_[3]->SetImage("IG_NAME_BANS.bmp");
+			break;
+
+		case 5:
+			EnemyAnimations_[4] = EnemyActors_->CreateRenderer();
+			EnemyAnimations_[4]->SetOrder(2);
+			EnemyAnimations_[4]->CreateAnimation("IG_LV5_IDLE.bmp", "IG_LV5_IDLE", 0, 0, 0.0f, false);
+			EnemyAnimations_[4]->CreateAnimation("IG_LV5_LOSE.bmp", "IG_LV5_LOSE", 0, 0, 0.0f, false);
+			EnemyAnimations_[4]->CreateAnimation("IG_LV5_WIN.bmp", "IG_LV5_WIN", 0, 0, 0.0f, false);
+			EnemyAnimations_[4]->ChangeAnimation("IG_LV5_IDLE");
+
+			EnemyNames_[4] = EnemyActors_->CreateRenderer();
+			EnemyNames_[4]->SetOrder(2);
+			EnemyNames_[4]->SetPivot({ XPos, -YPos });
+			EnemyNames_[4]->SetImage("IG_NAME_NOMI.bmp");
+			break;
+
+		case 6:
+			EnemyAnimations_[5] = EnemyActors_->CreateRenderer();
+			EnemyAnimations_[5]->SetOrder(2);
+			EnemyAnimations_[5]->CreateAnimation("IG_LV6_IDLE.bmp", "IG_LV6_IDLE", 0, 0, 0.0f, false);
+			EnemyAnimations_[5]->CreateAnimation("IG_LV6_LOSE.bmp", "IG_LV6_LOSE", 0, 0, 0.0f, false);
+			EnemyAnimations_[5]->CreateAnimation("IG_LV6_WIN.bmp", "IG_LV6_WIN", 0, 0, 0.0f, false);
+			EnemyAnimations_[5]->ChangeAnimation("IG_LV6_IDLE");
+
+			EnemyNames_[5] = EnemyActors_->CreateRenderer();
+			EnemyNames_[5]->SetOrder(2);
+			EnemyNames_[5]->SetPivot({ XPos, -YPos });
+			EnemyNames_[5]->SetImage("IG_NAME_MOMO.bmp");
+			break;
+
+		case 7:
+			EnemyAnimations_[6] = EnemyActors_->CreateRenderer();
+			EnemyAnimations_[6]->SetOrder(2);
+			EnemyAnimations_[6]->CreateAnimation("IG_LV7_IDLE.bmp", "IG_LV7_IDLE", 0, 0, 0.0f, false);
+			EnemyAnimations_[6]->CreateAnimation("IG_LV7_LOSE.bmp", "IG_LV7_LOSE", 0, 0, 0.0f, false);
+			EnemyAnimations_[6]->CreateAnimation("IG_LV7_WIN.bmp", "IG_LV7_WIN", 0, 0, 0.0f, false);
+			EnemyAnimations_[6]->ChangeAnimation("IG_LV7_IDLE");
+
+			EnemyNames_[6] = EnemyActors_->CreateRenderer();
+			EnemyNames_[6]->SetOrder(2);
+			EnemyNames_[6]->SetPivot({ XPos, -YPos });
+			EnemyNames_[6]->SetImage("IG_NAME_BARO.bmp");
+			break;
+
+		case 8:
+			EnemyAnimations_[7] = EnemyActors_->CreateRenderer();
+			EnemyAnimations_[7]->SetOrder(2);
+			EnemyAnimations_[7]->CreateAnimation("IG_LV8_IDLE.bmp", "IG_LV8_IDLE", 0, 0, 0.0f, false);
+			EnemyAnimations_[7]->CreateAnimation("IG_LV8_LOSE.bmp", "IG_LV8_LOSE", 0, 0, 0.0f, false);
+			EnemyAnimations_[7]->CreateAnimation("IG_LV8_WIN.bmp", "IG_LV8_WIN", 0, 0, 0.0f, false);
+			EnemyAnimations_[7]->ChangeAnimation("IG_LV8_IDLE");
+
+			EnemyNames_[7] = EnemyActors_->CreateRenderer();
+			EnemyNames_[7]->SetOrder(2);
+			EnemyNames_[7]->SetPivot({ XPos, -YPos });
+			EnemyNames_[7]->SetImage("IG_NAME_MINI.bmp");
+			break;
 		}
 	}
 }

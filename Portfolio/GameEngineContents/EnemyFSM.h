@@ -8,6 +8,7 @@ class Player;
 class Fire;
 class Puyo;
 class HindrancePuyo;
+class EnemyProfile;
 class EnemyFSM : public GameEngineActor
 {
 public:
@@ -57,8 +58,14 @@ public:
 	void RenderToScore();
 
 	//위험 시 거품 이펙트
+	void DangerCheck();
 	void InitBubble();
 	void VomitBubble();
+	void DisappearBubble();
+
+	//에네미 프로필
+	void EnemyAnimatioInit();
+	void SetMyProfile(EnemyProfile* _Porifle);
 
 	inline void SetPlayer(Player* _Player)
 	{
@@ -70,11 +77,7 @@ public:
 		return EnemyState_;
 	}
 
-	inline bool GetEnemyDander()
-	{
-		return IsDanger_;
-	}
-	
+
 protected:
 
 private:
@@ -116,6 +119,10 @@ private:
 	float4 BubbleDir_[15];
 	int BubbleSpeed_[15];
 	bool IsDanger_;
+
+	InGameActor* EnemyActors_;
+	GameEngineRenderer* EnemyAnimations_[8];
+	GameEngineRenderer* EnemyNames_[8];
 
 };
 

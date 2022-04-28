@@ -58,9 +58,7 @@ private:
 	InGameActor* Stars_[36];
 	  
 	EnemyProfile* EnemyProfile_;
-	GameEngineRenderer* Stage_; //스테이지 이미지 (렌더러가 나을듯함
-
-	GameEngineRenderer* EnemyAnimations_[8];
+	GameEngineRenderer* Stage_; 
 
 	FadeInOutBackground* FadeBackground_;
 
@@ -73,9 +71,4 @@ private:
 	bool IsEnemyFlap_;
 };
 	
-
- //스테이지 
-//스테이지 내부 멤버에 렌더러를 여러 개 두고 따로 로딩하는 형식이 좋을까?
-//렌더러를 인게임에 두고 하는 방법은 어떨까
-
 

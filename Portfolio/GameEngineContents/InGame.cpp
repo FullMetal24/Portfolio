@@ -44,7 +44,7 @@ void InGame::Loading()
 	Stages_[0] = CreateActor<Stage>();
 
 	Stages_[0]->SetPosition(GameEngineWindow::GetScale().Half());
-	Stages_[0]->CreateRenderer("IG_STAGE1.bmp", 2);
+	Stages_[0]->CreateRenderer("IG_STAGE1.bmp", 3);
 	Stages_[0]->CreateRenderer("IG_STAGE1_BACK.bmp", 0);
 
 	GameEngineActor* NextUi = CreateActor<Stage>(3);
@@ -641,38 +641,10 @@ void InGame::LevelChangeStart(GameEngineLevel* _PrevLevel)
 	{
 		GameEngineLevel* PrevLevel = _PrevLevel;
 		EnemySelect* EnemySelect_ = dynamic_cast<EnemySelect*>(PrevLevel);
+		EnemyProfile_ = EnemySelect_->GetEnemyProfile();
+		EnemyProfile_->SetPosition({ GameEngineWindow::GetScale().Half()});
 
-		EnemyProfile* CurEnemy = EnemySelect_->GetEnemyProfile();
-
-		if (nullptr != CurEnemy)
-		{
-			switch (CurEnemy->GetLevel())
-			{
-			case 1:
-				break;
-
-			case 2:
-				break;
-
-			case 3:
-				break;
-
-			case 4:
-				break;
-
-			case 5:
-				break;
-
-			case 6:
-				break;
-
-			case 7:
-				break;
-
-			case 8:
-				break;
-			}
-		}
+		EnemyFSM_->SetMyProfile(EnemyProfile_);
 	}
 }
 

@@ -70,7 +70,7 @@ public:
 		MyLevel_ = _Level;
 	}
 
-	int GetLevel()
+	int GetMyLevel()
 	{
 		return MyLevel_;
 	}
