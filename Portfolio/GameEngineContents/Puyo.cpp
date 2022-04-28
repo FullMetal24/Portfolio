@@ -386,24 +386,22 @@ void Puyo::ChangeHindraceState(PuyoState _State)
 
 void Puyo::DestroyHindracePuyo(Puyo* Map[15][6])
 {
-	int Dx[4] = { 0, 0, 1, -1 };
-	int Dy[4] = { 1, -1, 0, 0 };
+	float4 ArrDir[4] = { float4::LEFT, float4::RIGHT, float4::UP, float4::DOWN };
 
 	for (int i = 0; i < 4; i++)
 	{
-		int X = Dx[i] + X_;
-		int Y = Dy[i] + Y_;
+		float4 Index = GetIndex() + ArrDir[i];
 
-		if (0 > X || 6 < X || 0 > Y || 14 < Y)
+		if (0 > Index.x || 6 < Index.x || 0 > Index.y || 14 < Index.y)
 		{
 			return;
 		}
 
-		if (nullptr != Map[X][Y]
-			&& PuyoColor::Hindrance == Map[X][Y]->GetColor())
+		if (nullptr != Map[Index.iy()][Index.ix()]
+			&& PuyoColor::Hindrance == Map[Index.iy()][Index.ix()]->GetColor())
 		{
-			Map[X][Y]->ChangeState(PuyoState::Destroy);
-			Map[X][Y] = nullptr;
+			Map[Index.iy()][Index.ix()]->ChangeState(PuyoState::Destroy);
+			Map[Index.iy()][Index.ix()] = nullptr;
 		}
 	}
 

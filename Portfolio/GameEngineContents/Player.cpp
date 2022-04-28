@@ -379,6 +379,8 @@ void Player::DestroyPuyo()
 				(*PuyoStartIter)->ChangeState(PuyoState::Destroy);
 				(*PuyoStartIter)->DestroyHindracePuyo(PlayerMap_);
 				PlayerMap_[(*PuyoStartIter)->GetY()][(*PuyoStartIter)->GetX()] = nullptr;
+
+				Score_ += static_cast<int>(GameEngineTime::GetDeltaTime() * 10);
 			}
 		}
 	}
