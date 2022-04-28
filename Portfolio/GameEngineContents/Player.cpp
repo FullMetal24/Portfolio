@@ -379,6 +379,18 @@ void Player::DestroyPuyo()
 		}
 	}
 
+	for (int Y = 0; Y < 15; ++Y)
+	{
+		for (int X = 0; X < 6; ++X)
+		{
+			if (nullptr != PlayerMap_[Y][X]
+				&& PuyoColor::Hindrance == PlayerMap_[Y][X]->GetColor())
+			{
+				PlayerMap_[Y][X]->DestroyHindracePuyo(PlayerMap_);
+			}
+		}
+	}
+
 	AllDestroyPuyo_.clear();
 	PlayerState_ = PlayerState::LandPuyo;
 }
@@ -452,17 +464,18 @@ void Player::FallHindrancePuyo()
 		int X = Random_.RandomInt(0, 5);
 		int Y = 0;
 
-		for (int i = 14; i >= 0; --i)
+		for  (int i = 14; i >= 0; --i)
 		{
 			if (PlayerMap_[i][X] == nullptr)
 			{
 				Y = i;
 			}
-		}
+		 } 
 
 		(*StartIter)->SetIndex(X, Y);
-		(*StartIter)->SetPosition((*StartIter)->CoordinatePos(this, X, Y));
-		PlayerMap_[Y][X] = (*StartIter);
+		(*StartIter)->SetPosition((*StartIter)->CoordinatePos(this, X, 15));
+		(*StartIter)->FallPuyo(PlayerMap_, this);
+ 		PlayerMap_[Y][X] = (*StartIter);
 	}
 
 	Hindrances_.clear();

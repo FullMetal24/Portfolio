@@ -48,19 +48,7 @@ void Puyo::Update()
 		LandToNormal();
 		break;
 	case PuyoState::Fall:
-		Alpha_ += GameEngineTime::GetDeltaTime() * 4;
-
-		if (1.f <= Alpha_)
-		{
-			Alpha_ = 1.f;
-		}
-
-		SetPosition(LerpPuyo(StartPos_, EndPos_, Alpha_));
-
-		if (1 <= Alpha_)
-		{
-			ChangeState(PuyoState::Land);
-		}
+		FallingPuyo();
 		break;
 	case PuyoState::Destroy:
 		RenderToDestroy();
@@ -213,10 +201,10 @@ void Puyo::InitAnimation(PuyoColor color)
 		break;
 
 	case PuyoColor::Hindrance:
-			MyRenderer_->CreateAnimation("IG_HINDRANCE_PUYO.bmp", "IG_HINDRANCE_PUYO", 0, 0, 0.f, false);
-			MyRenderer_->CreateAnimation("IG_HINDRANCE_PUYO_DESTROY.bmp", "IG_HINDRANCE_PUYO_DESTROY", 0, 3, 0.1f, false);
-			MyRenderer_->ChangeAnimation("IG_HINDRANCE_PUYO");
-			break;
+		MyRenderer_->CreateAnimation("IG_HINDRANCE_PUYO.bmp", "IG_HINDRANCE_PUYO", 0, 0, 0.f, false);
+		MyRenderer_->CreateAnimation("IG_HINDRANCE_PUYO_DESTROY.bmp", "IG_HINDRANCE_PUYO_DESTROY", 0, 3, 0.1f, false);
+		MyRenderer_->ChangeAnimation("IG_HINDRANCE_PUYO");
+		break;
 	}
 }
 
@@ -394,6 +382,35 @@ void Puyo::ChangeHindraceState(PuyoState _State)
 	}
 
 	PuyoState_ = _State;
+}
+
+void Puyo::DestroyHindracePuyo(Puyo* Map[15][6])
+{
+	if (PuyoColor::Hindrance != MyColor_)
+	{
+		return;
+	}
+
+	int Dx[4] = { 0, 0, 1, -1 };
+	int Dy[4] = { 1, -1, 0, 0 };
+
+	for (int i = 0; i < 4; i++)
+	{
+		int X = Dx[i] + X_;
+		int Y = Dy[i] + Y_;
+
+		if (0 > X || 6 < X || 0 > Y || 14 < Y)
+		{
+			return;
+		}
+
+		if (nullptr != Map[X][Y]
+			&& PuyoState::Destroy == Map[X][Y]->GetState())
+		{
+			ChangeState(PuyoState::Destroy);
+		}
+	}
+
 }
 
 void Puyo::Init(Player* _Player, int x, int y, PuyoColor _Color)
@@ -585,8 +602,17 @@ Puyo* Puyo::RotatePuyo(Puyo* Map[15][6], Puyo* _Center)
 				Map[Y_][X_] = this;
 				Map[CenterY][CenterX] = CenterPuyo;
 
-				CenterPuyo->CoordinateMove(Player_, CenterX, CenterY);
-				this->CoordinateMove(Player_, X_, Y_);
+				if (nullptr != Player_)
+				{
+					CenterPuyo->CoordinateMove(Player_, CenterX, CenterY);
+					this->CoordinateMove(Player_, X_, Y_);
+				}
+
+				else if (nullptr != Enemy_)
+				{
+					CenterPuyo->CoordinateMove(Enemy_, CenterX, CenterY);
+					this->CoordinateMove(Enemy_, X_, Y_);
+				}
 
 				CenterPuyo->SetDir(PuyoDir::LEFT);
 			}
@@ -623,8 +649,17 @@ Puyo* Puyo::RotatePuyo(Puyo* Map[15][6], Puyo* _Center)
 				Map[Y_][X_] = this;
 				Map[CenterY][CenterX] = CenterPuyo;
 
-				CenterPuyo->CoordinateMove(Player_, CenterX, CenterY);
-				this->CoordinateMove(Player_, X_, Y_);
+				if (nullptr != Player_)
+				{
+					CenterPuyo->CoordinateMove(Player_, CenterX, CenterY);
+					this->CoordinateMove(Player_, X_, Y_);
+				}
+
+				else if (nullptr != Enemy_)
+				{
+					CenterPuyo->CoordinateMove(Enemy_, CenterX, CenterY);
+					this->CoordinateMove(Enemy_, X_, Y_);
+				}
 
 				CenterPuyo->SetDir(PuyoDir::DOWN);
 			}
@@ -661,8 +696,18 @@ Puyo* Puyo::RotatePuyo(Puyo* Map[15][6], Puyo* _Center)
 				Map[Y_][X_] = this;
 				Map[CenterY][CenterX] = CenterPuyo;
 
-				CenterPuyo->CoordinateMove(Player_, CenterX, CenterY);
-				this->CoordinateMove(Player_, X_, Y_);
+
+				if (nullptr != Player_)
+				{
+					CenterPuyo->CoordinateMove(Player_, CenterX, CenterY);
+					this->CoordinateMove(Player_, X_, Y_);
+				}
+
+				else if (nullptr != Enemy_)
+				{
+					CenterPuyo->CoordinateMove(Enemy_, CenterX, CenterY);
+					this->CoordinateMove(Enemy_, X_, Y_);
+				}
 
 				CenterPuyo->SetDir(PuyoDir::RIGHT);
 			}
@@ -718,16 +763,26 @@ void Puyo::AloneFallPuyo(Puyo* Map[15][6])
 		Map[Y_ - 1][X_] = this;
 
 		Y_ -= 1;
-		CoordinateMove(Player_, X_, Y_);
+
+		if (nullptr != Player_)
+		{
+			CoordinateMove(Player_, X_, Y_);
+		}
+
+		else if (nullptr != Enemy_)
+		{
+			CoordinateMove(Enemy_, X_, Y_);
+		}
 	}
 }
 
 void Puyo::FallPuyo(Puyo* Map[15][6], Player* _Player)
 {
-	if (0 == Y_)
-	{
-		return;
-	}
+	//if (0 == Y_ 
+	//	&& PuyoColor::Hindrance != MyColor_)
+	//{
+	//	return;
+	//}
 
 	int Count = 0;
 
@@ -768,12 +823,51 @@ void Puyo::FallPuyo(Puyo* Map[15][6], Player* _Player)
 	ChangeState(PuyoState::Fall);
 }
 
+void Puyo::FallingPuyo()
+{
+	if (PuyoColor::Hindrance == MyColor_)
+	{
+		Alpha_ += GameEngineTime::GetDeltaTime();
+
+		if (1.f <= Alpha_)
+		{
+			Alpha_ = 1.f;
+		}
+
+		SetPosition(LerpPuyo(StartPos_, EndPos_, Alpha_));
+
+		if (1 <= Alpha_)
+		{
+			ChangeState(PuyoState::Land);
+		}
+	}
+
+	else
+	{
+		Alpha_ += GameEngineTime::GetDeltaTime() * 4;
+
+		if (1.f <= Alpha_)
+		{
+			Alpha_ = 1.f;
+		}
+
+		SetPosition(LerpPuyo(StartPos_, EndPos_, Alpha_));
+
+		if (1 <= Alpha_)
+		{
+			ChangeState(PuyoState::Land);
+		}
+
+	}
+}
+
+
 void Puyo::FallPuyo(Puyo* Map[15][6], EnemyFSM* _Enemy)
 {
-	if (0 == Y_)
-	{
-		return;
-	}
+	//if (0 == Y_)
+	//{
+	//	return;
+	//}
 
 	int Count = 0;
 

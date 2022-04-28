@@ -86,6 +86,10 @@ public:
 	void ChangeState(PuyoState _State);
 	void ChangeHindraceState(PuyoState _State);
 
+	void DestroyHindracePuyo(Puyo* Map[15][6]);
+
+	void FallingPuyo();
+
 	void Init(Player* _Player, int x, int y, PuyoColor _Color);
 	void Init(EnemyFSM* _Enemy, int x, int y, PuyoColor _Color);
 	void CoordinateMove(Player* _Player, int x, int y);

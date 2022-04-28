@@ -272,34 +272,6 @@ void EnemyFSM::RenderToCenterPuyo()
 	}
 }
 
-void EnemyFSM::RenderToLinkedPuyo()
-{
-	for (int Y = 0; Y <= 14; ++Y)
-	{
-		for (int X = 0; X < 6; ++X)
-		{
-			if (nullptr != EnemyMap_[Y][X])
-			{
-				EnemyMap_[Y][X]->LinkedPuyoAnimtaion(EnemyMap_);
-			}
-		}
-	}
-}
-
-void EnemyFSM::ResetLinkedPuyo()
-{
-	for (int Y = 0; Y <= 14; ++Y)
-	{
-		for (int X = 0; X < 6; ++X)
-		{
-			if (nullptr != EnemyMap_[Y][X])
-			{
-				EnemyMap_[Y][X]->ResetConnect();
-			}
-		}
-	}
-}
-
 float Time_;
 
 void EnemyFSM::GreedyPuyoMove()
@@ -413,7 +385,6 @@ void EnemyFSM::LandCheck()
 	if (true == CenterPuyo_->GetLand()
 		&& true == SecondPuyo_->GetLand())
 	{
-		RenderToLinkedPuyo();
 		DangerCheck();
 
 		CenterPuyo_->ChangeState(PuyoState::Land);
@@ -489,7 +460,6 @@ void EnemyFSM::LandPuyo()
 		}
 	}
 
-	ResetLinkedPuyo();
 	EnemyState_ = EnemyState::PuyoCheck;
 }
 
@@ -542,7 +512,8 @@ void EnemyFSM::FallHindrancePuyo()
 		}
 
 		(*StartIter)->SetIndex(X, Y);
-		(*StartIter)->SetPosition((*StartIter)->CoordinatePos(this, X, Y));
+		(*StartIter)->SetPosition((*StartIter)->CoordinatePos(this, X, 15));
+		(*StartIter)->FallPuyo(EnemyMap_, this);
 		EnemyMap_[Y][X] = (*StartIter);
 	}
 

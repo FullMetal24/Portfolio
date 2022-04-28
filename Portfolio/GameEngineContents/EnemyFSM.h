@@ -29,8 +29,6 @@ public:
 	void InitNextPair();
 	Puyo* CreatePuyo(int _X, int _Y, PuyoColor _Color);
 	void RenderToCenterPuyo();
-	void RenderToLinkedPuyo();
-	void ResetLinkedPuyo();
 
 	//MovePuyo 관련 함수
 	void GreedyPuyoMove();
