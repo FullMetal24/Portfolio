@@ -216,35 +216,6 @@ void Player::RenderToCenterPuyo()
 	}
 }
 
-void Player::RenderToLinkedPuyo()
-{
-	for (int Y = 0; Y <= 14; ++Y)
-	{
-		for (int X = 0; X < 6; ++X)
-		{
-			if (nullptr != PlayerMap_[Y][X])
-			{
-				PlayerMap_[Y][X]->LinkedPuyoAnimtaion(PlayerMap_);
-			}
-		}
-	}
-}
-
-void Player::ResetLinkedPuyo()
-{
-	for (int Y = 0; Y <= 14; ++Y)
-	{
-		for (int X = 0; X < 6; ++X)
-		{
-			if (nullptr != PlayerMap_[Y][X])
-			{
-				PlayerMap_[Y][X]->RenderToNormal();
-				PlayerMap_[Y][X]->ResetConnect();
-			}
-		}
-	}
-}
-
 void Player::InputPuyoMove()
 {
 	InputDownTime_ += GameEngineTime::GetDeltaTime();
@@ -353,7 +324,6 @@ void Player::LandCheck()
 	if (true == CenterPuyo_->GetLand()
 		&& true == SecondPuyo_->GetLand())
 	{
-		RenderToLinkedPuyo();
 		CenterPuyo_->ChangeState(PuyoState::Land);
 		SecondPuyo_->ChangeState(PuyoState::Land);
 		PlayerState_ = PlayerState::PuyoCheck;
@@ -427,7 +397,18 @@ void Player::LandPuyo()
 		}
 	}
 
-	ResetLinkedPuyo();
+	for (int Y = 0; Y < 15; ++Y)
+	{
+		for (int X = 0; X < 6; ++X)
+		{
+			if (nullptr != PlayerMap_[Y][X])
+			{
+				Puyo* LandPuyo = PlayerMap_[Y][X];
+				LandPuyo->LinkedPuyoAnimtaion(PlayerMap_);
+			}
+		}
+	}
+
 	PlayerState_ = PlayerState::PuyoCheck;
 }
 
@@ -442,8 +423,9 @@ void Player::PlayerToEnemyAttack(float4 _FromPos)
 
 void Player::CreateHindrancePuyo()
 {
-	HindrancePuyo* NewPuyo = GetLevel()->CreateActor<HindrancePuyo>();
-	NewPuyo->SetMyRenderer(NewPuyo->CreateRenderer("IG_HINDRANCE_PUYO.bmp"));
+	Puyo* NewPuyo = GetLevel()->CreateActor<Puyo>();
+	NewPuyo->SetColor(PuyoColor::Hindrance);
+	NewPuyo->InitAnimation(PuyoColor::Hindrance);
 	Hindrances_.push_back(NewPuyo);
 }
 
@@ -462,8 +444,8 @@ void Player::HindrancePuyoCheck()
 
 void Player::FallHindrancePuyo()
 {
-	std::vector<HindrancePuyo*>::iterator StartIter = Hindrances_.begin();
-	std::vector<HindrancePuyo*>::iterator EndIter = Hindrances_.end();
+	std::vector<Puyo*>::iterator StartIter = Hindrances_.begin();
+	std::vector<Puyo*>::iterator EndIter = Hindrances_.end();
 
 	for (; StartIter != EndIter; ++StartIter)
 	{
@@ -472,7 +454,7 @@ void Player::FallHindrancePuyo()
 
 		for (int i = 14; i >= 0; --i)
 		{
-			if (PlayerMap_[i][X] = nullptr)
+			if (PlayerMap_[i][X] == nullptr)
 			{
 				Y = i;
 			}
@@ -578,7 +560,7 @@ void Player::RenderChain(int _Count, float4 _Pos)
 {
 	ChainActor_->GetMyRenderer()->SetOrder(5);
 	ChianNumberRenderer_->SetOrder(5);
-	ChainActor_->SetMove(_Pos * GameEngineTime::GetDeltaTime()); //매 프레임 호출해야 함
+	//ChainActor_->SetMove(_Pos * GameEngineTime::GetDeltaTime());
 
 	switch (_Count)
 	{

@@ -38,7 +38,6 @@ void Fire::PlayerFire()
 		if (true == IsAttack_)
 		{
 			MyRenderer_->SetOrder(10);
-
 			Acc_ += GameEngineTime::GetDeltaTime();
 
 			float4 Dir = TargetPos_ - GetPosition();
@@ -63,14 +62,16 @@ void Fire::EnemyFire()
 			MyRenderer_->ChangeAnimation("IG_ENEMY_LIGHT");
 			MyRenderer_->SetOrder(10);
 
-			float4 Dir = GetPosition() - TargetPos_;
-			SetMove(Dir * GameEngineTime::GetDeltaTime());
+			Acc_ += GameEngineTime::GetDeltaTime();
 
-			if (GetPosition().x > TargetPos_.x
-				&& GetPosition().y > TargetPos_.y)
+			float4 Dir = TargetPos_ - GetPosition();
+			SetMove(Dir * GameEngineTime::GetDeltaTime() * 5.f * Acc_);
+
+			if (GetPosition().y <= 50.f)
 			{
-				MyRenderer_->ChangeAnimation("IG_ENEMY_EXPLOSION");
+				MyRenderer_->ChangeAnimation("IG_ENEMY_LIGHT_EXPLOSION");
 				IsAttack_ = false;
+				Acc_ = 0.f;
 			}
 		}
 	}

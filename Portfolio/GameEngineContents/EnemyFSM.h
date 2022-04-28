@@ -11,6 +11,8 @@ class HindrancePuyo;
 class EnemyProfile;
 class EnemyFSM : public GameEngineActor
 {
+	friend Puyo;
+
 public:
 	EnemyFSM();
 	~EnemyFSM();
@@ -89,7 +91,7 @@ private:
 
 	std::vector<std::vector<Puyo*>> AllDestroyPuyo_;
 	std::set<Puyo*> FindAllDestroy_;
-	std::vector<HindrancePuyo*> Hindrances_;
+	std::vector<Puyo*> Hindrances_;
 
 	Fire* Fire_;
 	float4 PlayerPoint_;

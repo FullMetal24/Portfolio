@@ -48,6 +48,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="GameEngineRandom.h" />
+    <ClInclude Include="GameEngineReadFile.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="GameEngineSound.h" />
     <ClInclude Include="GameEngineString.h">
       <SubType>
@@ -62,6 +66,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="GameEngineWindow.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="GameEngineWriteFile.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -107,6 +115,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="GameEngineRandom.cpp" />
+    <ClCompile Include="GameEngineReadFile.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="GameEngineSound.cpp" />
     <ClCompile Include="GameEngineString.cpp">
       <SubType>
@@ -121,6 +133,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="GameEngineWindow.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="GameEngineWriteFile.cpp">
       <SubType>
       </SubType>
     </ClCompile>

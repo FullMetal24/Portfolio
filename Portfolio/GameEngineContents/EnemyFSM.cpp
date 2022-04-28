@@ -46,7 +46,13 @@ void EnemyFSM::Start()
 	PlayerPoint_ = GameEngineWindow::GetScale().Half() + float4{ -400 , -400 };
 
 	Fire_ = GetLevel()->CreateActor<Fire>();
-	Fire_->SetFireOwner(FireOwner::Player);
+	Fire_->SetFireOwner(FireOwner::Enemy);
+
+	if (false == GameEngineInput::GetInst()->IsKey("Hindrance"))
+	{
+		GameEngineInput::GetInst()->CreateKey("Hindrance", VK_SPACE);
+
+	}
 }
 
 void EnemyFSM::Update()
@@ -88,6 +94,11 @@ void EnemyFSM::Update()
 		break;
 	case EnemyState::Lose:
 		break;
+	}
+
+	if (true == GameEngineInput::GetInst()->IsDown("Hindrance"))
+	{
+		EnemyToPlayerAttack({ GameEngineWindow::GetScale().Half() });
 	}
 
 	DigitScore(Score_);
@@ -494,8 +505,9 @@ void EnemyFSM::EnemyToPlayerAttack(float4 _FromPos)
 
 void EnemyFSM::CreateHindrancePuyo()
 {
-	HindrancePuyo* NewPuyo = GetLevel()->CreateActor<HindrancePuyo>(0);
-	NewPuyo->SetPosition({-100, -100});
+	Puyo* NewPuyo = GetLevel()->CreateActor<Puyo>();
+	NewPuyo->SetColor(PuyoColor::Hindrance);
+	NewPuyo->InitAnimation(PuyoColor::Hindrance);
 	Hindrances_.push_back(NewPuyo);
 }
 
@@ -514,8 +526,8 @@ void EnemyFSM::HindrancePuyoCheck()
 
 void EnemyFSM::FallHindrancePuyo()
 {
-	std::vector<HindrancePuyo*>::iterator StartIter = Hindrances_.begin();
-	std::vector<HindrancePuyo*>::iterator EndIter = Hindrances_.end();
+	std::vector<Puyo*>::iterator StartIter = Hindrances_.begin();
+	std::vector<Puyo*>::iterator EndIter = Hindrances_.end();
 
 	for (; StartIter != EndIter; ++StartIter)
 	{
@@ -524,7 +536,7 @@ void EnemyFSM::FallHindrancePuyo()
 
 		for (int i = 14; i >= 0; --i)
 		{
-			if (EnemyMap_[i][X] = nullptr)
+			if (EnemyMap_[i][X] == nullptr)
 			{
 				Y = i;
 			}
@@ -644,7 +656,6 @@ void EnemyFSM::DangerCheck()
 	}
 }
 
-
 void EnemyFSM::InitBubble()
 {
 	GameEngineImage* Image = GameEngineImageManager::GetInst()->Find("IG_BUBBLE.bmp");
@@ -652,11 +663,12 @@ void EnemyFSM::InitBubble()
 
 	for (int i = 0; i < 15; ++i)
 	{
-		Bubbles_[i] = GetLevel()->CreateActor<InGameActor>(12);
+		Bubbles_[i] = GetLevel()->CreateActor<InGameActor>(5);
 		Bubbles_[i]->SetMyRenderer(Bubbles_[i]->CreateRenderer());
 		Bubbles_[i]->GetMyRenderer()->CreateAnimation("IG_BUBBLE.bmp", "IG_BUBBLE", 0, 2, 0.1f, true);
 		Bubbles_[i]->GetMyRenderer()->ChangeAnimation("IG_BUBBLE");
 		Bubbles_[i]->GetMyRenderer()->PauseOn();
+		Bubbles_[i]->GetMyRenderer()->SetOrder(0);
 
 		float RanRadian = Random_.RandomFloat(0, 3.14256f);
 		BubbleDir_[i] = float4::RadianToDirectionFloat4(RanRadian * -1.f);
@@ -667,8 +679,6 @@ void EnemyFSM::InitBubble()
 		Bubbles_[i]->SetPosition(GameEngineWindow::GetScale().Half() + float4{ 0, 100.f });
 	}
 }
-
-
 
 void EnemyFSM::VomitBubble()
 {
@@ -687,6 +697,7 @@ void EnemyFSM::VomitBubble()
 			{
 				Bubbles_[i]->GetMyRenderer()->PauseOff();
 				Bubbles_[i]->SetPosition(GameEngineWindow::GetScale().Half() + float4{ 0, 100.f });
+				Bubbles_[i]->GetMyRenderer()->SetOrder(5);
 				Bubbles_[i]->On();
 			}
 
@@ -701,6 +712,7 @@ void EnemyFSM::VomitBubble()
 				|| Dis.y > 250.f || Dis.y < -250.f)
 			{
 				Bubbles_[i]->GetMyRenderer()->PauseOn();
+				Bubbles_[i]->GetMyRenderer()->SetOrder(0);
 				Bubbles_[i]->Off();
 			}
 		}
@@ -718,6 +730,7 @@ void EnemyFSM::VomitBubble()
 			{
 				Bubbles_[i]->GetMyRenderer()->PauseOff();
 				Bubbles_[i]->SetPosition(GameEngineWindow::GetScale().Half() + float4{ 0, 100.f });
+				Bubbles_[i]->GetMyRenderer()->SetOrder(5);
 				Bubbles_[i]->On();
 			}
 
@@ -732,6 +745,7 @@ void EnemyFSM::VomitBubble()
 				|| Dis.y > 250.f || Dis.y < -250.f)
 			{
 				Bubbles_[i]->GetMyRenderer()->PauseOn();
+				Bubbles_[i]->GetMyRenderer()->SetOrder(0);
 				Bubbles_[i]->Off();
 			}
 		}
@@ -747,6 +761,7 @@ void EnemyFSM::DisappearBubble()
 			if (true == Bubbles_[i]->GetMyRenderer()->IsEndAnimation())
 			{
 				Bubbles_[i]->GetMyRenderer()->Off();
+				Bubbles_[i]->GetMyRenderer()->SetOrder(0);
 			}
 		}
 	}
@@ -843,7 +858,6 @@ void EnemyFSM::EnemyAnimatioInit()
 		Image3->CutCount(1, 1);
 	}
 }
-
 
 void EnemyFSM::SetMyProfile(EnemyProfile* _Porifle)
 {

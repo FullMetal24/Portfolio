@@ -211,6 +211,12 @@ void Puyo::InitAnimation(PuyoColor color)
 
 		MyRenderer_->ChangeAnimation("IG_PURPLE_PUYO");
 		break;
+
+	case PuyoColor::Hindrance:
+			MyRenderer_->CreateAnimation("IG_HINDRANCE_PUYO.bmp", "IG_HINDRANCE_PUYO", 0, 0, 0.f, false);
+			MyRenderer_->CreateAnimation("IG_HINDRANCE_PUYO_DESTROY.bmp", "IG_HINDRANCE_PUYO_DESTROY", 0, 3, 0.1f, false);
+			MyRenderer_->ChangeAnimation("IG_HINDRANCE_PUYO");
+			break;
 	}
 }
 
@@ -377,6 +383,16 @@ void Puyo::SetColorImage(PuyoColor _Color)
 
 void Puyo::ChangeState(PuyoState _State)
 {
+	PuyoState_ = _State;
+}
+
+void Puyo::ChangeHindraceState(PuyoState _State)
+{
+	if (PuyoColor::Hindrance == MyColor_)
+	{
+		return;
+	}
+
 	PuyoState_ = _State;
 }
 
@@ -728,7 +744,6 @@ void Puyo::FallPuyo(Puyo* Map[15][6], Player* _Player)
 		return;
 	}
 
-
 	Alpha_ = 0.f;
 
 	Map[Y_][X_] = nullptr;
@@ -790,6 +805,9 @@ void Puyo::FallPuyo(Puyo* Map[15][6], EnemyFSM* _Enemy)
 			++PuyoCount;
 		}
 	}
+
+	RenderToNormal();
+	ResetConnect();
 
 	SetY(PuyoCount);
 
@@ -1180,6 +1198,9 @@ void Puyo::RenderToDestroy()
 	case PuyoColor::PURPLE:
 		MyRenderer_->ChangeAnimation("IG_PURPLE_DESTROY");
 		break;
+	case PuyoColor::Hindrance:
+		MyRenderer_->ChangeAnimation("IG_HINDRANCE_PUYO_DESTROY");
+		break;
 	}
 }
 
@@ -1269,6 +1290,8 @@ void Puyo::LandAnimation()
 	case PuyoColor::PURPLE:
 		MyRenderer_->ChangeAnimation("IG_PURPLE_LAND");
 		break;
+	case PuyoColor::Hindrance:
+		break;
 	}
 }
 
@@ -1281,8 +1304,9 @@ void Puyo::LandToNormal()
 		{
 			if (true == MyRenderer_->IsEndAnimation())
 			{
-				MyRenderer_->ChangeAnimation("IG_RED_PUYO");
+				MyRenderer_->ChangeAnimation("IG_RED_PUYO");				
 				PuyoState_ = PuyoState::Normal;
+
 			}
 		}
 		break;
@@ -1326,6 +1350,20 @@ void Puyo::LandToNormal()
 			}
 		}
 		break;
+	case PuyoColor::Hindrance:
+		return;
+		break;
+
+	}
+
+	if (nullptr != Player_)
+	{
+		LinkedPuyoAnimtaion(Player_->PlayerMap_);
+	}
+
+	else if (nullptr != Enemy_)
+	{
+		LinkedPuyoAnimtaion(Enemy_->EnemyMap_);
 	}
 
 }
@@ -1378,6 +1416,15 @@ void Puyo::SelfDestroy()
 			}
 		}
 		break;
+	case PuyoColor::Hindrance:
+		if (true == MyRenderer_->IsAnimationName("IG_HINDRANCE_PUYO_DESTROY"))
+		{
+			if (true == MyRenderer_->IsEndAnimation())
+			{
+				Death();
+			}
+		}
+		break;
 	}
 }
 
@@ -1385,6 +1432,11 @@ void Puyo::SelfDestroy()
 void Puyo::LinkedPuyoAnimtaion(Puyo* Map[15][6])
 {
 	int Value = GradeLinkAnimation(Map);
+
+	if (0 == Value)
+	{
+		return;
+	}
 
 	switch (Value)
 	{

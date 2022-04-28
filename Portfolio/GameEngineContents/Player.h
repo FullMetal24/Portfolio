@@ -7,10 +7,9 @@
 class Puyo;
 class EnemyFSM;
 class Fire;
-class HindrancePuyo;
 class Player : public GameEngineActor
 {
-	friend EnemyFSM;
+	friend Puyo;
 
 public:
 	Player();
@@ -26,9 +25,7 @@ public:
 	void InitNextPair();
 	Puyo* CreatePuyo(int _X, int _Y, PuyoColor _Color);
 	void RenderToCenterPuyo();
-	void RenderToLinkedPuyo();
-	void ResetLinkedPuyo();
-
+	
 	//MovePuyo 관련 함수
 	void InputPuyoMove();
 	void AutoDown();
@@ -95,7 +92,7 @@ private:
 	std::vector<std::vector<Puyo*>> AllDestroyPuyo_;
 	std::set<Puyo*> FindAllDestroy_;
 
-	std::vector<HindrancePuyo*> Hindrances_;
+	std::vector<Puyo*> Hindrances_;
 
 	GameEngineRandom Random_;
 

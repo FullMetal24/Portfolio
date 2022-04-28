@@ -5,9 +5,6 @@
     <ClInclude Include="GameEngineLevel.h">
       <Filter>Object</Filter>
     </ClInclude>
-    <ClInclude Include="GameEngineActor.h">
-      <Filter>Object\Actor</Filter>
-    </ClInclude>
     <ClInclude Include="GameEngineImage.h">
       <Filter>Resources</Filter>
     </ClInclude>
@@ -34,6 +31,9 @@
     </ClInclude>
     <ClInclude Include="GameEngineFont.h">
       <Filter>Font</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineActor.h">
+      <Filter>Object\Actor</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -62,11 +62,11 @@
     <ClCompile Include="GameEngineRendererTileMap.cpp">
       <Filter>Contents</Filter>
     </ClCompile>
-    <ClCompile Include="GameEngineActor.cpp">
-      <Filter>Object\Actor\SubObject</Filter>
-    </ClCompile>
     <ClCompile Include="GameEngineFont.cpp">
       <Filter>Font</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineActor.cpp">
+      <Filter>Object\Actor</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

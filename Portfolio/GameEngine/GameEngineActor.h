@@ -35,6 +35,12 @@ public:
 		return Level_;
 	}
 
+	inline void ResetIgnoreOn()
+	{
+		IsResetIgnore = true;
+	}
+
+
 	inline float4 GetCameraEffectPosition()
 	{
 		return Position_ - GetLevel()->GetCameraPos();
@@ -94,6 +100,7 @@ private:
 	float4 Scale_;
 
 	bool NextLevelOn_;
+	bool IsResetIgnore;
 
 	inline void NextLevelOff()
 	{

@@ -1,6 +1,7 @@
 #pragma once
 #include <list>
 #include <map>
+#include <set>
 #include <vector>
 #include <GameEngineBase/GameEngineNameObject.h>
 #include <GameEngineBase/GameEngineMath.h>
@@ -87,6 +88,11 @@ public:
 		return CameraPos_;
 	}
 
+	inline void ResetOn()
+	{
+		IsReset = true;
+	}
+
 	inline void MoveCameraPos(const float4& _Value)
 	{
 		CameraPos_ += _Value;
@@ -107,6 +113,12 @@ public:
 
 	void RegistActor(const std::string& _Name, GameEngineActor* _Actor);
 
+	// 이 오더는 sort를 하겠다.
+	void YSortOn(int _SortOrder)
+	{
+		IsYSort_.insert(_SortOrder);
+	}
+
 protected:
 	// 시점함수
 	// 만들어지면서 리소스나 액터를 만들때 써라
@@ -122,8 +134,14 @@ protected:
 
 	void ObjectLevelMoveCheck(GameEngineLevel* _NextLevel);
 
+	void Reset();
+
+	virtual void UserResetEnd() {}
+
 private:
 	static bool IsDebug;
+
+	bool IsReset;
 
 	// std::vector로 관리하는게 더 좋다고 생각..
 	std::map<int, std::list<GameEngineActor*>> AllActor_;
@@ -141,6 +159,9 @@ private:
 
 private:
 	std::map<int, std::list<GameEngineRenderer*>> AllRenderer_;
+
+	// 존재하냐 안하냐
+	std::set<int> IsYSort_;
 
 	void AddRenderer(GameEngineRenderer* _Renderer);
 

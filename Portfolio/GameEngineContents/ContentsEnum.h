@@ -36,7 +36,8 @@ enum class PuyoColor
 	BLUE,
 	GREEN,
 	YELLOW,
-	PURPLE
+	PURPLE,
+	Hindrance
 };
 
 enum class PuyoDir

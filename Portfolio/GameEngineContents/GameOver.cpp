@@ -1,6 +1,7 @@
 #include "GameOver.h"
 #include <GameEngine/GameEngine.h>
 #include "FadeInOutBackground.h"
+#include <GameEngineBase/GameEngineInput.h>
 #include "GameOverActor.h"
 #include "InGame.h"
 
@@ -26,6 +27,11 @@ void GameOver::Loading()
 	Background_ = CreateActor<GameOverActor>(1);
 	Background_->SetPosition({GameEngineWindow::GetScale().Half()});
 	BackRenderer_ = Background_->CreateRenderer("GO_IMAGE0.bmp");
+
+	if (false == GameEngineInput::GetInst()->IsKey("Next"))
+	{
+		GameEngineInput::GetInst()->CreateKey("Next", VK_SPACE);
+	}
 }
 
 void GameOver::Update()
@@ -49,6 +55,12 @@ void GameOver::Update()
 		{
 			GameEngine::GetInst().ChangeLevel("BestRecords");
 		}
+	}
+
+
+	if (true == GameEngineInput::GetInst()->IsDown("Next"))
+	{
+		GameEngine::GetInst().ChangeLevel("BestRecords");
 	}
 	
 

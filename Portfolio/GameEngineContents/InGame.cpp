@@ -408,6 +408,12 @@ void InGame::PuyoAnimationInit()
 		UpDownImage->CutCount(1, 1);
 	}
 
+	GameEngineImage* HindrancePuyo = GameEngineImageManager::GetInst()->Find("IG_HINDRANCE_PUYO.bmp");
+	HindrancePuyo->CutCount(1, 1);
+
+	GameEngineImage* HindranceDestroy = GameEngineImageManager::GetInst()->Find("IG_HINDRANCE_PUYO_DESTROY.bmp");
+	HindranceDestroy->CutCount(4, 1);
+
 }
 
 void InGame::CarbuncleAnimationInit()

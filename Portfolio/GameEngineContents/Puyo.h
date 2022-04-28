@@ -84,6 +84,7 @@ public:
 	void SetColorImage(PuyoColor _Color);
 
 	void ChangeState(PuyoState _State);
+	void ChangeHindraceState(PuyoState _State);
 
 	void Init(Player* _Player, int x, int y, PuyoColor _Color);
 	void Init(EnemyFSM* _Enemy, int x, int y, PuyoColor _Color);

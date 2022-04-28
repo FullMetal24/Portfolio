@@ -6,16 +6,16 @@
 #include "EnemyProfile.h"
 #include "GameOver.h"
 
-BestRecords::BestRecords() 
+BestRecords::BestRecords()
 {
 }
 
-BestRecords::~BestRecords() 
+BestRecords::~BestRecords()
 {
 }
 
 void BestRecords::Loading()
-{
+{	
 	FadeInOutBackground_ = CreateActor< FadeInOutBackground>(0);
 	FadeInOutBackground_->SetMyRenderer(FadeInOutBackground_->CreateRenderer("GO_BACKGROUND.bmp"));
 
@@ -24,12 +24,12 @@ void BestRecords::Loading()
 	Back->CreateRenderer("BR_BACK.bmp");
 
 	BestRecordsActor* Record = CreateActor<BestRecordsActor>(5);
-	Record->SetPosition({GameEngineWindow::GetScale().Half()});
+	Record->SetPosition({ GameEngineWindow::GetScale().Half() });
 	Record->CreateRenderer("BR_RECORD.bmp");
 
 	BestRecordsActor* Arle = CreateActor<BestRecordsActor>(8);
 	Arle->SetMyRenderer(Arle->CreateRenderer("BR_SD_ARLE.bmp"));
-	Arle->SetPosition({ GameEngineWindow::GetScale().Half().x - 475, GameEngineWindow::GetScale().Half().y + 255});
+	Arle->SetPosition({ GameEngineWindow::GetScale().Half().x - 475, GameEngineWindow::GetScale().Half().y + 255 });
 }
 
 void BestRecords::Update()
@@ -61,16 +61,18 @@ void BestRecords::LevelChangeStart(GameEngineLevel* _PrevLevel)
 
 		if (nullptr != CurEnemy)
 		{
-			BestRecordsActor* SDEnemy = CreateActor<BestRecordsActor>();
+			BestRecordsActor* SDEnemy = CreateActor<BestRecordsActor>(4);
+			SDEnemy->SetPosition({ GameEngineWindow::GetScale().Half() + float4{480.f, 240.f} });
+
 			SDEnemy->CreateRenderer(CurEnemy->GetSD()->GetImage()->GetNameConstRef());
 		}
 	}
-	
+
 	MainMenuBgm_ = GameEngineSound::SoundPlayControl("MainMenu.mp3");
 }
 
 void BestRecords::LevelChangeEnd(GameEngineLevel* _NextLevel)
 {
-	
+
 }
 
