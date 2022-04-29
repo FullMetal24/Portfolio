@@ -90,7 +90,7 @@ void InGame::PuyoAnimationInit()
 		DestroyImage->CutCount(6, 1);
 
 		GameEngineImage* LandImage = GameEngineImageManager::GetInst()->Find("IG_RED_LAND.bmp");
-		LandImage->CutCount(2, 1);
+		LandImage->CutCount(4, 1);
 
 		GameEngineImage* IdleImage = GameEngineImageManager::GetInst()->Find("IG_RED_IDLE.bmp");
 		IdleImage->CutCount(3, 1);
@@ -156,14 +156,14 @@ void InGame::PuyoAnimationInit()
 		DestroyImage->CutCount(6, 1);
 
 		GameEngineImage* LandImage = GameEngineImageManager::GetInst()->Find("IG_BLUE_LAND.bmp");
-		LandImage->CutCount(2, 1);
+		LandImage->CutCount(4, 1);
 
 
 		GameEngineImage* IdleImage = GameEngineImageManager::GetInst()->Find("IG_BLUE_IDLE.bmp");
 		IdleImage->CutCount(3, 1);
 
 		GameEngineImage* IdleImage1 = GameEngineImageManager::GetInst()->Find("IG_BLUE_IDLE1.bmp");
-		IdleImage1->CutCount(3, 1);
+		IdleImage1->CutCount(4, 1);
 
 		GameEngineImage* LeftImage = GameEngineImageManager::GetInst()->Find("IG_BLUE_LEFT.bmp");
 		LeftImage->CutCount(1, 1);
@@ -221,7 +221,7 @@ void InGame::PuyoAnimationInit()
 		DestroyImage->CutCount(6, 1);
 
 		GameEngineImage* LandImage = GameEngineImageManager::GetInst()->Find("IG_GREEN_LAND.bmp");
-		LandImage->CutCount(2, 1);
+		LandImage->CutCount(4, 1);
 
 		GameEngineImage* IdleImage = GameEngineImageManager::GetInst()->Find("IG_GREEN_IDLE.bmp");
 		IdleImage->CutCount(4, 1);
@@ -288,7 +288,7 @@ void InGame::PuyoAnimationInit()
 		DestroyImage->CutCount(6, 1);
 
 		GameEngineImage* LandImage = GameEngineImageManager::GetInst()->Find("IG_YELLOW_LAND.bmp");
-		LandImage->CutCount(2, 1);
+		LandImage->CutCount(4, 1);
 
 		GameEngineImage* IdleImage = GameEngineImageManager::GetInst()->Find("IG_YELLOW_IDLE.bmp");
 		IdleImage->CutCount(4, 1);
@@ -353,7 +353,7 @@ void InGame::PuyoAnimationInit()
 		DestroyImage->CutCount(6, 1);
 
 		GameEngineImage* LandImage = GameEngineImageManager::GetInst()->Find("IG_PURPLE_LAND.bmp");
-		LandImage->CutCount(2, 1);
+		LandImage->CutCount(4, 1);
 
 		GameEngineImage* IdleImage = GameEngineImageManager::GetInst()->Find("IG_PURPLE_IDLE.bmp");
 		IdleImage->CutCount(5, 1);
@@ -640,7 +640,9 @@ void InGame::SpewStar()
 
 void InGame::LevelChangeStart(GameEngineLevel* _PrevLevel)
 {
-	InGameBgm_ = GameEngineSound::SoundPlayControl("InGame.mp3");
+	InGameBgm_ = GameEngineSound::SoundPlayControl("InGame1.mp3");
+
+	EffectSound_.SoundPlayOneShot("ARLE_002.mp3");
 
 	if (nullptr != _PrevLevel)
 	{

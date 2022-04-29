@@ -36,7 +36,7 @@ void Puyo::Start()
 {
 	PuyoState_ = PuyoState::Normal;
 
-	IdleTime_ = Random_.RandomFloat(10.f, 30.f);
+	IdleTime_ = Random_.RandomFloat(5.f, 20.f);
 }
 
 void Puyo::Update()
@@ -82,7 +82,7 @@ void Puyo::InitAnimation(PuyoColor color)
 	case PuyoColor::RED:
 		MyRenderer_->CreateAnimation("IG_RED_PUYO.bmp", "IG_RED_PUYO", 0, 0, 0.f, false);
 		MyRenderer_->CreateAnimation("IG_RED_CENTER.bmp", "IG_RED_CENTER", 0, 1, 0.1f, true);
-		MyRenderer_->CreateAnimation("IG_RED_LAND.bmp", "IG_RED_LAND", 0, 1, 0.1f, false);
+		MyRenderer_->CreateAnimation("IG_RED_LAND.bmp", "IG_RED_LAND", 0, 3, 0.07f, false);
 		MyRenderer_->CreateAnimation("IG_RED_DESTROY.bmp", "IG_RED_DESTROY", 0, 5, 0.1f, false);
 
 		MyRenderer_->CreateAnimation("IG_RED_LEFT.bmp", "IG_RED_LEFT", 0, 0, 0.f, false);
@@ -103,8 +103,8 @@ void Puyo::InitAnimation(PuyoColor color)
 		MyRenderer_->CreateAnimation("IG_RED_RIGHT_UP_DOWN.bmp", "IG_RED_RIGHT_UP_DOWN", 0, 0, 0.f, false);
 
 		MyRenderer_->CreateAnimation("IG_RED_UP_DOWN.bmp", "IG_RED_UP_DOWN", 0, 0, 0.f, false);
-		MyRenderer_->CreateAnimation("IG_RED_IDLE.bmp", "IG_RED_IDLE", 0, 2, 0.1f, false);
-		MyRenderer_->CreateAnimation("IG_RED_IDLE1.bmp", "IG_RED_IDLE1", 0, 2, 0.5f, false);
+		MyRenderer_->CreateAnimation("IG_RED_IDLE.bmp", "IG_RED_IDLE", 0, 2, 0.2f, false);
+		MyRenderer_->CreateAnimation("IG_RED_IDLE1.bmp", "IG_RED_IDLE1", 0, 2, 0.3f, false);
 
 		MyRenderer_->ChangeAnimation("IG_RED_PUYO");
 		break;
@@ -112,7 +112,7 @@ void Puyo::InitAnimation(PuyoColor color)
 	case PuyoColor::BLUE:
 		MyRenderer_->CreateAnimation("IG_BLUE_PUYO.bmp", "IG_BLUE_PUYO", 0, 0, 0.f, false);
 		MyRenderer_->CreateAnimation("IG_BLUE_CENTER.bmp", "IG_BLUE_CENTER", 0, 1, 0.1f, true);
-		MyRenderer_->CreateAnimation("IG_BLUE_LAND.bmp", "IG_BLUE_LAND", 0, 1, 0.1f, false);
+		MyRenderer_->CreateAnimation("IG_BLUE_LAND.bmp", "IG_BLUE_LAND", 0, 3, 0.07f, false);
 		MyRenderer_->CreateAnimation("IG_BLUE_DESTROY.bmp", "IG_BLUE_DESTROY", 0, 5, 0.1f, false);
 
 		MyRenderer_->CreateAnimation("IG_BLUE_LEFT.bmp", "IG_BLUE_LEFT", 0, 0, 0.f, false);
@@ -133,8 +133,8 @@ void Puyo::InitAnimation(PuyoColor color)
 		MyRenderer_->CreateAnimation("IG_BLUE_RIGHT_UP_DOWN.bmp", "IG_BLUE_RIGHT_UP_DOWN", 0, 0, 0.f, false);
 
 		MyRenderer_->CreateAnimation("IG_BLUE_UP_DOWN.bmp", "IG_BLUE_UP_DOWN", 0, 0, 0.f, false);
-		MyRenderer_->CreateAnimation("IG_BLUE_IDLE.bmp", "IG_BLUE_IDLE", 0, 2, 0.1f, false);
-		MyRenderer_->CreateAnimation("IG_BLUE_IDLE1.bmp", "IG_BLUE_IDLE1", 0, 2, 0.1f, false);
+		MyRenderer_->CreateAnimation("IG_BLUE_IDLE.bmp", "IG_BLUE_IDLE", 0, 2, 0.2f, false);
+		MyRenderer_->CreateAnimation("IG_BLUE_IDLE1.bmp", "IG_BLUE_IDLE1", 0, 3, 0.2f, false);
 
 		MyRenderer_->ChangeAnimation("IG_BLUE_PUYO");
 		break;
@@ -142,7 +142,7 @@ void Puyo::InitAnimation(PuyoColor color)
 	case PuyoColor::GREEN:
 		MyRenderer_->CreateAnimation("IG_GREEN_PUYO.bmp", "IG_GREEN_PUYO", 0, 0, 0.f, false);
 		MyRenderer_->CreateAnimation("IG_GREEN_CENTER.bmp", "IG_GREEN_CENTER", 0, 1, 0.1f, true);
-		MyRenderer_->CreateAnimation("IG_GREEN_LAND.bmp", "IG_GREEN_LAND", 0, 1, 0.1f, false);
+		MyRenderer_->CreateAnimation("IG_GREEN_LAND.bmp", "IG_GREEN_LAND", 0, 3, 0.07f, false);
 		MyRenderer_->CreateAnimation("IG_GREEN_DESTROY.bmp", "IG_GREEN_DESTROY", 0, 5, 0.1f, false);
 
 		MyRenderer_->CreateAnimation("IG_GREEN_LEFT.bmp", "IG_GREEN_LEFT", 0, 0, 0.f, false);
@@ -163,15 +163,15 @@ void Puyo::InitAnimation(PuyoColor color)
 		MyRenderer_->CreateAnimation("IG_GREEN_RIGHT_UP_DOWN.bmp", "IG_GREEN_RIGHT_UP_DOWN", 0, 0, 0.f, false);
 
 		MyRenderer_->CreateAnimation("IG_GREEN_UP_DOWN.bmp", "IG_GREEN_UP_DOWN", 0, 0, 0.f, false);
-		MyRenderer_->CreateAnimation("IG_GREEN_IDLE.bmp", "IG_GREEN_IDLE", 0, 3, 0.1f, false);
-		MyRenderer_->CreateAnimation("IG_GREEN_IDLE1.bmp", "IG_GREEN_IDLE1", 0, 3, 0.1f, false);
+		MyRenderer_->CreateAnimation("IG_GREEN_IDLE.bmp", "IG_GREEN_IDLE", 0, 3, 0.2f, false);
+		MyRenderer_->CreateAnimation("IG_GREEN_IDLE1.bmp", "IG_GREEN_IDLE1", 0, 3, 0.2f, false);
 
 		MyRenderer_->ChangeAnimation("IG_GREEN_PUYO");
 		break;
 	case PuyoColor::YELLOW:
 		MyRenderer_->CreateAnimation("IG_YELLOW_PUYO.bmp", "IG_YELLOW_PUYO", 0, 0, 0.f, false);
 		MyRenderer_->CreateAnimation("IG_YELLOW_CENTER.bmp", "IG_YELLOW_CENTER", 0, 1, 0.1f, true);
-		MyRenderer_->CreateAnimation("IG_YELLOW_LAND.bmp", "IG_YELLOW_LAND", 0, 1, 0.1f, false);
+		MyRenderer_->CreateAnimation("IG_YELLOW_LAND.bmp", "IG_YELLOW_LAND", 0, 3, 0.07f, false);
 		MyRenderer_->CreateAnimation("IG_YELLOW_DESTROY.bmp", "IG_YELLOW_DESTROY", 0, 5, 0.1f, false);
 
 		MyRenderer_->CreateAnimation("IG_YELLOW_LEFT.bmp", "IG_YELLOW_LEFT", 0, 0, 0.f, false);
@@ -191,15 +191,15 @@ void Puyo::InitAnimation(PuyoColor color)
 		MyRenderer_->CreateAnimation("IG_YELLOW_RIGHT_UP_DOWN.bmp", "IG_YELLOW_RIGHT_UP_DOWN", 0, 0, 0.f, false);
 
 		MyRenderer_->CreateAnimation("IG_YELLOW_UP_DOWN.bmp", "IG_YELLOW_UP_DOWN", 0, 0, 0.f, false);
-		MyRenderer_->CreateAnimation("IG_YELLOW_IDLE.bmp", "IG_YELLOW_IDLE", 0, 3, 0.1f, false);
-		MyRenderer_->CreateAnimation("IG_YELLOW_IDLE1.bmp", "IG_YELLOW_IDLE1", 0, 2, 0.1f, false);
+		MyRenderer_->CreateAnimation("IG_YELLOW_IDLE.bmp", "IG_YELLOW_IDLE", 0, 3, 0.2f, false);
+		MyRenderer_->CreateAnimation("IG_YELLOW_IDLE1.bmp", "IG_YELLOW_IDLE1", 0, 2, 0.2f, false);
 
 		MyRenderer_->ChangeAnimation("IG_YELLOW_PUYO");
 		break;
 	case PuyoColor::PURPLE:
 		MyRenderer_->CreateAnimation("IG_PURPLE_PUYO.bmp", "IG_PURPLE_PUYO", 0, 0, 0.f, false);
 		MyRenderer_->CreateAnimation("IG_PURPLE_CENTER.bmp", "IG_PURPLE_CENTER", 0, 1, 0.1f, true);
-		MyRenderer_->CreateAnimation("IG_PURPLE_LAND.bmp", "IG_PURPLE_LAND", 0, 1, 0.1f, false);
+		MyRenderer_->CreateAnimation("IG_PURPLE_LAND.bmp", "IG_PURPLE_LAND", 0, 3, 0.07f, false);
 		MyRenderer_->CreateAnimation("IG_PURPLE_DESTROY.bmp", "IG_PURPLE_DESTROY", 0, 5, 0.1f, false);
 
 		MyRenderer_->CreateAnimation("IG_PURPLE_LEFT.bmp", "IG_PURPLE_LEFT", 0, 0, 0.f, false);
@@ -220,8 +220,8 @@ void Puyo::InitAnimation(PuyoColor color)
 		MyRenderer_->CreateAnimation("IG_PURPLE_RIGHT_UP_DOWN.bmp", "IG_PURPLE_RIGHT_UP_DOWN", 0, 0, 0.f, false);
 
 		MyRenderer_->CreateAnimation("IG_PURPLE_UP_DOWN.bmp", "IG_PURPLE_UP_DOWN", 0, 0, 0.f, false);
-		MyRenderer_->CreateAnimation("IG_PURPLE_IDLE.bmp", "IG_PURPLE_IDLE", 0, 4, 0.1f, false);
-		MyRenderer_->CreateAnimation("IG_PURPLE_IDLE1.bmp", "IG_PURPLE_IDLE1", 0, 2, 0.1f, false);
+		MyRenderer_->CreateAnimation("IG_PURPLE_IDLE.bmp", "IG_PURPLE_IDLE", 0, 4, 0.2f, false);
+		MyRenderer_->CreateAnimation("IG_PURPLE_IDLE1.bmp", "IG_PURPLE_IDLE1", 0, 2, 0.2f, false);
 
 		MyRenderer_->ChangeAnimation("IG_PURPLE_PUYO");
 		break;
@@ -240,7 +240,7 @@ void Puyo::InitAllAnimation()
 
 	MyRenderer_->CreateAnimation("IG_RED_PUYO.bmp", "IG_RED_PUYO", 0, 0, 0.f, false);
 	MyRenderer_->CreateAnimation("IG_RED_CENTER.bmp", "IG_RED_CENTER", 0, 1, 0.1f, true);
-	MyRenderer_->CreateAnimation("IG_RED_LAND.bmp", "IG_RED_LAND", 0, 1, 0.1f, false);
+	MyRenderer_->CreateAnimation("IG_RED_LAND.bmp", "IG_RED_LAND", 0, 3, 0.07f, false);
 	MyRenderer_->CreateAnimation("IG_RED_DESTROY.bmp", "IG_RED_DESTROY", 0, 5, 0.1f, false);
 
 	MyRenderer_->CreateAnimation("IG_RED_LEFT.bmp", "IG_RED_LEFT", 0, 0, 0.f, false);
@@ -264,7 +264,7 @@ void Puyo::InitAllAnimation()
 
 	MyRenderer_->CreateAnimation("IG_BLUE_PUYO.bmp", "IG_BLUE_PUYO", 0, 0, 0.f, false);
 	MyRenderer_->CreateAnimation("IG_BLUE_CENTER.bmp", "IG_BLUE_CENTER", 0, 1, 0.1f, true);
-	MyRenderer_->CreateAnimation("IG_BLUE_LAND.bmp", "IG_BLUE_LAND", 0, 1, 0.1f, false);
+	MyRenderer_->CreateAnimation("IG_BLUE_LAND.bmp", "IG_BLUE_LAND", 0, 3, 0.07f, false);
 	MyRenderer_->CreateAnimation("IG_BLUE_DESTROY.bmp", "IG_BLUE_DESTROY", 0, 5, 0.1f, false);
 
 	MyRenderer_->CreateAnimation("IG_BLUE_LEFT.bmp", "IG_BLUE_LEFT", 0, 0, 0.f, false);
@@ -288,7 +288,7 @@ void Puyo::InitAllAnimation()
 
 	MyRenderer_->CreateAnimation("IG_GREEN_PUYO.bmp", "IG_GREEN_PUYO", 0, 0, 0.f, false);
 	MyRenderer_->CreateAnimation("IG_GREEN_CENTER.bmp", "IG_GREEN_CENTER", 0, 1, 0.1f, true);
-	MyRenderer_->CreateAnimation("IG_GREEN_LAND.bmp", "IG_GREEN_LAND", 0, 1, 0.1f, false);
+	MyRenderer_->CreateAnimation("IG_GREEN_LAND.bmp", "IG_GREEN_LAND", 0, 3, 0.07f, false);
 	MyRenderer_->CreateAnimation("IG_GREEN_DESTROY.bmp", "IG_GREEN_DESTROY", 0, 5, 0.1f, false);
 
 	MyRenderer_->CreateAnimation("IG_GREEN_LEFT.bmp", "IG_GREEN_LEFT", 0, 0, 0.f, false);
@@ -312,7 +312,7 @@ void Puyo::InitAllAnimation()
 
 	MyRenderer_->CreateAnimation("IG_YELLOW_PUYO.bmp", "IG_YELLOW_PUYO", 0, 0, 0.f, false);
 	MyRenderer_->CreateAnimation("IG_YELLOW_CENTER.bmp", "IG_YELLOW_CENTER", 0, 1, 0.1f, true);
-	MyRenderer_->CreateAnimation("IG_YELLOW_LAND.bmp", "IG_YELLOW_LAND", 0, 1, 0.1f, false);
+	MyRenderer_->CreateAnimation("IG_YELLOW_LAND.bmp", "IG_YELLOW_LAND", 0, 3, 0.07f, false);
 	MyRenderer_->CreateAnimation("IG_YELLOW_DESTROY.bmp", "IG_YELLOW_DESTROY", 0, 5, 0.1f, false);
 
 	MyRenderer_->CreateAnimation("IG_YELLOW_LEFT.bmp", "IG_YELLOW_LEFT", 0, 0, 0.f, false);
@@ -335,7 +335,7 @@ void Puyo::InitAllAnimation()
 
 	MyRenderer_->CreateAnimation("IG_PURPLE_PUYO.bmp", "IG_PURPLE_PUYO", 0, 0, 0.f, false);
 	MyRenderer_->CreateAnimation("IG_PURPLE_CENTER.bmp", "IG_PURPLE_CENTER", 0, 1, 0.1f, true);
-	MyRenderer_->CreateAnimation("IG_PURPLE_LAND.bmp", "IG_PURPLE_LAND", 0, 1, 0.1f, false);
+	MyRenderer_->CreateAnimation("IG_PURPLE_LAND.bmp", "IG_PURPLE_LAND", 0, 3, 0.07f, false);
 	MyRenderer_->CreateAnimation("IG_PURPLE_DESTROY.bmp", "IG_PURPLE_DESTROY", 0, 5, 0.1f, false);
 
 	MyRenderer_->CreateAnimation("IG_PURPLE_LEFT.bmp", "IG_PURPLE_LEFT", 0, 0, 0.f, false);
@@ -1355,7 +1355,7 @@ void Puyo::RandomIdleAnimation()
 	{
 		IsIdle_ = false;
 		NormalTime_ = 0.f;
-		IdleTime_ = Random_.RandomFloat(10.f, 30.f);
+		IdleTime_ = Random_.RandomFloat(5.f, 20.f);
 
 		int Rand = Random_.RandomInt(0, 1);
 

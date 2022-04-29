@@ -63,6 +63,7 @@ private:
 	FadeInOutBackground* FadeBackground_;
 
 	GameEngineSoundPlayer InGameBgm_;
+	GameEngineSound EffectSound_;
 
 	int StageClear_;
 	float ChangeCount_;

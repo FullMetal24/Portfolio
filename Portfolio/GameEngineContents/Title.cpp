@@ -199,7 +199,7 @@ void Title::Update()
 
 
 	}
-
+	
 	if (10 == TransCount_)
 	{
 		RedRenderer_->SetOrder(11);

@@ -5,6 +5,7 @@
 Fire::Fire()
 	: FireOwner_(FireOwner::NONE)
 	, Acc_(0.f)
+	, IsPlayerFireSoundPlay_(false)
 {
 }
 
@@ -42,6 +43,7 @@ void Fire::Update()
 
 	//if (true == GameEngineInput::GetInst()->IsDown("Fire"))
 	//{
+	//	IsPlayerFireSoundPlay_ = true;
 	//	PlayerRenderChain(1, GameEngineWindow::GetScale().Half());
 	//}
 
@@ -63,6 +65,13 @@ void Fire::Update()
   			ChainActor_->GetMyRenderer()->SetOrder(-1);
 		}
 	}
+
+	if (true == IsPlayerFireSoundPlay_)
+	{
+		PlayerSound_.SoundPlayOneShot("ARLE_Fire.mp3");
+		IsPlayerFireSoundPlay_ = false;
+	}
+
 }
 
 void Fire::PlayerFire()
@@ -135,7 +144,7 @@ void Fire::PlayerRenderChain(int _Count, float4 _From)
 	Alpha_ = 0.f;
 	IsChainUp_ = true;
 	StartPos_ = _From;
-	EndPos_ = StartPos_ + float4{ 0, -150.f };
+	EndPos_ = StartPos_ + float4{ 0, -200.f};
 
 	switch (_Count)
 	{
@@ -157,6 +166,7 @@ void Fire::PlayerRenderChain(int _Count, float4 _From)
 	}
 
  	ChainActor_->GetMyRenderer()->SetOrder(10);
+	IsPlayerFireSoundPlay_ = true;
 }
 
 void Fire::EnemyRenderChain(int _Count, float4 _From)
@@ -164,7 +174,7 @@ void Fire::EnemyRenderChain(int _Count, float4 _From)
 	Alpha_ = 0.f;   
 	IsChainUp_ = true;
 	StartPos_ = _From;
-	EndPos_ = StartPos_ + float4{ 0, -150.f };
+	EndPos_ = StartPos_ + float4{ 0, -200.f };
 
 	switch (_Count)
 	{
