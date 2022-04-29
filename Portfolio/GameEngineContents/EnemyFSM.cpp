@@ -210,8 +210,8 @@ void EnemyFSM::InitNextPair()
 	NextSecondPuyo_->InitAllAnimation();
 	NextSecondPuyo_->SetColorImage(static_cast<PuyoColor>(Color));
 
-	NextNextCenterPuyo_->SetPosition({ 675.f, 330.f });
-	NextNextSecondPuyo_->SetPosition({ 675.f, 270.f });
+	NextNextCenterPuyo_->SetPosition({ 673.f, 330.f });
+	NextNextSecondPuyo_->SetPosition({ 673.f, 270.f });
 
 	NextCenterPuyo_->SetPosition({ 735.f, 270.f });
 	NextSecondPuyo_->SetPosition({ 735.f, 210.f });
