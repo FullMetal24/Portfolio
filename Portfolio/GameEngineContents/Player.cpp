@@ -578,7 +578,14 @@ void Player::Lose()
 		{
 			if (nullptr != PlayerMap_[Y][X])
 			{
-				
+				PlayerMap_[Y][X]->SetMove(float4::DOWN * GameEngineTime::GetDeltaTime() * 100.f);
+
+				//float4 StartPos = PlayerMap_[Y][X]->GetPosition();
+				//float4 EndPos = PlayerMap_[Y][X]->GetPosition() + float4{0, -500};
+
+				//GameEngineTime::GetDeltaTime();
+
+				//float4::Lerp(StartPos, EndPos);
 			}
 		}
 	}
