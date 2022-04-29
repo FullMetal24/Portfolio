@@ -53,6 +53,8 @@ private:
 	Stage* Stages_[3];
 	InGameActor* StateBottoms_[2];
 
+	InGameActor* GameOverRenderer_;
+
 	Player*	Player_; 
 	EnemyFSM* EnemyFSM_;
 
@@ -69,9 +71,13 @@ private:
 
 	int StageClear_;
 	float ChangeCount_;
+	float Alpha_;
 
 	bool IsStart_;
 	bool IsEnemyFlap_;
+
+	float4 GameOverStartPos_;
+	float4 GameOverEndPos_;
 };
 	
 

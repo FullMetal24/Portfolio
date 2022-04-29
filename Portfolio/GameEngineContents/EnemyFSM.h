@@ -33,6 +33,7 @@ public:
 	//MovePuyo 관련 함수
 	void GreedyPuyoMove();
 	void RandomRotate();
+	void RandomDown();
 	void AutoDown();
 	void LandCheck();
 	void OtherPuyoLandCheck();
@@ -66,6 +67,8 @@ public:
 	//에네미 프로필
 	void EnemyAnimatioInit();
 	void SetMyProfile(EnemyProfile* _Porifle);
+
+	void Lose();
 
 	inline void SetPlayer(Player* _Player)
 	{
@@ -105,6 +108,7 @@ private:
 
 	float MoveTime_;
 	float RotateTime_;
+	float DownTime_;
 	float AutoDownTime_;
 	float InputDownTime_;
 	float CheckTime_;

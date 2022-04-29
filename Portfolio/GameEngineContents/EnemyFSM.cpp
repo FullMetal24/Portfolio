@@ -53,11 +53,17 @@ void EnemyFSM::Start()
 	if (false == GameEngineInput::GetInst()->IsKey("Hindrance"))
 	{
 		GameEngineInput::GetInst()->CreateKey("Hindrance", VK_SPACE);
+		GameEngineInput::GetInst()->CreateKey("LoseEnemy", 'b');
 	}
 }
 
 void EnemyFSM::Update()
 {
+	if (GameEngineInput::GetInst()->IsDown("LoseEnemy"))
+	{
+		EnemyState_ = EnemyState::Lose;
+	}
+	
 	switch (EnemyState_)
 	{
 	case EnemyState::NewPuyo:
@@ -66,6 +72,7 @@ void EnemyFSM::Update()
 	case EnemyState::MovePuyo:
 		GreedyPuyoMove();
 		RandomRotate();
+		RandomDown();
 		AutoDown();
 		LandCheck();
 		OtherPuyoLandCheck();
@@ -96,6 +103,7 @@ void EnemyFSM::Update()
 	case EnemyState::Win:
 		break;
 	case EnemyState::Lose:
+		Lose();
 		break;
 	}
 
@@ -310,7 +318,7 @@ void EnemyFSM::GreedyPuyoMove()
 			int CurIndex = i;
 			int NextIndex = i + 1;
 
-			if (6 <= NextIndex)
+			if (5 <= NextIndex)
 			{
 				NextIndex = 0;
 			}
@@ -318,6 +326,11 @@ void EnemyFSM::GreedyPuyoMove()
 			if (Distance[CurIndex] < Distance[NextIndex])
 			{
 				Index = CurIndex;
+			}
+
+			else if (Distance[CurIndex] == Distance[NextIndex])
+			{
+				Index = Random_.RandomInt(0, 5);
 			}
 		}
 
@@ -371,7 +384,30 @@ void EnemyFSM::RandomRotate()
 		CenterPuyo_->SetDir(static_cast<PuyoDir>(Count));
 		SecondPuyo_->RotatePuyo(EnemyMap_, CenterPuyo_);
 	}
+}
 
+void EnemyFSM::RandomDown()
+{
+	DownTime_ += GameEngineTime::GetDeltaTime();
+
+	if (1.5f <= DownTime_)
+	{
+		DownTime_ = 0.f;
+
+		if (CenterPuyo_->GetY() <= SecondPuyo_->GetY())
+		{
+			++Score_;
+			Puyo* DownPuyo = CenterPuyo_->DownPuyo(EnemyMap_, SecondPuyo_);
+			Puyo* DownPuyo1 = SecondPuyo_->DownPuyo(EnemyMap_, CenterPuyo_);
+		}
+
+		else if ( CenterPuyo_->GetY() >= SecondPuyo_->GetY())
+		{
+			++Score_;
+			Puyo* DownPuyo1 = SecondPuyo_->DownPuyo(EnemyMap_, CenterPuyo_);
+			Puyo* DownPuyo = CenterPuyo_->DownPuyo(EnemyMap_, SecondPuyo_);
+		}
+	}
 }
  
 void EnemyFSM::AutoDown()
@@ -889,7 +925,7 @@ void EnemyFSM::SetMyProfile(EnemyProfile* _Porifle)
 		float XPos = 95.f;
 		float YPos = 370.f;
 
-		switch (6)
+		switch (_Porifle->GetMyLevel())
 		{
 		case 1:
 			EnemyAnimations_[0] = EnemyActors_->CreateRenderer();
@@ -1006,6 +1042,20 @@ void EnemyFSM::SetMyProfile(EnemyProfile* _Porifle)
 			EnemyNames_[7]->SetPivot({ XPos, -YPos });
 			EnemyNames_[7]->SetImage("IG_NAME_MINI.bmp");
 			break;
+		}
+	}
+}
+
+void EnemyFSM::Lose()
+{
+	for (int Y = 14; Y >= 0; --Y)
+	{
+		for (int X = 0; X < 6; ++X)
+		{
+			if (nullptr != EnemyMap_[Y][X])
+			{
+				EnemyMap_[Y][X]->LoseFall();
+			}
 		}
 	}
 }

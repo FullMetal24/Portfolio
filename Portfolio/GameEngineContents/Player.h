@@ -54,7 +54,7 @@ public:
 	void DigitScore(int _Score);
 	void RenderToScore();
 
-	void Lose();
+	void LoseFallPuyo();
 
 	inline void SetEnemyFSM(EnemyFSM* _Enemy)
 	{

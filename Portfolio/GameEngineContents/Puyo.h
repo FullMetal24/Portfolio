@@ -217,6 +217,8 @@ public:
 	void LinkedPuyoAnimtaion(Puyo* Map[15][6]);
 	int GradeLinkAnimation(Puyo* Map[15][6]);
 
+	void LoseFall();
+
 protected:
 
 private:
@@ -250,5 +252,5 @@ private:
 
 	//»óÇÏÁÂ¿ì
 	bool IsConnect_[4];
-
+	bool IsLoseFall_;
 };

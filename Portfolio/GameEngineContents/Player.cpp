@@ -31,6 +31,7 @@ void Player::Start()
 		GameEngineInput::GetInst()->CreateKey("Left", VK_LEFT);
 		GameEngineInput::GetInst()->CreateKey("Down", VK_DOWN);
 		GameEngineInput::GetInst()->CreateKey("Rotate", VK_SPACE);
+		GameEngineInput::GetInst()->CreateKey("Lose", 'a');
 	}
 
 	InitNextPair();
@@ -51,6 +52,11 @@ void Player::Start()
 
 void Player::Update()
 {
+	if (GameEngineInput::GetInst()->IsDown("Lose"))
+	{
+		PlayerState_ = PlayerState::Lose;
+	}
+
 	switch (PlayerState_)
 	{
 	case PlayerState::NewPuyo:
@@ -88,9 +94,10 @@ void Player::Update()
 	case PlayerState::Win:
 		break;
 	case PlayerState::Lose:
-		Lose();
+		LoseFallPuyo();
 		break;
 	}
+
 
 	DigitScore(Score_);
 	RenderToScore();
@@ -278,6 +285,7 @@ void Player::InputPuyoMove()
 			InputDown();
 		}
 	}
+	
 }
 
 void Player::AutoDown()
@@ -568,9 +576,11 @@ void Player::RenderToScore()
 		ScoreRenderers_[0]->SetOrder(10);
 		ScoreRenderers_[0]->SetImage("IG_PLAYER_NUMBER_0.bmp");
 	}
+
 }
 
-void Player::Lose()
+
+void Player::LoseFallPuyo()
 {
 	for (int Y = 14; Y >= 0; --Y)
 	{
@@ -578,16 +588,9 @@ void Player::Lose()
 		{
 			if (nullptr != PlayerMap_[Y][X])
 			{
-				PlayerMap_[Y][X]->SetMove(float4::DOWN * GameEngineTime::GetDeltaTime() * 100.f);
-
-				//float4 StartPos = PlayerMap_[Y][X]->GetPosition();
-				//float4 EndPos = PlayerMap_[Y][X]->GetPosition() + float4{0, -500};
-
-				//GameEngineTime::GetDeltaTime();
-
-				//float4::Lerp(StartPos, EndPos);
+				PlayerMap_[Y][X]->LoseFall();
 			}
 		}
 	}
-
 }
+

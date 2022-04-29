@@ -23,7 +23,7 @@ InGame::InGame()
 	, EnemyProfile_(nullptr)
 	, Stage_(nullptr)
 	, StageClear_(0)
-	, ChangeCount_(7.f)
+	, ChangeCount_(10.f)
 	, IsStart_(false) //일단 트루
 	, IsEnemyFlap_(false)
 {
@@ -46,6 +46,13 @@ void InGame::Loading()
 	Stages_[0]->SetPosition(GameEngineWindow::GetScale().Half());
 	Stages_[0]->CreateRenderer("IG_STAGE1.bmp", 3);
 	Stages_[0]->CreateRenderer("IG_STAGE1_BACK.bmp", 0);
+
+	GameOverRenderer_ = CreateActor<InGameActor>();
+	GameOverRenderer_->SetPosition({255, 1500});
+	GameOverRenderer_->CreateRenderer("IG_PLAYER_GAMEOVER.bmp");
+	   
+	GameOverStartPos_ = GameOverRenderer_->GetPosition();
+	GameOverEndPos_ = GameOverRenderer_->GetPosition() + float4{0, -1200.f};
 
 	StateBottoms_[0] = CreateActor<InGameActor>();
 	StateBottoms_[1] = CreateActor<InGameActor>();
@@ -464,10 +471,19 @@ void InGame::GameOverCheck()
 {
 	if (Player_->GetState() == PlayerState::Lose)
 	{
-		StateBottoms_[0]->SetMove(float4::DOWN * GameEngineTime::GetDeltaTime() * 100.f);
-
+		InGameBgm_.Stop();
+		StateBottoms_[0]->SetMove(float4::DOWN * GameEngineTime::GetDeltaTime() * 300.f);
 		ChangeCount_ -= GameEngineTime::GetDeltaTime();
 
+		Alpha_ += GameEngineTime::GetDeltaTime() * 0.5f;
+
+		if (1.f <= Alpha_)
+		{
+			Alpha_ = 1.f;
+		}
+
+		GameOverRenderer_->SetPosition(float4::Lerp(GameOverStartPos_, GameOverEndPos_, Alpha_));
+		
 		if (0 >= ChangeCount_)
 		{
 			FadeBackground_->FadeInOn();
@@ -480,7 +496,6 @@ void InGame::GameOverCheck()
 			ChangeCount_ = 7.f;
 
 			GameEngine::GetInst().ChangeLevel("GameOver");
-			InGameBgm_.Stop();
 
 			GameEngineLevel* NextLevel = GameEngine::GetNextLevel();
 			GameOver* GameOver_ = dynamic_cast<GameOver*>(NextLevel);
@@ -491,9 +506,9 @@ void InGame::GameOverCheck()
 
 	else if (EnemyFSM_->GetState() == EnemyState::Lose)
 	{
-		StateBottoms_[1]->SetMove(float4::DOWN * GameEngineTime::GetDeltaTime() * 100.f);
-
+		InGameBgm_.Stop();
  		ChangeCount_ -= GameEngineTime::GetDeltaTime();
+		StateBottoms_[1]->SetMove(float4::DOWN * GameEngineTime::GetDeltaTime() * 300.f);
 
 		if (0 >= ChangeCount_)
 		{
@@ -503,11 +518,9 @@ void InGame::GameOverCheck()
 		}
 
 		if (true == FadeBackground_->GetIsInChange())
-		{
+		{	
 			ChangeCount_ = 7.f;
-
 			GameEngine::GetInst().ChangeLevel("EnemySelect");
-			InGameBgm_.Stop();
 		}
 	}
 }

@@ -25,6 +25,7 @@ Puyo::Puyo()
 	, IsDestroy_(false)
 	, IsFall_(false)
 	, IsConnect_{ false }
+	, IsLoseFall_(false)
 {
 }
 
@@ -1861,3 +1862,26 @@ int Puyo::GradeLinkAnimation(Puyo* Map[15][6])
 		return INumber;
 	}
 }
+
+void Puyo::LoseFall()
+{
+	if (false == IsLoseFall_)
+	{
+		IsLoseFall_ = true;
+
+		Alpha_ = 0.f;
+		StartPos_ = GetPosition();
+		EndPos_ = GetPosition() + float4{ 0, 1500 };
+	}
+
+	Alpha_ += GameEngineTime::GetDeltaTime() * 0.5f;
+
+	if (1.f <= Alpha_)
+	{
+		Alpha_ = 1.f;
+	}
+
+	SetPosition(float4::Lerp(StartPos_, EndPos_, Alpha_));
+}
+
+
