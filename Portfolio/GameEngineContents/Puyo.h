@@ -205,6 +205,7 @@ public:
 	void RenderToIdle();
 	void RenderToOtherIdle();
 
+	void NormalPuyo();
 	void IdleToNomal();
 
 	void LandAnimation();

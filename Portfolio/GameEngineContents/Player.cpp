@@ -88,6 +88,7 @@ void Player::Update()
 	case PlayerState::Win:
 		break;
 	case PlayerState::Lose:
+		Lose();
 		break;
 	}
 
@@ -258,7 +259,7 @@ void Player::InputPuyoMove()
 
 	if (GameEngineInput::GetInst()->IsDown("Rotate"))
 	{
-		SecondPuyo_->RotatePuyo(PlayerMap_, CenterPuyo_);
+ 		SecondPuyo_->RotatePuyo(PlayerMap_, CenterPuyo_);
 	}
 
 	if (GameEngineInput::GetInst()->IsDown("Down"))
@@ -567,4 +568,19 @@ void Player::RenderToScore()
 		ScoreRenderers_[0]->SetOrder(10);
 		ScoreRenderers_[0]->SetImage("IG_PLAYER_NUMBER_0.bmp");
 	}
+}
+
+void Player::Lose()
+{
+	for (int Y = 14; Y >= 0; --Y)
+	{
+		for (int X = 0; X < 6; ++X)
+		{
+			if (nullptr != PlayerMap_[Y][X])
+			{
+				
+			}
+		}
+	}
+
 }

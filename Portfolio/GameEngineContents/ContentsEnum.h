@@ -24,10 +24,11 @@ enum class MenuType
 
 enum class PuyoState
 {
-	Normal,
-	Land,
-	Fall,
-	Destroy
+	Normal, //혼자 있을 때
+	Linked, //연결 상태
+	Land, //떨어진
+	Fall, //떨어지는
+	Destroy //파괴될
 };
 
 enum class PuyoColor

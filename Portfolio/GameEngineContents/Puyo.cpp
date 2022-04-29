@@ -44,18 +44,17 @@ void Puyo::Update()
 	switch (PuyoState_)
 	{
 	case PuyoState::Normal:
-		if (true == IsLand_)
+		NormalPuyo();
+		break;
+	case PuyoState::Linked:
+		if (nullptr != Player_)
 		{
-			for (int i = 0; i < 4; i++)
-			{
-				if (true == IsConnect_[i])
-				{
-					return;
-				}
-			}
+			LinkedPuyoAnimtaion(Player_->PlayerMap_);
+		}
 
-			RandomIdleAnimation();
-			IdleToNomal();
+		else if (nullptr != Enemy_)
+		{
+			LinkedPuyoAnimtaion(Enemy_->EnemyMap_);
 		}
 		break;
 	case PuyoState::Land:
@@ -104,7 +103,7 @@ void Puyo::InitAnimation(PuyoColor color)
 
 		MyRenderer_->CreateAnimation("IG_RED_UP_DOWN.bmp", "IG_RED_UP_DOWN", 0, 0, 0.f, false);
 		MyRenderer_->CreateAnimation("IG_RED_IDLE.bmp", "IG_RED_IDLE", 0, 2, 0.2f, false);
-		MyRenderer_->CreateAnimation("IG_RED_IDLE1.bmp", "IG_RED_IDLE1", 0, 2, 0.3f, false);
+		MyRenderer_->CreateAnimation("IG_RED_IDLE1.bmp", "IG_RED_IDLE1", 0, 5, 0.3f, false);
 
 		MyRenderer_->ChangeAnimation("IG_RED_PUYO");
 		break;
@@ -133,8 +132,8 @@ void Puyo::InitAnimation(PuyoColor color)
 		MyRenderer_->CreateAnimation("IG_BLUE_RIGHT_UP_DOWN.bmp", "IG_BLUE_RIGHT_UP_DOWN", 0, 0, 0.f, false);
 
 		MyRenderer_->CreateAnimation("IG_BLUE_UP_DOWN.bmp", "IG_BLUE_UP_DOWN", 0, 0, 0.f, false);
-		MyRenderer_->CreateAnimation("IG_BLUE_IDLE.bmp", "IG_BLUE_IDLE", 0, 2, 0.2f, false);
-		MyRenderer_->CreateAnimation("IG_BLUE_IDLE1.bmp", "IG_BLUE_IDLE1", 0, 3, 0.2f, false);
+		MyRenderer_->CreateAnimation("IG_BLUE_IDLE.bmp", "IG_BLUE_IDLE", 0, 5, 0.2f, false);
+		MyRenderer_->CreateAnimation("IG_BLUE_IDLE1.bmp", "IG_BLUE_IDLE1", 0, 7, 0.2f, false);
 
 		MyRenderer_->ChangeAnimation("IG_BLUE_PUYO");
 		break;
@@ -163,8 +162,8 @@ void Puyo::InitAnimation(PuyoColor color)
 		MyRenderer_->CreateAnimation("IG_GREEN_RIGHT_UP_DOWN.bmp", "IG_GREEN_RIGHT_UP_DOWN", 0, 0, 0.f, false);
 
 		MyRenderer_->CreateAnimation("IG_GREEN_UP_DOWN.bmp", "IG_GREEN_UP_DOWN", 0, 0, 0.f, false);
-		MyRenderer_->CreateAnimation("IG_GREEN_IDLE.bmp", "IG_GREEN_IDLE", 0, 3, 0.2f, false);
-		MyRenderer_->CreateAnimation("IG_GREEN_IDLE1.bmp", "IG_GREEN_IDLE1", 0, 3, 0.2f, false);
+		MyRenderer_->CreateAnimation("IG_GREEN_IDLE.bmp", "IG_GREEN_IDLE", 0, 7, 0.2f, false);
+		MyRenderer_->CreateAnimation("IG_GREEN_IDLE1.bmp", "IG_GREEN_IDLE1", 0, 7, 0.2f, false);
 
 		MyRenderer_->ChangeAnimation("IG_GREEN_PUYO");
 		break;
@@ -191,7 +190,7 @@ void Puyo::InitAnimation(PuyoColor color)
 		MyRenderer_->CreateAnimation("IG_YELLOW_RIGHT_UP_DOWN.bmp", "IG_YELLOW_RIGHT_UP_DOWN", 0, 0, 0.f, false);
 
 		MyRenderer_->CreateAnimation("IG_YELLOW_UP_DOWN.bmp", "IG_YELLOW_UP_DOWN", 0, 0, 0.f, false);
-		MyRenderer_->CreateAnimation("IG_YELLOW_IDLE.bmp", "IG_YELLOW_IDLE", 0, 3, 0.2f, false);
+		MyRenderer_->CreateAnimation("IG_YELLOW_IDLE.bmp", "IG_YELLOW_IDLE", 0, 7, 0.2f, false);
 		MyRenderer_->CreateAnimation("IG_YELLOW_IDLE1.bmp", "IG_YELLOW_IDLE1", 0, 2, 0.2f, false);
 
 		MyRenderer_->ChangeAnimation("IG_YELLOW_PUYO");
@@ -221,7 +220,7 @@ void Puyo::InitAnimation(PuyoColor color)
 
 		MyRenderer_->CreateAnimation("IG_PURPLE_UP_DOWN.bmp", "IG_PURPLE_UP_DOWN", 0, 0, 0.f, false);
 		MyRenderer_->CreateAnimation("IG_PURPLE_IDLE.bmp", "IG_PURPLE_IDLE", 0, 4, 0.2f, false);
-		MyRenderer_->CreateAnimation("IG_PURPLE_IDLE1.bmp", "IG_PURPLE_IDLE1", 0, 2, 0.2f, false);
+		MyRenderer_->CreateAnimation("IG_PURPLE_IDLE1.bmp", "IG_PURPLE_IDLE1", 0, 4, 0.2f, false);
 
 		MyRenderer_->ChangeAnimation("IG_PURPLE_PUYO");
 		break;
@@ -229,6 +228,7 @@ void Puyo::InitAnimation(PuyoColor color)
 	case PuyoColor::Hindrance:
 		MyRenderer_->CreateAnimation("IG_HINDRANCE_PUYO.bmp", "IG_HINDRANCE_PUYO", 0, 0, 0.f, false);
 		MyRenderer_->CreateAnimation("IG_HINDRANCE_PUYO_DESTROY.bmp", "IG_HINDRANCE_PUYO_DESTROY", 0, 3, 0.1f, false);
+		MyRenderer_->CreateAnimation("IG_HINDRANCE_PUYO_IDLE.bmp", "IG_HINDRANCE_PUYO_IDLE", 0, 2, 0.3f, false);
 		MyRenderer_->ChangeAnimation("IG_HINDRANCE_PUYO");
 		break;
 	}
@@ -1390,6 +1390,9 @@ void Puyo::RenderToIdle()
 	case PuyoColor::PURPLE:
 		MyRenderer_->ChangeAnimation("IG_PURPLE_IDLE");
 		break;
+	case PuyoColor::Hindrance:
+		MyRenderer_->ChangeAnimation("IG_HINDRANCE_PUYO_IDLE");
+		break;
 	}
 }
 
@@ -1412,17 +1415,33 @@ void Puyo::RenderToOtherIdle()
 	case PuyoColor::PURPLE:
 		MyRenderer_->ChangeAnimation("IG_PURPLE_IDLE1");
 		break;
+	case PuyoColor::Hindrance:
+		MyRenderer_->ChangeAnimation("IG_HINDRANCE_PUYO_IDLE");
+		break;
 	}
 }
 
 
+void Puyo::NormalPuyo()
+{if (true == IsLand_)
+	{
+
+
+		//for (int i = 0; i < 4; i++)
+		//{
+		//	if (true == IsConnect_[i])
+		//	{
+		//		return;
+		//	}
+		//}
+
+		//RandomIdleAnimation();
+		//IdleToNomal();
+	}
+}
+
 void Puyo::IdleToNomal()
 {
-	if (false == MyRenderer_->IsEndAnimation())
-	{
-		return;
-	}
-
 	switch (MyColor_)
 	{
 	case PuyoColor::RED:
@@ -1439,9 +1458,11 @@ void Puyo::IdleToNomal()
 	case PuyoColor::PURPLE:
 		MyRenderer_->ChangeAnimation("IG_PURPLE_PUYO");
 		break;
+	case PuyoColor::Hindrance:
+		MyRenderer_->ChangeAnimation("IG_HINDRANCE_PUYO");
+		break;
 	}
 }
-
 
 void Puyo::RenderToLand()
 {
@@ -1464,7 +1485,6 @@ void Puyo::RenderToLand()
 		break;
 	}
 }
-
 
 void Puyo::LandAnimation()
 {
@@ -1500,8 +1520,7 @@ void Puyo::LandToNormal()
 			if (true == MyRenderer_->IsEndAnimation())
 			{
 				MyRenderer_->ChangeAnimation("IG_RED_PUYO");
-				PuyoState_ = PuyoState::Normal;
-
+				PuyoState_ = PuyoState::Linked;
 			}
 		}
 		break;
@@ -1511,7 +1530,7 @@ void Puyo::LandToNormal()
 			if (true == MyRenderer_->IsEndAnimation())
 			{
 				MyRenderer_->ChangeAnimation("IG_BLUE_PUYO");
-				PuyoState_ = PuyoState::Normal;
+				PuyoState_ = PuyoState::Linked;
 			}
 		}
 		break;
@@ -1521,7 +1540,7 @@ void Puyo::LandToNormal()
 			if (true == MyRenderer_->IsEndAnimation())
 			{
 				MyRenderer_->ChangeAnimation("IG_GREEN_PUYO");
-				PuyoState_ = PuyoState::Normal;
+				PuyoState_ = PuyoState::Linked;
 			}
 		}
 		break;
@@ -1531,7 +1550,7 @@ void Puyo::LandToNormal()
 			if (true == MyRenderer_->IsEndAnimation())
 			{
 				MyRenderer_->ChangeAnimation("IG_YELLOW_PUYO");
-				PuyoState_ = PuyoState::Normal;
+				PuyoState_ = PuyoState::Linked;
 			}
 		}
 		break;
@@ -1541,7 +1560,7 @@ void Puyo::LandToNormal()
 			if (true == MyRenderer_->IsEndAnimation())
 			{
 				MyRenderer_->ChangeAnimation("IG_PURPLE_PUYO");
-				PuyoState_ = PuyoState::Normal;
+				PuyoState_ = PuyoState::Linked;
 			}
 		}
 		break;
@@ -1550,17 +1569,6 @@ void Puyo::LandToNormal()
 		break;
 
 	}
-
-	if (nullptr != Player_)
-	{
-		LinkedPuyoAnimtaion(Player_->PlayerMap_);
-	}
-
-	else if (nullptr != Enemy_)
-	{
-		LinkedPuyoAnimtaion(Enemy_->EnemyMap_);
-	}
-
 }
 
 void Puyo::SelfDestroy()
@@ -1709,24 +1717,29 @@ void Puyo::LinkedPuyoAnimtaion(Puyo* Map[15][6])
 	case 1111:
 		RenderToLeftRightUpDown();
 		break;
-
 	}
 }
 
 int Puyo::GradeLinkAnimation(Puyo* Map[15][6])
 {
-	int INumber = 0;
-	bool* ConnectPtr = GetConnect();
-
 	if (Y_ - 1 < 0 || 14 < Y_ + 1
 		&& X_ - 1 < 0 || X_ + 1 > 5)
 	{
 		return 0;
 	}
 
+	int INumber = 0;
+	bool* ConnectPtr = GetConnect();
+
+
 	if (nullptr != Map[Y_][X_ - 1]
 		&& MyColor_ == Map[Y_][X_ - 1]->GetColor())
 	{
+		if (false == Map[Y_][X_ - 1]->GetLand())
+		{
+			return 0;
+		}
+
 		INumber += 10;
 		SetConnect(static_cast<int>(PuyoDir::LEFT), true);
 
@@ -1754,6 +1767,11 @@ int Puyo::GradeLinkAnimation(Puyo* Map[15][6])
 	else if (nullptr != Map[Y_][X_ + 1]
 		&& MyColor_ == Map[Y_][X_ + 1]->GetColor())
 	{
+		if (false == Map[Y_][X_ + 1]->GetLand())
+		{
+			return 0;
+		}
+
 		++INumber;
 		SetConnect(static_cast<int>(PuyoDir::RIGHT), true);
 
@@ -1782,6 +1800,11 @@ int Puyo::GradeLinkAnimation(Puyo* Map[15][6])
 	else if (nullptr != Map[Y_ + 1][X_]
 		&& MyColor_ == Map[Y_ + 1][X_]->GetColor())
 	{
+		if (false == Map[Y_ + 1][X_]->GetLand())
+		{
+			return 0;
+		}
+
 		INumber += 1000;
 		SetConnect(static_cast<int>(PuyoDir::UP), true);
 
@@ -1809,6 +1832,11 @@ int Puyo::GradeLinkAnimation(Puyo* Map[15][6])
 	else if (nullptr != Map[Y_ - 1][X_]
 		&& MyColor_ == Map[Y_ - 1][X_]->GetColor())
 	{
+		if (false == Map[Y_ - 1][X_]->GetLand())
+		{
+			return 0;
+		}
+
 		INumber += 100;
 		SetConnect(static_cast<int>(PuyoDir::DOWN), true);
 

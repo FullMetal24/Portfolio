@@ -26,7 +26,6 @@ public:
 
 	void TopPositionInit();
 	void EnemyInit();
-	void EnemyAnimationInit();
 	void FrameInit();
 
 	void PlayRoulette();

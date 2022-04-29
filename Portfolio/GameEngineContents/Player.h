@@ -54,6 +54,8 @@ public:
 	void DigitScore(int _Score);
 	void RenderToScore();
 
+	void Lose();
+
 	inline void SetEnemyFSM(EnemyFSM* _Enemy)
 	{
 		Enemy_ = _Enemy;

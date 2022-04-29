@@ -23,7 +23,7 @@ InGame::InGame()
 	, EnemyProfile_(nullptr)
 	, Stage_(nullptr)
 	, StageClear_(0)
-	, ChangeCount_(5.f)
+	, ChangeCount_(7.f)
 	, IsStart_(false) //일단 트루
 	, IsEnemyFlap_(false)
 {
@@ -46,6 +46,14 @@ void InGame::Loading()
 	Stages_[0]->SetPosition(GameEngineWindow::GetScale().Half());
 	Stages_[0]->CreateRenderer("IG_STAGE1.bmp", 3);
 	Stages_[0]->CreateRenderer("IG_STAGE1_BACK.bmp", 0);
+
+	StateBottoms_[0] = CreateActor<InGameActor>();
+	StateBottoms_[1] = CreateActor<InGameActor>();
+	StateBottoms_[0]->SetMyRenderer(StateBottoms_[0]->CreateRenderer("IG_STAGE1_BOTTOM_LEFT.bmp", 3));
+	StateBottoms_[1]->SetMyRenderer(StateBottoms_[1]->CreateRenderer("IG_STAGE1_BOTTOM_RIGHT.bmp", 3));
+	
+	StateBottoms_[0]->SetPosition({ GameEngineWindow::GetScale().Half() + float4{-384, 389} });
+	StateBottoms_[1]->SetPosition({ GameEngineWindow::GetScale().Half() + float4{384, 389} });
 
 	GameEngineActor* NextUi = CreateActor<Stage>(3);
 	NextUi->CreateRenderer("IG_NEXT.bmp")->SetPivot({ GameEngineWindow::GetScale().Half().x, GameEngineWindow::GetScale().Half().y - 360.f });
@@ -96,7 +104,7 @@ void InGame::PuyoAnimationInit()
 		IdleImage->CutCount(3, 1);
 
 		GameEngineImage* IdleImage1 = GameEngineImageManager::GetInst()->Find("IG_RED_IDLE1.bmp");
-		IdleImage1->CutCount(3, 1);
+		IdleImage1->CutCount(6, 1);
 
 
 
@@ -160,10 +168,10 @@ void InGame::PuyoAnimationInit()
 
 
 		GameEngineImage* IdleImage = GameEngineImageManager::GetInst()->Find("IG_BLUE_IDLE.bmp");
-		IdleImage->CutCount(3, 1);
+		IdleImage->CutCount(6, 1);
 
 		GameEngineImage* IdleImage1 = GameEngineImageManager::GetInst()->Find("IG_BLUE_IDLE1.bmp");
-		IdleImage1->CutCount(4, 1);
+		IdleImage1->CutCount(8, 1);
 
 		GameEngineImage* LeftImage = GameEngineImageManager::GetInst()->Find("IG_BLUE_LEFT.bmp");
 		LeftImage->CutCount(1, 1);
@@ -224,10 +232,10 @@ void InGame::PuyoAnimationInit()
 		LandImage->CutCount(4, 1);
 
 		GameEngineImage* IdleImage = GameEngineImageManager::GetInst()->Find("IG_GREEN_IDLE.bmp");
-		IdleImage->CutCount(4, 1);
+		IdleImage->CutCount(8, 1);
 
 		GameEngineImage* IdleImage1 = GameEngineImageManager::GetInst()->Find("IG_GREEN_IDLE1.bmp");
-		IdleImage1->CutCount(4, 1);
+		IdleImage1->CutCount(8, 1);
 
 
 
@@ -291,7 +299,7 @@ void InGame::PuyoAnimationInit()
 		LandImage->CutCount(4, 1);
 
 		GameEngineImage* IdleImage = GameEngineImageManager::GetInst()->Find("IG_YELLOW_IDLE.bmp");
-		IdleImage->CutCount(4, 1);
+		IdleImage->CutCount(8, 1);
 
 		GameEngineImage* IdleImage1 = GameEngineImageManager::GetInst()->Find("IG_YELLOW_IDLE1.bmp");
 		IdleImage1->CutCount(3, 1);
@@ -359,7 +367,7 @@ void InGame::PuyoAnimationInit()
 		IdleImage->CutCount(5, 1);
 
 		GameEngineImage* IdleImage1 = GameEngineImageManager::GetInst()->Find("IG_PURPLE_IDLE1.bmp");
-		IdleImage1->CutCount(3, 1);
+		IdleImage1->CutCount(5, 1);
 
 
 		GameEngineImage* LeftImage = GameEngineImageManager::GetInst()->Find("IG_PURPLE_LEFT.bmp");
@@ -413,6 +421,8 @@ void InGame::PuyoAnimationInit()
 	GameEngineImage* HindranceDestroy = GameEngineImageManager::GetInst()->Find("IG_HINDRANCE_PUYO_DESTROY.bmp");
 	HindranceDestroy->CutCount(4, 1);
 
+	GameEngineImage* HindranceIdle = GameEngineImageManager::GetInst()->Find("IG_HINDRANCE_PUYO_IDLE.bmp");
+	HindranceIdle->CutCount(3, 1);
 }
 
 void InGame::CarbuncleAnimationInit()
@@ -454,6 +464,8 @@ void InGame::GameOverCheck()
 {
 	if (Player_->GetState() == PlayerState::Lose)
 	{
+		StateBottoms_[0]->SetMove(float4::DOWN * GameEngineTime::GetDeltaTime() * 100.f);
+
 		ChangeCount_ -= GameEngineTime::GetDeltaTime();
 
 		if (0 >= ChangeCount_)
@@ -465,6 +477,8 @@ void InGame::GameOverCheck()
 
 		if (true == FadeBackground_->GetIsInChange())
 		{
+			ChangeCount_ = 7.f;
+
 			GameEngine::GetInst().ChangeLevel("GameOver");
 			InGameBgm_.Stop();
 
@@ -475,9 +489,11 @@ void InGame::GameOverCheck()
 		}
 	}
 
-	if (EnemyFSM_->GetState() == EnemyState::Lose)
+	else if (EnemyFSM_->GetState() == EnemyState::Lose)
 	{
-		ChangeCount_ -= GameEngineTime::GetDeltaTime();
+		StateBottoms_[1]->SetMove(float4::DOWN * GameEngineTime::GetDeltaTime() * 100.f);
+
+ 		ChangeCount_ -= GameEngineTime::GetDeltaTime();
 
 		if (0 >= ChangeCount_)
 		{
@@ -488,6 +504,8 @@ void InGame::GameOverCheck()
 
 		if (true == FadeBackground_->GetIsInChange())
 		{
+			ChangeCount_ = 7.f;
+
 			GameEngine::GetInst().ChangeLevel("EnemySelect");
 			InGameBgm_.Stop();
 		}

@@ -832,6 +832,9 @@ void EnemyFSM::EnemyAnimatioInit()
 
 		GameEngineImage* Image3 = GameEngineImageManager::GetInst()->Find("IG_LV4_WIN.bmp");
 		Image3->CutCount(1, 1);
+
+		GameEngineImage* Image4 = GameEngineImageManager::GetInst()->Find("IG_LV4_EXCITED.bmp");
+		Image4->CutCount(3, 1);
 	}
 
 	{
@@ -886,7 +889,7 @@ void EnemyFSM::SetMyProfile(EnemyProfile* _Porifle)
 		float XPos = 95.f;
 		float YPos = 370.f;
 
-		switch (2)
+		switch (6)
 		{
 		case 1:
 			EnemyAnimations_[0] = EnemyActors_->CreateRenderer();
@@ -904,18 +907,18 @@ void EnemyFSM::SetMyProfile(EnemyProfile* _Porifle)
 			break;
 
 		case 2:
-			EnemyAnimations_[0] = EnemyActors_->CreateRenderer();
-			EnemyAnimations_[0]->SetOrder(2);
-			EnemyAnimations_[0]->CreateAnimation("IG_LV1_IDLE.bmp", "IG_LV1_IDLE", 0, 3, 0.2f, true);
-			EnemyAnimations_[0]->CreateAnimation("IG_LV1_LOSE.bmp", "IG_LV1_LOSE", 0, 3, 0.2f, false);
-			EnemyAnimations_[0]->CreateAnimation("IG_LV1_WIN.bmp", "IG_LV1_WIN", 0, 0, 0.0f, false);
-			EnemyAnimations_[0]->CreateAnimation("IG_LV1_EXCITED.bmp", "IG_LV1_EXCITED", 0, 3, 0.2f, true);
-			EnemyAnimations_[0]->ChangeAnimation("IG_LV1_IDLE");
+			EnemyAnimations_[1] = EnemyActors_->CreateRenderer();
+			EnemyAnimations_[1]->SetOrder(2);
+			EnemyAnimations_[1]->CreateAnimation("IG_LV2_IDLE.bmp", "IG_LV2_IDLE", 0, 0, 0.0f, false);
+			EnemyAnimations_[1]->CreateAnimation("IG_LV2_LOSE.bmp", "IG_LV2_LOSE", 0, 3, 0.2f, false);
+			EnemyAnimations_[1]->CreateAnimation("IG_LV2_WIN.bmp", "IG_LV2_WIN", 0, 0, 0.0f, false);
+			EnemyAnimations_[1]->CreateAnimation("IG_LV2_EXCITED.bmp", "IG_LV2_EXCITED", 0, 0, 0.0f, false);
+			EnemyAnimations_[1]->ChangeAnimation("IG_LV2_IDLE");
 
-			EnemyNames_[0] = EnemyActors_->CreateRenderer();
-			EnemyNames_[0]->SetOrder(2);
-			EnemyNames_[0]->SetPivot({ XPos, -YPos });
-			EnemyNames_[0]->SetImage("IG_NAME_SKEL.bmp");
+			EnemyNames_[1] = EnemyActors_->CreateRenderer();
+			EnemyNames_[1]->SetOrder(2);
+			EnemyNames_[1]->SetPivot({ XPos, -YPos });
+			EnemyNames_[1]->SetImage("IG_NAME_WISP.bmp");
 			break;
 
 		case 3:
@@ -949,29 +952,17 @@ void EnemyFSM::SetMyProfile(EnemyProfile* _Porifle)
 			break;
 
 		case 5:
-			EnemyAnimations_[3] = EnemyActors_->CreateRenderer();
-			EnemyAnimations_[3]->SetOrder(2);
-			EnemyAnimations_[3]->CreateAnimation("IG_LV4_IDLE.bmp", "IG_LV4_IDLE", 0, 3, 0.2f, true);
-			EnemyAnimations_[3]->CreateAnimation("IG_LV4_EXCITED.bmp", "IG_LV4_EXCITED", 0, 3, 0.2f, true);
-			EnemyAnimations_[3]->CreateAnimation("IG_LV4_LOSE.bmp", "IG_LV4_LOSE", 0, 3, 0.2f, true);
-			EnemyAnimations_[3]->CreateAnimation("IG_LV4_WIN.bmp", "IG_LV4_WIN", 0, 0, 0.0f, false);
-			EnemyAnimations_[3]->ChangeAnimation("IG_LV4_IDLE");
+			EnemyAnimations_[4] = EnemyActors_->CreateRenderer();
+			EnemyAnimations_[4]->SetOrder(2);
+			EnemyAnimations_[4]->CreateAnimation("IG_LV5_IDLE.bmp", "IG_LV5_IDLE", 0, 0, 0.0f, false);
+			EnemyAnimations_[4]->CreateAnimation("IG_LV5_LOSE.bmp", "IG_LV5_LOSE", 0, 0, 0.0f, false);
+			EnemyAnimations_[4]->CreateAnimation("IG_LV5_WIN.bmp", "IG_LV5_WIN", 0, 0, 0.0f, false);
+			EnemyAnimations_[4]->ChangeAnimation("IG_LV5_IDLE");
 
-			EnemyNames_[3] = EnemyActors_->CreateRenderer();
-			EnemyNames_[3]->SetOrder(2);
-			EnemyNames_[3]->SetPivot({ XPos, -YPos });
-			EnemyNames_[3]->SetImage("IG_NAME_BANS.bmp");
-			//EnemyAnimations_[4] = EnemyActors_->CreateRenderer();
-			//EnemyAnimations_[4]->SetOrder(2);
-			//EnemyAnimations_[4]->CreateAnimation("IG_LV5_IDLE.bmp", "IG_LV5_IDLE", 0, 0, 0.0f, false);
-			//EnemyAnimations_[4]->CreateAnimation("IG_LV5_LOSE.bmp", "IG_LV5_LOSE", 0, 0, 0.0f, false);
-			//EnemyAnimations_[4]->CreateAnimation("IG_LV5_WIN.bmp", "IG_LV5_WIN", 0, 0, 0.0f, false);
-			//EnemyAnimations_[4]->ChangeAnimation("IG_LV5_IDLE");
-
-			//EnemyNames_[4] = EnemyActors_->CreateRenderer();
-			//EnemyNames_[4]->SetOrder(2);
-			//EnemyNames_[4]->SetPivot({ XPos, -YPos });
-			//EnemyNames_[4]->SetImage("IG_NAME_NOMI.bmp");
+			EnemyNames_[4] = EnemyActors_->CreateRenderer();
+			EnemyNames_[4]->SetOrder(2);
+			EnemyNames_[4]->SetPivot({ XPos, -YPos });
+			EnemyNames_[4]->SetImage("IG_NAME_NOMI.bmp");
 			break;
 
 		case 6:
@@ -979,7 +970,7 @@ void EnemyFSM::SetMyProfile(EnemyProfile* _Porifle)
 			EnemyAnimations_[5]->SetOrder(2);
 			EnemyAnimations_[5]->CreateAnimation("IG_LV6_IDLE.bmp", "IG_LV6_IDLE", 0, 2, 0.2f, true);
 			EnemyAnimations_[5]->CreateAnimation("IG_LV6_LOSE.bmp", "IG_LV6_LOSE", 0, 2, 0.2f, true);
-			EnemyAnimations_[5]->CreateAnimation("IG_LV6_WIN.bmp", "IG_LV6_WIN", 0, 2, 0.0f, true);
+			EnemyAnimations_[5]->CreateAnimation("IG_LV6_WIN.bmp", "IG_LV6_WIN", 0, 2, 0.2f, true);
 			EnemyAnimations_[5]->ChangeAnimation("IG_LV6_IDLE");
 
 			EnemyNames_[5] = EnemyActors_->CreateRenderer();
@@ -1018,4 +1009,3 @@ void EnemyFSM::SetMyProfile(EnemyProfile* _Porifle)
 		}
 	}
 }
-

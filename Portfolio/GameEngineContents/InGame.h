@@ -51,6 +51,8 @@ protected:
 
 private:
 	Stage* Stages_[3];
+	InGameActor* StateBottoms_[2];
+
 	Player*	Player_; 
 	EnemyFSM* EnemyFSM_;
 

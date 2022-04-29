@@ -73,14 +73,11 @@ void GameEngine::EngineLoop()
     if (nullptr != NextLevel_)
     {
         PrevLevel_ = CurrentLevel_;
-
         if (nullptr != CurrentLevel_)
         {
             CurrentLevel_->ActorLevelChangeEnd(NextLevel_);
             CurrentLevel_->LevelChangeEnd(NextLevel_);
-
             CurrentLevel_->ObjectLevelMoveCheck(NextLevel_);
-
         }
 
         GameEngineLevel* PrevLevel = CurrentLevel_;
@@ -117,6 +114,14 @@ void GameEngine::EngineLoop()
 
     CurrentLevel_->ActorRelease();
 
+    if (true == CurrentLevel_->IsReset)
+    {
+        CurrentLevel_->Reset();
+        // 리셋되고 나서 로딩을 다시 호출하건 자신만의 뭐가 있건 알아서 해라.
+        CurrentLevel_->UserResetEnd();
+        CurrentLevel_->IsReset = false;
+    }
+
 }
 
 void GameEngine::EngineEnd()
@@ -134,6 +139,7 @@ void GameEngine::EngineEnd()
         }
         delete StartIter->second;
     }
+
 
     GameEngineSound::AllResourcesDestroy();
     GameEngineImageManager::Destroy();

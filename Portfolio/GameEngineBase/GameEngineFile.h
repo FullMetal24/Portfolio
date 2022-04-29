@@ -21,7 +21,7 @@ public:
 	// delete Function
 	void Open(OpenMode _Mode);
 
-	void ReadOpen()
+	void ReadOpen() 
 	{
 		Open(OpenMode::Read);
 	}
