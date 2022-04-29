@@ -2,11 +2,13 @@
 #include "ContentsEnum.h"
 #include "InGameActor.h"
 #include "GameEngineBase/GameEngineRandom.h"
+#include <GameEngineBase/GameEngineSound.h>
 #include <set>
 
 class Puyo;
 class EnemyFSM;
 class Fire;
+class Offset;
 class Player : public GameEngineActor
 {
 	friend Puyo;
@@ -19,6 +21,8 @@ public:
 	Player(Player&& _Other) noexcept = delete;
 	Player& operator=(const Player& _Other) = delete;
 	Player& operator=(Player&& _Other) noexcept = delete;
+
+	void OffsetEffectInit();
 
 	//NewPuyo 관련 함수
 	void NewPuyoPair();
@@ -45,7 +49,7 @@ public:
 
 	//HindrancePuyo 관련 함수
 	void PlayerToEnemyAttack(float4 _FromPos);
-	void CreateHindrancePuyo();
+	void CreateHindrancePuyo(int _Count);
 	void HindrancePuyoCheck();
 	void FallHindrancePuyo();
 
@@ -118,5 +122,10 @@ private:
 	GameEngineRenderer* ScoreRenderers_[10];
 
 	unsigned int Chain_;
+
+	GameEngineSound PlayerSound_;
+
+	Offset* OffsetRenderer_;
+	Offset* OffsetStars_[6];
 };
 

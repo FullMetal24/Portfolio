@@ -51,7 +51,7 @@ public:
 
 	//HindrancePuyo 관련 함수
 	void EnemyToPlayerAttack(float4 _FromPos);
-	void CreateHindrancePuyo();
+	void CreateHindrancePuyo(int _Count);
 	void HindrancePuyoCheck();
 	void FallHindrancePuyo();
 

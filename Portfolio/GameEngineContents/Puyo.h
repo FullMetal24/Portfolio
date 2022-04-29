@@ -1,5 +1,6 @@
 #pragma once
 #include <GameEngine/GameEngineActor.h>
+#include <GameEngineBase/GameEngineSound.h>
 #include "GameEngineBase/GameEngineRandom.h"
 #include "ContentsEnum.h"
 
@@ -205,7 +206,6 @@ public:
 	void RenderToIdle();
 	void RenderToOtherIdle();
 
-	void NormalPuyo();
 	void IdleToNomal();
 
 	void LandAnimation();
@@ -253,4 +253,7 @@ private:
 	//»óÇÏÁÂ¿ì
 	bool IsConnect_[4];
 	bool IsLoseFall_;
+	bool IsSoundPlay_;
+
+	GameEngineSound PuyoSound_;
 };

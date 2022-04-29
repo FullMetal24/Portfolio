@@ -5,7 +5,6 @@
 Fire::Fire()
 	: FireOwner_(FireOwner::NONE)
 	, Acc_(0.f)
-	, IsPlayerFireSoundPlay_(false)
 {
 }
 
@@ -49,7 +48,7 @@ void Fire::Update()
 
 	if (true == IsChainUp_)
 	{
-		Alpha_ += GameEngineTime::GetDeltaTime() * 2.f;
+		Alpha_ += GameEngineTime::GetDeltaTime() * 2.5f;
 
 		if (1.f <= Alpha_)
 		{
@@ -64,12 +63,6 @@ void Fire::Update()
 			ChainActor_->SetPosition(GetPosition());
   			ChainActor_->GetMyRenderer()->SetOrder(-1);
 		}
-	}
-
-	if (true == IsPlayerFireSoundPlay_)
-	{
-		PlayerSound_.SoundPlayOneShot("ARLE_Fire.mp3");
-		IsPlayerFireSoundPlay_ = false;
 	}
 
 }
@@ -144,7 +137,7 @@ void Fire::PlayerRenderChain(int _Count, float4 _From)
 	Alpha_ = 0.f;
 	IsChainUp_ = true;
 	StartPos_ = _From;
-	EndPos_ = StartPos_ + float4{ 0, -200.f};
+	EndPos_ = StartPos_ + float4{ 0, -300.f};
 
 	switch (_Count)
 	{
@@ -166,7 +159,6 @@ void Fire::PlayerRenderChain(int _Count, float4 _From)
 	}
 
  	ChainActor_->GetMyRenderer()->SetOrder(10);
-	IsPlayerFireSoundPlay_ = true;
 }
 
 void Fire::EnemyRenderChain(int _Count, float4 _From)

@@ -5,6 +5,8 @@
 #include "Fire.h"
 #include "EnemyFSM.h"
 #include "Puyo.h"
+#include "Offset.h"
+
 
 Player::Player()
 	: PlayerMap_{ nullptr }
@@ -19,7 +21,7 @@ Player::Player()
 {
 }
 
-Player::~Player() 
+Player::~Player()
 {
 }
 
@@ -48,6 +50,7 @@ void Player::Start()
 	Fire_ = GetLevel()->CreateActor<Fire>();
 	Fire_->SetFireOwner(FireOwner::Player);
 
+	OffsetEffectInit();
 }
 
 void Player::Update()
@@ -60,6 +63,7 @@ void Player::Update()
 	switch (PlayerState_)
 	{
 	case PlayerState::NewPuyo:
+		Chain_ = 0;
 		NewPuyoPair();
 		break;
 	case PlayerState::MovePuyo:
@@ -88,7 +92,6 @@ void Player::Update()
 		}
 		break;
 	case PlayerState::HindranceCheck:
-		Chain_ = 0;
 		HindrancePuyoCheck();
 		break;
 	case PlayerState::Win:
@@ -103,7 +106,23 @@ void Player::Update()
 	RenderToScore();
 }
 
-void Player::NewPuyoPair() 
+void Player::OffsetEffectInit()
+{
+	OffsetRenderer_ = GetLevel()->CreateActor<Offset>();
+	OffsetRenderer_->SetStartPos({ 300, 90 });
+	OffsetRenderer_->SetMyRenderer(OffsetRenderer_->CreateRenderer("IG_OFFSET.bmp"));
+
+	for (int i = 0; i < 6; ++i)
+	{
+		OffsetStars_[i] = GetLevel()->CreateActor<Offset>();
+		OffsetStars_[i]->SetStartPos({ 280.f, 90.f});
+		OffsetStars_[i]->SetMyRenderer(OffsetStars_[i]->CreateRenderer());
+		OffsetStars_[i]->GetMyRenderer()->CreateAnimation("IG_OffsetStar.bmp", "IG_OffsetStar", 0, 4, 0.1f, true);
+		OffsetStars_[i]->GetMyRenderer()->ChangeAnimation("IG_OffsetStar");
+	}
+}
+
+void Player::NewPuyoPair()
 {
 	SecondPuyo_ = CreatePuyo(2, 14, NextSecondPuyo_->GetColor());
 	CenterPuyo_ = CreatePuyo(2, 13, NextCenterPuyo_->GetColor());
@@ -236,6 +255,14 @@ void Player::InputPuyoMove()
 
 	if (GameEngineInput::GetInst()->IsDown("Left"))
 	{
+		for (int i = 0; i < 6; i++)
+		{
+			OffsetStars_[i]->GetMyRenderer()->SetOrder(15);
+		}
+
+		OffsetRenderer_->SetUpdate(true);
+		OffsetRenderer_->GetMyRenderer()->SetOrder(15);
+
 		if (CenterPuyo_->GetX() >= SecondPuyo_->GetX())
 		{
 			SecondPuyo_->LeftPuyo(PlayerMap_, CenterPuyo_);
@@ -266,7 +293,7 @@ void Player::InputPuyoMove()
 
 	if (GameEngineInput::GetInst()->IsDown("Rotate"))
 	{
- 		SecondPuyo_->RotatePuyo(PlayerMap_, CenterPuyo_);
+		SecondPuyo_->RotatePuyo(PlayerMap_, CenterPuyo_);
 	}
 
 	if (GameEngineInput::GetInst()->IsDown("Down"))
@@ -285,14 +312,14 @@ void Player::InputPuyoMove()
 			InputDown();
 		}
 	}
-	
+
 }
 
 void Player::AutoDown()
 {
 	AutoDownTime_ -= GameEngineTime::GetDeltaTime();
 
-	if (AutoDownTime_ <= 0.2f 
+	if (AutoDownTime_ <= 0.2f
 		&& CenterPuyo_->GetY() <= SecondPuyo_->GetY())
 	{
 		AutoDownTime_ = 1.0f;
@@ -301,7 +328,7 @@ void Player::AutoDown()
 		Puyo* DownPuyo1 = SecondPuyo_->DownPuyo(PlayerMap_, CenterPuyo_);
 	}
 
-	else if(AutoDownTime_ <= 0.2f
+	else if (AutoDownTime_ <= 0.2f
 		&& CenterPuyo_->GetY() >= SecondPuyo_->GetY())
 	{
 		AutoDownTime_ = 1.0f;
@@ -395,7 +422,7 @@ void Player::DestroyPuyo()
 				(*PuyoStartIter)->DestroyHindracePuyo(PlayerMap_);
 				PlayerMap_[(*PuyoStartIter)->GetY()][(*PuyoStartIter)->GetX()] = nullptr;
 
-				Score_ += static_cast<int>(GameEngineTime::GetDeltaTime() * 100);
+				Score_ += PuyoVector.size() * (Chain_) * 10;
 			}
 		}
 	}
@@ -435,19 +462,69 @@ void Player::LandPuyo()
 
 void Player::PlayerToEnemyAttack(float4 _FromPos)
 {
+	switch (Chain_)
+	{
+	case 1:
+		PlayerSound_.SoundPlayOneShot("ARLE_CHAIN_1.mp3");
+		break;
+	case 2:
+		PlayerSound_.SoundPlayOneShot("ARLE_CHAIN_2.mp3");
+		break;
+	case 3:
+		PlayerSound_.SoundPlayOneShot("ARLE_CHAIN_3.mp3");
+		break;
+	case 4:
+		PlayerSound_.SoundPlayOneShot("ARLE_CHAIN_4.mp3");
+		break;
+	default:
+		PlayerSound_.SoundPlayOneShot("ARLE_CHAIN_2.mp3");
+		break;
+	}
+
+	if (0 < Hindrances_.size()) //»ó¼â
+	{
+
+		for (int i = 0; i < Chain_; i++)
+		{
+			if (0 == Hindrances_.size())
+			{
+				break;
+			}
+
+			--Chain_;
+			Hindrances_.pop_back();
+		}
+	}
+
 	Fire_->SetFirePosition(_FromPos);
 	Fire_->GetTargetPos(EnemeyPoint_);
 	Fire_->SetIsAttack(true);
 
-	Enemy_->CreateHindrancePuyo();
+	Enemy_->CreateHindrancePuyo(Chain_);
 }
 
-void Player::CreateHindrancePuyo()
+void Player::CreateHindrancePuyo(int _Count)
 {
-	Puyo* NewPuyo = GetLevel()->CreateActor<Puyo>();
-	NewPuyo->SetColor(PuyoColor::Hindrance);
-	NewPuyo->InitAnimation(PuyoColor::Hindrance);
-	Hindrances_.push_back(NewPuyo);
+	switch (_Count)
+	{
+	case 1:
+		PlayerSound_.SoundPlayOneShot("ARLE_HURT_1.mp3");
+		break;
+	case 2:
+		PlayerSound_.SoundPlayOneShot("ARLE_HURT_2.mp3");
+		break;
+	default:
+		PlayerSound_.SoundPlayOneShot("ARLE_HURT_1.mp3");
+		break;
+	}
+
+	for (int i = 0; i < _Count; ++i)
+	{
+		Puyo* NewPuyo = GetLevel()->CreateActor<Puyo>();
+		NewPuyo->SetColor(PuyoColor::Hindrance);
+		NewPuyo->InitAnimation(PuyoColor::Hindrance);
+		Hindrances_.push_back(NewPuyo);
+	}
 }
 
 void Player::HindrancePuyoCheck()
@@ -473,18 +550,18 @@ void Player::FallHindrancePuyo()
 		int X = Random_.RandomInt(0, 5);
 		int Y = 0;
 
-		for  (int i = 14; i >= 0; --i)
+		for (int i = 14; i >= 0; --i)
 		{
 			if (PlayerMap_[i][X] == nullptr)
 			{
 				Y = i;
 			}
-		 } 
+		}
 
 		(*StartIter)->SetIndex(X, Y);
 		(*StartIter)->SetPosition((*StartIter)->CoordinatePos(this, X, 15));
 		(*StartIter)->FallPuyo(PlayerMap_, this);
- 		PlayerMap_[Y][X] = (*StartIter);
+		PlayerMap_[Y][X] = (*StartIter);
 	}
 
 	Hindrances_.clear();

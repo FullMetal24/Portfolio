@@ -430,6 +430,10 @@ void InGame::PuyoAnimationInit()
 
 	GameEngineImage* HindranceIdle = GameEngineImageManager::GetInst()->Find("IG_HINDRANCE_PUYO_IDLE.bmp");
 	HindranceIdle->CutCount(3, 1);
+
+	GameEngineImage* OffsetStarImage = GameEngineImageManager::GetInst()->Find("IG_OffsetStar.bmp");
+	OffsetStarImage->CutCount(5, 1);
+	
 }
 
 void InGame::CarbuncleAnimationInit()
@@ -671,9 +675,9 @@ void InGame::SpewStar()
 
 void InGame::LevelChangeStart(GameEngineLevel* _PrevLevel)
 {
-	InGameBgm_ = GameEngineSound::SoundPlayControl("InGame1.mp3");
+	InGameBgm_ = GameEngineSound::SoundPlayControl("INGAME.mp3");
 
-	EffectSound_.SoundPlayOneShot("ARLE_002.mp3");
+	EffectSound_.SoundPlayOneShot("ARLE_START.mp3");
 
 	if (nullptr != _PrevLevel)
 	{

@@ -52,7 +52,7 @@ void EnemyFSM::Start()
 
 	if (false == GameEngineInput::GetInst()->IsKey("Hindrance"))
 	{
-		GameEngineInput::GetInst()->CreateKey("Hindrance", VK_SPACE);
+		GameEngineInput::GetInst()->CreateKey("Hindrance", VK_LSHIFT);
 		GameEngineInput::GetInst()->CreateKey("LoseEnemy", 'b');
 	}
 }
@@ -67,6 +67,7 @@ void EnemyFSM::Update()
 	switch (EnemyState_)
 	{
 	case EnemyState::NewPuyo:
+		Chain_ = 0;
 		NewPuyoPair();
 		break;
 	case EnemyState::MovePuyo:
@@ -97,7 +98,6 @@ void EnemyFSM::Update()
 		}
 		break;
 	case EnemyState::HindranceCheck:
-		Chain_ = 0;
 		HindrancePuyoCheck();
 		break;
 	case EnemyState::Win:
@@ -107,10 +107,11 @@ void EnemyFSM::Update()
 		break;
 	}
 
-	//if (true == GameEngineInput::GetInst()->IsDown("Hindrance"))
-	//{
-	//	EnemyToPlayerAttack({ GameEngineWindow::GetScale().Half() });
-	//}
+	if (true == GameEngineInput::GetInst()->IsDown("Hindrance"))
+	{
+		Chain_ += 1;
+		EnemyToPlayerAttack({ GameEngineWindow::GetScale().Half() });
+	}
 	
 	DigitScore(Score_);
 	RenderToScore();
@@ -499,7 +500,7 @@ void EnemyFSM::DestroyPuyo()
 				(*PuyoStartIter)->DestroyHindracePuyo(EnemyMap_);
 				EnemyMap_[(*PuyoStartIter)->GetY()][(*PuyoStartIter)->GetX()] = nullptr;
 
-				Score_ += static_cast<int>(GameEngineTime::GetDeltaTime() * 100);
+				Score_ += PuyoVector.size() * (Chain_) * 10; 
 			}
 		}
 	}
@@ -539,20 +540,40 @@ void EnemyFSM::LandPuyo()
 
 void EnemyFSM::EnemyToPlayerAttack(float4 _FromPos)
 {
+	if (0 < Hindrances_.size()) //»ó¼â
+	{
+		//ÀÌÆåÆ® È¿°ú Àç»ý
+
+		for (int i = 0; i < Chain_; i++)
+		{
+			if (0 == Hindrances_.size())
+			{
+				break;
+			}
+
+			--Chain_;
+			Hindrances_.pop_back();
+		}
+	}
+
 	Fire_->SetFirePosition(_FromPos);
 	Fire_->GetTargetPos(PlayerPoint_);
 	Fire_->SetIsAttack(true);
 
-	Player_->CreateHindrancePuyo();
+	Player_->CreateHindrancePuyo(Chain_);
 }
 
-void EnemyFSM::CreateHindrancePuyo()
+void EnemyFSM::CreateHindrancePuyo(int _Count)
 {
-	Puyo* NewPuyo = GetLevel()->CreateActor<Puyo>();
-	NewPuyo->SetColor(PuyoColor::Hindrance);
-	NewPuyo->InitAnimation(PuyoColor::Hindrance);
+	_Count *= _Count;
 
-	Hindrances_.push_back(NewPuyo);
+	for (int i = 0; i < _Count; ++i)
+	{
+		Puyo* NewPuyo = GetLevel()->CreateActor<Puyo>();
+		NewPuyo->SetColor(PuyoColor::Hindrance);
+		NewPuyo->InitAnimation(PuyoColor::Hindrance);
+		Hindrances_.push_back(NewPuyo);
+	}
 }
 
 void EnemyFSM::HindrancePuyoCheck()

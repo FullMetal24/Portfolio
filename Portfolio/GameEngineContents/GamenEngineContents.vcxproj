@@ -213,6 +213,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="InGame.h" />
+    <ClInclude Include="Offset.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Player.h">
       <SubType>
       </SubType>
@@ -286,6 +290,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="InGame.cpp" />
+    <ClCompile Include="Offset.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Player.cpp">
       <SubType>
       </SubType>

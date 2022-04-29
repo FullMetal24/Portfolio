@@ -26,6 +26,7 @@ Puyo::Puyo()
 	, IsFall_(false)
 	, IsConnect_{ false }
 	, IsLoseFall_(false)
+	, IsSoundPlay_(false)
 {
 }
 
@@ -45,7 +46,19 @@ void Puyo::Update()
 	switch (PuyoState_)
 	{
 	case PuyoState::Normal:
-		NormalPuyo();
+		if (true == IsLand_)
+		{
+			for (int i = 0; i < 4; i++)
+			{
+				if (true == IsConnect_[i])
+				{
+					return;
+				}
+			}
+
+			RandomIdleAnimation();
+			IdleToNomal();
+		}
 		break;
 	case PuyoState::Linked:
 		if (nullptr != Player_)
@@ -964,8 +977,6 @@ float4 Puyo::LerpPuyo(float4 A, float4 B, float Alpha)
 
 
 
-
-
 //애니메이션 관련 함수
 void Puyo::RenderToNormal()
 {
@@ -1386,8 +1397,7 @@ void Puyo::RenderToIdle()
 		MyRenderer_->ChangeAnimation("IG_GREEN_IDLE");
 		break;
 	case PuyoColor::YELLOW:
-		MyRenderer_->ChangeAnimation("IG_YELLOW_IDLE");
-		break;
+		MyRenderer_->ChangeAnimation("IG_YELLOW_IDLE");break;
 	case PuyoColor::PURPLE:
 		MyRenderer_->ChangeAnimation("IG_PURPLE_IDLE");
 		break;
@@ -1422,24 +1432,6 @@ void Puyo::RenderToOtherIdle()
 	}
 }
 
-
-void Puyo::NormalPuyo()
-{if (true == IsLand_)
-	{
-
-
-		//for (int i = 0; i < 4; i++)
-		//{
-		//	if (true == IsConnect_[i])
-		//	{
-		//		return;
-		//	}
-		//}
-
-		//RandomIdleAnimation();
-		//IdleToNomal();
-	}
-}
 
 void Puyo::IdleToNomal()
 {

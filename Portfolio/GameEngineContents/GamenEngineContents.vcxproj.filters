@@ -71,6 +71,9 @@
     <ClCompile Include="Player.cpp">
       <Filter>Actor\Level\InGame\Player</Filter>
     </ClCompile>
+    <ClCompile Include="Offset.cpp">
+      <Filter>Actor\Level\InGame</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PuyoPuyo.h" />
@@ -139,6 +142,9 @@
     </ClInclude>
     <ClInclude Include="Player.h">
       <Filter>Actor\Level\InGame\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Offset.h">
+      <Filter>Actor\Level\InGame</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

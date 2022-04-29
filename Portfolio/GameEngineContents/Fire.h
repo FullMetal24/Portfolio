@@ -1,6 +1,5 @@
 #pragma once
 #include <GameEngine/GameEngineActor.h>
-#include <GameEngineBase/GameEngineSound.h>
 #include "ContentsEnum.h"
 #include "InGameActor.h"
 
@@ -55,8 +54,6 @@ private:
 	float4 TargetPos_;
 	GameEngineRenderer* MyRenderer_;
 
-	GameEngineSound PlayerSound_;
-
 	InGameActor* ChainActor_;
 
 	float4 StartPos_;
@@ -70,7 +67,6 @@ private:
 	bool IsAttack_;
 	bool IsChainUp_;
 
-	bool IsPlayerFireSoundPlay_;
 
 };
 
