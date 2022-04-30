@@ -107,7 +107,6 @@ private:
 		NextLevelOn_ = false;
 	}
 
-
 	// 나를 만들어준 레벨이야.
 	inline void SetLevel(GameEngineLevel* _Level)
 	{

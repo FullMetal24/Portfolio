@@ -4,10 +4,10 @@
 #include <GameEngineBase/GameEngineMath.h>
 #include <GameEngine/GameEngineActor.h>
 #include <GameEngine/GameEngineImageManager.h>
+#include <GameEngineBase/GameEngineInput.h>
 #include <GameEngine/GameEngine.h>
 #include "FadeInOutBackground.h"
 #include "InGameActor.h"
-#include "PuyoPair.h"
 #include "Puyo.h"
 #include "EnemyFSM.h"
 #include "ContentsEnum.h"
@@ -525,6 +525,11 @@ void InGame::GameOverCheck()
 		{	
 			ChangeCount_ = 7.f;
 			GameEngine::GetInst().ChangeLevel("EnemySelect");
+
+			GameEngineLevel* NextLevel = GameEngine::GetNextLevel();
+			EnemySelect* EnemySelect_ = dynamic_cast<EnemySelect*>(NextLevel);
+
+			EnemySelect_->LockLoseEnemyIcon(EnemyProfile_->GetMyLevel());
 		}
 	}
 }

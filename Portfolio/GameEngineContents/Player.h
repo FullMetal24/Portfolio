@@ -10,6 +10,7 @@ class EnemyFSM;
 class Fire;
 class Offset;
 class OffsetStar;
+class WarningPuyo;
 class Player : public GameEngineActor
 {
 	friend Puyo;
@@ -53,6 +54,9 @@ public:
 	void CreateHindrancePuyo(int _Count);
 	void HindrancePuyoCheck();
 	void FallHindrancePuyo();
+	void AddWarningPuyo(int _Count);
+	void PopWarningPuyo();
+	void CountPopWarningPuyo(int _Count);
 
 	//스코어 관련 함수
 	void ScoreInit();
@@ -98,6 +102,7 @@ private:
 	std::set<Puyo*> FindAllDestroy_;
 
 	std::vector<Puyo*> Hindrances_;
+	std::vector<WarningPuyo*> WarningPuyos_;
 
 	GameEngineRandom Random_;
 

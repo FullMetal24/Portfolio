@@ -118,7 +118,7 @@ void Title::Update()
 		{
 			TitleActors_[(int)TitileOrder::COIN_2]->SetPosition(TitleActors_[(int)TitileOrder::COIN_1]->GetPosition());
 			CoinRenderer_->SetOrder(8);
-			TitleActors_[(int)TitileOrder::COIN_1]->Death();
+			TitleActors_[(int)TitileOrder::COIN_1]->Off();
 
 			ChineseChracter_->SetPosition(TitleActors_[(int)TitileOrder::COIN_2]->GetPosition());
 			ChineseChracterRenderer_->SetOrder(7);
@@ -253,18 +253,23 @@ void Title::Update()
 
 }
 
+
+bool IsChange;
+
 void Title::LevelChangeStart(GameEngineLevel* _PrevLevel)
 {
 	TransCount_ = 0;
 	LevelChangeBackground_->SetIsChage(false);
 	LevelChangeBackground_->SetAlphaValue(0);
 	LevelChangeBackground_->SetFadeSpeed(0.f);
+	LevelChangeBackground_->GetMyRenderer()->SetOrder(0);
 
 	FadeInOutBackground_->Reset();
 }
 
 void Title::LevelChangeEnd(GameEngineLevel* _NextLevel)
 {
+	IsChange = true;
 }
 
 void Title::BackgroundInit()
@@ -311,9 +316,6 @@ void Title::BackgroundInit()
 	GreenRenderer_->CreateAnimation("TT_SMALL_PUYO.bmp", "TT_SMALL_PUYO", 0, 2, 0.1f, true);
 	GreenRenderer_->ChangeAnimation("TT_SMALL_PUYO");
 
-	/// <summary>
-	/// SetOrder 만들기 전
-	/// </summary>
 	for (int i = 0; i < 20; i++)
 	{
 		//역순
@@ -401,7 +403,7 @@ void Title::ChangeBackground()
 	{
 		FadeInOutBackground_->Reset();
 
-		TitleActors_[(int)TitileOrder::COMPANYLOGO]->Death();
+		TitleActors_[(int)TitileOrder::COMPANYLOGO]->Off();
 
 		TitleBgm_ = GameEngineSound::SoundPlayControl("Title.mp3");
 
@@ -413,9 +415,9 @@ void Title::ChangeBackground()
 	{
 		FadeInOutBackground_->Reset();
 
-		TitleActors_[(int)TitileOrder::PUYO]->Death();
-		TitleActors_[(int)TitileOrder::PUYO_EYE]->Death();
-		TitleActors_[(int)TitileOrder::PUYO_BACK]->Death();
+		TitleActors_[(int)TitileOrder::PUYO]->Off();
+		TitleActors_[(int)TitileOrder::PUYO_EYE]->Off();
+		TitleActors_[(int)TitileOrder::PUYO_BACK]->Off();
 
 		++TransCount_;
 		TransTime_ = 0.0f;
@@ -425,8 +427,8 @@ void Title::ChangeBackground()
 	{
 		FadeInOutBackground_->Reset();
 
-		TitleActors_[(int)TitileOrder::ROLL_1]->Death();
-		TitleActors_[(int)TitileOrder::LINE_1]->Death();
+		TitleActors_[(int)TitileOrder::ROLL_1]->Off();
+		TitleActors_[(int)TitileOrder::LINE_1]->Off();
 		TitleActors_[(int)TitileOrder::ROLL_2]->SetPosition({ TitleActors_[(int)TitileOrder::ROLL_2]->GetPosition().x, TitleActors_[(int)TitileOrder::ROLL_2]->GetPosition().y - 100.f });
 
 		++TransCount_;
@@ -438,8 +440,8 @@ void Title::ChangeBackground()
 	{
 		FadeInOutBackground_->Reset();
 
-		TitleActors_[(int)TitileOrder::CARBUNCLE]->Death();
-		TitleActors_[(int)TitileOrder::CARBUNCLE_BACK]->Death();
+		TitleActors_[(int)TitileOrder::CARBUNCLE]->Off();
+		TitleActors_[(int)TitileOrder::CARBUNCLE_BACK]->Off();
 
 		++TransCount_;
 		TransTime_ = 0.0f;
@@ -449,8 +451,8 @@ void Title::ChangeBackground()
 	{
 		FadeInOutBackground_->Reset();
 
-		TitleActors_[(int)TitileOrder::ROLL_2]->Death();
-		TitleActors_[(int)TitileOrder::LINE_2]->Death();
+		TitleActors_[(int)TitileOrder::ROLL_2]->Off();
+		TitleActors_[(int)TitileOrder::LINE_2]->Off();
 		TitleActors_[(int)TitileOrder::ROLL_3]->SetPosition({ TitleActors_[(int)TitileOrder::ROLL_2]->GetPosition().x, TitleActors_[(int)TitileOrder::ROLL_2]->GetPosition().y - 250.f });
 
 		++TransCount_;
@@ -461,9 +463,9 @@ void Title::ChangeBackground()
 	{
 		FadeInOutBackground_->Reset();
 
-		TitleActors_[(int)TitileOrder::ARLE_FACE]->Death();
-		TitleActors_[(int)TitileOrder::ARLE_FINGER]->Death();
-		TitleActors_[(int)TitileOrder::ARLE_BACK]->Death();
+		TitleActors_[(int)TitileOrder::ARLE_FACE]->Off();
+		TitleActors_[(int)TitileOrder::ARLE_FINGER]->Off();
+		TitleActors_[(int)TitileOrder::ARLE_BACK]->Off();
 
 		++TransCount_;
 		TransTime_ = 0.0f;
@@ -487,8 +489,6 @@ void Title::ChangeBackground()
 		FadeInOutBackground_->Reset();
 	}
 }
-
-
 
 void Title::FadeBackground()
 {

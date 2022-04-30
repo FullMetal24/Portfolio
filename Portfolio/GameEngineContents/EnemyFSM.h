@@ -8,6 +8,7 @@ class Player;
 class Fire;
 class Puyo;
 class EnemyProfile;
+class WarningPuyo;
 class EnemyFSM : public GameEngineActor
 {
 	friend Puyo;
@@ -54,6 +55,9 @@ public:
 	void CreateHindrancePuyo(int _Count);
 	void HindrancePuyoCheck();
 	void FallHindrancePuyo();
+	void AddWarningPuyo(int _Count);
+	void PopWarningPuyo();
+	void CountPopWarningPuyo(int _Count);
 	
 	void OffsetEffect();
 
@@ -70,7 +74,6 @@ public:
 	void EnemyAnimatioInit();
 	void SetMyProfile(EnemyProfile* _Porifle);
 	
-
 	void Lose();
 
 	inline void SetPlayer(Player* _Player)
@@ -95,6 +98,9 @@ private:
 	std::vector<std::vector<Puyo*>> AllDestroyPuyo_;
 	std::set<Puyo*> FindAllDestroy_;
 	std::vector<Puyo*> Hindrances_;
+
+	std::vector<InGameActor*> HindrancePreview_;
+	std::vector<WarningPuyo*> WarningPuyos_;
 
 	Fire* Fire_;
 	float4 PlayerPoint_;

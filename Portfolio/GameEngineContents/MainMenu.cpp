@@ -28,13 +28,7 @@ MainMenu::~MainMenu()
 
 void MainMenu::Loading()
 {
-	//입력 초기화
-	if (false == GameEngineInput::GetInst()->IsKey("ManiMenu_Right"))
-	{
-		GameEngineInput::GetInst()->CreateKey("ManiMenu_Right", VK_RIGHT);
-		GameEngineInput::GetInst()->CreateKey("ManiMenu_Left", VK_LEFT);
-		GameEngineInput::GetInst()->CreateKey("ManiMenu_Select", VK_RETURN);
-	}
+	
 
 	FadeBackground_ = CreateActor<FadeInOutBackground>();
 	

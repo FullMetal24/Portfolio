@@ -41,6 +41,8 @@ private:
 	FadeInOutBackground* FadeBack_;
 	EnemyProfile* EnemyProfile_;
 
+	GameEngineSoundPlayer GameOverBgm_;
+
 	int Count_;
 	float Time_;
 

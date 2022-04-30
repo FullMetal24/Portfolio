@@ -77,6 +77,9 @@
     <ClCompile Include="OffsetStar.cpp">
       <Filter>Actor\Level\InGame</Filter>
     </ClCompile>
+    <ClCompile Include="WarningPuyo.cpp">
+      <Filter>Actor\Level\InGame</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PuyoPuyo.h" />
@@ -150,6 +153,9 @@
       <Filter>Actor\Level\InGame</Filter>
     </ClInclude>
     <ClInclude Include="OffsetStar.h">
+      <Filter>Actor\Level\InGame</Filter>
+    </ClInclude>
+    <ClInclude Include="WarningPuyo.h">
       <Filter>Actor\Level\InGame</Filter>
     </ClInclude>
   </ItemGroup>

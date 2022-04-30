@@ -31,6 +31,8 @@ public:
 	void PlayRoulette();
 	void TwinkleEnemyIcon();
 
+	void LockLoseEnemyIcon(int _Level);
+
 	inline EnemyProfile* GetEnemyProfile()
 	{
 		return MyEnemy_;
@@ -43,9 +45,6 @@ private:
 	EnemyProfile* Enemys_[8];
 	EnemyProfile* MyEnemy_;
 
-	std::vector<EnemySelectActor*> MidLine_;
-	std::vector<std::vector<EnemySelectActor*>> Backgrounds_;
-
 	float RouletteSpeed_;
 	float SpeedLimit_;
 	float LevelChangeCount_;
@@ -57,6 +56,7 @@ private:
 
 	bool IsSelect_;
 	bool IsKeyDown_;
+	bool IsChange_;
 
 	GameEngineActor* Top_[6];
 	GameEngineRenderer* TopRenderer_[6];

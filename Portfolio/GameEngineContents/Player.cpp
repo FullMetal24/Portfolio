@@ -7,7 +7,7 @@
 #include "Puyo.h"
 #include "Offset.h"
 #include "OffsetStar.h"
-
+#include "WarningPuyo.h"
 
 Player::Player()
 	: PlayerMap_{ nullptr }
@@ -238,7 +238,7 @@ void Player::InputPuyoMove()
 
 	if (GameEngineInput::GetInst()->IsDown("Left"))
 	{
-		OffsetEffect();
+		//OffsetEffect();
 
 		if (CenterPuyo_->GetX() >= SecondPuyo_->GetX())
 		{
@@ -459,6 +459,9 @@ void Player::PlayerToEnemyAttack(float4 _FromPos)
 
 	if (0 < Hindrances_.size()) //»ó¼â
 	{
+		OffsetEffect();
+
+		CountPopWarningPuyo(Chain_);
 
 		for (int i = 0; i < Chain_; i++)
 		{
@@ -470,11 +473,18 @@ void Player::PlayerToEnemyAttack(float4 _FromPos)
 			--Chain_;
 			Hindrances_.pop_back();
 		}
+
+		Fire_->SetFirePosition(_FromPos);
+		Fire_->GetTargetPos(GameEngineWindow::GetScale().Half() + float4{ -400 , -400 });
+		Fire_->SetIsAttack(true);
 	}
 
-	Fire_->SetFirePosition(_FromPos);
-	Fire_->GetTargetPos(EnemeyPoint_);
-	Fire_->SetIsAttack(true);
+	else
+	{
+		Fire_->SetFirePosition(_FromPos);
+		Fire_->GetTargetPos(EnemeyPoint_);
+		Fire_->SetIsAttack(true);
+	}
 
 	Enemy_->CreateHindrancePuyo(Chain_);
 }
@@ -524,12 +534,63 @@ void Player::CreateHindrancePuyo(int _Count)
 		NewPuyo->InitAnimation(PuyoColor::Hindrance);
 		Hindrances_.push_back(NewPuyo);
 	}
+
+	AddWarningPuyo(_Count);
+}
+
+void Player::AddWarningPuyo(int _Count)
+{
+	for (int i = 0; i < _Count; ++i)
+	{
+		WarningPuyo* NewPuyo = GetLevel()->CreateActor<WarningPuyo>(10);
+		NewPuyo->SetStartPos({ 250.f, 35.f });
+		NewPuyo->SetEndPos({ 70.f + WarningPuyos_.size() * 35.f, 35.f});
+		NewPuyo->MoveLeft();
+
+		WarningPuyos_.push_back(NewPuyo);
+	}
+}
+
+void Player::PopWarningPuyo()
+{
+	std::vector<WarningPuyo*>::iterator StartIter = WarningPuyos_.begin();
+	std::vector<WarningPuyo*>::iterator EndIter = WarningPuyos_.end();
+
+	for (; StartIter != EndIter; ++StartIter)
+	{
+		if (nullptr != (*StartIter))
+		{
+			(*StartIter)->MoveRight();
+		}
+	}
+
+	WarningPuyos_.clear();
+}
+
+void Player::CountPopWarningPuyo(int _Count)
+{
+	for (int i = 0; i < _Count; i++)
+	{
+		if (0 == WarningPuyos_.size())
+		{
+			return;
+		}
+
+		WarningPuyo* NewPuyo = WarningPuyos_.back();
+
+		if (nullptr != NewPuyo)
+		{
+			NewPuyo->MoveRight();
+			WarningPuyos_.pop_back();
+		}
+	}
 }
 
 void Player::HindrancePuyoCheck()
 {
 	if (0 < Hindrances_.size())
 	{
+		PopWarningPuyo();
 		FallHindrancePuyo();
 	}
 
@@ -566,6 +627,7 @@ void Player::FallHindrancePuyo()
 	Hindrances_.clear();
 	PlayerState_ = PlayerState::NewPuyo;
 }
+
 
 
 void Player::ScoreInit()

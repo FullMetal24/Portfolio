@@ -28,9 +28,10 @@ void GameOver::Loading()
 	Background_->SetPosition({GameEngineWindow::GetScale().Half()});
 	BackRenderer_ = Background_->CreateRenderer("GO_IMAGE0.bmp");
 
-	if (false == GameEngineInput::GetInst()->IsKey("Next"))
+	if (false == GameEngineInput::GetInst()->IsKey("ReTry"))
 	{
-		GameEngineInput::GetInst()->CreateKey("Next", VK_SPACE);
+		GameEngineInput::GetInst()->CreateKey("ReTry", VK_SPACE);
+		GameEngineInput::GetInst()->CreateKey("Next", VK_LSHIFT);
 	}
 }
 
@@ -58,11 +59,19 @@ void GameOver::Update()
 	}
 
 
-	if (true == GameEngineInput::GetInst()->IsDown("Next"))
+	if (true == GameEngineInput::GetInst()->IsDown("ReTry"))
 	{
-		GameEngine::GetInst().ChangeLevel("BestRecords");
+		GameOverBgm_.Stop();
+		GameEngine::GetInst().ChangeLevel("InGame");
 	}
 	
+
+	if (true == GameEngineInput::GetInst()->IsDown("Next"))
+	{
+		GameOverBgm_.Stop();
+		GameEngine::GetInst().ChangeLevel("BestRecords");
+	}
+
 
 	if (true == IsLevelStart_)
 	{
@@ -95,8 +104,7 @@ void GameOver::LevelChangeStart(GameEngineLevel* _PrevLevel)
 		EnemyProfile* CurEnemy = InGame_->GetEnemyProfile();
 	}
 
-
-	GameEngineSound::SoundPlayOneShot("GameOver.mp3");
+	GameOverBgm_ = GameEngineSound::SoundPlayControl("GameOver.mp3");
 
 }
 

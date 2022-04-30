@@ -15,7 +15,6 @@
 EnemySelect::EnemySelect() 
 	: Enemys_{}
 	, MyEnemy_(nullptr)
-	, Backgrounds_{}
 	, TwinkleTime_(0.f)
 	, RouletteSpeed_(1.0f)
 	, SpeedLimit_(0.01f)
@@ -269,18 +268,6 @@ void EnemySelect::Update()
 		IsKeyDown_ = true;
 	}
 
-	float4 Dir = float4::RadianToDirectionFloat4(0.5f);
-
-	for (int i = 0; i < MidLine_.size(); ++i)
-	{
-		MidLine_[i]->SetMove(float4::RIGHT + float4::DOWN * GameEngineTime::GetDeltaTime() * 400.f);
-
-		if (GameEngineWindow::GetScale().x < MidLine_[i]->GetPosition().x 
-			&& GameEngineWindow::GetScale().y < MidLine_[i]->GetPosition().y)
-		{
-			MidLine_[i]->SetPosition(float4{0, 0} - MidLine_[i]->GetMyRenderer()->GetImageScale());
-		}
-	}
 }
 
 
@@ -288,6 +275,15 @@ void EnemySelect::PlayRoulette()
 {
 	while (false == IsSelect_) //상대가 선택되지 않았다면
 	{
+		if ("ES_SELECT_LOCK.bmp"
+			== Enemys_[RouletteIndex_]->GetIcon()->GetImage()->GetNameConstRef())
+		{
+			RouletteSpeed_ = 0.0f;
+			++RouletteIndex_;
+
+			continue;
+		}
+
 		Enemys_[RouletteIndex_]->GetProfile()->SetOrder(8);
 		Enemys_[RouletteIndex_]->GetIcon()->SetOrder(8);
 		Enemys_[RouletteIndex_]->GetRenderName()->SetOrder(8);
@@ -345,13 +341,35 @@ void EnemySelect::TwinkleEnemyIcon()
 	}
 }
 
+void EnemySelect::LockLoseEnemyIcon(int _Level)
+{
+	Enemys_[_Level]->GetIcon()->SetImage("ES_SELECT_LOCK.bmp");
+	Enemys_[_Level]->GetIcon()->SetOrder(8);
+}
+
 void EnemySelect::LevelChangeStart(GameEngineLevel* _PrevLevel)
 {
 	EnemySelectBgm_ = GameEngineSound::SoundPlayControl("MainMenu.mp3");
+
+	//FadeBackground_->GetMyRenderer()->SetOrder(0);
+	//FadeBackground_->SetAlphaValue(0);
+
+	//if (true == IsChange_)
+	//{
+	//	TwinkleTime_ = 0.f;
+	//	RouletteSpeed_ = 1.0f;
+	//	LevelChangeCount_ = 2.5f;
+	//	SpeedLimit_ = 0.01f;
+	//	RouletteIndex_ = 0;
+	//	LimitForce_ = 0;
+	//	IsSelect_ = false;
+	//}
+
 }
 
 void EnemySelect::LevelChangeEnd(GameEngineLevel* _NextLevel)
 {
+	IsChange_ = true;
 
 }
 

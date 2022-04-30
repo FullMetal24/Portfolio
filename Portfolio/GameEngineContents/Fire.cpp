@@ -77,7 +77,7 @@ void Fire::PlayerFire()
 			Acc_ += GameEngineTime::GetDeltaTime();
 
 			float4 Dir = TargetPos_ - GetPosition();
-			SetMove(Dir * GameEngineTime::GetDeltaTime() * 5.f * Acc_);
+			SetMove(Dir * GameEngineTime::GetDeltaTime() * 10.f * Acc_);
 
 			if (GetPosition().y <= 50.f)
 			{
@@ -101,7 +101,7 @@ void Fire::EnemyFire()
 			Acc_ += GameEngineTime::GetDeltaTime();
 
 			float4 Dir = TargetPos_ - GetPosition();
-			SetMove(Dir * GameEngineTime::GetDeltaTime() * 5.f * Acc_);
+			SetMove(Dir * GameEngineTime::GetDeltaTime() * 10.f * Acc_);
 
 			if (GetPosition().y <= 50.f)
 			{

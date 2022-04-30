@@ -8,6 +8,7 @@
 #include "EnemyProfile.h"
 #include "Offset.h"
 #include "OffsetStar.h"
+#include "WarningPuyo.h"
 
 EnemyFSM::EnemyFSM()
 	: EnemyMap_{ nullptr }
@@ -112,7 +113,7 @@ void EnemyFSM::Update()
 	if (true == GameEngineInput::GetInst()->IsDown("Hindrance"))
 	{
 		Chain_ += 1;
-		OffsetEffect();
+		//OffsetEffect();
 		EnemyToPlayerAttack({ GameEngineWindow::GetScale().Half() });
 	}
 	
@@ -502,7 +503,7 @@ void EnemyFSM::DestroyPuyo()
 				(*PuyoStartIter)->DestroyHindracePuyo(EnemyMap_);
 				EnemyMap_[(*PuyoStartIter)->GetY()][(*PuyoStartIter)->GetX()] = nullptr;
 
-				Score_ += PuyoVector.size() * (Chain_) * 10; 
+				Score_ += PuyoVector.size() * Chain_ * 10;
 			}
 		}
 	}
@@ -544,7 +545,9 @@ void EnemyFSM::EnemyToPlayerAttack(float4 _FromPos)
 {
 	if (0 < Hindrances_.size()) //»ó¼â
 	{
-		//ÀÌÆåÆ® È¿°ú Àç»ý
+		OffsetEffect();
+
+		CountPopWarningPuyo(Chain_);
 
 		for (int i = 0; i < Chain_; i++)
 		{
@@ -556,19 +559,24 @@ void EnemyFSM::EnemyToPlayerAttack(float4 _FromPos)
 			--Chain_;
 			Hindrances_.pop_back();
 		}
+
+		Fire_->SetFirePosition(_FromPos);
+		Fire_->GetTargetPos(GameEngineWindow::GetScale().Half() + float4{ 400, -400 });
+		Fire_->SetIsAttack(true);
 	}
 
-	Fire_->SetFirePosition(_FromPos);
-	Fire_->GetTargetPos(PlayerPoint_);
-	Fire_->SetIsAttack(true);
+	else
+	{
+		Fire_->SetFirePosition(_FromPos);
+		Fire_->GetTargetPos(PlayerPoint_);
+		Fire_->SetIsAttack(true);
+	}
 
 	Player_->CreateHindrancePuyo(Chain_);
 }
 
 void EnemyFSM::CreateHindrancePuyo(int _Count)
 {
-	_Count *= _Count;
-
 	for (int i = 0; i < _Count; ++i)
 	{
 		Puyo* NewPuyo = GetLevel()->CreateActor<Puyo>();
@@ -576,6 +584,8 @@ void EnemyFSM::CreateHindrancePuyo(int _Count)
 		NewPuyo->InitAnimation(PuyoColor::Hindrance);
 		Hindrances_.push_back(NewPuyo);
 	}
+
+	AddWarningPuyo(_Count);
 }
 
 void EnemyFSM::HindrancePuyoCheck()
@@ -583,6 +593,7 @@ void EnemyFSM::HindrancePuyoCheck()
 	if (0 < Hindrances_.size())
 	{
 		FallHindrancePuyo();
+		PopWarningPuyo();
 	}
 
 	else
@@ -617,6 +628,55 @@ void EnemyFSM::FallHindrancePuyo()
 
 	Hindrances_.clear();
 	EnemyState_ = EnemyState::NewPuyo;
+}
+
+
+void EnemyFSM::AddWarningPuyo(int _Count)
+{
+	for (int i = 0; i < _Count; ++i)
+	{
+		WarningPuyo* NewPuyo = GetLevel()->CreateActor<WarningPuyo>(10);
+		NewPuyo->SetStartPos({ 1000.f, 35.f });
+		NewPuyo->SetEndPos({ 850.f + WarningPuyos_.size() * 35.f, 35.f });
+		NewPuyo->MoveLeft();
+
+		WarningPuyos_.push_back(NewPuyo);
+	}
+}
+
+void EnemyFSM::PopWarningPuyo()
+{
+	std::vector<WarningPuyo*>::iterator StartIter = WarningPuyos_.begin();
+	std::vector<WarningPuyo*>::iterator EndIter = WarningPuyos_.end();
+
+	for (; StartIter != EndIter; ++StartIter)
+	{
+		if (nullptr != (*StartIter))
+		{
+			(*StartIter)->MoveRight();
+		}
+	}
+
+	WarningPuyos_.clear();
+}
+
+void EnemyFSM::CountPopWarningPuyo(int _Count)
+{
+	for (int i = 0; i < _Count; i++)
+	{
+		if (0 == WarningPuyos_.size())
+		{
+			return;
+		}
+
+		WarningPuyo* NewPuyo = WarningPuyos_.back();
+
+		if (nullptr != NewPuyo)
+		{
+			NewPuyo->MoveRight();
+			WarningPuyos_.pop_back();
+		}
+	}
 }
 
 void EnemyFSM::OffsetEffect()
@@ -763,10 +823,10 @@ void EnemyFSM::InitBubble()
 		float RanRadian = Random_.RandomFloat(0, 3.14256f);
 		BubbleDir_[i] = float4::RadianToDirectionFloat4(RanRadian * -1.f);
 
-		int RanSpeed = Random_.RandomInt(100, 300);
+		int RanSpeed = Random_.RandomInt(100, 150);
 		BubbleSpeed_[i] = RanSpeed;
 
-		Bubbles_[i]->SetPosition(GameEngineWindow::GetScale().Half() + float4{ 100.f + (10 * (i * -1.f)), 50.f });
+		Bubbles_[i]->SetPosition(GameEngineWindow::GetScale().Half() + float4{(10 * (i * -1.f)), 50.f + (10 * (i * -1.f)) });
 	}
 }
 
@@ -786,7 +846,7 @@ void EnemyFSM::VomitBubble()
 			if (false == Bubbles_[i]->IsUpdate())
 			{
 				Bubbles_[i]->GetMyRenderer()->PauseOff();
-				Bubbles_[i]->SetPosition(GameEngineWindow::GetScale().Half() + float4{ 100.f + (10 * (i * -1.f)), 50.f });
+				Bubbles_[i]->SetPosition(GameEngineWindow::GetScale().Half() + float4{(10 * (i * -1.f)), 50.f + (10 * (i * -1.f)) });
 				Bubbles_[i]->GetMyRenderer()->SetOrder(5);
 				Bubbles_[i]->On();
 			}
@@ -819,7 +879,7 @@ void EnemyFSM::VomitBubble()
 			if (false == Bubbles_[i]->IsUpdate())
 			{
 				Bubbles_[i]->GetMyRenderer()->PauseOff();
-				Bubbles_[i]->SetPosition(GameEngineWindow::GetScale().Half() + float4{ 100.f + (10 * (i * -1.f)), 50.f });
+				Bubbles_[i]->SetPosition(GameEngineWindow::GetScale().Half() + float4{(10 * (i * -1.f)), 50.f + (10 * (i * -1.f)) });
 				Bubbles_[i]->GetMyRenderer()->SetOrder(5);
 				Bubbles_[i]->On();
 			}
