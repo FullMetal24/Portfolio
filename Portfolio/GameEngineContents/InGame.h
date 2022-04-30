@@ -55,6 +55,7 @@ private:
 	InGameActor* StateBottoms_[2];
 
 	InGameActor* GameOverRenderer_;
+	InGameActor* WinRenderer_;
 
 	Player*	Player_; 
 	EnemyFSM* EnemyFSM_;

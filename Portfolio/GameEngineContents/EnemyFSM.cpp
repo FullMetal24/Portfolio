@@ -814,7 +814,7 @@ void EnemyFSM::InitBubble()
 	GameEngineImage* Image = GameEngineImageManager::GetInst()->Find("IG_BUBBLE.bmp");
 	Image->CutCount(3, 1);
 
-	for (int i = 0; i < 15; ++i)
+	for (int i = 0; i < 10; ++i)
 	{
 		Bubbles_[i] = GetLevel()->CreateActor<InGameActor>(5);
 		Bubbles_[i]->SetMyRenderer(Bubbles_[i]->CreateRenderer());
@@ -829,7 +829,7 @@ void EnemyFSM::InitBubble()
 		int RanSpeed = Random_.RandomInt(100, 150);
 		BubbleSpeed_[i] = RanSpeed;
 
-		Bubbles_[i]->SetPosition(GameEngineWindow::GetScale().Half() + float4{(10 * (i * -1.f)), 50.f + (10 * (i * -1.f)) });
+		Bubbles_[i]->SetPosition(GameEngineWindow::GetScale().Half() + float4{0.f, 50.f + (10 * (i * -1.f)) });
 	}
 }
 
@@ -839,7 +839,7 @@ void EnemyFSM::VomitBubble()
 	{
 		int RanCreate = Random_.RandomInt(0, 15);
 
-		for (int i = 0; i < 15; ++i)
+		for (int i = 0; i < 10; ++i)
 		{
 			if (i == RanCreate)
 			{
@@ -849,7 +849,7 @@ void EnemyFSM::VomitBubble()
 			if (false == Bubbles_[i]->IsUpdate())
 			{
 				Bubbles_[i]->GetMyRenderer()->PauseOff();
-				Bubbles_[i]->SetPosition(GameEngineWindow::GetScale().Half() + float4{(10 * (i * -1.f)), 50.f + (10 * (i * -1.f)) });
+				Bubbles_[i]->SetPosition(GameEngineWindow::GetScale().Half() + float4{0.f, 50.f + (10 * (i * -1.f)) });
 				Bubbles_[i]->GetMyRenderer()->SetOrder(5);
 				Bubbles_[i]->On();
 			}
@@ -857,7 +857,7 @@ void EnemyFSM::VomitBubble()
 			Bubbles_[i]->SetMove(BubbleDir_[i] * BubbleSpeed_[i] * GameEngineTime::GetDeltaTime());
 		}
 
-		for (int i = 0; i < 15; ++i)
+		for (int i = 0; i < 10; ++i)
 		{
 			float4 Dis = GameEngineWindow::GetScale().Half() - Bubbles_[i]->GetPosition();
 
@@ -872,7 +872,7 @@ void EnemyFSM::VomitBubble()
 
 		RanCreate = Random_.RandomInt(0, 15);
 
-		for (int i = 0; i < 15; ++i)
+		for (int i = 0; i < 10; ++i)
 		{
 			if (i == RanCreate)
 			{
@@ -882,7 +882,7 @@ void EnemyFSM::VomitBubble()
 			if (false == Bubbles_[i]->IsUpdate())
 			{
 				Bubbles_[i]->GetMyRenderer()->PauseOff();
-				Bubbles_[i]->SetPosition(GameEngineWindow::GetScale().Half() + float4{(10 * (i * -1.f)), 50.f + (10 * (i * -1.f)) });
+				Bubbles_[i]->SetPosition(GameEngineWindow::GetScale().Half() + float4{ 0.f, 50.f + (10 * (i * -1.f)) });
 				Bubbles_[i]->GetMyRenderer()->SetOrder(5);
 				Bubbles_[i]->On();
 			}
@@ -890,7 +890,7 @@ void EnemyFSM::VomitBubble()
 			Bubbles_[i]->SetMove(BubbleDir_[i] * BubbleSpeed_[i] * GameEngineTime::GetDeltaTime());
 		}
 
-		for (int i = 0; i < 15; ++i)
+		for (int i = 0; i < 10; ++i)
 		{
 			float4 Dis = GameEngineWindow::GetScale().Half() - Bubbles_[i]->GetPosition();
 
@@ -909,7 +909,7 @@ void EnemyFSM::DisappearBubble()
 {
 	if (false == IsDanger_)
 	{
-		for (int i = 0; i < 15; ++i)
+		for (int i = 0; i < 10; ++i)
 		{
 			if (true == Bubbles_[i]->GetMyRenderer()->IsEndAnimation())
 			{
@@ -1031,7 +1031,7 @@ void EnemyFSM::SetMyProfile(EnemyProfile* _Porifle)
 	if (nullptr != _Porifle)
 	{
 		float XPos = 95.f;
-		float YPos = 370.f;
+		float YPos = 355.f;
 
 		switch (_Porifle->GetMyLevel())
 		{

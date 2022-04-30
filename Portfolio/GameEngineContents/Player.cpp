@@ -94,6 +94,7 @@ void Player::Update()
 		HindrancePuyoCheck();
 		break;
 	case PlayerState::Win:
+		Win();
 		break;
 	case PlayerState::Lose:
 		LoseFallPuyo();
@@ -726,6 +727,20 @@ void Player::LoseFallPuyo()
 			if (nullptr != PlayerMap_[Y][X])
 			{
 				PlayerMap_[Y][X]->LoseFall();
+			}
+		}
+	}
+}
+
+void Player::Win()
+{
+	for (int Y = 14; Y >= 0; --Y)
+	{
+		for (int X = 0; X < 6; ++X)
+		{
+			if (nullptr != PlayerMap_[Y][X])
+			{
+				PlayerMap_[Y][X]->Death();
 			}
 		}
 	}

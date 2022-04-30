@@ -50,9 +50,13 @@ void InGame::Loading()
 	GameOverRenderer_ = CreateActor<InGameActor>();
 	GameOverRenderer_->SetPosition({255, 1500});
 	GameOverRenderer_->CreateRenderer("IG_PLAYER_GAMEOVER.bmp");
-	   
+
 	GameOverStartPos_ = GameOverRenderer_->GetPosition();
 	GameOverEndPos_ = GameOverRenderer_->GetPosition() + float4{0, -1200.f};
+
+	WinRenderer_ = CreateActor<InGameActor>();
+	WinRenderer_->SetPosition({ 255, 200 });
+	WinRenderer_->CreateRenderer("IG_YOUWIN.bmp");
 
 	StateBottoms_[0] = CreateActor<InGameActor>();
 	StateBottoms_[1] = CreateActor<InGameActor>();
@@ -510,8 +514,9 @@ void InGame::GameOverCheck()
 		}
 	}
 
-	else if (true/*EnemyFSM_->GetState() == EnemyState::Lose*/)
+	else if (EnemyFSM_->GetState() == EnemyState::Lose)
 	{
+		WinRenderer_->SetOrder(10);
 		Player_->SetState(PlayerState::Win);
 
 		InGameBgm_.Stop();
@@ -716,7 +721,7 @@ void InGame::LevelChangeEnd(GameEngineLevel* _PrevLevel)
 {
 	ResetOn();
 }
- 
+
 void InGame::UserResetEnd()
 {
 	StageClear_ = 0;

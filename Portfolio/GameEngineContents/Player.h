@@ -65,6 +65,8 @@ public:
 
 	void LoseFallPuyo();
 
+	void Win();
+
 	inline void SetEnemyFSM(EnemyFSM* _Enemy)
 	{
 		Enemy_ = _Enemy;

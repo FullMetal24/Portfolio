@@ -134,9 +134,9 @@ private:
 
 	unsigned int Chain_;
 
-	InGameActor* Bubbles_[15];
-	float4 BubbleDir_[15];
-	int BubbleSpeed_[15];
+	InGameActor* Bubbles_[10];
+	float4 BubbleDir_[10];
+	int BubbleSpeed_[10];
 	bool IsDanger_;
 
 	InGameActor* EnemyActors_;
