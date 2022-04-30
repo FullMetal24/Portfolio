@@ -735,7 +735,7 @@ void EnemyFSM::DangerCheck()
 		}
 	}
 
-	if (Count >= 10)
+	if (Count >= 0)
 	{
 		IsDanger_ = true;
 	}
@@ -766,7 +766,7 @@ void EnemyFSM::InitBubble()
 		int RanSpeed = Random_.RandomInt(100, 300);
 		BubbleSpeed_[i] = RanSpeed;
 
-		Bubbles_[i]->SetPosition(GameEngineWindow::GetScale().Half() + float4{ 0, 100.f });
+		Bubbles_[i]->SetPosition(GameEngineWindow::GetScale().Half() + float4{ 100.f + (10 * (i * -1.f)), 50.f });
 	}
 }
 
@@ -786,7 +786,7 @@ void EnemyFSM::VomitBubble()
 			if (false == Bubbles_[i]->IsUpdate())
 			{
 				Bubbles_[i]->GetMyRenderer()->PauseOff();
-				Bubbles_[i]->SetPosition(GameEngineWindow::GetScale().Half() + float4{ 0, 100.f });
+				Bubbles_[i]->SetPosition(GameEngineWindow::GetScale().Half() + float4{ 100.f + (10 * (i * -1.f)), 50.f });
 				Bubbles_[i]->GetMyRenderer()->SetOrder(5);
 				Bubbles_[i]->On();
 			}
@@ -798,8 +798,8 @@ void EnemyFSM::VomitBubble()
 		{
 			float4 Dis = GameEngineWindow::GetScale().Half() - Bubbles_[i]->GetPosition();
 
-			if (Dis.x > 250.f || Dis.x < -250.f
-				|| Dis.y > 250.f || Dis.y < -250.f)
+			if (Dis.x > 200.f || Dis.x < -200.f
+				|| Dis.y > 200.f || Dis.y < -200.f)
 			{
 				Bubbles_[i]->GetMyRenderer()->PauseOn();
 				Bubbles_[i]->GetMyRenderer()->SetOrder(0);
@@ -819,7 +819,7 @@ void EnemyFSM::VomitBubble()
 			if (false == Bubbles_[i]->IsUpdate())
 			{
 				Bubbles_[i]->GetMyRenderer()->PauseOff();
-				Bubbles_[i]->SetPosition(GameEngineWindow::GetScale().Half() + float4{ 0, 100.f });
+				Bubbles_[i]->SetPosition(GameEngineWindow::GetScale().Half() + float4{ 100.f + (10 * (i * -1.f)), 50.f });
 				Bubbles_[i]->GetMyRenderer()->SetOrder(5);
 				Bubbles_[i]->On();
 			}
