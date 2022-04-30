@@ -51,6 +51,7 @@ void GameEngineLevel::Reset()
 			std::list<GameEngineRenderer*>& Group = GroupStart->second;
 			StartRenderer = Group.begin();
 			EndRenderer = Group.end();
+
 			for (; StartRenderer != EndRenderer; )
 			{
 				if (true == (*StartRenderer)->GetActor()->IsResetIgnore)

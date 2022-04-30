@@ -75,6 +75,11 @@ public:
 		return PlayerState_;
 	}
 
+	inline void SetState(PlayerState _PlayerState)
+	{
+		PlayerState_ = _PlayerState;
+	}
+
 	inline int GetRandomInt(int _At, int _Untill)
 	{
 		int Value = Random_.RandomInt(_At, _Untill);

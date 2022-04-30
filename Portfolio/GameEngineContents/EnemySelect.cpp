@@ -275,15 +275,6 @@ void EnemySelect::PlayRoulette()
 {
 	while (false == IsSelect_) //상대가 선택되지 않았다면
 	{
-		if ("ES_SELECT_LOCK.bmp"
-			== Enemys_[RouletteIndex_]->GetIcon()->GetImage()->GetNameConstRef())
-		{
-			RouletteSpeed_ = 0.0f;
-			++RouletteIndex_;
-
-			continue;
-		}
-
 		Enemys_[RouletteIndex_]->GetProfile()->SetOrder(8);
 		Enemys_[RouletteIndex_]->GetIcon()->SetOrder(8);
 		Enemys_[RouletteIndex_]->GetRenderName()->SetOrder(8);
@@ -350,28 +341,61 @@ void EnemySelect::LockLoseEnemyIcon(int _Level)
 void EnemySelect::LevelChangeStart(GameEngineLevel* _PrevLevel)
 {
 	EnemySelectBgm_ = GameEngineSound::SoundPlayControl("MainMenu.mp3");
-
-	//FadeBackground_->GetMyRenderer()->SetOrder(0);
-	//FadeBackground_->SetAlphaValue(0);
-
-	//if (true == IsChange_)
-	//{
-	//	TwinkleTime_ = 0.f;
-	//	RouletteSpeed_ = 1.0f;
-	//	LevelChangeCount_ = 2.5f;
-	//	SpeedLimit_ = 0.01f;
-	//	RouletteIndex_ = 0;
-	//	LimitForce_ = 0;
-	//	IsSelect_ = false;
-	//}
-
 }
-
+  
 void EnemySelect::LevelChangeEnd(GameEngineLevel* _NextLevel)
 {
-	IsChange_ = true;
+	ResetOn();
+}
 
+void EnemySelect::UserResetEnd()
+{
+	RouletteSpeed_ = 1.0f;
+	SpeedLimit_ = 0.01f;
+	LevelChangeCount_ = 2.5f;
+
+	TwinkleTime_ = 0.f;
+
+	RouletteIndex_ = 0;
+	LimitForce_ = 0;
+
+	IsSelect_ = false;
+	IsKeyDown_ = false;
+
+	GameEngineActor* Level = CreateActor<EnemySelectActor>(5);
+	Level->SetPosition({ GameEngineWindow::GetScale().Half().x, GameEngineWindow::GetScale().Half().y - 200.f });
+	Level->CreateRenderer("ES_LEVEL1.bmp");
+
+	GameEngineActor* Enemys = CreateActor<EnemySelectActor>(4);
+	Enemys->SetPosition({ GameEngineWindow::GetScale().Half().x, GameEngineWindow::GetScale().Half().y + 300.f });
+	Enemys->CreateRenderer("ES_ENEMIES.bmp");
+
+	GameEngineActor* ArleProfile = CreateActor<EnemySelectActor>(4);
+	ArleProfile->CreateRenderer("ES_ARLE_PROFILE.bmp")->SetPivot({ 210.f, 190.f });
+
+	GameEngineActor* SelectEnemy = CreateActor<EnemySelectActor>(4);
+	SelectEnemy->CreateRenderer("ES_SELECT_ENEMY.bmp")->SetPivot(GameEngineWindow::GetScale().Half());
+
+	FadeBackground_ = CreateActor<FadeInOutBackground>();
+
+	for (int i = 0; i < 8; ++i)
+	{
+		Enemys_[i] = CreateActor<EnemyProfile>(0);
+	}
+
+	EnemySelectActor* Background = CreateActor<EnemySelectActor>(1);
+	Background->SetMyRenderer(Background->CreateRenderer("ES_BACK.bmp"));
+	Background->SetPosition(GameEngineWindow::GetScale().Half());
+
+	TopPositionInit();
+	EnemyInit();
+	FrameInit();
+
+	if (false == GameEngineInput::GetInst()->IsKey("EnemySelect"))
+	{
+		GameEngineInput::GetInst()->CreateKey("EnemySelect", VK_SPACE);
+	}
 }
 
 
-
+ 

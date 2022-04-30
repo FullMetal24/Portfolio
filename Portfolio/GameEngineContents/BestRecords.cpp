@@ -7,6 +7,7 @@
 #include "GameOver.h"
 
 BestRecords::BestRecords()
+	: Time_(0.f)
 {
 }
 
@@ -73,6 +74,26 @@ void BestRecords::LevelChangeStart(GameEngineLevel* _PrevLevel)
 
 void BestRecords::LevelChangeEnd(GameEngineLevel* _NextLevel)
 {
+	ResetOn();
+}
 
+void BestRecords::UserResetEnd()
+{
+	Time_ = 0.f;
+
+	FadeInOutBackground_ = CreateActor< FadeInOutBackground>(0);
+	FadeInOutBackground_->SetMyRenderer(FadeInOutBackground_->CreateRenderer("GO_BACKGROUND.bmp"));
+
+	BestRecordsActor* Back = CreateActor<BestRecordsActor>(3);
+	Back->SetPosition({ GameEngineWindow::GetScale().Half() });
+	Back->CreateRenderer("BR_BACK.bmp");
+
+	BestRecordsActor* Record = CreateActor<BestRecordsActor>(5);
+	Record->SetPosition({ GameEngineWindow::GetScale().Half() });
+	Record->CreateRenderer("BR_RECORD.bmp");
+
+	BestRecordsActor* Arle = CreateActor<BestRecordsActor>(8);
+	Arle->SetMyRenderer(Arle->CreateRenderer("BR_SD_ARLE.bmp"));
+	Arle->SetPosition({ GameEngineWindow::GetScale().Half().x - 475, GameEngineWindow::GetScale().Half().y + 255 });
 }
 

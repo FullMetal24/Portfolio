@@ -28,10 +28,7 @@ MainMenu::~MainMenu()
 
 void MainMenu::Loading()
 {
-	
-
 	FadeBackground_ = CreateActor<FadeInOutBackground>();
-	
 
 	MenuImageInit();
 	MenuInit();
@@ -565,7 +562,6 @@ void MainMenu::Update()
 	BackgroundUpdate();
 	SelectMenu();
 }
-
 
 
 void MainMenu::MenuUpdate()
@@ -1125,13 +1121,27 @@ void MainMenu::MenuRendererPause()
 
 
 void MainMenu::LevelChangeStart(GameEngineLevel* _PrevLevel) 
-  {
-	MenuCount_ = 0;
-
+{
 	MainMenuBgm_ = GameEngineSound::SoundPlayControl("MainMenu.mp3");
 }
 
 void MainMenu::LevelChangeEnd(GameEngineLevel* _NextLevel)
 {
-
+	Reset();
 }
+
+void MainMenu::UserResetEnd()
+{
+	MenuCount_ = 0;
+	ChangeTime_ = 0.f;
+	RandomTime_ = 1.f;
+	RightIndex_ = 0;
+	LeftIndex_ = 0;
+
+	FadeBackground_ = CreateActor<FadeInOutBackground>();
+
+	MenuImageInit();
+	MenuInit();
+	BackgourndInit();
+}
+

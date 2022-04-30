@@ -24,6 +24,8 @@ public:
 
 	void Loading() override; 
 	void Update()  override;
+	void UserResetEnd() override;
+
 	void LevelChangeStart(GameEngineLevel* _PrevLevel) override;
 	void LevelChangeEnd(GameEngineLevel* _NextLevel) override;
 
@@ -63,7 +65,6 @@ private:
 	FadeInOutBackground* FadeBackground_;
 
 	GameEngineSoundPlayer MainMenuBgm_;
-
 
 	float ChangeTime_;
 

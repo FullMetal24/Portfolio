@@ -90,12 +90,6 @@ void GameOver::Update()
 
 void GameOver::LevelChangeStart(GameEngineLevel* _PrevLevel)
 {
-	IsLevelStart_ = true;
-	FadeBack_->SetAlphaValue(255);
-	FadeBack_->GetMyRenderer()->SetOrder(3);
-	Time_ = 0.f;
-	Count_ = 0;
-
 	if (nullptr != _PrevLevel)
 	{
 		GameEngineLevel* PrevLevel = _PrevLevel;
@@ -105,10 +99,31 @@ void GameOver::LevelChangeStart(GameEngineLevel* _PrevLevel)
 	}
 
 	GameOverBgm_ = GameEngineSound::SoundPlayControl("GameOver.mp3");
-
 }
 
 void GameOver::LevelChangeEnd(GameEngineLevel* _NextLevel)
 {
+	ResetOn();
+}
 
+void GameOver::UserResetEnd()
+{
+	IsLevelStart_ = true;
+	FadeBack_->SetAlphaValue(255);
+	FadeBack_->GetMyRenderer()->SetOrder(3);
+	Time_ = 0.f;
+	Count_ = 0;
+
+	FadeBack_ = CreateActor<FadeInOutBackground>();
+	FadeBack_->SetMyRenderer(FadeBack_->CreateRenderer("GO_BACKGROUND.bmp"));
+
+	Background_ = CreateActor<GameOverActor>(1);
+	Background_->SetPosition({ GameEngineWindow::GetScale().Half() });
+	BackRenderer_ = Background_->CreateRenderer("GO_IMAGE0.bmp");
+
+	if (false == GameEngineInput::GetInst()->IsKey("ReTry"))
+	{
+		GameEngineInput::GetInst()->CreateKey("ReTry", VK_SPACE);
+		GameEngineInput::GetInst()->CreateKey("Next", VK_LSHIFT);
+	}
 }

@@ -254,23 +254,30 @@ void Title::Update()
 }
 
 
-bool IsChange;
 
 void Title::LevelChangeStart(GameEngineLevel* _PrevLevel)
 {
-	TransCount_ = 0;
-	LevelChangeBackground_->SetIsChage(false);
-	LevelChangeBackground_->SetAlphaValue(0);
-	LevelChangeBackground_->SetFadeSpeed(0.f);
-	LevelChangeBackground_->GetMyRenderer()->SetOrder(0);
-
-	FadeInOutBackground_->Reset();
 }
 
 void Title::LevelChangeEnd(GameEngineLevel* _NextLevel)
 {
-	IsChange = true;
+	ResetOn();
 }
+
+void Title::UserResetEnd()
+{
+	TransCount_ = 0;
+	TransTime_ = 0.f;
+	EyeMove_ = false;
+
+	BackgroundInit();
+
+	if (false == GameEngineInput::GetInst()->IsKey("Title"))
+	{
+		GameEngineInput::GetInst()->CreateKey("Title", VK_SPACE);
+	}
+}
+
 
 void Title::BackgroundInit()
 {

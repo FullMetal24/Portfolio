@@ -21,8 +21,10 @@ public:
 
 	void Loading() override; //캐릭터 이미지 생성
 	void Update() override; //상대 캐릭터 고르기
+
 	void LevelChangeStart(GameEngineLevel* _PrevLevel) override;
 	void LevelChangeEnd(GameEngineLevel* _NextLevel) override;
+	void UserResetEnd() override;
 
 	void TopPositionInit();
 	void EnemyInit();
@@ -56,7 +58,6 @@ private:
 
 	bool IsSelect_;
 	bool IsKeyDown_;
-	bool IsChange_;
 
 	GameEngineActor* Top_[6];
 	GameEngineRenderer* TopRenderer_[6];

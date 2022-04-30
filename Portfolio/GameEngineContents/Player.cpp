@@ -100,7 +100,6 @@ void Player::Update()
 		break;
 	}
 
-
 	DigitScore(Score_);
 	RenderToScore();
 }

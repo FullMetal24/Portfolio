@@ -81,6 +81,11 @@ public:
 		Player_ = _Player;
 	}
 
+	inline void SetState(EnemyState _EnemyState)
+	{
+		EnemyState_ = _EnemyState;
+	}
+
 	inline EnemyState GetState()
 	{
 		return EnemyState_;

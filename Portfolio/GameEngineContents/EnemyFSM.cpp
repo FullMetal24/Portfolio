@@ -104,6 +104,9 @@ void EnemyFSM::Update()
 		HindrancePuyoCheck();
 		break;
 	case EnemyState::Win:
+	{
+		int a = 0;
+	}
 		break;
 	case EnemyState::Lose:
 		Lose();

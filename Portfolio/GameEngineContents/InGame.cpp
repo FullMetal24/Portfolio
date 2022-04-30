@@ -475,6 +475,8 @@ void InGame::GameOverCheck()
 {
 	if (Player_->GetState() == PlayerState::Lose)
 	{
+		EnemyFSM_->SetState(EnemyState::Win);
+
 		InGameBgm_.Stop();
 		StateBottoms_[0]->SetMove(float4::DOWN * GameEngineTime::GetDeltaTime() * 300.f);
 		ChangeCount_ -= GameEngineTime::GetDeltaTime();
@@ -491,7 +493,7 @@ void InGame::GameOverCheck()
 		if (0 >= ChangeCount_)
 		{
 			FadeBackground_->FadeInOn();
-			FadeBackground_->GetMyRenderer()->SetOrder(20);
+			FadeBackground_->GetMyRenderer()->SetOrder(20); 
 			FadeBackground_->SetFadeSpeed(500.f);
 		}
 
@@ -508,8 +510,10 @@ void InGame::GameOverCheck()
 		}
 	}
 
-	else if (EnemyFSM_->GetState() == EnemyState::Lose)
+	else if (true/*EnemyFSM_->GetState() == EnemyState::Lose*/)
 	{
+		Player_->SetState(PlayerState::Win);
+
 		InGameBgm_.Stop();
  		ChangeCount_ -= GameEngineTime::GetDeltaTime();
 		StateBottoms_[1]->SetMove(float4::DOWN * GameEngineTime::GetDeltaTime() * 300.f);
@@ -686,16 +690,80 @@ void InGame::LevelChangeStart(GameEngineLevel* _PrevLevel)
 
 	if (nullptr != _PrevLevel)
 	{
-		GameEngineLevel* PrevLevel = _PrevLevel;
-		EnemySelect* EnemySelect_ = dynamic_cast<EnemySelect*>(PrevLevel);
-		EnemyProfile_ = EnemySelect_->GetEnemyProfile();
-		EnemyProfile_->SetPosition({ GameEngineWindow::GetScale().Half()});
+		if ("EnemySelect" == _PrevLevel->GetNameConstRef())
+		{
+			GameEngineLevel* PrevLevel = _PrevLevel;
+			EnemySelect* EnemySelect_ = dynamic_cast<EnemySelect*>(PrevLevel);
+			EnemyProfile_ = EnemySelect_->GetEnemyProfile();
+			EnemyProfile_->SetPosition({ GameEngineWindow::GetScale().Half() });
 
-		EnemyFSM_->SetMyProfile(EnemyProfile_);
+			EnemyFSM_->SetMyProfile(EnemyProfile_);
+		}
+
+		else if ("GameOver" == _PrevLevel->GetNameConstRef())
+		{
+			GameEngineLevel* PrevLevel = _PrevLevel;
+			GameOver* GameOver_ = dynamic_cast<GameOver*>(PrevLevel);
+			EnemyProfile_ = GameOver_->GetEnemyProfile();
+			EnemyProfile_->SetPosition({ GameEngineWindow::GetScale().Half() });
+
+			EnemyFSM_->SetMyProfile(EnemyProfile_);
+		}
 	}
 }
 
 void InGame::LevelChangeEnd(GameEngineLevel* _PrevLevel)
 {
+	ResetOn();
+}
+ 
+void InGame::UserResetEnd()
+{
+	StageClear_ = 0;
+	ChangeCount_ = 10.f;
+	Alpha_ = 0.f;
+	IsStart_ = false;
+	IsEnemyFlap_ = false;
 
+	PuyoAnimationInit();
+	InitPlayerEndEnemy();   
+
+	FadeBackground_ = CreateActor<FadeInOutBackground>();
+
+	Stages_[0] = CreateActor<Stage>();
+
+	Stages_[0]->SetPosition(GameEngineWindow::GetScale().Half());
+	Stages_[0]->CreateRenderer("IG_STAGE1.bmp", 3);
+	Stages_[0]->CreateRenderer("IG_STAGE1_BACK.bmp", 0);
+
+	GameOverRenderer_ = CreateActor<InGameActor>();
+	GameOverRenderer_->SetPosition({ 255, 1500 });
+	GameOverRenderer_->CreateRenderer("IG_PLAYER_GAMEOVER.bmp");
+
+	GameOverStartPos_ = GameOverRenderer_->GetPosition();
+	GameOverEndPos_ = GameOverRenderer_->GetPosition() + float4{ 0, -1200.f };
+
+	StateBottoms_[0] = CreateActor<InGameActor>();
+	StateBottoms_[1] = CreateActor<InGameActor>();
+	StateBottoms_[0]->SetMyRenderer(StateBottoms_[0]->CreateRenderer("IG_STAGE1_BOTTOM_LEFT.bmp", 3));
+	StateBottoms_[1]->SetMyRenderer(StateBottoms_[1]->CreateRenderer("IG_STAGE1_BOTTOM_RIGHT.bmp", 3));
+
+	StateBottoms_[0]->SetPosition({ GameEngineWindow::GetScale().Half() + float4{-384, 389} });
+	StateBottoms_[1]->SetPosition({ GameEngineWindow::GetScale().Half() + float4{384, 389} });
+
+	GameEngineActor* NextUi = CreateActor<Stage>(3);
+	NextUi->CreateRenderer("IG_NEXT.bmp")->SetPivot({ GameEngineWindow::GetScale().Half().x, GameEngineWindow::GetScale().Half().y - 360.f });
+
+	GameEngineActor* Stage1Ui = CreateActor<Stage>(3);
+	Stage1Ui->CreateRenderer("IG_STAGE_UI.bmp")->SetPivot({ GameEngineWindow::GetScale().Half().x, GameEngineWindow::GetScale().Half().y - 60.f });
+
+	GameEngineActor* PlayerName_ = CreateActor<Stage>(1);
+	PlayerName_->CreateRenderer("IG_NAME_ARLE.bmp")->SetPivot({ GameEngineWindow::GetScale().Half().x - 96.f, GameEngineWindow::GetScale().Half().y - 290.f });
+
+	Carbuncle_ = CreateActor<InGameActor>(6);
+	Carbuncle_->SetPosition({ GameEngineWindow::GetScale().Half().x - 160.f, GameEngineWindow::GetScale().Half().y + 300.f });
+	GameEngineRenderer* CarbuncleRenderer = Carbuncle_->CreateRenderer();
+	Carbuncle_->SetMyRenderer(CarbuncleRenderer);
+
+	CarbuncleAnimationInit();
 }
