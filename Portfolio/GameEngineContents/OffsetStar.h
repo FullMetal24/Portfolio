@@ -1,19 +1,19 @@
 #pragma once
 #include <GameEngine/GameEngineActor.h>
 
-class GameEngineRenderer;
-class Offset : public GameEngineActor
+// Ό³Έν :
+class OffsetStar : public GameEngineActor
 {
 public:
 	// constrcuter destructer
-	Offset();
-	~Offset();
+	OffsetStar();
+	~OffsetStar();
 
 	// delete Function
-	Offset(const Offset& _Other) = delete;
-	Offset(Offset&& _Other) noexcept = delete;
-	Offset& operator=(const Offset& _Other) = delete;
-	Offset& operator=(Offset&& _Other) noexcept = delete;
+	OffsetStar(const OffsetStar& _Other) = delete;
+	OffsetStar(OffsetStar&& _Other) noexcept = delete;
+	OffsetStar& operator=(const OffsetStar& _Other) = delete;
+	OffsetStar& operator=(OffsetStar&& _Other) noexcept = delete;
 
 	void Start() override;
 	void Update() override;
@@ -24,9 +24,9 @@ public:
 		SetPosition(StartPos_);
 	}
 
-	inline GameEngineRenderer* GetMyRenderer()
+	inline GameEngineRenderer* GetMyAnimation()
 	{
-		return MyRenderer_;
+		return MyAnimation_;
 	}
 
 	inline void SetUpdate(bool _Update)
@@ -42,7 +42,7 @@ public:
 protected:
 
 private:
-	GameEngineRenderer* MyRenderer_;
+	GameEngineRenderer* MyAnimation_;
 
 	float4 StartPos_;
 	float4 Dir_;

@@ -9,6 +9,7 @@ class Puyo;
 class EnemyFSM;
 class Fire;
 class Offset;
+class OffsetStar;
 class Player : public GameEngineActor
 {
 	friend Puyo;
@@ -22,7 +23,7 @@ public:
 	Player& operator=(const Player& _Other) = delete;
 	Player& operator=(Player&& _Other) noexcept = delete;
 
-	void OffsetEffectInit();
+	void OffsetEffect();
 
 	//NewPuyo 관련 함수
 	void NewPuyoPair();
@@ -125,7 +126,5 @@ private:
 
 	GameEngineSound PlayerSound_;
 
-	Offset* OffsetRenderer_;
-	Offset* OffsetStars_[6];
 };
 

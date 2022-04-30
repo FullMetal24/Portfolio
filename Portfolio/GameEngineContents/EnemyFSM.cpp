@@ -6,6 +6,8 @@
 #include "Fire.h"
 #include "Player.h"
 #include "EnemyProfile.h"
+#include "Offset.h"
+#include "OffsetStar.h"
 
 EnemyFSM::EnemyFSM()
 	: EnemyMap_{ nullptr }
@@ -110,12 +112,12 @@ void EnemyFSM::Update()
 	if (true == GameEngineInput::GetInst()->IsDown("Hindrance"))
 	{
 		Chain_ += 1;
+		OffsetEffect();
 		EnemyToPlayerAttack({ GameEngineWindow::GetScale().Half() });
 	}
 	
 	DigitScore(Score_);
 	RenderToScore();
-
 	DisappearBubble();
 	VomitBubble();
 }
@@ -615,6 +617,28 @@ void EnemyFSM::FallHindrancePuyo()
 
 	Hindrances_.clear();
 	EnemyState_ = EnemyState::NewPuyo;
+}
+
+void EnemyFSM::OffsetEffect()
+{
+	for (int i = 0; i < 7; i++)
+	{
+		OffsetStar* OffsetStars_ = GetLevel()->CreateActor<OffsetStar>();
+		OffsetStars_->SetStartPos({ 1000.f, 80.f });
+		float4 Dir = float4::DegreeToDirectionFloat4((i + 1) * 20);
+		OffsetStars_->SetDirection(Dir);
+
+		OffsetStars_->SetUpdate(true);
+		OffsetStars_->GetMyAnimation()->SetOrder(20);
+	}
+
+	Offset* OffsetRenderer_ = GetLevel()->CreateActor<Offset>();
+	OffsetRenderer_->SetStartPos({ 950, 80 });
+	float4 Dir = float4::DegreeToDirectionFloat4(60.0f);
+	OffsetRenderer_->SetDirection(Dir);
+
+	OffsetRenderer_->SetUpdate(true);
+	OffsetRenderer_->GetMyRenderer()->SetOrder(20);
 }
 
  

@@ -54,6 +54,8 @@ public:
 	void CreateHindrancePuyo(int _Count);
 	void HindrancePuyoCheck();
 	void FallHindrancePuyo();
+	
+	void OffsetEffect();
 
 	void DigitScore(int _Score);
 	void RenderToScore();
@@ -67,6 +69,7 @@ public:
 	//에네미 프로필
 	void EnemyAnimatioInit();
 	void SetMyProfile(EnemyProfile* _Porifle);
+	
 
 	void Lose();
 
@@ -79,7 +82,6 @@ public:
 	{
 		return EnemyState_;
 	}
-
 
 protected:
 

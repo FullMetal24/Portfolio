@@ -6,6 +6,7 @@
 #include "EnemyFSM.h"
 #include "Puyo.h"
 #include "Offset.h"
+#include "OffsetStar.h"
 
 
 Player::Player()
@@ -49,8 +50,6 @@ void Player::Start()
 
 	Fire_ = GetLevel()->CreateActor<Fire>();
 	Fire_->SetFireOwner(FireOwner::Player);
-
-	OffsetEffectInit();
 }
 
 void Player::Update()
@@ -104,22 +103,6 @@ void Player::Update()
 
 	DigitScore(Score_);
 	RenderToScore();
-}
-
-void Player::OffsetEffectInit()
-{
-	OffsetRenderer_ = GetLevel()->CreateActor<Offset>();
-	OffsetRenderer_->SetStartPos({ 300, 90 });
-	OffsetRenderer_->SetMyRenderer(OffsetRenderer_->CreateRenderer("IG_OFFSET.bmp"));
-
-	for (int i = 0; i < 6; ++i)
-	{
-		OffsetStars_[i] = GetLevel()->CreateActor<Offset>();
-		OffsetStars_[i]->SetStartPos({ 280.f, 90.f});
-		OffsetStars_[i]->SetMyRenderer(OffsetStars_[i]->CreateRenderer());
-		OffsetStars_[i]->GetMyRenderer()->CreateAnimation("IG_OffsetStar.bmp", "IG_OffsetStar", 0, 4, 0.1f, true);
-		OffsetStars_[i]->GetMyRenderer()->ChangeAnimation("IG_OffsetStar");
-	}
 }
 
 void Player::NewPuyoPair()
@@ -255,13 +238,7 @@ void Player::InputPuyoMove()
 
 	if (GameEngineInput::GetInst()->IsDown("Left"))
 	{
-		for (int i = 0; i < 6; i++)
-		{
-			OffsetStars_[i]->GetMyRenderer()->SetOrder(15);
-		}
-
-		OffsetRenderer_->SetUpdate(true);
-		OffsetRenderer_->GetMyRenderer()->SetOrder(15);
+		OffsetEffect();
 
 		if (CenterPuyo_->GetX() >= SecondPuyo_->GetX())
 		{
@@ -413,7 +390,6 @@ void Player::DestroyPuyo()
 			Fire_->PlayerRenderChain(Chain_, PuyoVector[CenterActor]->GetPosition());
 		}
 
-
 		for (; PuyoStartIter != PuyoEndIter; ++PuyoStartIter)
 		{
 			if (nullptr != (*PuyoStartIter))
@@ -502,6 +478,29 @@ void Player::PlayerToEnemyAttack(float4 _FromPos)
 
 	Enemy_->CreateHindrancePuyo(Chain_);
 }
+
+void Player::OffsetEffect()
+{
+	for (int i = 0; i < 7; i++)
+	{
+		OffsetStar* OffsetStars_ = GetLevel()->CreateActor<OffsetStar>();
+		OffsetStars_->SetStartPos({ 250.f, 80.f });
+		float4 Dir = float4::DegreeToDirectionFloat4((i + 1) * 20);
+		OffsetStars_->SetDirection(Dir);
+
+		OffsetStars_->SetUpdate(true);
+		OffsetStars_->GetMyAnimation()->SetOrder(20);
+	}
+
+	Offset* OffsetRenderer_ = GetLevel()->CreateActor<Offset>();
+	OffsetRenderer_->SetStartPos({ 200.f, 80 });
+	float4 Dir = float4::DegreeToDirectionFloat4(60.0f);
+	OffsetRenderer_->SetDirection(Dir);
+
+	OffsetRenderer_->SetUpdate(true);
+	OffsetRenderer_->GetMyRenderer()->SetOrder(20);
+}
+
 
 void Player::CreateHindrancePuyo(int _Count)
 {
