@@ -507,7 +507,7 @@ void InGame::EnemyAnimatioInit()
 		GameEngineImage* Image3 = GameEngineImageManager::GetInst()->Find("IG_LV4_EXCITED.bmp");
 		Image3->CutCount(4, 1);
 
-		GameEngineImage* Image4 = GameEngineImageManager::GetInst()->Find("IG_LV4_DENGER.bmp");
+		GameEngineImage* Image4 = GameEngineImageManager::GetInst()->Find("IG_LV4_DANGER.bmp");
 		Image4->CutCount(4, 1);
 	}
 
@@ -549,7 +549,7 @@ void InGame::EnemyAnimatioInit()
 		GameEngineImage* Image2 = GameEngineImageManager::GetInst()->Find("IG_LV7_WIN.bmp");
 		Image2->CutCount(4, 1);
 
-		GameEngineImage* Image3 = GameEngineImageManager::GetInst()->Find("IG_LV7_DENGER.bmp");
+		GameEngineImage* Image3 = GameEngineImageManager::GetInst()->Find("IG_LV7_DANGER.bmp");
 		Image3->CutCount(4, 1);
 
 		GameEngineImage* Image4 = GameEngineImageManager::GetInst()->Find("IG_LV7_EXCITED.bmp");

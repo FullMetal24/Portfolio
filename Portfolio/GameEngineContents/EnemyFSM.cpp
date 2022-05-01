@@ -936,7 +936,7 @@ void EnemyFSM::SetMyProfile(EnemyProfile* _Porifle)
 	if (nullptr != MyPorifle_)
 	{
 		float XPos = 95.f;
-		float YPos = 355.f;
+		float YPos = 365.f;
 
 		switch (MyPorifle_->GetMyLevel())
 		{
@@ -980,7 +980,7 @@ void EnemyFSM::SetMyProfile(EnemyProfile* _Porifle)
 			EnemyAnimations_[2]->CreateAnimation("IG_LV3_WIN.bmp", "IG_LV3_WIN", 0, 1, 0.2f, true);
 			EnemyAnimations_[2]->CreateAnimation("IG_LV3_EXCITED.bmp", "IG_LV3_EXCITED", 0, 3, 0.2f, true);
 			EnemyAnimations_[2]->CreateAnimation("IG_LV3_DANGER.bmp", "IG_LV3_DANGER", 0, 3, 0.1f, true);
-			EnemyAnimations_[2]->ChangeAnimation("IG_LV3_DANGER");
+			EnemyAnimations_[2]->ChangeAnimation("IG_LV3_IDLE");
 
 			EnemyNames_[2] = EnemyActors_->CreateRenderer();
 			EnemyNames_[2]->SetOrder(2);
@@ -995,8 +995,8 @@ void EnemyFSM::SetMyProfile(EnemyProfile* _Porifle)
 			EnemyAnimations_[3]->CreateAnimation("IG_LV4_EXCITED.bmp", "IG_LV4_EXCITED", 0, 3, 0.2f, true);
 			EnemyAnimations_[3]->CreateAnimation("IG_LV4_LOSE.bmp", "IG_LV4_LOSE", 0, 3, 0.2f, true);
 			EnemyAnimations_[3]->CreateAnimation("IG_LV4_WIN.bmp", "IG_LV4_WIN", 0, 0, 0.0f, false);
-			EnemyAnimations_[3]->CreateAnimation("IG_LV4_DENGER.bmp", "IG_LV4_DENGER", 0, 3, 0.2f, true);
-			EnemyAnimations_[3]->ChangeAnimation("IG_LV4_LOSE");
+			EnemyAnimations_[3]->CreateAnimation("IG_LV4_DANGER.bmp", "IG_LV4_DANGER", 0, 3, 0.2f, true);
+			EnemyAnimations_[3]->ChangeAnimation("IG_LV4_IDLE");
 
 			EnemyNames_[3] = EnemyActors_->CreateRenderer();
 			EnemyNames_[3]->SetOrder(2);
@@ -1011,7 +1011,7 @@ void EnemyFSM::SetMyProfile(EnemyProfile* _Porifle)
 			EnemyAnimations_[3]->CreateAnimation("IG_LV4_EXCITED.bmp", "IG_LV4_EXCITED", 0, 3, 0.2f, true);
 			EnemyAnimations_[3]->CreateAnimation("IG_LV4_LOSE.bmp", "IG_LV4_LOSE", 0, 3, 0.2f, true);
 			EnemyAnimations_[3]->CreateAnimation("IG_LV4_WIN.bmp", "IG_LV4_WIN", 0, 0, 0.0f, false);
-			EnemyAnimations_[3]->CreateAnimation("IG_LV4_DENGER.bmp", "IG_LV4_DENGER", 0, 2, 0.2f, true);
+			EnemyAnimations_[3]->CreateAnimation("IG_LV4_DANGER.bmp", "IG_LV4_DANGER", 0, 3, 0.2f, true);
 			EnemyAnimations_[3]->ChangeAnimation("IG_LV4_IDLE");
 
 			EnemyNames_[3] = EnemyActors_->CreateRenderer();
@@ -1054,7 +1054,7 @@ void EnemyFSM::SetMyProfile(EnemyProfile* _Porifle)
 			EnemyAnimations_[6]->CreateAnimation("IG_LV7_IDLE.bmp", "IG_LV7_IDLE", 0, 4, 0.2f, true);
 			EnemyAnimations_[6]->CreateAnimation("IG_LV7_LOSE.bmp", "IG_LV7_LOSE", 0, 0, 0.0f, false);
 			EnemyAnimations_[6]->CreateAnimation("IG_LV7_WIN.bmp", "IG_LV7_WIN", 0, 2, 0.2f, true);
-			EnemyAnimations_[6]->CreateAnimation("IG_LV7_DENGER.bmp", "IG_LV7_DENGER", 0, 3, 0.2f, true);
+			EnemyAnimations_[6]->CreateAnimation("IG_LV7_DANGER.bmp", "IG_LV7_DANGER", 0, 3, 0.2f, true);
 			EnemyAnimations_[6]->CreateAnimation("IG_LV7_EXCITED.bmp", "IG_LV7_EXCITED", 0, 3, 0.2f, true);
 			EnemyAnimations_[6]->ChangeAnimation("IG_LV7_IDLE");
 

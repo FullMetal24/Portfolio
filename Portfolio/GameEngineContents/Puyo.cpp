@@ -48,16 +48,16 @@ void Puyo::Update()
 	case PuyoState::Normal:
 		if (true == IsLand_)
 		{
-			for (int i = 0; i < 4; i++)
-			{
-				if (true == IsConnect_[i])
-				{
-					return;
-				}
-			}
+			//for (int i = 0; i < 4; i++)
+			//{
+			//	if (true == IsConnect_[i])
+			//	{
+			//		return;
+			//	}
+			//}
 
-			RandomIdleAnimation();
-			IdleToNomal();
+			//RandomIdleAnimation();
+			//IdleToNomal();
 		}
 		break;
 	case PuyoState::Linked:
@@ -1397,7 +1397,8 @@ void Puyo::RenderToIdle()
 		MyRenderer_->ChangeAnimation("IG_GREEN_IDLE");
 		break;
 	case PuyoColor::YELLOW:
-		MyRenderer_->ChangeAnimation("IG_YELLOW_IDLE");break;
+		MyRenderer_->ChangeAnimation("IG_YELLOW_IDLE");
+		break;
 	case PuyoColor::PURPLE:
 		MyRenderer_->ChangeAnimation("IG_PURPLE_IDLE");
 		break;
@@ -1513,7 +1514,7 @@ void Puyo::LandToNormal()
 			if (true == MyRenderer_->IsEndAnimation())
 			{
 				MyRenderer_->ChangeAnimation("IG_RED_PUYO");
-				PuyoState_ = PuyoState::Linked;
+				PuyoState_ = PuyoState::Normal;
 			}
 		}
 		break;
@@ -1523,7 +1524,7 @@ void Puyo::LandToNormal()
 			if (true == MyRenderer_->IsEndAnimation())
 			{
 				MyRenderer_->ChangeAnimation("IG_BLUE_PUYO");
-				PuyoState_ = PuyoState::Linked;
+				PuyoState_ = PuyoState::Normal;
 			}
 		}
 		break;
@@ -1533,7 +1534,7 @@ void Puyo::LandToNormal()
 			if (true == MyRenderer_->IsEndAnimation())
 			{
 				MyRenderer_->ChangeAnimation("IG_GREEN_PUYO");
-				PuyoState_ = PuyoState::Linked;
+				PuyoState_ = PuyoState::Normal;
 			}
 		}
 		break;
@@ -1543,7 +1544,7 @@ void Puyo::LandToNormal()
 			if (true == MyRenderer_->IsEndAnimation())
 			{
 				MyRenderer_->ChangeAnimation("IG_YELLOW_PUYO");
-				PuyoState_ = PuyoState::Linked;
+				PuyoState_ = PuyoState::Normal;
 			}
 		}
 		break;
@@ -1553,7 +1554,7 @@ void Puyo::LandToNormal()
 			if (true == MyRenderer_->IsEndAnimation())
 			{
 				MyRenderer_->ChangeAnimation("IG_PURPLE_PUYO");
-				PuyoState_ = PuyoState::Linked;
+				PuyoState_ = PuyoState::Normal;
 			}
 		}
 		break;

@@ -174,7 +174,7 @@ void MainMenu::MenuInit()
 		Puyoenderer->CreateAnimation("MM_PUYO.bmp", "MM_PUYO", 0, 0, 0.0f, false);
 		Puyoenderer->CreateAnimation("MM_PUYO_MOVE.bmp", "MM_PUYO_MOVE", 0, 1, 0.02f, false);
 		Puyoenderer->CreateAnimation("MM_PUYO_DARK.bmp", "MM_PUYO_DARK", 0, 0, 0.0f, false);
-		Puyoenderer->CreateAnimation("MM_PUYO_DESTROY.bmp", "MM_PUYO_DESTROY", 0, 2, 0.01f, false);
+		Puyoenderer->CreateAnimation("MM_PUYO_DESTROY.bmp", "MM_PUYO_DESTROY", 0, 2, 0.1f, false);
 		Puyoenderer->ChangeAnimation("MM_PUYO");
 		Puyoenderer->PauseOn();
 
@@ -224,7 +224,7 @@ void MainMenu::MenuInit()
 		Puyoenderer->CreateAnimation("MM_PUYO.bmp", "MM_PUYO", 0, 0, 0.0f, false);
 		Puyoenderer->CreateAnimation("MM_PUYO_MOVE.bmp", "MM_PUYO_MOVE", 0, 1, 0.02f, false);
 		Puyoenderer->CreateAnimation("MM_PUYO_DARK.bmp", "MM_PUYO_DARK", 0, 0, 0.0f, false);
-		Puyoenderer->CreateAnimation("MM_PUYO_DESTROY.bmp", "MM_PUYO_DESTROY", 0, 2, 0.01f, false);
+		Puyoenderer->CreateAnimation("MM_PUYO_DESTROY.bmp", "MM_PUYO_DESTROY", 0, 2, 0.1f, false);
 		Puyoenderer->ChangeAnimation("MM_PUYO_DARK");
 		Puyoenderer->PauseOn();
 
@@ -234,7 +234,7 @@ void MainMenu::MenuInit()
 		Puyoenderer1->CreateAnimation("MM_PUYO.bmp", "MM_PUYO", 0, 0, 0.0f, false);
 		Puyoenderer1->CreateAnimation("MM_PUYO_MOVE.bmp", "MM_PUYO_MOVE", 0, 1, 0.02f, false);
 		Puyoenderer1->CreateAnimation("MM_PUYO_DARK.bmp", "MM_PUYO_DARK", 0, 0, 0.0f, false);
-		Puyoenderer1->CreateAnimation("MM_PUYO_DESTROY.bmp", "MM_PUYO_DESTROY", 0, 2, 0.01f, false);
+		Puyoenderer1->CreateAnimation("MM_PUYO_DESTROY.bmp", "MM_PUYO_DESTROY", 0, 2, 0.1f, false);
 		Puyoenderer1->ChangeAnimation("MM_PUYO_DARK");
 		Puyoenderer1->PauseOn();
 
@@ -287,7 +287,7 @@ void MainMenu::MenuInit()
 		Puyoenderer->CreateAnimation("MM_PUYO.bmp", "MM_PUYO", 0, 0, 0.0f, false);
 		Puyoenderer->CreateAnimation("MM_PUYO_MOVE.bmp", "MM_PUYO_MOVE", 0, 1, 0.02f, false);
 		Puyoenderer->CreateAnimation("MM_PUYO_DARK.bmp", "MM_PUYO_DARK", 0, 0, 0.0f, false);
-		Puyoenderer->CreateAnimation("MM_PUYO_DESTROY.bmp", "MM_PUYO_DESTROY", 0, 2, 0.01f, false);
+		Puyoenderer->CreateAnimation("MM_PUYO_DESTROY.bmp", "MM_PUYO_DESTROY", 0, 2, 0.1f, false);
 		Puyoenderer->ChangeAnimation("MM_PUYO_DARK");
 		Puyoenderer->PauseOn();
 
@@ -297,7 +297,7 @@ void MainMenu::MenuInit()
 		Puyoenderer1->CreateAnimation("MM_PUYO.bmp", "MM_PUYO", 0, 0, 0.0f, false);
 		Puyoenderer1->CreateAnimation("MM_PUYO_MOVE.bmp", "MM_PUYO_MOVE", 0, 1, 0.02f, false);
 		Puyoenderer1->CreateAnimation("MM_PUYO_DARK.bmp", "MM_PUYO_DARK", 0, 0, 0.0f, false);
-		Puyoenderer1->CreateAnimation("MM_PUYO_DESTROY.bmp", "MM_PUYO_DESTROY", 0, 2, 0.01f, false);
+		Puyoenderer1->CreateAnimation("MM_PUYO_DESTROY.bmp", "MM_PUYO_DESTROY", 0, 2, 0.1f, false);
 		Puyoenderer1->ChangeAnimation("MM_PUYO_DARK");
 		Puyoenderer1->PauseOn();
 
@@ -352,7 +352,7 @@ void MainMenu::MenuInit()
 		Puyoenderer->CreateAnimation("MM_PUYO.bmp", "MM_PUYO", 0, 0, 0.0f, false);
 		Puyoenderer->CreateAnimation("MM_PUYO_MOVE.bmp", "MM_PUYO_MOVE", 0, 1, 0.02f, false);
 		Puyoenderer->CreateAnimation("MM_PUYO_DARK.bmp", "MM_PUYO_DARK", 0, 0, 0.0f, false);
-		Puyoenderer->CreateAnimation("MM_PUYO_DESTROY.bmp", "MM_PUYO_DESTROY", 0, 2, 0.01f, false);
+		Puyoenderer->CreateAnimation("MM_PUYO_DESTROY.bmp", "MM_PUYO_DESTROY", 0, 2, 0.1f, false);
 		Puyoenderer->ChangeAnimation("MM_PUYO_DARK");
 		Puyoenderer->PauseOn();
 
@@ -362,7 +362,7 @@ void MainMenu::MenuInit()
 		Puyoenderer1->CreateAnimation("MM_PUYO.bmp", "MM_PUYO", 0, 0, 0.0f, false);
 		Puyoenderer1->CreateAnimation("MM_PUYO_MOVE.bmp", "MM_PUYO_MOVE", 0, 1, 0.02f, false);
 		Puyoenderer1->CreateAnimation("MM_PUYO_DARK.bmp", "MM_PUYO_DARK", 0, 0, 0.0f, false);
-		Puyoenderer1->CreateAnimation("MM_PUYO_DESTROY.bmp", "MM_PUYO_DESTROY", 0, 2, 0.01f, false);
+		Puyoenderer1->CreateAnimation("MM_PUYO_DESTROY.bmp", "MM_PUYO_DESTROY", 0, 2, 0.1f, false);
 		Puyoenderer1->ChangeAnimation("MM_PUYO_DARK");
 		Puyoenderer1->PauseOn();
 
@@ -372,7 +372,7 @@ void MainMenu::MenuInit()
 		Puyoenderer2->CreateAnimation("MM_PUYO.bmp", "MM_PUYO", 0, 0, 0.0f, false);
 		Puyoenderer2->CreateAnimation("MM_PUYO_MOVE.bmp", "MM_PUYO_MOVE", 0, 1, 0.02f, false);
 		Puyoenderer2->CreateAnimation("MM_PUYO_DARK.bmp", "MM_PUYO_DARK", 0, 0, 0.0f, false);
-		Puyoenderer2->CreateAnimation("MM_PUYO_DESTROY.bmp", "MM_PUYO_DESTROY", 0, 2, 0.01f, false);
+		Puyoenderer2->CreateAnimation("MM_PUYO_DESTROY.bmp", "MM_PUYO_DESTROY", 0, 2, 0.1f, false);
 		Puyoenderer2->ChangeAnimation("MM_PUYO_DARK");
 		Puyoenderer2->PauseOn();
 
@@ -406,7 +406,7 @@ void MainMenu::MenuInit()
 		Puyoenderer->CreateAnimation("MM_PUYO.bmp", "MM_PUYO", 0, 0, 0.0f, false);
 		Puyoenderer->CreateAnimation("MM_PUYO_MOVE.bmp", "MM_PUYO_MOVE", 0, 1, 0.02f, false);
 		Puyoenderer->CreateAnimation("MM_PUYO_DARK.bmp", "MM_PUYO_DARK", 0, 0, 0.0f, false);
-		Puyoenderer->CreateAnimation("MM_PUYO_DESTROY.bmp", "MM_PUYO_DESTROY", 0, 2, 0.01f, false);
+		Puyoenderer->CreateAnimation("MM_PUYO_DESTROY.bmp", "MM_PUYO_DESTROY", 0, 2, 0.1f, false);
 		Puyoenderer->ChangeAnimation("MM_PUYO_DARK");
 		Puyoenderer->PauseOn();
 
@@ -416,7 +416,7 @@ void MainMenu::MenuInit()
 		Puyoenderer1->CreateAnimation("MM_PUYO.bmp", "MM_PUYO", 0, 0, 0.0f, false);
 		Puyoenderer1->CreateAnimation("MM_PUYO_MOVE.bmp", "MM_PUYO_MOVE", 0, 1, 0.02f, false);
 		Puyoenderer1->CreateAnimation("MM_PUYO_DARK.bmp", "MM_PUYO_DARK", 0, 0, 0.0f, false);
-		Puyoenderer1->CreateAnimation("MM_PUYO_DESTROY.bmp", "MM_PUYO_DESTROY", 0, 2, 0.01f, false);
+		Puyoenderer1->CreateAnimation("MM_PUYO_DESTROY.bmp", "MM_PUYO_DESTROY", 0, 2, 0.1f, false);
 		Puyoenderer1->ChangeAnimation("MM_PUYO_DARK");
 		Puyoenderer1->PauseOn();
 
@@ -426,7 +426,7 @@ void MainMenu::MenuInit()
 		Puyoenderer2->CreateAnimation("MM_PUYO.bmp", "MM_PUYO", 0, 0, 0.0f, false);
 		Puyoenderer2->CreateAnimation("MM_PUYO_MOVE.bmp", "MM_PUYO_MOVE", 0, 1, 0.02f, false);
 		Puyoenderer2->CreateAnimation("MM_PUYO_DARK.bmp", "MM_PUYO_DARK", 0, 0, 0.0f, false);
-		Puyoenderer2->CreateAnimation("MM_PUYO_DESTROY.bmp", "MM_PUYO_DESTROY", 0, 2, 0.01f, false);
+		Puyoenderer2->CreateAnimation("MM_PUYO_DESTROY.bmp", "MM_PUYO_DESTROY", 0, 2, 0.1f, false);
 		Puyoenderer2->ChangeAnimation("MM_PUYO_DARK");
 		Puyoenderer2->PauseOn();
 
@@ -436,7 +436,7 @@ void MainMenu::MenuInit()
 		Puyoenderer3->CreateAnimation("MM_PUYO.bmp", "MM_PUYO", 0, 0, 0.0f, false);
 		Puyoenderer3->CreateAnimation("MM_PUYO_MOVE.bmp", "MM_PUYO_MOVE", 0, 1, 0.02f, false);
 		Puyoenderer3->CreateAnimation("MM_PUYO_DARK.bmp", "MM_PUYO_DARK", 0, 0, 0.0f, false);
-		Puyoenderer3->CreateAnimation("MM_PUYO_DESTROY.bmp", "MM_PUYO_DESTROY", 0, 2, 0.01f, false);
+		Puyoenderer3->CreateAnimation("MM_PUYO_DESTROY.bmp", "MM_PUYO_DESTROY", 0, 2, 0.1f, false);
 		Puyoenderer3->ChangeAnimation("MM_PUYO_DARK");
 		Puyoenderer3->PauseOn();
 
@@ -938,6 +938,11 @@ void MainMenu::SelectMenu()
 		Puyos_[0]->GetMyRenderer()->PauseOff();
 		Puyos_[0]->GetMyRenderer()->ChangeAnimation("MM_PUYO_DESTROY");
 
+		if ( true == Puyos_[0]->GetMyRenderer()->IsEndAnimation())
+		{
+			Puyos_[0]->Off();
+		}
+
 		FadeBackground_->FadeInOn();
 		FadeBackground_->GetMyRenderer()->SetOrder(20);
 		FadeBackground_->SetFadeSpeed(700.f);
@@ -961,6 +966,13 @@ void MainMenu::SelectMenu()
 		Puyos_[1]->GetMyRenderer()->ChangeAnimation("MM_PUYO_DESTROY");
 		Puyos_[2]->GetMyRenderer()->ChangeAnimation("MM_PUYO_DESTROY");
 
+		if (true == Puyos_[1]->GetMyRenderer()->IsEndAnimation()
+			&& true == Puyos_[2]->GetMyRenderer()->IsEndAnimation())
+		{
+			Puyos_[1]->Off();
+			Puyos_[2]->Off();
+		}
+
 		ChangeTime_ += GameEngineTime::GetDeltaTime();
 
 		if (2.f < ChangeTime_ && true == FadeBackground_->GetIsInChange())
@@ -979,6 +991,13 @@ void MainMenu::SelectMenu()
 		Puyos_[4]->GetMyRenderer()->PauseOff();
 		Puyos_[3]->GetMyRenderer()->ChangeAnimation("MM_PUYO_DESTROY");
 		Puyos_[4]->GetMyRenderer()->ChangeAnimation("MM_PUYO_DESTROY");
+
+		if (true == Puyos_[3]->GetMyRenderer()->IsEndAnimation()
+			&& true == Puyos_[4]->GetMyRenderer()->IsEndAnimation())
+		{
+			Puyos_[3]->Off();
+			Puyos_[4]->Off();
+		}
 
 		ChangeTime_ += GameEngineTime::GetDeltaTime();
 
@@ -1000,6 +1019,15 @@ void MainMenu::SelectMenu()
 		Puyos_[5]->GetMyRenderer()->ChangeAnimation("MM_PUYO_DESTROY");
 		Puyos_[6]->GetMyRenderer()->ChangeAnimation("MM_PUYO_DESTROY");
 		Puyos_[7]->GetMyRenderer()->ChangeAnimation("MM_PUYO_DESTROY");
+
+		if (true == Puyos_[5]->GetMyRenderer()->IsEndAnimation()
+			&& true == Puyos_[6]->GetMyRenderer()->IsEndAnimation()
+			&& true == Puyos_[7]->GetMyRenderer()->IsEndAnimation())
+		{
+			Puyos_[5]->Off();
+			Puyos_[6]->Off();
+			Puyos_[7]->Off();
+		}
 
 		ChangeTime_ += GameEngineTime::GetDeltaTime();
 
@@ -1025,10 +1053,21 @@ void MainMenu::SelectMenu()
 		Puyos_[10]->GetMyRenderer()->ChangeAnimation("MM_PUYO_DESTROY");
 		Puyos_[11]->GetMyRenderer()->ChangeAnimation("MM_PUYO_DESTROY");
 
+		if (true == Puyos_[8]->GetMyRenderer()->IsEndAnimation()
+			&& true == Puyos_[9]->GetMyRenderer()->IsEndAnimation()
+			&& true == Puyos_[10]->GetMyRenderer()->IsEndAnimation()
+			&& true == Puyos_[11]->GetMyRenderer()->IsEndAnimation())
+		{
+			Puyos_[8]->Off();
+			Puyos_[9]->Off();
+			Puyos_[10]->Off();
+			Puyos_[11]->Off();
+		}
+
 		ChangeTime_ += GameEngineTime::GetDeltaTime();
 
 		if (2.f < ChangeTime_ && true == FadeBackground_->GetIsInChange())
-		{
+		{ 
 			GameEngine::GetInst().ChangeLevel("Title");
 		}
 	}
