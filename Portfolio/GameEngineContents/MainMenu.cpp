@@ -12,7 +12,7 @@
 
 MainMenu::MainMenu()
 	: Arrows_{}
-	, RandomTime_(1.f)
+	, RandomTime_(0.3f)
 	, ChangeTime_{0.f}
 	, MenuCount_(0)
 	, RightIndex_(0)
@@ -33,6 +33,13 @@ void MainMenu::Loading()
 	MenuImageInit();
 	MenuInit();
 	BackgourndInit();
+
+	if (false == GameEngineInput::GetInst()->IsKey("ManiMenu_Right"))
+	{
+		GameEngineInput::GetInst()->CreateKey("ManiMenu_Right", VK_RIGHT);
+		GameEngineInput::GetInst()->CreateKey("ManiMenu_Left", VK_LEFT);
+		GameEngineInput::GetInst()->CreateKey("ManiMenu_Select", VK_RETURN);
+	}
 }
 
 void MainMenu::MenuImageInit()
@@ -659,7 +666,7 @@ void MainMenu::RandomAnimation()
 			Puyos_[PuyoRan]->GetMyRenderer()->PauseOff();
 		}
 
-		RandomTime_ = 0.5f;
+		RandomTime_ = 0.3f;
 	}
 }
 

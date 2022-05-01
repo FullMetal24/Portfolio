@@ -42,6 +42,7 @@ public:
 	void InitPlayerEndEnemy();
 
 	void PuyoAnimationInit();
+	void EnemyAnimatioInit();
 	void CarbuncleAnimationInit();
 
 	void GameOverCheck();

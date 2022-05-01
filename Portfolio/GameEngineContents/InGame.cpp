@@ -38,6 +38,7 @@ void InGame::Loading()
 {
 	PuyoAnimationInit();
 	InitPlayerEndEnemy();
+	EnemyAnimatioInit();
 
 	FadeBackground_ = CreateActor<FadeInOutBackground>();
 
@@ -54,7 +55,7 @@ void InGame::Loading()
 	GameOverStartPos_ = GameOverRenderer_->GetPosition();
 	GameOverEndPos_ = GameOverRenderer_->GetPosition() + float4{0, -1200.f};
 
-	WinRenderer_ = CreateActor<InGameActor>();
+	WinRenderer_ = CreateActor<InGameActor>(-1);
 	WinRenderer_->SetPosition({ 255, 200 });
 	WinRenderer_->CreateRenderer("IG_YOUWIN.bmp");
 
@@ -440,6 +441,139 @@ void InGame::PuyoAnimationInit()
 	
 }
 
+void InGame::EnemyAnimatioInit()
+{
+	{
+		GameEngineImage* Image = GameEngineImageManager::GetInst()->Find("IG_LV1_IDLE.bmp");
+		Image->CutCount(4, 1);
+
+		GameEngineImage* Image1 = GameEngineImageManager::GetInst()->Find("IG_LV1_LOSE.bmp");
+		Image1->CutCount(4, 1);
+
+		GameEngineImage* Image2 = GameEngineImageManager::GetInst()->Find("IG_LV1_EXCITED.bmp");
+		Image2->CutCount(6, 1);
+
+		GameEngineImage* Image3 = GameEngineImageManager::GetInst()->Find("IG_LV1_WIN.bmp");
+		Image3->CutCount(1, 1);
+
+		GameEngineImage* Image4 = GameEngineImageManager::GetInst()->Find("IG_LV1_DANGER.bmp");
+		Image4->CutCount(4, 1);
+	}
+
+	{
+		GameEngineImage* Image = GameEngineImageManager::GetInst()->Find("IG_LV2_IDLE.bmp");
+		Image->CutCount(1, 1);
+
+		GameEngineImage* Image1 = GameEngineImageManager::GetInst()->Find("IG_LV2_LOSE.bmp");
+		Image1->CutCount(4, 1);
+
+		GameEngineImage* Image2 = GameEngineImageManager::GetInst()->Find("IG_LV2_EXCITED.bmp");
+		Image2->CutCount(1, 1);
+
+		GameEngineImage* Image3 = GameEngineImageManager::GetInst()->Find("IG_LV2_WIN.bmp");
+		Image3->CutCount(1, 1);
+
+		GameEngineImage* Image4 = GameEngineImageManager::GetInst()->Find("IG_LV2_DANGER.bmp");
+		Image4->CutCount(1, 1);
+	}
+
+	{
+		GameEngineImage* Image = GameEngineImageManager::GetInst()->Find("IG_LV3_IDLE.bmp");
+		Image->CutCount(4, 1);
+
+		GameEngineImage* Image1 = GameEngineImageManager::GetInst()->Find("IG_LV3_LOSE.bmp");
+		Image1->CutCount(4, 1);
+
+		GameEngineImage* Image2 = GameEngineImageManager::GetInst()->Find("IG_LV3_EXCITED.bmp");
+		Image2->CutCount(4, 1);
+
+		GameEngineImage* Image3 = GameEngineImageManager::GetInst()->Find("IG_LV3_WIN.bmp");
+		Image3->CutCount(2, 1);
+
+		GameEngineImage* Image4 = GameEngineImageManager::GetInst()->Find("IG_LV3_DANGER.bmp");
+		Image4->CutCount(4, 1);
+	}
+
+	{
+		GameEngineImage* Image = GameEngineImageManager::GetInst()->Find("IG_LV4_IDLE.bmp");
+		Image->CutCount(4, 1);
+
+		GameEngineImage* Image1 = GameEngineImageManager::GetInst()->Find("IG_LV4_LOSE.bmp");
+		Image1->CutCount(4, 1);
+
+		GameEngineImage* Image2 = GameEngineImageManager::GetInst()->Find("IG_LV4_WIN.bmp");
+		Image2->CutCount(1, 1);
+
+		GameEngineImage* Image3 = GameEngineImageManager::GetInst()->Find("IG_LV4_EXCITED.bmp");
+		Image3->CutCount(4, 1);
+
+		GameEngineImage* Image4 = GameEngineImageManager::GetInst()->Find("IG_LV4_DENGER.bmp");
+		Image4->CutCount(4, 1);
+	}
+
+	{
+		GameEngineImage* Image = GameEngineImageManager::GetInst()->Find("IG_LV5_IDLE.bmp");
+		Image->CutCount(11, 1);
+
+		GameEngineImage* Image1 = GameEngineImageManager::GetInst()->Find("IG_LV5_LOSE.bmp");
+		Image1->CutCount(3, 1);
+
+		GameEngineImage* Image3 = GameEngineImageManager::GetInst()->Find("IG_LV5_WIN.bmp");
+		Image3->CutCount(1, 1);
+	}
+
+	{
+		GameEngineImage* Image = GameEngineImageManager::GetInst()->Find("IG_LV6_IDLE.bmp");
+		Image->CutCount(4, 1);
+
+		GameEngineImage* Image1 = GameEngineImageManager::GetInst()->Find("IG_LV6_LOSE.bmp");
+		Image1->CutCount(4, 1);
+
+		GameEngineImage* Image2 = GameEngineImageManager::GetInst()->Find("IG_LV6_WIN.bmp");
+		Image2->CutCount(4, 1);
+
+		GameEngineImage* Image3 = GameEngineImageManager::GetInst()->Find("IG_LV6_EXCITED.bmp");
+		Image3->CutCount(4, 1);
+
+		GameEngineImage* Image4 = GameEngineImageManager::GetInst()->Find("IG_LV6_DANGER.bmp");
+		Image4->CutCount(4, 1);
+	}	
+
+	{
+		GameEngineImage* Image = GameEngineImageManager::GetInst()->Find("IG_LV7_IDLE.bmp");
+		Image->CutCount(5, 1);
+
+		GameEngineImage* Image1 = GameEngineImageManager::GetInst()->Find("IG_LV7_LOSE.bmp");
+		Image1->CutCount(1, 1);
+
+		GameEngineImage* Image2 = GameEngineImageManager::GetInst()->Find("IG_LV7_WIN.bmp");
+		Image2->CutCount(4, 1);
+
+		GameEngineImage* Image3 = GameEngineImageManager::GetInst()->Find("IG_LV7_DENGER.bmp");
+		Image3->CutCount(4, 1);
+
+		GameEngineImage* Image4 = GameEngineImageManager::GetInst()->Find("IG_LV7_EXCITED.bmp");
+		Image4->CutCount(4, 1);
+	}
+
+	{
+		GameEngineImage* Image = GameEngineImageManager::GetInst()->Find("IG_LV8_IDLE.bmp");
+		Image->CutCount(4, 1);
+
+		GameEngineImage* Image1 = GameEngineImageManager::GetInst()->Find("IG_LV8_LOSE.bmp");
+		Image1->CutCount(4, 1);
+
+		GameEngineImage* Image2 = GameEngineImageManager::GetInst()->Find("IG_LV8_WIN.bmp");
+		Image2->CutCount(3, 1);
+
+		GameEngineImage* Image3 = GameEngineImageManager::GetInst()->Find("IG_LV8_EXCITED.bmp");
+		Image3->CutCount(3, 1);
+
+		GameEngineImage* Image4 = GameEngineImageManager::GetInst()->Find("IG_LV8_DANGER.bmp");
+		Image4->CutCount(4, 1);
+	}
+}
+
 void InGame::CarbuncleAnimationInit()
 {
 	GameEngineImage* IdleImage = GameEngineImageManager::GetInst()->Find("IG_CARBUNCLE_IDLE.bmp");
@@ -746,7 +880,7 @@ void InGame::UserResetEnd()
 	GameOverRenderer_->CreateRenderer("IG_PLAYER_GAMEOVER.bmp");
 
 	GameOverStartPos_ = GameOverRenderer_->GetPosition();
-	GameOverEndPos_ = GameOverRenderer_->GetPosition() + float4{ 0, -1200.f };
+	GameOverEndPos_ = GameOverRenderer_->GetPosition() + float4{ 0, -1300.f };
 
 	StateBottoms_[0] = CreateActor<InGameActor>();
 	StateBottoms_[1] = CreateActor<InGameActor>();

@@ -63,6 +63,7 @@ public:
 	void DigitScore(int _Score);
 	void RenderToScore();
 
+	void DangerCheck();
 	void LoseFallPuyo();
 
 	void Win();
@@ -92,6 +93,11 @@ public:
 	{
 		float Value = Random_.RandomFloat(_At, _Untill);
 		return Value;
+	}
+
+	inline bool GetDanger()
+	{
+		return IsDanger_;
 	}
 
 protected:
@@ -138,5 +144,6 @@ private:
 
 	GameEngineSound PlayerSound_;
 
+	bool IsDanger_;
 };
 

@@ -32,6 +32,16 @@ public:
 		EndPos_ = _EndPos;
 	}
 
+	inline GameEngineRenderer* GetMyRenderer()
+	{
+		return MyRenderer_;
+	}
+
+	inline void SetMyRenderer(GameEngineRenderer* _Renderer)
+	{
+		MyRenderer_ = _Renderer;
+	}
+
 	inline void MoveLeft()
 	{
 		MoveLeft_ = true;
@@ -45,7 +55,7 @@ public:
 protected:
 
 private:
-	GameEngineRenderer* Renderer_;
+	GameEngineRenderer* MyRenderer_;
 
 	float4 StartPos_;
 	float4 EndPos_;

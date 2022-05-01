@@ -718,6 +718,32 @@ void Player::RenderToScore()
 }
 
 
+void Player::DangerCheck()
+{
+	int Count = 0;
+
+	for (int Y = 14; Y >= 0; --Y)
+	{
+		for (int X = 0; X < 6; ++X)
+		{
+			if (nullptr != PlayerMap_[Y][X])
+			{
+				++Count;
+			}
+		}
+	}
+
+	if (Count >= 0)
+	{
+		IsDanger_ = true;
+	}
+
+	else if (Count < 10)
+	{
+		IsDanger_ = false;
+	}
+}
+
 void Player::LoseFallPuyo()
 {
 	for (int Y = 14; Y >= 0; --Y)

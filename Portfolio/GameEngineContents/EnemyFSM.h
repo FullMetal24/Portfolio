@@ -71,8 +71,12 @@ public:
 	void DisappearBubble();
 
 	//에네미 프로필
-	void EnemyAnimatioInit();
 	void SetMyProfile(EnemyProfile* _Porifle);
+	void IdleAnimation();
+	void ExcitedAnimation();
+	void DangerAnimation();
+	void LoseAnimation();
+	void WinAnimation();
 	
 	void Lose();
 
@@ -96,6 +100,7 @@ protected:
 private:
 	Puyo* EnemyMap_[15][6];
 
+	EnemyProfile* MyPorifle_;
 	EnemyState EnemyState_;
 
 	Player* Player_;
@@ -137,12 +142,12 @@ private:
 	InGameActor* Bubbles_[10];
 	float4 BubbleDir_[10];
 	int BubbleSpeed_[10];
-	bool IsDanger_;
 
 	InGameActor* EnemyActors_;
 	GameEngineRenderer* EnemyAnimations_[8];
 	GameEngineRenderer* EnemyNames_[8];
 
+	bool IsDanger_;
 };
 
 
