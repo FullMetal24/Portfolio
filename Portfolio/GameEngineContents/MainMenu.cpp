@@ -1178,16 +1178,16 @@ void MainMenu::LevelChangeEnd(GameEngineLevel* _NextLevel)
 
 void MainMenu::UserResetEnd()
 {
-	MenuCount_ = 0;
-	ChangeTime_ = 0.f;
-	RandomTime_ = 1.f;
-	RightIndex_ = 0;
-	LeftIndex_ = 0;
-
 	FadeBackground_ = CreateActor<FadeInOutBackground>();
 
 	MenuImageInit();
 	MenuInit();
 	BackgourndInit();
+
+	MenuCount_ = 0;
+	ChangeTime_ = 0.f;
+	RandomTime_ = 1.f;
+	RightIndex_ = 0;
+	LeftIndex_ = 0;
 }
 

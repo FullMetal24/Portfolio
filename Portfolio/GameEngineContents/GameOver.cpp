@@ -108,12 +108,6 @@ void GameOver::LevelChangeEnd(GameEngineLevel* _NextLevel)
 
 void GameOver::UserResetEnd()
 {
-	IsLevelStart_ = true;
-	FadeBack_->SetAlphaValue(255);
-	FadeBack_->GetMyRenderer()->SetOrder(3);
-	Time_ = 0.f;
-	Count_ = 0;
-
 	FadeBack_ = CreateActor<FadeInOutBackground>();
 	FadeBack_->SetMyRenderer(FadeBack_->CreateRenderer("GO_BACKGROUND.bmp"));
 
@@ -126,4 +120,8 @@ void GameOver::UserResetEnd()
 		GameEngineInput::GetInst()->CreateKey("ReTry", VK_SPACE);
 		GameEngineInput::GetInst()->CreateKey("Next", VK_LSHIFT);
 	}
+
+	IsLevelStart_ = true;
+	Time_ = 0.f;
+	Count_ = 0;
 }

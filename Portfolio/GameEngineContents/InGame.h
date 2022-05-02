@@ -49,6 +49,8 @@ public:
 	void CarbuncleUpdate();
 	void SpewStar();
 
+	void TwinkleWinRenderer();
+
 protected:
 
 private:
@@ -79,6 +81,7 @@ private:
 	GameEngineSound EffectSound_;
 
 	int StageClear_;
+	int TwinkleCount_; //WinRenderer ±ôºýÀÓ
 	float ChangeCount_;
 	float Alpha_;
 

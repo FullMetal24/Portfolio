@@ -350,18 +350,6 @@ void EnemySelect::LevelChangeEnd(GameEngineLevel* _NextLevel)
 
 void EnemySelect::UserResetEnd()
 {
-	RouletteSpeed_ = 1.0f;
-	SpeedLimit_ = 0.01f;
-	LevelChangeCount_ = 2.5f;
-
-	TwinkleTime_ = 0.f;
-
-	RouletteIndex_ = 0;
-	LimitForce_ = 0;
-
-	IsSelect_ = false;
-	IsKeyDown_ = false;
-
 	GameEngineActor* Level = CreateActor<EnemySelectActor>(5);
 	Level->SetPosition({ GameEngineWindow::GetScale().Half().x, GameEngineWindow::GetScale().Half().y - 200.f });
 	Level->CreateRenderer("ES_LEVEL1.bmp");
@@ -395,6 +383,18 @@ void EnemySelect::UserResetEnd()
 	{
 		GameEngineInput::GetInst()->CreateKey("EnemySelect", VK_SPACE);
 	}
+
+	RouletteSpeed_ = 1.0f;
+	SpeedLimit_ = 0.01f;
+	LevelChangeCount_ = 2.5f;
+
+	TwinkleTime_ = 0.f;
+
+	RouletteIndex_ = 0;
+	LimitForce_ = 0;
+
+	IsSelect_ = false;
+	IsKeyDown_ = false;
 }
 
 

@@ -266,16 +266,16 @@ void Title::LevelChangeEnd(GameEngineLevel* _NextLevel)
 
 void Title::UserResetEnd()
 {
-	TransCount_ = 0;
-	TransTime_ = 0.f;
-	EyeMove_ = false;
-
 	BackgroundInit();
 
 	if (false == GameEngineInput::GetInst()->IsKey("Title"))
 	{
 		GameEngineInput::GetInst()->CreateKey("Title", VK_SPACE);
 	}
+
+	TransCount_ = 0;
+	TransTime_ = 0.f;
+	EyeMove_ = false;
 }
 
 

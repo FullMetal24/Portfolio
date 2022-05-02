@@ -79,8 +79,6 @@ void BestRecords::LevelChangeEnd(GameEngineLevel* _NextLevel)
 
 void BestRecords::UserResetEnd()
 {
-	Time_ = 0.f;
-
 	FadeInOutBackground_ = CreateActor< FadeInOutBackground>(0);
 	FadeInOutBackground_->SetMyRenderer(FadeInOutBackground_->CreateRenderer("GO_BACKGROUND.bmp"));
 
@@ -95,5 +93,7 @@ void BestRecords::UserResetEnd()
 	BestRecordsActor* Arle = CreateActor<BestRecordsActor>(8);
 	Arle->SetMyRenderer(Arle->CreateRenderer("BR_SD_ARLE.bmp"));
 	Arle->SetPosition({ GameEngineWindow::GetScale().Half().x - 475, GameEngineWindow::GetScale().Half().y + 255 });
+
+	Time_ = 0.f;
 }
 

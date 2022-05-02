@@ -113,10 +113,12 @@ void EnemyFSM::Update()
 		break;
 	case EnemyState::Win:
 		WinAnimation();
+		IsDanger_ = false;
 		break;
 	case EnemyState::Lose:
 		Lose();
 		LoseAnimation();
+		IsDanger_ = false;
 		break;
 	}
 

@@ -23,8 +23,9 @@ InGame::InGame()
 	, EnemyProfile_(nullptr)
 	, Stage_(nullptr)
 	, StageClear_(0)
+	, TwinkleCount_(0)
 	, ChangeCount_(10.f)
-	, IsStart_(false) //ÀÏ´Ü Æ®·ç
+	, IsStart_(false)
 	, IsEnemyFlap_(false)
 {
 }
@@ -53,7 +54,7 @@ void InGame::Loading()
 	GameOverRenderer_->CreateRenderer("IG_PLAYER_GAMEOVER.bmp");
 
 	GameOverStartPos_ = GameOverRenderer_->GetPosition();
-	GameOverEndPos_ = GameOverRenderer_->GetPosition() + float4{ 0, -1200.f };
+	GameOverEndPos_ = GameOverRenderer_->GetPosition() + float4{ 0, -1300.f };
 
 	WinRenderer_ = CreateActor<InGameActor>(-1);
 	WinRenderer_->SetPosition({ 255, 200 });
@@ -665,9 +666,9 @@ void InGame::GameOverCheck()
 		}
 	}
 
-	else if (EnemyFSM_->GetState() == EnemyState::Lose)
+	else if (true)
 	{
-		WinRenderer_->GetMyRenderer()->SetOrder(10);
+		TwinkleWinRenderer();
 		Player_->SetState(PlayerState::Win);
 
 		InGameBgm_.Stop();
@@ -692,6 +693,23 @@ void InGame::GameOverCheck()
 			EnemySelect_->LockLoseEnemyIcon(EnemyProfile_->GetMyLevel());
 		}
 	}
+}
+
+void InGame::TwinkleWinRenderer()
+{
+	++TwinkleCount_;
+
+	if (0 == TwinkleCount_ % 2)
+	{
+		TwinkleCount_ = 0;
+		WinRenderer_->GetMyRenderer()->SetOrder(10);
+	}
+
+	else
+	{
+		WinRenderer_->GetMyRenderer()->SetOrder(-1);
+	}
+
 }
 
 void InGame::CarbuncleUpdate()
@@ -874,13 +892,7 @@ void InGame::LevelChangeEnd(GameEngineLevel* _PrevLevel)
 }
 
 void InGame::UserResetEnd()
-{
-	StageClear_ = 0;
-	ChangeCount_ = 10.f;
-	Alpha_ = 0.f;
-	IsStart_ = false;
-	IsEnemyFlap_ = false;
-
+ {
 	PuyoAnimationInit();
 	InitPlayerEndEnemy();
 
@@ -922,4 +934,11 @@ void InGame::UserResetEnd()
 	Carbuncle_->SetMyRenderer(CarbuncleRenderer);
 
 	CarbuncleAnimationInit();
+
+	StageClear_ = 0;
+	TwinkleCount_ = 0;
+	ChangeCount_ = 10.f;
+	Alpha_ = 0.f;
+	IsStart_ = false;
+	IsEnemyFlap_ = false;
 }
