@@ -57,7 +57,7 @@ void InGame::Loading()
 
 	WinRenderer_ = CreateActor<InGameActor>(-1);
 	WinRenderer_->SetPosition({ 255, 200 });
-	WinRenderer_->CreateRenderer("IG_YOUWIN.bmp");
+	WinRenderer_->SetMyRenderer(WinRenderer_->CreateRenderer("IG_YOUWIN.bmp"));
 
 	StateBottoms_[0] = CreateActor<InGameActor>();
 	StateBottoms_[1] = CreateActor<InGameActor>();
@@ -667,7 +667,7 @@ void InGame::GameOverCheck()
 
 	else if (EnemyFSM_->GetState() == EnemyState::Lose)
 	{
-		WinRenderer_->SetOrder(10);
+		WinRenderer_->GetMyRenderer()->SetOrder(10);
 		Player_->SetState(PlayerState::Win);
 
 		InGameBgm_.Stop();
