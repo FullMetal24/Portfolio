@@ -121,6 +121,9 @@ void InGame::PuyoAnimationInit()
 		GameEngineImage* RightUPDownImage = GameEngineImageManager::GetInst()->Find("IG_RED_RIGHT_UP_DOWN.bmp");
 		RightUPDownImage->CutCount(1, 1);
 
+		GameEngineImage* RightUPImage = GameEngineImageManager::GetInst()->Find("IG_RED_RIGHT_UP.bmp");
+		RightUPImage->CutCount(1, 1);
+
 		GameEngineImage* UpDownImage = GameEngineImageManager::GetInst()->Find("IG_RED_UP_DOWN.bmp");
 		UpDownImage->CutCount(1, 1);
 	}
@@ -186,6 +189,9 @@ void InGame::PuyoAnimationInit()
 		GameEngineImage* RightUPDownImage = GameEngineImageManager::GetInst()->Find("IG_BLUE_RIGHT_UP_DOWN.bmp");
 		RightUPDownImage->CutCount(1, 1);
 
+		GameEngineImage* RightUPImage = GameEngineImageManager::GetInst()->Find("IG_BLUE_RIGHT_UP.bmp");
+		RightUPImage->CutCount(1, 1);
+
 		GameEngineImage* UpDownImage = GameEngineImageManager::GetInst()->Find("IG_BLUE_UP_DOWN.bmp");
 		UpDownImage->CutCount(1, 1);
 	}
@@ -238,7 +244,7 @@ void InGame::PuyoAnimationInit()
 		GameEngineImage* LeftRightDownImage = GameEngineImageManager::GetInst()->Find("IG_GREEN_LEFT_RIGHT_DOWN.bmp");
 		LeftRightDownImage->CutCount(1, 1);
 
-		GameEngineImage* LeftRightUpImage = GameEngineImageManager::GetInst()->Find("IG_GREEN_LFET_RIGHT_UP.bmp");
+		GameEngineImage* LeftRightUpImage = GameEngineImageManager::GetInst()->Find("IG_GREEN_LEFT_RIGHT_UP.bmp");
 		LeftRightUpImage->CutCount(1, 1);
 
 		GameEngineImage* LeftRightUpDownImage = GameEngineImageManager::GetInst()->Find("IG_GREEN_LEFT_RIGHT_UP_DOWN.bmp");
@@ -252,6 +258,9 @@ void InGame::PuyoAnimationInit()
 
 		GameEngineImage* RightUPDownImage = GameEngineImageManager::GetInst()->Find("IG_GREEN_RIGHT_UP_DOWN.bmp");
 		RightUPDownImage->CutCount(1, 1);
+
+		GameEngineImage* RightUPImage = GameEngineImageManager::GetInst()->Find("IG_GREEN_RIGHT_UP.bmp");
+		RightUPImage->CutCount(1, 1);
 
 		GameEngineImage* UpDownImage = GameEngineImageManager::GetInst()->Find("IG_GREEN_UP_DOWN.bmp");
 		UpDownImage->CutCount(1, 1);
@@ -318,6 +327,9 @@ void InGame::PuyoAnimationInit()
 		GameEngineImage* RightUPDownImage = GameEngineImageManager::GetInst()->Find("IG_YELLOW_RIGHT_UP_DOWN.bmp");
 		RightUPDownImage->CutCount(1, 1);
 
+		GameEngineImage* RightUPImage = GameEngineImageManager::GetInst()->Find("IG_YELLOW_RIGHT_UP.bmp");
+		RightUPImage->CutCount(1, 1);
+
 		GameEngineImage* UpDownImage = GameEngineImageManager::GetInst()->Find("IG_YELLOW_UP_DOWN.bmp");
 		UpDownImage->CutCount(1, 1);
 	}
@@ -382,6 +394,9 @@ void InGame::PuyoAnimationInit()
 
 		GameEngineImage* RightUPDownImage = GameEngineImageManager::GetInst()->Find("IG_PURPLE_RIGHT_UP_DOWN.bmp");
 		RightUPDownImage->CutCount(1, 1);
+
+		GameEngineImage* RightUPImage = GameEngineImageManager::GetInst()->Find("IG_PURPLE_RIGHT_UP.bmp");
+		RightUPImage->CutCount(1, 1);
 
 		GameEngineImage* UpDownImage = GameEngineImageManager::GetInst()->Find("IG_PURPLE_UP_DOWN.bmp");
 		UpDownImage->CutCount(1, 1);
@@ -682,7 +697,7 @@ void InGame::GameOverCheck()
 		}
 	}
 
-	else if (true)
+	else if (EnemyFSM_->GetState() == EnemyState::Lose)
 	{
 		TwinkleWinRenderer();
 		Player_->SetState(PlayerState::Win);

@@ -134,29 +134,6 @@ public:
 		return IsVisited_;
 	}
 
-	inline bool* GetConnect()
-	{
-		return IsConnect_;
-	}
-
-	inline void SetConnect(int _Index, bool _Value)
-	{
-		if (4 <= _Index)
-		{
-			return;
-		}
-
-		IsConnect_[_Index] = _Value;
-	}
-
-	inline void ResetConnect()
-	{
-		IsConnect_[0] = false;
-		IsConnect_[1] = false;
-		IsConnect_[2] = false;
-		IsConnect_[3] = false;
-	}
-
 	inline void SetDir(PuyoDir _Dir)
 	{
 		CurDir_ = _Dir;
@@ -165,6 +142,16 @@ public:
 	inline PuyoState GetState()
 	{
 		return PuyoState_;
+	}
+
+	inline bool GetIsNewPuyo()
+	{
+		return IsNewPuyo_;
+	}
+
+	inline void SetIsNewPuyo(bool _IsNew)
+	{
+		IsNewPuyo_ = _IsNew;
 	}
 
 	//이동 관련 함수
@@ -245,6 +232,7 @@ private:
 	float IdleTime_;
 	float NormalTime_;
 	
+	bool IsNewPuyo_;
 	bool IsIdle_;
 	bool IsLandPlay_;
 	bool IsLand_;
@@ -252,8 +240,6 @@ private:
 	bool IsDestroy_;
 	bool IsFall_;
 
-	//상하좌우
-	bool IsConnect_[4];
 	bool IsLoseFall_;
 	bool IsSoundPlay_;
 

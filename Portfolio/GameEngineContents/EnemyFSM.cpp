@@ -143,6 +143,13 @@ void EnemyFSM::NewPuyoPair()
 	SecondPuyo_ = CreatePuyo(2, 14, NextSecondPuyo_->GetColor());
 	CenterPuyo_ = CreatePuyo(2, 13, NextCenterPuyo_->GetColor());
 
+	if (nullptr != CenterPuyo_
+		&& nullptr != SecondPuyo_)
+	{
+		CenterPuyo_->SetIsNewPuyo(true);
+		SecondPuyo_->SetIsNewPuyo(true);
+	}
+
 	NextSecondPuyo_->SetColor(NextNextSecondPuyo_->GetColor());
 	NextCenterPuyo_->SetColor(NextNextCenterPuyo_->GetColor());
 
@@ -443,6 +450,9 @@ void EnemyFSM::LandCheck()
 		CenterPuyo_->ChangeState(PuyoState::Land);
 		SecondPuyo_->ChangeState(PuyoState::Land);
 		EnemyState_ = EnemyState::PuyoCheck;
+
+		SecondPuyo_->SetIsNewPuyo(false);
+		CenterPuyo_->SetIsNewPuyo(false);
 	}
 }
 

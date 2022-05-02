@@ -25,7 +25,6 @@ Puyo::Puyo()
 	, IsLandPlay_(false)
 	, IsDestroy_(false)
 	, IsFall_(false)
-	, IsConnect_{ false }
 	, IsLoseFall_(false)
 	, IsSoundPlay_(false)
 {
@@ -51,9 +50,31 @@ void Puyo::Update()
 		{
 			RandomIdleAnimation();
 			IdleToNomal();
+
+			if (nullptr != Player_)
+			{
+				LinkedPuyoAnimtaion(Player_->PlayerMap_);
+			}
+
+			else if (nullptr != Enemy_)
+			{
+				LinkedPuyoAnimtaion(Enemy_->EnemyMap_);
+			}
 		}
 		break;
 	case PuyoState::Linked:
+		if (true == IsLand_)
+		{
+			if (nullptr != Player_)
+			{
+				LinkedPuyoAnimtaion(Player_->PlayerMap_);
+			}
+
+			else if (nullptr != Enemy_)
+			{
+				LinkedPuyoAnimtaion(Enemy_->EnemyMap_);
+			}
+		}
 		break;
 	case PuyoState::Land:
 		LandAnimation();
@@ -149,7 +170,7 @@ void Puyo::InitAnimation(PuyoColor color)
 		MyRenderer_->CreateAnimation("IG_GREEN_DOWN.bmp", "IG_GREEN_DOWN", 0, 0, 0.f, false);
 
 		MyRenderer_->CreateAnimation("IG_GREEN_LEFT_RIGHT.bmp", "IG_GREEN_LEFT_RIGHT", 0, 0, 0.f, false);
-		MyRenderer_->CreateAnimation("IG_GREEN_LFET_RIGHT_UP.bmp", "IG_GREEN_LFET_RIGHT_UP", 0, 0, 0.f, false);
+		MyRenderer_->CreateAnimation("IG_GREEN_LEFT_RIGHT_UP.bmp", "IG_GREEN_LEFT_RIGHT_UP", 0, 0, 0.f, false);
 		MyRenderer_->CreateAnimation("IG_GREEN_LEFT_RIGHT_DOWN.bmp", "IG_GREEN_LEFT_RIGHT_DOWN", 0, 0, 0.f, false);
 		MyRenderer_->CreateAnimation("IG_GREEN_LEFT_RIGHT_UP_DOWN.bmp", "IG_GREEN_LEFT_RIGHT_UP_DOWN", 0, 0, 0.f, false);
 		MyRenderer_->CreateAnimation("IG_GREEN_LEFT_UP.bmp", "IG_GREEN_LEFT_UP", 0, 0, 0.f, false);
@@ -179,6 +200,7 @@ void Puyo::InitAnimation(PuyoColor color)
 
 		MyRenderer_->CreateAnimation("IG_YELLOW_LEFT_RIGHT.bmp", "IG_YELLOW_LEFT_RIGHT", 0, 0, 0.f, false);
 		MyRenderer_->CreateAnimation("IG_YELLOW_LEFT_RIGHT_DOWN.bmp", "IG_YELLOW_LEFT_RIGHT_DOWN", 0, 0, 0.f, false);
+		MyRenderer_->CreateAnimation("IG_YELLOW_LEFT_RIGHT_UP.bmp", "IG_YELLOW_LEFT_RIGHT_UP", 0, 0, 0.f, false);
 		MyRenderer_->CreateAnimation("IG_YELLOW_LEFT_RIGHT_UP_DOWN.bmp", "IG_YELLOW_LEFT_RIGHT_UP_DOWN", 0, 0, 0.f, false);
 		MyRenderer_->CreateAnimation("IG_YELLOW_LEFT_UP.bmp", "IG_YELLOW_LEFT_UP", 0, 0, 0.f, false);
 		MyRenderer_->CreateAnimation("IG_YELLOW_LEFT_UP_DOWN.bmp", "IG_YELLOW_LEFT_UP_DOWN", 0, 0, 0.f, false);
@@ -296,7 +318,7 @@ void Puyo::InitAllAnimation()
 	MyRenderer_->CreateAnimation("IG_GREEN_DOWN.bmp", "IG_GREEN_DOWN", 0, 0, 0.f, false);
 
 	MyRenderer_->CreateAnimation("IG_GREEN_LEFT_RIGHT.bmp", "IG_GREEN_LEFT_RIGHT", 0, 0, 0.f, false);
-	MyRenderer_->CreateAnimation("IG_GREEN_LFET_RIGHT_UP.bmp", "IG_GREEN_LFET_RIGHT_UP", 0, 0, 0.f, false);
+	MyRenderer_->CreateAnimation("IG_GREEN_LEFT_RIGHT_UP.bmp", "IG_GREEN_LEFT_RIGHT_UP", 0, 0, 0.f, false);
 	MyRenderer_->CreateAnimation("IG_GREEN_LEFT_RIGHT_DOWN.bmp", "IG_GREEN_LEFT_RIGHT_DOWN", 0, 0, 0.f, false);
 	MyRenderer_->CreateAnimation("IG_GREEN_LEFT_RIGHT_UP_DOWN.bmp", "IG_GREEN_LEFT_RIGHT_UP_DOWN", 0, 0, 0.f, false);
 	MyRenderer_->CreateAnimation("IG_GREEN_LEFT_UP.bmp", "IG_GREEN_LEFT_UP", 0, 0, 0.f, false);
@@ -410,18 +432,18 @@ void Puyo::DestroyHindracePuyo(Puyo* Map[15][6])
 	for (int i = 0; i < 4; i++)
 	{
 		Y_;
- 
+
 		float4 Index = ArrDir[i] + GetIndex();
 
 		if (0 > Index.x || 6 <= Index.x || 0 > Index.y || 15 <= Index.y)
-		{   
+		{
 			continue;
 		}
-   
+
 		if (nullptr != Map[Index.iy()][Index.ix()]
 			&& PuyoColor::Hindrance == Map[Index.iy()][Index.ix()]->GetColor())
 		{
- 	  		Map[Index.iy()][Index.ix()]->ChangeState(PuyoState::Destroy); 
+			Map[Index.iy()][Index.ix()]->ChangeState(PuyoState::Destroy);
 			Map[Index.iy()][Index.ix()] = nullptr;
 		}
 	}
@@ -429,7 +451,7 @@ void Puyo::DestroyHindracePuyo(Puyo* Map[15][6])
 
 void Puyo::Init(Player* _Player, int x, int y, PuyoColor _Color)
 {
- 	Player_ = _Player;
+	Player_ = _Player;
 	SetIndex(x, y);
 	InitAnimation(_Color);
 
@@ -903,7 +925,6 @@ void Puyo::FallPuyo(Puyo* Map[15][6], EnemyFSM* _Enemy)
 	}
 
 	RenderToNormal();
-	ResetConnect();
 
 	SetY(PuyoCount);
 
@@ -970,6 +991,7 @@ void Puyo::RenderToNormal()
 	case PuyoColor::BLUE:
 		MyRenderer_->ChangeAnimation("IG_BLUE_PUYO");
 		break;
+	case PuyoColor::GREEN:
 		MyRenderer_->ChangeAnimation("IG_GREEN_PUYO");
 		break;
 	case PuyoColor::YELLOW:
@@ -1124,13 +1146,13 @@ void Puyo::RenderToLefttUp()
 		MyRenderer_->ChangeAnimation("IG_BLUE_LEFT_UP");
 		break;
 	case PuyoColor::GREEN:
-		MyRenderer_->ChangeAnimation("IG_GREEN_UP");
+		MyRenderer_->ChangeAnimation("IG_GREEN_LEFT_UP");
 		break;
 	case PuyoColor::YELLOW:
-		MyRenderer_->ChangeAnimation("IG_YELLOW_UP");
+		MyRenderer_->ChangeAnimation("IG_YELLOW_LEFT_UP");
 		break;
 	case PuyoColor::PURPLE:
-		MyRenderer_->ChangeAnimation("IG_PURPLE_UP");
+		MyRenderer_->ChangeAnimation("IG_PURPLE_LEFT_UP");
 		break;
 	}
 }
@@ -1206,19 +1228,19 @@ void Puyo::RenderToRightUp()
 	switch (MyColor_)
 	{
 	case PuyoColor::RED:
-		MyRenderer_->ChangeAnimation("IG_RED_LEFT_DOWN");
+		MyRenderer_->ChangeAnimation("IG_RED_RIGHT_UP");
 		break;
 	case PuyoColor::BLUE:
-		MyRenderer_->ChangeAnimation("IG_BLUE_LEFT_DOWN");
+		MyRenderer_->ChangeAnimation("IG_BLUE_RIGHT_UP");
 		break;
 	case PuyoColor::GREEN:
-		MyRenderer_->ChangeAnimation("IG_GREEN_LEFT_DOWN");
+		MyRenderer_->ChangeAnimation("IG_GREEN_RIGHT_UP");
 		break;
 	case PuyoColor::YELLOW:
-		MyRenderer_->ChangeAnimation("IG_YELLOW_LEFT_DOWN");
+		MyRenderer_->ChangeAnimation("IG_YELLOW_RIGHT_UP");
 		break;
 	case PuyoColor::PURPLE:
-		MyRenderer_->ChangeAnimation("IG_PURPLE_LEFT_DOWN");
+		MyRenderer_->ChangeAnimation("IG_PURPLE_RIGHT_UP");
 		break;
 	}
 }
@@ -1228,19 +1250,19 @@ void Puyo::RenderToRightUpDown()
 	switch (MyColor_)
 	{
 	case PuyoColor::RED:
-		MyRenderer_->ChangeAnimation("IG_RED_RIGHT_DOWN");
+		MyRenderer_->ChangeAnimation("IG_RED_RIGHT_UP_DOWN");
 		break;
 	case PuyoColor::BLUE:
-		MyRenderer_->ChangeAnimation("IG_BLUE_RIGHT_DOWN");
+		MyRenderer_->ChangeAnimation("IG_BLUE_RIGHT_UP_DOWN");
 		break;
 	case PuyoColor::GREEN:
-		MyRenderer_->ChangeAnimation("IG_GREEN_RIGHT_DOWN");
+		MyRenderer_->ChangeAnimation("IG_GREEN_RIGHT_UP_DOWN");
 		break;
 	case PuyoColor::YELLOW:
-		MyRenderer_->ChangeAnimation("IG_YELLOW_RIGHT_DOWN");
+		MyRenderer_->ChangeAnimation("IG_YELLOW_RIGHT_UP_DOWN");
 		break;
 	case PuyoColor::PURPLE:
-		MyRenderer_->ChangeAnimation("IG_PURPLE_RIGHT_DOWN");
+		MyRenderer_->ChangeAnimation("IG_PURPLE_RIGHT_UP_DOWN");
 		break;
 	}
 }
@@ -1345,7 +1367,7 @@ void Puyo::RandomIdleAnimation()
 		IsIdle_ = true;
 	}
 
-	if (true == IsIdle_)
+	if    (true == IsIdle_)
 	{
 		IsIdle_ = false;
 		NormalTime_ = 0.f;
@@ -1370,7 +1392,6 @@ void Puyo::RenderToIdle()
 	switch (MyColor_)
 	{
 	case PuyoColor::RED:
-
 		MyRenderer_->ChangeAnimation("IG_RED_IDLE");
 		break;
 	case PuyoColor::BLUE:
@@ -1670,6 +1691,9 @@ void Puyo::LinkedPuyoAnimtaion(Puyo* Map[15][6])
 
 	if (0 == Value)
 	{
+		ChangeState(PuyoState::Normal);
+		RenderToNormal();
+
 		return;
 	}
 
@@ -1750,148 +1774,58 @@ void Puyo::LinkedPuyoAnimtaion(Puyo* Map[15][6])
 		RenderToLeftRightUpDown();
 		break;
 	}
+
+	ChangeState(PuyoState::Linked);
 }
 
 int Puyo::GradeLinkAnimation(Puyo* Map[15][6])
 {
-	if (Y_ - 1 < 0 || 14 < Y_ + 1
-		&& X_ - 1 < 0 || X_ + 1 > 5)
+	int Value = 0;
+
+	int Dx[4] = { 1, -1, 0, 0 };
+	int Dy[4] = { 0, 0, 1, -1 };
+
+	for (int i = 0; i < 4; ++i)
 	{
-		return 0;
+		int X = Dx[i] + X_;
+		int Y = Dy[i] + Y_;
+
+		if (0 > X || 0 > Y || 6 <= X || 15 <= Y)
+		{
+			continue;
+		}
+
+		if (nullptr == Map[Y][X])
+		{
+			continue;
+		}
+
+		if (MyColor_ == Map[Y][X]->GetColor()
+			&& false == Map[Y][X]->GetIsNewPuyo())
+		{
+			if (1 == Dx[i])
+			{
+				Value += 1;
+			}
+
+			if (-1 == Dx[i])
+			{
+				Value += 10;
+			}
+
+			if (-1 == Dy[i])
+			{
+				Value += 100;
+			}
+
+			if (1 == Dy[i])
+			{
+				Value += 1000;
+			}
+		}
 	}
 
-	int INumber = 0;
-	bool* ConnectPtr = GetConnect();
-
-
-	if (nullptr != Map[Y_][X_ - 1]
-		&& MyColor_ == Map[Y_][X_ - 1]->GetColor())
-	{
-		if (false == Map[Y_][X_ - 1]->GetLand())
-		{
-			return 0;
-		}
-
-		INumber += 10;
-		SetConnect(static_cast<int>(PuyoDir::LEFT), true);
-
-		if (true == ConnectPtr[static_cast<int>(PuyoDir::RIGHT)])
-		{
-			++INumber;
-			SetConnect(static_cast<int>(PuyoDir::RIGHT), true);
-		}
-
-		else if (true == ConnectPtr[static_cast<int>(PuyoDir::DOWN)])
-		{
-			INumber += 100;
-			SetConnect(static_cast<int>(PuyoDir::DOWN), true);
-		}
-
-		else if (true == ConnectPtr[static_cast<int>(PuyoDir::UP)])
-		{
-			INumber += 1000;
-			SetConnect(static_cast<int>(PuyoDir::UP), true);
-		}
-
-		return INumber;
-	}
-
-	else if (nullptr != Map[Y_][X_ + 1]
-		&& MyColor_ == Map[Y_][X_ + 1]->GetColor())
-	{
-		if (false == Map[Y_][X_ + 1]->GetLand())
-		{
-			return 0;
-		}
-
-		++INumber;
-		SetConnect(static_cast<int>(PuyoDir::RIGHT), true);
-
-		if (true == ConnectPtr[static_cast<int>(PuyoDir::LEFT)])
-		{
-			INumber += 10;
-			SetConnect(static_cast<int>(PuyoDir::LEFT), true);
-		}
-
-		else if (true == ConnectPtr[static_cast<int>(PuyoDir::DOWN)])
-		{
-			INumber += 100;
-			SetConnect(static_cast<int>(PuyoDir::DOWN), true);
-		}
-
-		else if (true == ConnectPtr[static_cast<int>(PuyoDir::UP)])
-		{
-			INumber += 1000;
-			SetConnect(static_cast<int>(PuyoDir::UP), true);
-		}
-
-		return INumber;
-
-	}
-
-	else if (nullptr != Map[Y_ + 1][X_]
-		&& MyColor_ == Map[Y_ + 1][X_]->GetColor())
-	{
-		if (false == Map[Y_ + 1][X_]->GetLand())
-		{
-			return 0;
-		}
-
-		INumber += 1000;
-		SetConnect(static_cast<int>(PuyoDir::UP), true);
-
-		if (true == ConnectPtr[static_cast<int>(PuyoDir::RIGHT)])
-		{
-			++INumber;
-			SetConnect(static_cast<int>(PuyoDir::RIGHT), true);
-		}
-
-		else if (true == ConnectPtr[static_cast<int>(PuyoDir::LEFT)])
-		{
-			INumber += 10;
-			SetConnect(static_cast<int>(PuyoDir::LEFT), true);
-		}
-
-		else if (true == ConnectPtr[static_cast<int>(PuyoDir::DOWN)])
-		{
-			INumber += 100;
-			SetConnect(static_cast<int>(PuyoDir::DOWN), true);
-		}
-
-		return INumber;
-	}
-
-	else if (nullptr != Map[Y_ - 1][X_]
-		&& MyColor_ == Map[Y_ - 1][X_]->GetColor())
-	{
-		if (false == Map[Y_ - 1][X_]->GetLand())
-		{
-			return 0;
-		}
-
-		INumber += 100;
-		SetConnect(static_cast<int>(PuyoDir::DOWN), true);
-
-		if (true == ConnectPtr[static_cast<int>(PuyoDir::RIGHT)])
-		{
-			++INumber;
-			SetConnect(static_cast<int>(PuyoDir::RIGHT), true);
-		}
-
-		else if (true == ConnectPtr[static_cast<int>(PuyoDir::LEFT)])
-		{
-			INumber += 10;
-			SetConnect(static_cast<int>(PuyoDir::LEFT), true);
-		}
-
-		if (true == ConnectPtr[static_cast<int>(PuyoDir::UP)])
-		{
-			INumber += 1000;
-			SetConnect(static_cast<int>(PuyoDir::UP), true);
-		}
-
-		return INumber;
-	}
+	return Value;
 }
 
 void Puyo::LoseFall()

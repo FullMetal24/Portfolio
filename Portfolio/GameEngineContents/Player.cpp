@@ -110,6 +110,13 @@ void Player::NewPuyoPair()
 	SecondPuyo_ = CreatePuyo(2, 14, NextSecondPuyo_->GetColor());
 	CenterPuyo_ = CreatePuyo(2, 13, NextCenterPuyo_->GetColor());
 
+	if (nullptr != CenterPuyo_ 
+		&& nullptr != SecondPuyo_)
+	{
+		CenterPuyo_->SetIsNewPuyo(true);
+		SecondPuyo_->SetIsNewPuyo(true);
+	}
+
 	NextSecondPuyo_->SetColor(NextNextSecondPuyo_->GetColor());
 	NextCenterPuyo_->SetColor(NextNextCenterPuyo_->GetColor());
 
@@ -345,6 +352,9 @@ void Player::LandCheck()
 		CenterPuyo_->ChangeState(PuyoState::Land);
 		SecondPuyo_->ChangeState(PuyoState::Land);
 		PlayerState_ = PlayerState::PuyoCheck;
+
+		SecondPuyo_->SetIsNewPuyo(false);
+		CenterPuyo_->SetIsNewPuyo(false);
 	}
 }
 
@@ -509,9 +519,6 @@ void Player::CreateHindrancePuyo(int _Count)
 		break;
 	case 2:
 		PlayerSound_.SoundPlayOneShot("ARLE_HURT_2.mp3");
-		break;
-	default:
-		PlayerSound_.SoundPlayOneShot("ARLE_HURT_1.mp3");
 		break;
 	}
 
