@@ -53,7 +53,13 @@ protected:
 
 private:
 	Stage* Stages_[3];
+	InGameActor* StageRenderer_;
 	InGameActor* StateBottoms_[2];
+
+	float StageAlpha_;
+
+	float4 StageRenderStartPos_;
+	float4 StageRenderEndPos_;
 
 	InGameActor* GameOverRenderer_;
 	InGameActor* WinRenderer_;
@@ -78,6 +84,7 @@ private:
 
 	bool IsStart_;
 	bool IsEnemyFlap_;
+	bool IsStateUp_;
 
 	float4 GameOverStartPos_;
 	float4 GameOverEndPos_;

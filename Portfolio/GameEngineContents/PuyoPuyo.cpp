@@ -90,7 +90,7 @@ void PuyoPuyo::GameInit()
 	CreateLevel<GameOver>("GameOver");
 	CreateLevel<BestRecords>("BestRecords");
 
-	ChangeLevel("MainMenu");
+	ChangeLevel("InGame");
 }
 
 void PuyoPuyo::GameLoop()

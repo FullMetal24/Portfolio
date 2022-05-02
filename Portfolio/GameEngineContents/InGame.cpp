@@ -1,4 +1,4 @@
-#include "InGame.h"
+﻿#include "InGame.h"
 #include <GameEngineBase/GameEngineWindow.h>
 #include <GameEngineBase/GameEngineRandom.h>
 #include <GameEngineBase/GameEngineMath.h>
@@ -24,7 +24,7 @@ InGame::InGame()
 	, Stage_(nullptr)
 	, StageClear_(0)
 	, ChangeCount_(10.f)
-	, IsStart_(false) //�ϴ� Ʈ��
+	, IsStart_(false) //ÀÏ´Ü Æ®·ç
 	, IsEnemyFlap_(false)
 {
 }
@@ -49,11 +49,11 @@ void InGame::Loading()
 	Stages_[0]->CreateRenderer("IG_STAGE1_BACK.bmp", 0);
 
 	GameOverRenderer_ = CreateActor<InGameActor>();
-	GameOverRenderer_->SetPosition({255, 1500});
+	GameOverRenderer_->SetPosition({ 255, 1500 });
 	GameOverRenderer_->CreateRenderer("IG_PLAYER_GAMEOVER.bmp");
 
 	GameOverStartPos_ = GameOverRenderer_->GetPosition();
-	GameOverEndPos_ = GameOverRenderer_->GetPosition() + float4{0, -1200.f};
+	GameOverEndPos_ = GameOverRenderer_->GetPosition() + float4{ 0, -1200.f };
 
 	WinRenderer_ = CreateActor<InGameActor>(-1);
 	WinRenderer_->SetPosition({ 255, 200 });
@@ -63,15 +63,19 @@ void InGame::Loading()
 	StateBottoms_[1] = CreateActor<InGameActor>();
 	StateBottoms_[0]->SetMyRenderer(StateBottoms_[0]->CreateRenderer("IG_STAGE1_BOTTOM_LEFT.bmp", 3));
 	StateBottoms_[1]->SetMyRenderer(StateBottoms_[1]->CreateRenderer("IG_STAGE1_BOTTOM_RIGHT.bmp", 3));
-	
+
 	StateBottoms_[0]->SetPosition({ GameEngineWindow::GetScale().Half() + float4{-384, 389} });
 	StateBottoms_[1]->SetPosition({ GameEngineWindow::GetScale().Half() + float4{384, 389} });
 
 	GameEngineActor* NextUi = CreateActor<Stage>(3);
 	NextUi->CreateRenderer("IG_NEXT.bmp")->SetPivot({ GameEngineWindow::GetScale().Half().x, GameEngineWindow::GetScale().Half().y - 360.f });
 
-	GameEngineActor* Stage1Ui = CreateActor<Stage>(3);
-	Stage1Ui->CreateRenderer("IG_STAGE_UI.bmp")->SetPivot({ GameEngineWindow::GetScale().Half().x, GameEngineWindow::GetScale().Half().y - 60.f });
+	StageRenderer_ = CreateActor<InGameActor>(3);
+	StageRenderer_->SetPosition({ GameEngineWindow::GetScale().Half().x, 1000.f });
+	StageRenderer_->CreateRenderer("IG_STAGE_UI.bmp");
+
+	StageRenderStartPos_ = StageRenderer_->GetPosition();
+	StageRenderEndPos_ = { GameEngineWindow::GetScale().Half().x, GameEngineWindow::GetScale().Half().y - 60.f };
 
 	GameEngineActor* PlayerName_ = CreateActor<Stage>(1);
 	PlayerName_->CreateRenderer("IG_NAME_ARLE.bmp")->SetPivot({ GameEngineWindow::GetScale().Half().x - 96.f, GameEngineWindow::GetScale().Half().y - 290.f });
@@ -438,7 +442,7 @@ void InGame::PuyoAnimationInit()
 
 	GameEngineImage* OffsetStarImage = GameEngineImageManager::GetInst()->Find("IG_OffsetStar.bmp");
 	OffsetStarImage->CutCount(5, 1);
-	
+
 }
 
 void InGame::EnemyAnimatioInit()
@@ -537,7 +541,7 @@ void InGame::EnemyAnimatioInit()
 
 		GameEngineImage* Image4 = GameEngineImageManager::GetInst()->Find("IG_LV6_DANGER.bmp");
 		Image4->CutCount(4, 1);
-	}	
+	}
 
 	{
 		GameEngineImage* Image = GameEngineImageManager::GetInst()->Find("IG_LV7_IDLE.bmp");
@@ -607,6 +611,19 @@ void InGame::Update()
 	}
 
 	GameOverCheck();
+
+	if (false == IsStateUp_)
+	{
+		StageAlpha_ += GameEngineTime::GetDeltaTime();
+
+		StageRenderer_->SetPosition(float4::Lerp(StageRenderStartPos_, StageRenderEndPos_, StageAlpha_));
+
+		if (1.f <= StageAlpha_)
+		{
+			StageAlpha_ = 0.f;
+			IsStateUp_ = true;
+		}
+	}
 }
 
 void InGame::GameOverCheck()
@@ -627,11 +644,11 @@ void InGame::GameOverCheck()
 		}
 
 		GameOverRenderer_->SetPosition(float4::Lerp(GameOverStartPos_, GameOverEndPos_, Alpha_));
-		
+
 		if (0 >= ChangeCount_)
 		{
 			FadeBackground_->FadeInOn();
-			FadeBackground_->GetMyRenderer()->SetOrder(20); 
+			FadeBackground_->GetMyRenderer()->SetOrder(20);
 			FadeBackground_->SetFadeSpeed(500.f);
 		}
 
@@ -654,7 +671,7 @@ void InGame::GameOverCheck()
 		Player_->SetState(PlayerState::Win);
 
 		InGameBgm_.Stop();
- 		ChangeCount_ -= GameEngineTime::GetDeltaTime();
+		ChangeCount_ -= GameEngineTime::GetDeltaTime();
 		StateBottoms_[1]->SetMove(float4::DOWN * GameEngineTime::GetDeltaTime() * 300.f);
 
 		if (0 >= ChangeCount_)
@@ -665,7 +682,7 @@ void InGame::GameOverCheck()
 		}
 
 		if (true == FadeBackground_->GetIsInChange())
-		{	
+		{
 			ChangeCount_ = 7.f;
 			GameEngine::GetInst().ChangeLevel("EnemySelect");
 
@@ -865,7 +882,7 @@ void InGame::UserResetEnd()
 	IsEnemyFlap_ = false;
 
 	PuyoAnimationInit();
-	InitPlayerEndEnemy();   
+	InitPlayerEndEnemy();
 
 	FadeBackground_ = CreateActor<FadeInOutBackground>();
 

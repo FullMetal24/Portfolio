@@ -964,7 +964,7 @@ void EnemyFSM::SetMyProfile(EnemyProfile* _Porifle)
 			EnemyAnimations_[1]->CreateAnimation("IG_LV2_WIN.bmp", "IG_LV2_WIN", 0, 0, 0.0f, false);
 			EnemyAnimations_[1]->CreateAnimation("IG_LV2_EXCITED.bmp", "IG_LV2_EXCITED", 0, 0, 0.0f, false);
 			EnemyAnimations_[1]->CreateAnimation("IG_LV2_DANGER.bmp", "IG_LV2_DANGER", 0, 0, 0.0f, false);
-			EnemyAnimations_[1]->ChangeAnimation("IG_LV2_LOSE");
+			EnemyAnimations_[1]->ChangeAnimation("IG_LV2_IDLE");
 
 			EnemyNames_[1] = EnemyActors_->CreateRenderer();
 			EnemyNames_[1]->SetOrder(2);
