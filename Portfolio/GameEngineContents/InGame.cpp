@@ -573,7 +573,6 @@ void InGame::CarbuncleAnimationInit()
 	Carbuncle_->GetMyRenderer()->CreateAnimation("IG_CARBUNCLE_START.bmp", "IG_CARBUNCLE_START", 0, 8, 0.2f, false);
 	Carbuncle_->GetMyRenderer()->ChangeAnimation("IG_CARBUNCLE_IDLE");
 
-
 	for (size_t i = 0; i < 36; i++)
 	{
 		Stars_[i] = CreateActor<InGameActor>(0);
@@ -591,21 +590,6 @@ void InGame::ActorsInit()
 	Stages_[0]->SetPosition(GameEngineWindow::GetScale().Half());
 	Stages_[0]->CreateRenderer("IG_STAGE1.bmp", 3);
 	Stages_[0]->CreateRenderer("IG_STAGE1_BACK.bmp", 0);
-
-	GameOverRenderer_ = CreateActor<InGameActor>();
-	GameOverRenderer_->SetPosition({ 255, 1500 });
-	GameOverRenderer_->CreateRenderer("IG_PLAYER_GAMEOVER.bmp");
-
-	GameOverStartPos_ = GameOverRenderer_->GetPosition();
-	GameOverEndPos_ = GameOverRenderer_->GetPosition() + float4{ 0, -1300.f };
-
-	WinRenderer_ = CreateActor<InGameActor>(-1);
-	WinRenderer_->SetPosition({ 255, 200 });
-	WinRenderer_->SetMyRenderer(WinRenderer_->CreateRenderer("IG_YOUWIN.bmp"));
-
-	SDPlayer_ = CreateActor<InGameActor>(-1);
-	SDPlayer_->SetPosition({ 255, 650 });
-	SDPlayer_->SetMyRenderer(SDPlayer_->CreateRenderer("BR_SD_ARLE.bmp"));
 
 	StateBottoms_[0] = CreateActor<InGameActor>();
 	StateBottoms_[1] = CreateActor<InGameActor>();
@@ -627,6 +611,8 @@ void InGame::ActorsInit()
 
 	GameEngineActor* PlayerName_ = CreateActor<Stage>(1);
 	PlayerName_->CreateRenderer("IG_NAME_ARLE.bmp")->SetPivot({ GameEngineWindow::GetScale().Half().x - 96.f, GameEngineWindow::GetScale().Half().y - 290.f });
+	
+
 
 }
 
@@ -644,13 +630,13 @@ void InGame::Update()
 
 	if (false == IsStateUp_)
 	{
-		StageAlpha_ += GameEngineTime::GetDeltaTime();
+		Alpha_ += GameEngineTime::GetDeltaTime();
 
-		StageRenderer_->SetPosition(float4::Lerp(StageRenderStartPos_, StageRenderEndPos_, StageAlpha_));
+		StageRenderer_->SetPosition(float4::Lerp(StageRenderStartPos_, StageRenderEndPos_, Alpha_));
 
-		if (1.f <= StageAlpha_)
+		if (1.f <= Alpha_)
 		{
-			StageAlpha_ = 0.f;
+			Alpha_ = 0.f;
 
 			StageRenderer_->GetMyRenderer()->SetOrder(3);
 			IsStateUp_ = true;
@@ -667,15 +653,6 @@ void InGame::GameOverCheck()
 		InGameBgm_.Stop();
 		StateBottoms_[0]->SetMove(float4::DOWN * GameEngineTime::GetDeltaTime() * 300.f);
 		ChangeCount_ -= GameEngineTime::GetDeltaTime();
-
-		Alpha_ += GameEngineTime::GetDeltaTime() * 0.5f;
-
-		if (1.f <= Alpha_)
-		{
-			Alpha_ = 1.f;
-		}
-
-		GameOverRenderer_->SetPosition(float4::Lerp(GameOverStartPos_, GameOverEndPos_, Alpha_));
 
 		if (0 >= ChangeCount_)
 		{
@@ -699,10 +676,7 @@ void InGame::GameOverCheck()
 
 	else if (EnemyFSM_->GetState() == EnemyState::Lose)
 	{
-		TwinkleWinRenderer();
 		Player_->SetState(PlayerState::Win);
-
-		SDPlayer_->GetMyRenderer()->SetOrder(15);
 
 		InGameBgm_.Stop();
 		ChangeCount_ -= GameEngineTime::GetDeltaTime();
@@ -723,28 +697,12 @@ void InGame::GameOverCheck()
 			GameEngineLevel* NextLevel = GameEngine::GetNextLevel();
 			EnemySelect* EnemySelect_ = dynamic_cast<EnemySelect*>(NextLevel);
 
-			EnemySelect_->LockLoseEnemyIcon(EnemyProfile_->GetMyLevel());
+			if (nullptr != EnemyProfile_)
+			{
+				EnemySelect_->LockLoseEnemyIcon(EnemyProfile_->GetMyLevel());
+			}
 		}
 	}
-}
-
-void InGame::TwinkleWinRenderer()
-{
-	WinRenderTime_ += GameEngineTime::GetDeltaTime();
-
-	if (0.5f <= WinRenderTime_ && false == IsWinRenderOn_)
-	{
-		IsWinRenderOn_ = true;
-		WinRenderer_->GetMyRenderer()->SetOrder(10);
-	}
-
-	else if (1.5f <= WinRenderTime_ && true == IsWinRenderOn_)
-	{
-		WinRenderTime_ = 0.f;
-		IsWinRenderOn_ = false;
-		WinRenderer_->GetMyRenderer()->SetOrder(-1);
-	}
-
 }
 
 void InGame::CarbuncleUpdate()
@@ -937,7 +895,6 @@ void InGame::UserResetEnd()
 	StageClear_ = 0;
 	TwinkleCount_ = 0;
 	ChangeCount_ = 10.f;
-	Alpha_ = 0.f;
 	IsStart_ = false;
 	IsEnemyFlap_ = false;
 }

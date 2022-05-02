@@ -67,6 +67,9 @@ public:
 	void LoseFallPuyo();
 
 	void Win();
+	void TwinkleWinRenderer();
+
+	void Lose();
 
 	inline void SetEnemyFSM(EnemyFSM* _Enemy)
 	{
@@ -145,5 +148,17 @@ private:
 	GameEngineSound PlayerSound_;
 
 	bool IsDanger_;
+
+	InGameActor* GameOverRenderer_;
+	InGameActor* WinRenderer_;
+	InGameActor* SDPlayer_;
+
+	float4 GameOverStartPos_;
+	float4 GameOverEndPos_;
+
+	float Alpha_;
+
+	float WinRenderTime_;
+	bool IsWinRenderOn_;
 };
 

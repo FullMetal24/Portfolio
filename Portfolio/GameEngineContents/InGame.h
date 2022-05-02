@@ -50,7 +50,6 @@ public:
 	void SpewStar();
 
 	void ActorsInit();
-	void TwinkleWinRenderer();
 
 protected:
 
@@ -59,14 +58,10 @@ private:
 	InGameActor* StageRenderer_;
 	InGameActor* StateBottoms_[2];
 
-	float StageAlpha_;
+	float Alpha_;
 
 	float4 StageRenderStartPos_;
 	float4 StageRenderEndPos_;
-
-	InGameActor* GameOverRenderer_;
-	InGameActor* WinRenderer_;
-	InGameActor* SDPlayer_;
 
 	Player*	Player_; 
 	EnemyFSM* EnemyFSM_;
@@ -85,17 +80,11 @@ private:
 	int StageClear_;
 	int TwinkleCount_; //WinRenderer ±ôºýÀÓ
 	float ChangeCount_;
-	float Alpha_;
 
 	bool IsStart_;
 	bool IsEnemyFlap_;
 	bool IsStateUp_;
 
-	float4 GameOverStartPos_;
-	float4 GameOverEndPos_;
-
-	float WinRenderTime_;
-	bool IsWinRenderOn_;
 
 };
 	
