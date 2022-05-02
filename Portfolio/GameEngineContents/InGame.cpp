@@ -482,7 +482,7 @@ void InGame::EnemyAnimatioInit()
 		Image2->CutCount(7, 1);
 
 		GameEngineImage* Image3 = GameEngineImageManager::GetInst()->Find("IG_LV5_EXCITED.bmp");
-		Image3->CutCount(5, 1);
+		Image3->CutCount(4, 1);
 
 		GameEngineImage* Image4 = GameEngineImageManager::GetInst()->Find("IG_LV5_DANGER.bmp");
 		Image4->CutCount(4, 1);
@@ -682,7 +682,7 @@ void InGame::GameOverCheck()
 		}
 	}
 
-	else if (EnemyFSM_->GetState() == EnemyState::Lose)
+	else if (true)
 	{
 		TwinkleWinRenderer();
 		Player_->SetState(PlayerState::Win);
@@ -715,16 +715,18 @@ void InGame::GameOverCheck()
 
 void InGame::TwinkleWinRenderer()
 {
-	++TwinkleCount_;
+	WinRenderTime_ += GameEngineTime::GetDeltaTime();
 
-	if (0 == TwinkleCount_ % 2)
+	if (0.5f <= WinRenderTime_ && false == IsWinRenderOn_)
 	{
-		TwinkleCount_ = 0;
+		IsWinRenderOn_ = true;
 		WinRenderer_->GetMyRenderer()->SetOrder(10);
 	}
 
-	else
+	else if (1.5f <= WinRenderTime_ && true == IsWinRenderOn_)
 	{
+		WinRenderTime_ = 0.f;
+		IsWinRenderOn_ = false;
 		WinRenderer_->GetMyRenderer()->SetOrder(-1);
 	}
 

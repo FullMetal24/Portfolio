@@ -93,6 +93,10 @@ private:
 
 	float4 GameOverStartPos_;
 	float4 GameOverEndPos_;
+
+	float WinRenderTime_;
+	bool IsWinRenderOn_;
+
 };
 	
 
