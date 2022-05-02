@@ -123,13 +123,11 @@ GameEngineSound* GameEngineSound::FindRes(const std::string& _Name)
 
 	return FindIter->second;
 }
-
 GameEngineSound* GameEngineSound::LoadRes(const std::string& _Path)
 {
 	GameEnginePath NewPath = GameEnginePath(_Path);
 	return LoadRes(_Path, NewPath.GetFileName());	//경로와 파일이름(ex.idle.bmp)을 Map의 key,value로 넣기위해 각각 넘겨준다.
 }
-
 GameEngineSound* GameEngineSound::LoadRes(const std::string& _Path, const std::string& _Name)
 {
 	std::string UpperName = GameEngineString::ToUpperReturn(_Name);
@@ -176,6 +174,18 @@ void GameEngineSoundPlayer::Stop()
 
 	ControlHandle_->stop();
 }
+
+void GameEngineSoundPlayer::PlaySpeed(float _Speed)
+{
+	if (nullptr == ControlHandle_)
+	{
+		MsgBoxAssert("사운드 컨트롤 채널에 치명적인 문제가 있습니다.\n");
+		return;
+	}
+
+	ControlHandle_->setPitch(_Speed);
+}
+
 
 
 GameEngineSoundPlayer::GameEngineSoundPlayer()
