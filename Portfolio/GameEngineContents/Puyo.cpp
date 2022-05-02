@@ -16,6 +16,7 @@ Puyo::Puyo()
 	, X_(0)
 	, Y_(0)
 	, OffsetX_(0)
+	, TwinkleCount_(0)
 	, StartPos_{}
 	, EndPos_{}
 	, Alpha_(0.f)
@@ -64,6 +65,7 @@ void Puyo::Update()
 	case PuyoState::Destroy:
 		RenderToDestroy();
 		SelfDestroy();
+		TwinklePuyo();
 		break;
 	}
 }
@@ -1909,6 +1911,22 @@ void Puyo::LoseFall()
 	}
 
 	SetPosition(float4::Lerp(StartPos_, EndPos_, Alpha_));
+}
+
+void Puyo::TwinklePuyo()
+{
+	++TwinkleCount_;
+
+	if (0 == TwinkleCount_ % 2)
+	{
+		TwinkleCount_ = 0;
+		MyRenderer_->SetOrder(1);
+	}
+
+	else
+	{
+		MyRenderer_->SetOrder(-1);
+	}
 }
 
 

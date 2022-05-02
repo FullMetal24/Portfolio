@@ -807,16 +807,16 @@ void EnemyFSM::DangerCheck()
 		}
 	}
 
-	if (Count >= 0)
+	if (Count >= 10)
 	{
 		IsDanger_ = true;
-		DangerAnimation();
+		//DangerAnimation();
 	}
 
 	else if (Count < 10)
 	{
 		IsDanger_ = false;
-		IdleAnimation();
+		//IdleAnimation();
 	}
 }
 
@@ -1007,31 +1007,19 @@ void EnemyFSM::SetMyProfile(EnemyProfile* _Porifle)
 			break;
 
 		case 5:
-			EnemyAnimations_[3] = EnemyActors_->CreateRenderer();
-			EnemyAnimations_[3]->SetOrder(2);
-			EnemyAnimations_[3]->CreateAnimation("IG_LV4_IDLE.bmp", "IG_LV4_IDLE", 0, 3, 0.2f, true);
-			EnemyAnimations_[3]->CreateAnimation("IG_LV4_EXCITED.bmp", "IG_LV4_EXCITED", 0, 3, 0.2f, true);
-			EnemyAnimations_[3]->CreateAnimation("IG_LV4_LOSE.bmp", "IG_LV4_LOSE", 0, 3, 0.2f, true);
-			EnemyAnimations_[3]->CreateAnimation("IG_LV4_WIN.bmp", "IG_LV4_WIN", 0, 0, 0.0f, false);
-			EnemyAnimations_[3]->CreateAnimation("IG_LV4_DANGER.bmp", "IG_LV4_DANGER", 0, 3, 0.2f, true);
-			EnemyAnimations_[3]->ChangeAnimation("IG_LV4_IDLE");
+			EnemyAnimations_[4] = EnemyActors_->CreateRenderer();
+			EnemyAnimations_[4]->SetOrder(2);
+			EnemyAnimations_[4]->CreateAnimation("IG_LV5_IDLE.bmp", "IG_LV5_IDLE", 0, 3, 0.2f, true);
+			EnemyAnimations_[4]->CreateAnimation("IG_LV5_LOSE.bmp", "IG_LV5_LOSE", 0, 3, 0.2f, true);
+			EnemyAnimations_[4]->CreateAnimation("IG_LV5_WIN.bmp", "IG_LV5_WIN", 0, 6, 0.2f, true);
+			EnemyAnimations_[4]->CreateAnimation("IG_LV5_EXCITED.bmp", "IG_LV5_EXCITED", 0, 4, 0.2f, true);
+			EnemyAnimations_[4]->CreateAnimation("IG_LV5_DANGER.bmp", "IG_LV5_DANGER", 0, 3, 0.2f, true);
+			EnemyAnimations_[4]->ChangeAnimation("IG_LV5_IDLE");
 
-			EnemyNames_[3] = EnemyActors_->CreateRenderer();
-			EnemyNames_[3]->SetOrder(2);
-			EnemyNames_[3]->SetPivot({ XPos, -YPos });
-			EnemyNames_[3]->SetImage("IG_NAME_BANS.bmp");
-
-			//EnemyAnimations_[4] = EnemyActors_->CreateRenderer();
-			//EnemyAnimations_[4]->SetOrder(2);
-			//EnemyAnimations_[4]->CreateAnimation("IG_LV5_IDLE.bmp", "IG_LV5_IDLE", 0, 10, 0.1f, true);
-			//EnemyAnimations_[4]->CreateAnimation("IG_LV5_LOSE.bmp", "IG_LV5_LOSE", 0, 2, 0.0f, true);
-			//EnemyAnimations_[4]->CreateAnimation("IG_LV5_WIN.bmp", "IG_LV5_WIN", 0, 0, 0.0f, false);
-			//EnemyAnimations_[4]->ChangeAnimation("IG_LV5_IDLE");
-
-			//EnemyNames_[4] = EnemyActors_->CreateRenderer();
-			//EnemyNames_[4]->SetOrder(2);
-			//EnemyNames_[4]->SetPivot({ XPos, -YPos });
-			//EnemyNames_[4]->SetImage("IG_NAME_NOMI.bmp");
+			EnemyNames_[4] = EnemyActors_->CreateRenderer();
+			EnemyNames_[4]->SetOrder(2);
+			EnemyNames_[4]->SetPivot({ XPos, -YPos });
+			EnemyNames_[4]->SetImage("IG_NAME_SATA.bmp");
 			break;
 
 		case 6:
@@ -1121,8 +1109,7 @@ void EnemyFSM::IdleAnimation()
 		break;
 
 	case 5:
-		EnemyAnimations_[3]->ChangeAnimation("IG_LV4_IDLE");
-		//EnemyAnimations_[4]->ChangeAnimation("IG_LV4_IDLE");
+		EnemyAnimations_[4]->ChangeAnimation("IG_LV5_IDLE");
 		break;
 
 	case 6:
@@ -1160,8 +1147,7 @@ void EnemyFSM::ExcitedAnimation()
 		break;
 
 	case 5:
-		EnemyAnimations_[3]->ChangeAnimation("IG_LV4_EXCITED");
-		//EnemyAnimations_[4]->ChangeAnimation("IG_LV4_EXCITED");
+		EnemyAnimations_[4]->ChangeAnimation("IG_LV5_EXCITED");
 		break;
 
 	case 6:
@@ -1199,8 +1185,7 @@ void EnemyFSM::DangerAnimation()
 		break;
 
 	case 5:
-		EnemyAnimations_[3]->ChangeAnimation("IG_LV4_DANGER");
-		//EnemyAnimations_[4]->ChangeAnimation("IG_LV4_DANGER");
+		EnemyAnimations_[4]->ChangeAnimation("IG_LV5_DANGER");
 		break;
 
 	case 6:
@@ -1238,8 +1223,7 @@ void EnemyFSM::LoseAnimation()
 		break;
 
 	case 5:
-		EnemyAnimations_[3]->ChangeAnimation("IG_LV4_LOSE");
-		//EnemyAnimations_[4]->ChangeAnimation("IG_LV4_LOSE");
+		EnemyAnimations_[4]->ChangeAnimation("IG_LV5_LOSE");
 		break;
 
 	case 6:
@@ -1277,8 +1261,7 @@ void EnemyFSM::WinAnimation()
 		break;
 
 	case 5:
-		EnemyAnimations_[3]->ChangeAnimation("IG_LV4_WIN");
-		//EnemyAnimations_[4]->ChangeAnimation("IG_LV4_WIN");
+		EnemyAnimations_[4]->ChangeAnimation("IG_LV5_WIN");
 		break;
 
 	case 6:

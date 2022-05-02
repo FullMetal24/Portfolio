@@ -218,6 +218,7 @@ public:
 	int GradeLinkAnimation(Puyo* Map[15][6]);
 
 	void LoseFall();
+	void TwinklePuyo();
 
 protected:
 
@@ -236,6 +237,7 @@ private:
 	int Y_;
 
 	int OffsetX_;
+	int TwinkleCount_;
 
 	float4 StartPos_;
 	float4 EndPos_;

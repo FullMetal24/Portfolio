@@ -40,52 +40,7 @@ void InGame::Loading()
 	PuyoAnimationInit();
 	InitPlayerEndEnemy();
 	EnemyAnimatioInit();
-
-	FadeBackground_ = CreateActor<FadeInOutBackground>();
-
-	Stages_[0] = CreateActor<Stage>();
-
-	Stages_[0]->SetPosition(GameEngineWindow::GetScale().Half());
-	Stages_[0]->CreateRenderer("IG_STAGE1.bmp", 3);
-	Stages_[0]->CreateRenderer("IG_STAGE1_BACK.bmp", 0);
-
-	GameOverRenderer_ = CreateActor<InGameActor>();
-	GameOverRenderer_->SetPosition({ 255, 1500 });
-	GameOverRenderer_->CreateRenderer("IG_PLAYER_GAMEOVER.bmp");
-
-	GameOverStartPos_ = GameOverRenderer_->GetPosition();
-	GameOverEndPos_ = GameOverRenderer_->GetPosition() + float4{ 0, -1300.f };
-
-	WinRenderer_ = CreateActor<InGameActor>(-1);
-	WinRenderer_->SetPosition({ 255, 200 });
-	WinRenderer_->SetMyRenderer(WinRenderer_->CreateRenderer("IG_YOUWIN.bmp"));
-
-	StateBottoms_[0] = CreateActor<InGameActor>();
-	StateBottoms_[1] = CreateActor<InGameActor>();
-	StateBottoms_[0]->SetMyRenderer(StateBottoms_[0]->CreateRenderer("IG_STAGE1_BOTTOM_LEFT.bmp", 3));
-	StateBottoms_[1]->SetMyRenderer(StateBottoms_[1]->CreateRenderer("IG_STAGE1_BOTTOM_RIGHT.bmp", 3));
-
-	StateBottoms_[0]->SetPosition({ GameEngineWindow::GetScale().Half() + float4{-384, 389} });
-	StateBottoms_[1]->SetPosition({ GameEngineWindow::GetScale().Half() + float4{384, 389} });
-
-	GameEngineActor* NextUi = CreateActor<Stage>(3);
-	NextUi->CreateRenderer("IG_NEXT.bmp")->SetPivot({ GameEngineWindow::GetScale().Half().x, GameEngineWindow::GetScale().Half().y - 360.f });
-
-	StageRenderer_ = CreateActor<InGameActor>(3);
-	StageRenderer_->SetPosition({ GameEngineWindow::GetScale().Half().x, 1000.f });
-	StageRenderer_->CreateRenderer("IG_STAGE_UI.bmp");
-
-	StageRenderStartPos_ = StageRenderer_->GetPosition();
-	StageRenderEndPos_ = { GameEngineWindow::GetScale().Half().x, GameEngineWindow::GetScale().Half().y - 60.f };
-
-	GameEngineActor* PlayerName_ = CreateActor<Stage>(1);
-	PlayerName_->CreateRenderer("IG_NAME_ARLE.bmp")->SetPivot({ GameEngineWindow::GetScale().Half().x - 96.f, GameEngineWindow::GetScale().Half().y - 290.f });
-
-	Carbuncle_ = CreateActor<InGameActor>(6);
-	Carbuncle_->SetPosition({ GameEngineWindow::GetScale().Half().x - 160.f, GameEngineWindow::GetScale().Half().y + 300.f });
-	GameEngineRenderer* CarbuncleRenderer = Carbuncle_->CreateRenderer();
-	Carbuncle_->SetMyRenderer(CarbuncleRenderer);
-
+	ActorsInit();
 	CarbuncleAnimationInit();
 }
 
@@ -518,13 +473,20 @@ void InGame::EnemyAnimatioInit()
 
 	{
 		GameEngineImage* Image = GameEngineImageManager::GetInst()->Find("IG_LV5_IDLE.bmp");
-		Image->CutCount(11, 1);
+		Image->CutCount(4, 1);
 
 		GameEngineImage* Image1 = GameEngineImageManager::GetInst()->Find("IG_LV5_LOSE.bmp");
-		Image1->CutCount(3, 1);
+		Image1->CutCount(4, 1);
 
-		GameEngineImage* Image3 = GameEngineImageManager::GetInst()->Find("IG_LV5_WIN.bmp");
-		Image3->CutCount(1, 1);
+		GameEngineImage* Image2 = GameEngineImageManager::GetInst()->Find("IG_LV5_WIN.bmp");
+		Image2->CutCount(7, 1);
+
+		GameEngineImage* Image3 = GameEngineImageManager::GetInst()->Find("IG_LV5_EXCITED.bmp");
+		Image3->CutCount(5, 1);
+
+		GameEngineImage* Image4 = GameEngineImageManager::GetInst()->Find("IG_LV5_DANGER.bmp");
+		Image4->CutCount(4, 1);
+
 	}
 
 	{
@@ -581,6 +543,11 @@ void InGame::EnemyAnimatioInit()
 
 void InGame::CarbuncleAnimationInit()
 {
+	Carbuncle_ = CreateActor<InGameActor>(6);
+	Carbuncle_->SetPosition({ GameEngineWindow::GetScale().Half().x - 160.f, GameEngineWindow::GetScale().Half().y + 300.f });
+	GameEngineRenderer* CarbuncleRenderer = Carbuncle_->CreateRenderer();
+	Carbuncle_->SetMyRenderer(CarbuncleRenderer);
+
 	GameEngineImage* IdleImage = GameEngineImageManager::GetInst()->Find("IG_CARBUNCLE_IDLE.bmp");
 	IdleImage->CutCount(2, 1);
 
@@ -600,6 +567,53 @@ void InGame::CarbuncleAnimationInit()
 	}
 }
 
+void InGame::ActorsInit()
+{
+	FadeBackground_ = CreateActor<FadeInOutBackground>();
+
+	Stages_[0] = CreateActor<Stage>();
+
+	Stages_[0]->SetPosition(GameEngineWindow::GetScale().Half());
+	Stages_[0]->CreateRenderer("IG_STAGE1.bmp", 3);
+	Stages_[0]->CreateRenderer("IG_STAGE1_BACK.bmp", 0);
+
+	GameOverRenderer_ = CreateActor<InGameActor>();
+	GameOverRenderer_->SetPosition({ 255, 1500 });
+	GameOverRenderer_->CreateRenderer("IG_PLAYER_GAMEOVER.bmp");
+
+	GameOverStartPos_ = GameOverRenderer_->GetPosition();
+	GameOverEndPos_ = GameOverRenderer_->GetPosition() + float4{ 0, -1300.f };
+
+	WinRenderer_ = CreateActor<InGameActor>(-1);
+	WinRenderer_->SetPosition({ 255, 200 });
+	WinRenderer_->SetMyRenderer(WinRenderer_->CreateRenderer("IG_YOUWIN.bmp"));
+
+	SDPlayer_ = CreateActor<InGameActor>(-1);
+	SDPlayer_->SetPosition({ 255, 650 });
+	SDPlayer_->SetMyRenderer(SDPlayer_->CreateRenderer("BR_SD_ARLE.bmp"));
+
+	StateBottoms_[0] = CreateActor<InGameActor>();
+	StateBottoms_[1] = CreateActor<InGameActor>();
+	StateBottoms_[0]->SetMyRenderer(StateBottoms_[0]->CreateRenderer("IG_STAGE1_BOTTOM_LEFT.bmp", 3));
+	StateBottoms_[1]->SetMyRenderer(StateBottoms_[1]->CreateRenderer("IG_STAGE1_BOTTOM_RIGHT.bmp", 3));
+
+	StateBottoms_[0]->SetPosition({ GameEngineWindow::GetScale().Half() + float4{-384, 389} });
+	StateBottoms_[1]->SetPosition({ GameEngineWindow::GetScale().Half() + float4{384, 389} });
+
+	GameEngineActor* NextUI = CreateActor<Stage>(3);
+	NextUI->CreateRenderer("IG_NEXT.bmp")->SetPivot({ GameEngineWindow::GetScale().Half().x, GameEngineWindow::GetScale().Half().y - 360.f });
+
+	StageRenderer_ = CreateActor<InGameActor>(15);
+	StageRenderer_->SetPosition({ GameEngineWindow::GetScale().Half().x, 1000.f });
+	StageRenderer_->SetMyRenderer(StageRenderer_->CreateRenderer("IG_STAGE_UI.bmp"));
+
+	StageRenderStartPos_ = StageRenderer_->GetPosition();
+	StageRenderEndPos_ = { GameEngineWindow::GetScale().Half().x, GameEngineWindow::GetScale().Half().y - 60.f };
+
+	GameEngineActor* PlayerName_ = CreateActor<Stage>(1);
+	PlayerName_->CreateRenderer("IG_NAME_ARLE.bmp")->SetPivot({ GameEngineWindow::GetScale().Half().x - 96.f, GameEngineWindow::GetScale().Half().y - 290.f });
+
+}
 
 
 void InGame::Update()
@@ -622,6 +636,8 @@ void InGame::Update()
 		if (1.f <= StageAlpha_)
 		{
 			StageAlpha_ = 0.f;
+
+			StageRenderer_->GetMyRenderer()->SetOrder(3);
 			IsStateUp_ = true;
 		}
 	}
@@ -666,10 +682,12 @@ void InGame::GameOverCheck()
 		}
 	}
 
-	else if (true)
+	else if (EnemyFSM_->GetState() == EnemyState::Lose)
 	{
 		TwinkleWinRenderer();
 		Player_->SetState(PlayerState::Win);
+
+		SDPlayer_->GetMyRenderer()->SetOrder(15);
 
 		InGameBgm_.Stop();
 		ChangeCount_ -= GameEngineTime::GetDeltaTime();
@@ -895,44 +913,8 @@ void InGame::UserResetEnd()
  {
 	PuyoAnimationInit();
 	InitPlayerEndEnemy();
-
-	FadeBackground_ = CreateActor<FadeInOutBackground>();
-
-	Stages_[0] = CreateActor<Stage>();
-
-	Stages_[0]->SetPosition(GameEngineWindow::GetScale().Half());
-	Stages_[0]->CreateRenderer("IG_STAGE1.bmp", 3);
-	Stages_[0]->CreateRenderer("IG_STAGE1_BACK.bmp", 0);
-
-	GameOverRenderer_ = CreateActor<InGameActor>();
-	GameOverRenderer_->SetPosition({ 255, 1500 });
-	GameOverRenderer_->CreateRenderer("IG_PLAYER_GAMEOVER.bmp");
-
-	GameOverStartPos_ = GameOverRenderer_->GetPosition();
-	GameOverEndPos_ = GameOverRenderer_->GetPosition() + float4{ 0, -1300.f };
-
-	StateBottoms_[0] = CreateActor<InGameActor>();
-	StateBottoms_[1] = CreateActor<InGameActor>();
-	StateBottoms_[0]->SetMyRenderer(StateBottoms_[0]->CreateRenderer("IG_STAGE1_BOTTOM_LEFT.bmp", 3));
-	StateBottoms_[1]->SetMyRenderer(StateBottoms_[1]->CreateRenderer("IG_STAGE1_BOTTOM_RIGHT.bmp", 3));
-
-	StateBottoms_[0]->SetPosition({ GameEngineWindow::GetScale().Half() + float4{-384, 389} });
-	StateBottoms_[1]->SetPosition({ GameEngineWindow::GetScale().Half() + float4{384, 389} });
-
-	GameEngineActor* NextUi = CreateActor<Stage>(3);
-	NextUi->CreateRenderer("IG_NEXT.bmp")->SetPivot({ GameEngineWindow::GetScale().Half().x, GameEngineWindow::GetScale().Half().y - 360.f });
-
-	GameEngineActor* Stage1Ui = CreateActor<Stage>(3);
-	Stage1Ui->CreateRenderer("IG_STAGE_UI.bmp")->SetPivot({ GameEngineWindow::GetScale().Half().x, GameEngineWindow::GetScale().Half().y - 60.f });
-
-	GameEngineActor* PlayerName_ = CreateActor<Stage>(1);
-	PlayerName_->CreateRenderer("IG_NAME_ARLE.bmp")->SetPivot({ GameEngineWindow::GetScale().Half().x - 96.f, GameEngineWindow::GetScale().Half().y - 290.f });
-
-	Carbuncle_ = CreateActor<InGameActor>(6);
-	Carbuncle_->SetPosition({ GameEngineWindow::GetScale().Half().x - 160.f, GameEngineWindow::GetScale().Half().y + 300.f });
-	GameEngineRenderer* CarbuncleRenderer = Carbuncle_->CreateRenderer();
-	Carbuncle_->SetMyRenderer(CarbuncleRenderer);
-
+	EnemyAnimatioInit();
+	ActorsInit();
 	CarbuncleAnimationInit();
 
 	StageClear_ = 0;

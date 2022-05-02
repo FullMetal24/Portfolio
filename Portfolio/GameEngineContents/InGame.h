@@ -49,6 +49,7 @@ public:
 	void CarbuncleUpdate();
 	void SpewStar();
 
+	void ActorsInit();
 	void TwinkleWinRenderer();
 
 protected:
@@ -65,6 +66,7 @@ private:
 
 	InGameActor* GameOverRenderer_;
 	InGameActor* WinRenderer_;
+	InGameActor* SDPlayer_;
 
 	Player*	Player_; 
 	EnemyFSM* EnemyFSM_;

@@ -185,7 +185,7 @@ void EnemySelect::EnemyInit()
 	Enemys_[4]->GetRenderName()->SetOrder(5);
 	Enemys_[4]->GetRenderName()->SetPivot({ GameEngineWindow::GetScale().Half() + float4{430, -70} });
 
-	Offset_ += Enemys_[3]->GetIcon()->GetImage()->GetScale().x;
+	Offset_ += Enemys_[3]->GetIcon()->GetImage()->GetScale().x - 5.f;
 
 	Enemys_[5]->SetProfile(Enemys_[5]->CreateRenderer("ES_LV6.bmp"));
 	Enemys_[5]->GetProfile()->SetPivot({ 1070.f, 190.f });
@@ -211,7 +211,7 @@ void EnemySelect::EnemyInit()
 	Enemys_[6]->GetRenderName()->SetOrder(5);
 	Enemys_[6]->GetRenderName()->SetPivot({ GameEngineWindow::GetScale().Half() + float4{430, -70} });
 
-	Offset_ += Enemys_[5]->GetIcon()->GetImage()->GetScale().x + 1;
+	Offset_ += Enemys_[5]->GetIcon()->GetImage()->GetScale().x;
 
 	Enemys_[7]->SetProfile(Enemys_[7]->CreateRenderer("ES_LV8.bmp"));
 	Enemys_[7]->GetProfile()->SetPivot({ 1070.f, 190.f });
