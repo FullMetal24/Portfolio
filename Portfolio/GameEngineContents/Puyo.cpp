@@ -409,17 +409,19 @@ void Puyo::DestroyHindracePuyo(Puyo* Map[15][6])
 
 	for (int i = 0; i < 4; i++)
 	{
-		float4 Index = GetIndex() + ArrDir[i];
+		Y_;
+ 
+		float4 Index = ArrDir[i] + GetIndex();
 
-		if (0 > Index.x || 5 < Index.x || 0 > Index.y || 14 < Index.y)
-		{
-			return;
+		if (0 > Index.x || 6 <= Index.x || 0 > Index.y || 15 <= Index.y)
+		{   
+			continue;
 		}
-
+   
 		if (nullptr != Map[Index.iy()][Index.ix()]
 			&& PuyoColor::Hindrance == Map[Index.iy()][Index.ix()]->GetColor())
 		{
-			Map[Index.iy()][Index.ix()]->ChangeState(PuyoState::Destroy);
+ 	  		Map[Index.iy()][Index.ix()]->ChangeState(PuyoState::Destroy); 
 			Map[Index.iy()][Index.ix()] = nullptr;
 		}
 	}
@@ -427,7 +429,7 @@ void Puyo::DestroyHindracePuyo(Puyo* Map[15][6])
 
 void Puyo::Init(Player* _Player, int x, int y, PuyoColor _Color)
 {
-	Player_ = _Player;
+ 	Player_ = _Player;
 	SetIndex(x, y);
 	InitAnimation(_Color);
 

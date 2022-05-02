@@ -147,6 +147,9 @@ private:
 	GameEngineRenderer* EnemyAnimations_[8];
 	GameEngineRenderer* EnemyNames_[8];
 
+	int ActionIndex_;
+
+	bool IsAction_;
 	bool IsDanger_;
 };
 

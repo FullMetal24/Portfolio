@@ -21,6 +21,7 @@ EnemyFSM::EnemyFSM()
 	, LandTime_(0.f)
 	, Score_(0)
 	, Chain_(0)
+	, ActionIndex_(0)
 	, IsDanger_(false)
 {
 }
@@ -69,19 +70,21 @@ void EnemyFSM::Update()
 		EnemyState_ = EnemyState::Lose;
 	}
 
-	//if (true == Player_->GetDanger())
-	//{
-	//	IsDanger_ = false;
-	//	ExcitedAnimation();
-	//}
+	if (true == Player_->GetDanger())
+	{
+		IsDanger_ = false;
+		ExcitedAnimation();
+	}
 	
 	switch (EnemyState_)
 	{
 	case EnemyState::NewPuyo:
 		Chain_ = 0;
+		ActionIndex_ = 0;
+		IsAction_ = false;
 		NewPuyoPair();
 		break;
-	case EnemyState::MovePuyo:
+	case EnemyState::MovePuyo: 
 		GreedyPuyoMove();
 		RandomRotate();
 		RandomDown();
@@ -309,81 +312,59 @@ void EnemyFSM::GreedyPuyoMove()
 		MoveTime_ = 0.f;
 		int Distance[6] = { 0 };
 
-		if (12 < CenterPuyo_->GetY())
+		if (false == IsAction_)
 		{
-			return;
-		}
+			IsAction_ = true;
 
-		for (int X = 0; X < 6; ++X)
-		{
-			for (int Y = 0; Y < 14; ++Y)
+			for (int X = 0; X < 6; ++X)
 			{
-				if (nullptr != EnemyMap_[Y][X]
-					&& CenterPuyo_ != EnemyMap_[Y][X]
-					&& SecondPuyo_ != EnemyMap_[Y][X])
+				for (int Y = 0; Y < 14; ++Y)
 				{
-					++Distance[X];
+					if (nullptr != EnemyMap_[Y][X]
+						&& CenterPuyo_ != EnemyMap_[Y][X]
+						&& SecondPuyo_ != EnemyMap_[Y][X])
+					{
+						++Distance[X];
+					}
 				}
 			}
 		}
 
-		int Index = 0;
 
-		for (int i = 0; i < 6; ++i)
-		{
-			int CurIndex = i;
-			int NextIndex = i + 1;
-
-			if (5 <= NextIndex)
-			{
-				NextIndex = 0;
-			}
-
-			if (Distance[CurIndex] < Distance[NextIndex])
-			{
-				Index = CurIndex;
-			}
-
-			else if (Distance[CurIndex] == Distance[NextIndex])
-			{
-				Index = Random_.RandomInt(0, 5);
-			}
-		}
-
-		if (CenterPuyo_->GetX() > Index)
-		{
-			if (CenterPuyo_->GetX() >= SecondPuyo_->GetX())
-			{
-				SecondPuyo_->LeftPuyo(EnemyMap_, CenterPuyo_);
-				CenterPuyo_->LeftPuyo(EnemyMap_, SecondPuyo_);
-			}
-
-			else if (CenterPuyo_->GetX() <= SecondPuyo_->GetX())
-			{
-				CenterPuyo_->LeftPuyo(EnemyMap_, SecondPuyo_);
-				SecondPuyo_->LeftPuyo(EnemyMap_, CenterPuyo_);
-			}
-		}
-
-
-		else if (CenterPuyo_->GetX() < Index)
-		{
-			if (CenterPuyo_->GetX() >= SecondPuyo_->GetX())
-			{
-				CenterPuyo_->RightPuyo(EnemyMap_, SecondPuyo_);
-				SecondPuyo_->RightPuyo(EnemyMap_, CenterPuyo_);
-			}
-
-			else if (CenterPuyo_->GetX() <= SecondPuyo_->GetX())
-			{
-				SecondPuyo_->RightPuyo(EnemyMap_, CenterPuyo_);
-				CenterPuyo_->RightPuyo(EnemyMap_, SecondPuyo_);
-			}
-		}
-
-		else if (CenterPuyo_->GetX() == Index)
+		if (CenterPuyo_->GetX() == ActionIndex_)
 		{
 			return;
+		}
+ 
+		else if (CenterPuyo_->GetX() > ActionIndex_)
+		{
+			if (CenterPuyo_->GetX() >= SecondPuyo_->GetX())
+			{
+				SecondPuyo_->LeftPuyo(EnemyMap_, CenterPuyo_);
+				CenterPuyo_->LeftPuyo(EnemyMap_, SecondPuyo_);
+			}
+
+			else if (CenterPuyo_->GetX() <= SecondPuyo_->GetX())
+			{
+				CenterPuyo_->LeftPuyo(EnemyMap_, SecondPuyo_);
+				SecondPuyo_->LeftPuyo(EnemyMap_, CenterPuyo_);
+			}
+		}
+
+
+		else if (CenterPuyo_->GetX() < ActionIndex_)
+		{
+			if (CenterPuyo_->GetX() >= SecondPuyo_->GetX())
+			{
+				CenterPuyo_->RightPuyo(EnemyMap_, SecondPuyo_);
+				SecondPuyo_->RightPuyo(EnemyMap_, CenterPuyo_);
+			}
+
+			else if (CenterPuyo_->GetX() <= SecondPuyo_->GetX())
+			{
+				SecondPuyo_->RightPuyo(EnemyMap_, CenterPuyo_);
+				CenterPuyo_->RightPuyo(EnemyMap_, SecondPuyo_);
+			}
 		}
 	}
 }
@@ -406,7 +387,7 @@ void EnemyFSM::RandomDown()
 {
 	DownTime_ += GameEngineTime::GetDeltaTime();
 
-	if (1.5f <= DownTime_)
+	if (1.0f <= DownTime_)
 	{
 		DownTime_ = 0.f;
 
@@ -1090,6 +1071,11 @@ void EnemyFSM::Lose()
 
 void EnemyFSM::IdleAnimation()
 {
+	if (nullptr == MyPorifle_)
+	{
+		return;
+	}
+
 	switch (MyPorifle_->GetMyLevel())
 	{
 	case 1:
@@ -1128,6 +1114,11 @@ void EnemyFSM::IdleAnimation()
 
 void EnemyFSM::ExcitedAnimation()
 {
+	if (nullptr == MyPorifle_)
+	{
+		return;
+	}
+
 	switch (MyPorifle_->GetMyLevel())
 	{
 	case 1:
@@ -1166,6 +1157,11 @@ void EnemyFSM::ExcitedAnimation()
 
 void EnemyFSM::DangerAnimation()
 {
+	if (nullptr == MyPorifle_)
+	{
+		return;
+	}
+
 	switch (MyPorifle_->GetMyLevel())
 	{
 	case 1:
@@ -1204,6 +1200,11 @@ void EnemyFSM::DangerAnimation()
 
 void EnemyFSM::LoseAnimation()
 {
+	if (nullptr == MyPorifle_)
+	{
+		return;
+	}
+
 	switch (MyPorifle_->GetMyLevel())
 	{
 	case 1:
@@ -1242,6 +1243,11 @@ void EnemyFSM::LoseAnimation()
 
 void EnemyFSM::WinAnimation()
 {
+	if (nullptr == MyPorifle_)
+	{
+		return;
+	}
+
 	switch (MyPorifle_->GetMyLevel())
 	{
 	case 1:
