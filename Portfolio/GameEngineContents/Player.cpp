@@ -421,18 +421,6 @@ void Player::LandPuyo()
 		}
 	}
 
-	for (int Y = 0; Y < 15; ++Y)
-	{
-		for (int X = 0; X < 6; ++X)
-		{
-			if (nullptr != PlayerMap_[Y][X])
-			{
-				Puyo* LandPuyo = PlayerMap_[Y][X];
-				LandPuyo->LinkedPuyoAnimtaion(PlayerMap_);
-			}
-		}
-	}
-
 	PlayerState_ = PlayerState::PuyoCheck;
 }
 

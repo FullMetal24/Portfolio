@@ -1119,7 +1119,8 @@ void EnemyFSM::IdleAnimation()
 		break;
 
 	case 5:
-		EnemyAnimations_[4]->ChangeAnimation("IG_LV4_IDLE");
+		EnemyAnimations_[3]->ChangeAnimation("IG_LV4_IDLE");
+		//EnemyAnimations_[4]->ChangeAnimation("IG_LV4_IDLE");
 		break;
 
 	case 6:
@@ -1157,7 +1158,8 @@ void EnemyFSM::ExcitedAnimation()
 		break;
 
 	case 5:
-		EnemyAnimations_[4]->ChangeAnimation("IG_LV4_EXCITED");
+		EnemyAnimations_[3]->ChangeAnimation("IG_LV4_EXCITED");
+		//EnemyAnimations_[4]->ChangeAnimation("IG_LV4_EXCITED");
 		break;
 
 	case 6:
@@ -1195,7 +1197,8 @@ void EnemyFSM::DangerAnimation()
 		break;
 
 	case 5:
-		EnemyAnimations_[4]->ChangeAnimation("IG_LV4_DANGER");
+		EnemyAnimations_[3]->ChangeAnimation("IG_LV4_DANGER");
+		//EnemyAnimations_[4]->ChangeAnimation("IG_LV4_DANGER");
 		break;
 
 	case 6:
@@ -1233,7 +1236,8 @@ void EnemyFSM::LoseAnimation()
 		break;
 
 	case 5:
-		EnemyAnimations_[4]->ChangeAnimation("IG_LV4_LOSE");
+		EnemyAnimations_[3]->ChangeAnimation("IG_LV4_LOSE");
+		//EnemyAnimations_[4]->ChangeAnimation("IG_LV4_LOSE");
 		break;
 
 	case 6:
@@ -1271,7 +1275,8 @@ void EnemyFSM::WinAnimation()
 		break;
 
 	case 5:
-		EnemyAnimations_[4]->ChangeAnimation("IG_LV4_WIN");
+		EnemyAnimations_[3]->ChangeAnimation("IG_LV4_WIN");
+		//EnemyAnimations_[4]->ChangeAnimation("IG_LV4_WIN");
 		break;
 
 	case 6:
