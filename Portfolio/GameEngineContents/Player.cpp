@@ -484,7 +484,7 @@ void Player::PlayerToEnemyAttack(float4 _FromPos)
 		Fire_->SetIsAttack(true);
 	}
 
-	Enemy_->CreateHindrancePuyo(Chain_);
+	Enemy_->CreateHindrancePuyo(Chain_ * Chain_);
 }
 
 void Player::OffsetEffect()

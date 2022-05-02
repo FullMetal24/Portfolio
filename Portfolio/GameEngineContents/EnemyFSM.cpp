@@ -575,7 +575,7 @@ void EnemyFSM::EnemyToPlayerAttack(float4 _FromPos)
 		Fire_->SetIsAttack(true);
 	}
 
-	Player_->CreateHindrancePuyo(Chain_);
+	Player_->CreateHindrancePuyo(Chain_ * Chain_);
 }
 
 void EnemyFSM::CreateHindrancePuyo(int _Count)
@@ -801,13 +801,13 @@ void EnemyFSM::DangerCheck()
 	if (Count >= 10)
 	{
 		IsDanger_ = true;
-		//DangerAnimation();
+		DangerAnimation();
 	}
 
 	else if (Count < 10)
 	{
 		IsDanger_ = false;
-		//IdleAnimation();
+		IdleAnimation();
 	}
 }
 

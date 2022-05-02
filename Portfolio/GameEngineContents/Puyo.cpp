@@ -939,7 +939,7 @@ void Puyo::FallingPuyo()
 {
 	if (PuyoColor::Hindrance == MyColor_)
 	{
-		Alpha_ += GameEngineTime::GetDeltaTime();
+		Alpha_ += GameEngineTime::GetDeltaTime() * 2.f;
 
 		if (1.f <= Alpha_)
 		{
@@ -1836,7 +1836,7 @@ void Puyo::LoseFall()
 
 		Alpha_ = 0.f;
 		StartPos_ = GetPosition();
-		EndPos_ = GetPosition() + float4{ 0, 1500 };
+		EndPos_ = GetPosition() + float4{ 0, 2000 };
 	}
 
 	Alpha_ += GameEngineTime::GetDeltaTime() * 0.5f;
