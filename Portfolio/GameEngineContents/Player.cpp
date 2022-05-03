@@ -54,7 +54,7 @@ void Player::Start()
 
 	GameOverRenderer_ = GetLevel()->CreateActor<InGameActor>();
 	GameOverRenderer_->SetPosition({ 255, 1500 });
-	GameOverRenderer_->CreateRenderer("IG_PLAYER_GAMEOVER.bmp");
+	GameOverRenderer_->SetMyRenderer(GameOverRenderer_->CreateRenderer("IG_PLAYER_GAMEOVER.bmp"));
 
 	GameOverStartPos_ = GameOverRenderer_->GetPosition();
 	GameOverEndPos_ = GameOverRenderer_->GetPosition() + float4{ 0, -1300.f };
@@ -152,6 +152,7 @@ void Player::Lose()
 		Alpha_ = 1.f;
 	}
 
+	GameOverRenderer_->GetMyRenderer()->SetOrder(10);
 	GameOverRenderer_->SetPosition(float4::Lerp(GameOverStartPos_, GameOverEndPos_, Alpha_));
 }
 

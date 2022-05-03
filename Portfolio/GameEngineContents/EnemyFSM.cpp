@@ -37,8 +37,6 @@ void EnemyFSM::Start()
 	InitNextPair();
 	InitBubble();
 
-	EnemyState_ = EnemyState::Lose;
-
 	for (int i = 0; i < 9; ++i)
 	{
 		ScoreRenderers_[i] = CreateRenderer("IG_ENEMY_NUMBER_0.bmp");
@@ -346,8 +344,35 @@ void EnemyFSM::GreedyPuyoMove()
 					}
 				}
 			}
-		}
 
+			for (int i = 0; i < 6; i++)
+			{
+				int CurIndex = i;
+				int NextIndex = i + 1;
+
+				if (5 == CurIndex)
+				{
+					NextIndex = 0;
+				}
+
+				if (Distance[CurIndex] < Distance[NextIndex])
+				{
+					ActionIndex_ = CurIndex;
+					break;
+				}
+
+				else if (Distance[CurIndex] > Distance[NextIndex])
+				{
+					ActionIndex_ = NextIndex;
+					break;
+				}
+
+				else
+				{
+					ActionIndex_ = 0;
+				}
+			}
+		}
 
 		if (CenterPuyo_->GetX() == ActionIndex_)
 		{
