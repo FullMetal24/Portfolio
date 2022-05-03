@@ -27,7 +27,9 @@ InGame::InGame()
 	, TwinkleCount_(0)
 	, ChangeCount_(10.f)
 	, IsStart_(false)
-	, IsEnemyFlap_(false)
+	, IsSpewStar_(false)
+	, IsStarUpdate_(false)
+	, IsTwinkleOn_(false)
 {
 }
 
@@ -58,8 +60,6 @@ void InGame::Loading()
 	SDPlayer_ = CreateActor<InGameActor>(-1);
 	SDPlayer_->SetPosition({ 255, 670 });
 	SDPlayer_->SetMyRenderer(SDPlayer_->CreateRenderer("BR_SD_ARLE.bmp"));
-
-
 }
 
 void InGame::InitPlayerEndEnemy()
@@ -647,16 +647,7 @@ void InGame::Update()
 {
 	GameTime_ += GameEngineTime::GetDeltaTime();
 
-	CarbuncleUpdate();
-
-	if (true == IsStart_)
-	{
-		SpewStar();
-	}
-
-	GameOverCheck();
-
-	if (false == IsStateUp_)
+	if (false == IsStart_)
 	{
 		Alpha_ += GameEngineTime::GetDeltaTime();
 
@@ -667,14 +658,31 @@ void InGame::Update()
 			Alpha_ = 0.f;
 
 			StageRenderer_->GetMyRenderer()->SetOrder(3);
-			IsStateUp_ = true;
+			IsStart_ = true;
 		}
+	}
+
+	if (true == IsStart_)
+	{
+		if (false == IsSpewStar_ 
+			&& false == IsStarUpdate_)
+		{
+			CarbuncleUpdate();
+		}
+
+		if (true == IsSpewStar_
+			&& false == IsStarUpdate_)
+		{
+			SpewStar();
+		}
+
+		GameOverCheck();
 	}
 }
 
 void InGame::GameOverCheck()
 {
-	if (true)
+	if (PlayerState::Lose == Player_->GetState())
 	{
 		PlayerLose();
 		EnemyFSM_->SetState(EnemyState::Win);
@@ -703,7 +711,7 @@ void InGame::GameOverCheck()
 		}
 	}
 
-	else if (false)
+	else if (EnemyState::Lose == EnemyFSM_->GetState())
 	{
 		TwinklePlayerWin();
 		ResultScore();
@@ -1241,144 +1249,158 @@ void InGame::RenderRestPoint(int _Value)
 
 void InGame::CarbuncleUpdate()
 {
-	if (false == IsStart_)
-	{
-		Carbuncle_->GetMyRenderer()->ChangeAnimation("IG_CARBUNCLE_START");
-	}
+	Carbuncle_->GetMyRenderer()->ChangeAnimation("IG_CARBUNCLE_START");
 
 	if (true == Carbuncle_->GetMyRenderer()->IsAnimationName("IG_CARBUNCLE_START")
 		&& true == Carbuncle_->GetMyRenderer()->IsEndAnimation())
 	{
-		IsStart_ = true;
+		IsSpewStar_ = true;
 
-		for (int i = 0; i < 36; ++i)
-		{
-			Stars_[i]->GetMyRenderer()->SetOrder(10);
-		}
 		Carbuncle_->GetMyRenderer()->ChangeAnimation("IG_CARBUNCLE_IDLE");
 	}
 }
 
 void InGame::SpewStar()
 {
-	float Speed = 1000.f;
-
-	float4 Dir = float4::RadianToDirectionFloat4(0);
-	Stars_[0]->SetMove(Dir * Speed * GameEngineTime::GetDeltaTime());
-
-	Dir = float4::RadianToDirectionFloat4(0.2f);
-	Stars_[1]->SetMove(Dir * Speed * 1.1f * GameEngineTime::GetDeltaTime());
-
-	Dir = float4::RadianToDirectionFloat4(0.4f);
-	Stars_[2]->SetMove(Dir * Speed * GameEngineTime::GetDeltaTime());
-
-	Dir = float4::RadianToDirectionFloat4(0.6f);
-	Stars_[3]->SetMove(Dir * Speed * 1.14f * GameEngineTime::GetDeltaTime());
-
-	Dir = float4::RadianToDirectionFloat4(GameEngineMath::PIE / 4);
-	Stars_[4]->SetMove(Dir * Speed * GameEngineTime::GetDeltaTime());
-
-	Dir = float4::RadianToDirectionFloat4(1.0f);
-	Stars_[5]->SetMove(Dir * Speed * GameEngineTime::GetDeltaTime());
-
-	Dir = float4::RadianToDirectionFloat4(1.2f);
-	Stars_[6]->SetMove(Dir * Speed * 0.95f * GameEngineTime::GetDeltaTime());
-
-	Dir = float4::RadianToDirectionFloat4(1.4f);
-	Stars_[7]->SetMove(Dir * Speed * 0.99f * GameEngineTime::GetDeltaTime());
-
-	Dir = float4::RadianToDirectionFloat4(GameEngineMath::PIE / 2);
-	Stars_[8]->SetMove(Dir * Speed * GameEngineTime::GetDeltaTime());
-
-	Dir = float4::RadianToDirectionFloat4(1.8f);
-	Stars_[9]->SetMove(Dir * Speed * 1.2f * GameEngineTime::GetDeltaTime());
-
-	Dir = float4::RadianToDirectionFloat4(2.0f);
-	Stars_[10]->SetMove(Dir * Speed * GameEngineTime::GetDeltaTime());
-
-	Dir = float4::RadianToDirectionFloat4(2.2f);
-	Stars_[11]->SetMove(Dir * Speed * GameEngineTime::GetDeltaTime());
-
-	Dir = float4::RadianToDirectionFloat4((3 * GameEngineMath::PIE) / 4);
-	Stars_[12]->SetMove(Dir * Speed * 0.99f * GameEngineTime::GetDeltaTime());
-
-	Dir = float4::RadianToDirectionFloat4(2.5f);
-	Stars_[13]->SetMove(Dir * Speed * GameEngineTime::GetDeltaTime());
-
-	Dir = float4::RadianToDirectionFloat4(2.8f);
-	Stars_[14]->SetMove(Dir * Speed * GameEngineTime::GetDeltaTime());
-
-	Dir = float4::RadianToDirectionFloat4(3.0f);
-	Stars_[15]->SetMove(Dir * Speed * 1.1f * GameEngineTime::GetDeltaTime());
-
-	Dir = float4::RadianToDirectionFloat4(GameEngineMath::PIE);
-	Stars_[16]->SetMove(Dir * Speed * GameEngineTime::GetDeltaTime());
-
-	Dir = float4::RadianToDirectionFloat4(3.3f);
-	Stars_[17]->SetMove(Dir * Speed * GameEngineTime::GetDeltaTime());
-
-	Dir = float4::RadianToDirectionFloat4(3.5f);
-	Stars_[18]->SetMove(Dir * Speed * 0.9f * GameEngineTime::GetDeltaTime());
-
-	Dir = float4::RadianToDirectionFloat4((7 * GameEngineMath::PIE) / 6);
-	Stars_[19]->SetMove(Dir * Speed * GameEngineTime::GetDeltaTime());
-
-	Dir = float4::RadianToDirectionFloat4(3.8f);
-	Stars_[20]->SetMove(Dir * Speed * 0.97f * GameEngineTime::GetDeltaTime());
-
-	Dir = float4::RadianToDirectionFloat4((5 * GameEngineMath::PIE) / 4);
-	Stars_[21]->SetMove(Dir * Speed * GameEngineTime::GetDeltaTime());
-
-	Dir = float4::RadianToDirectionFloat4(4.1f);
-	Stars_[22]->SetMove(Dir * Speed * GameEngineTime::GetDeltaTime());
-
-	Dir = float4::RadianToDirectionFloat4((4 * GameEngineMath::PIE) / 3);
-	Stars_[23]->SetMove(Dir * Speed * 1.12f * GameEngineTime::GetDeltaTime());
-
-	Dir = float4::RadianToDirectionFloat4(4.4f);
-	Stars_[24]->SetMove(Dir * Speed * 0.94f * GameEngineTime::GetDeltaTime());
-
-	Dir = float4::RadianToDirectionFloat4(4.6f);
-	Stars_[25]->SetMove(Dir * Speed * 0.99f * GameEngineTime::GetDeltaTime());
-
-	Dir = float4::RadianToDirectionFloat4((3 * GameEngineMath::PIE) / 2);
-	Stars_[26]->SetMove(Dir * Speed * 0.9f * GameEngineTime::GetDeltaTime());
-
-	Dir = float4::RadianToDirectionFloat4(4.9f);
-	Stars_[27]->SetMove(Dir * Speed * 1.1f * GameEngineTime::GetDeltaTime());
-
-	Dir = float4::RadianToDirectionFloat4(5.1f);
-	Stars_[28]->SetMove(Dir * Speed * GameEngineTime::GetDeltaTime());
-
-	Dir = float4::RadianToDirectionFloat4((5 * GameEngineMath::PIE) / 3);
-	Stars_[29]->SetMove(Dir * Speed * GameEngineTime::GetDeltaTime());
-
-	Dir = float4::RadianToDirectionFloat4(5.4f);
-	Stars_[30]->SetMove(Dir * Speed * GameEngineTime::GetDeltaTime());
-
-	Dir = float4::RadianToDirectionFloat4((7 * GameEngineMath::PIE) / 4);
-	Stars_[31]->SetMove(Dir * Speed * 1.2f * GameEngineTime::GetDeltaTime());
-
-	Dir = float4::RadianToDirectionFloat4(5.65f);
-	Stars_[32]->SetMove(Dir * Speed * 0.89f * GameEngineTime::GetDeltaTime());
-
-	Dir = float4::RadianToDirectionFloat4((11 * GameEngineMath::PIE) / 6);
-	Stars_[33]->SetMove(Dir * Speed * 1.15f * GameEngineTime::GetDeltaTime());
-
-	Dir = float4::RadianToDirectionFloat4(5.9f);
-	Stars_[34]->SetMove(Dir * Speed * 0.98f * GameEngineTime::GetDeltaTime());
-
-	Dir = float4::RadianToDirectionFloat4(6.1f);
-	Stars_[35]->SetMove(Dir * Speed * 1.1f * GameEngineTime::GetDeltaTime());
-
-	for (int i = 0; i < 35; ++i)
+	if (false == IsStarUpdate_)
 	{
-		if (GameEngineWindow::GetScale().x < Stars_[i]->GetPosition().x
-			&& GameEngineWindow::GetScale().y < Stars_[i]->GetPosition().y)
+		for (int i = 0; i < 36; ++i)
 		{
-			Stars_[i]->Death();
+			if (false != Stars_[i]->IsUpdate())
+			{
+				Stars_[i]->GetMyRenderer()->SetOrder(30);
+			}
+		}
+
+		float Speed = 1000.f;
+
+		float4 Dir = float4::RadianToDirectionFloat4(0);
+		Stars_[0]->SetMove(Dir * Speed * GameEngineTime::GetDeltaTime());
+
+		Dir = float4::RadianToDirectionFloat4(0.2f);
+		Stars_[1]->SetMove(Dir * Speed * 1.1f * GameEngineTime::GetDeltaTime());
+
+		Dir = float4::RadianToDirectionFloat4(0.4f);
+		Stars_[2]->SetMove(Dir * Speed * GameEngineTime::GetDeltaTime());
+
+		Dir = float4::RadianToDirectionFloat4(0.6f);
+		Stars_[3]->SetMove(Dir * Speed * 1.14f * GameEngineTime::GetDeltaTime());
+
+		Dir = float4::RadianToDirectionFloat4(GameEngineMath::PIE / 4);
+		Stars_[4]->SetMove(Dir * Speed * GameEngineTime::GetDeltaTime());
+
+		Dir = float4::RadianToDirectionFloat4(1.0f);
+		Stars_[5]->SetMove(Dir * Speed * GameEngineTime::GetDeltaTime());
+
+		Dir = float4::RadianToDirectionFloat4(1.2f);
+		Stars_[6]->SetMove(Dir * Speed * 0.95f * GameEngineTime::GetDeltaTime());
+
+		Dir = float4::RadianToDirectionFloat4(1.4f);
+		Stars_[7]->SetMove(Dir * Speed * 0.99f * GameEngineTime::GetDeltaTime());
+
+		Dir = float4::RadianToDirectionFloat4(GameEngineMath::PIE / 2);
+		Stars_[8]->SetMove(Dir * Speed * GameEngineTime::GetDeltaTime());
+
+		Dir = float4::RadianToDirectionFloat4(1.8f);
+		Stars_[9]->SetMove(Dir * Speed * 1.2f * GameEngineTime::GetDeltaTime());
+
+		Dir = float4::RadianToDirectionFloat4(2.0f);
+		Stars_[10]->SetMove(Dir * Speed * GameEngineTime::GetDeltaTime());
+
+		Dir = float4::RadianToDirectionFloat4(2.2f);
+		Stars_[11]->SetMove(Dir * Speed * GameEngineTime::GetDeltaTime());
+
+		Dir = float4::RadianToDirectionFloat4((3 * GameEngineMath::PIE) / 4);
+		Stars_[12]->SetMove(Dir * Speed * 0.99f * GameEngineTime::GetDeltaTime());
+
+		Dir = float4::RadianToDirectionFloat4(2.5f);
+		Stars_[13]->SetMove(Dir * Speed * GameEngineTime::GetDeltaTime());
+
+		Dir = float4::RadianToDirectionFloat4(2.8f);
+		Stars_[14]->SetMove(Dir * Speed * GameEngineTime::GetDeltaTime());
+
+		Dir = float4::RadianToDirectionFloat4(3.0f);
+		Stars_[15]->SetMove(Dir * Speed * 1.1f * GameEngineTime::GetDeltaTime());
+
+		Dir = float4::RadianToDirectionFloat4(GameEngineMath::PIE);
+		Stars_[16]->SetMove(Dir * Speed * GameEngineTime::GetDeltaTime());
+
+		Dir = float4::RadianToDirectionFloat4(3.3f);
+		Stars_[17]->SetMove(Dir * Speed * GameEngineTime::GetDeltaTime());
+
+		Dir = float4::RadianToDirectionFloat4(3.5f);
+		Stars_[18]->SetMove(Dir * Speed * 0.9f * GameEngineTime::GetDeltaTime());
+
+		Dir = float4::RadianToDirectionFloat4((7 * GameEngineMath::PIE) / 6);
+		Stars_[19]->SetMove(Dir * Speed * GameEngineTime::GetDeltaTime());
+
+		Dir = float4::RadianToDirectionFloat4(3.8f);
+		Stars_[20]->SetMove(Dir * Speed * 0.97f * GameEngineTime::GetDeltaTime());
+
+		Dir = float4::RadianToDirectionFloat4((5 * GameEngineMath::PIE) / 4);
+		Stars_[21]->SetMove(Dir * Speed * GameEngineTime::GetDeltaTime());
+
+		Dir = float4::RadianToDirectionFloat4(4.1f);
+		Stars_[22]->SetMove(Dir * Speed * GameEngineTime::GetDeltaTime());
+
+		Dir = float4::RadianToDirectionFloat4((4 * GameEngineMath::PIE) / 3);
+		Stars_[23]->SetMove(Dir * Speed * 1.12f * GameEngineTime::GetDeltaTime());
+
+		Dir = float4::RadianToDirectionFloat4(4.4f);
+		Stars_[24]->SetMove(Dir * Speed * 0.94f * GameEngineTime::GetDeltaTime());
+
+		Dir = float4::RadianToDirectionFloat4(4.6f);
+		Stars_[25]->SetMove(Dir * Speed * 0.99f * GameEngineTime::GetDeltaTime());
+
+		Dir = float4::RadianToDirectionFloat4((3 * GameEngineMath::PIE) / 2);
+		Stars_[26]->SetMove(Dir * Speed * 0.9f * GameEngineTime::GetDeltaTime());
+
+		Dir = float4::RadianToDirectionFloat4(4.9f);
+		Stars_[27]->SetMove(Dir * Speed * 1.1f * GameEngineTime::GetDeltaTime());
+
+		Dir = float4::RadianToDirectionFloat4(5.1f);
+		Stars_[28]->SetMove(Dir * Speed * GameEngineTime::GetDeltaTime());
+
+		Dir = float4::RadianToDirectionFloat4((5 * GameEngineMath::PIE) / 3);
+		Stars_[29]->SetMove(Dir * Speed * GameEngineTime::GetDeltaTime());
+
+		Dir = float4::RadianToDirectionFloat4(5.4f);
+		Stars_[30]->SetMove(Dir * Speed * GameEngineTime::GetDeltaTime());
+
+		Dir = float4::RadianToDirectionFloat4((7 * GameEngineMath::PIE) / 4);
+		Stars_[31]->SetMove(Dir * Speed * 1.2f * GameEngineTime::GetDeltaTime());
+
+		Dir = float4::RadianToDirectionFloat4(5.65f);
+		Stars_[32]->SetMove(Dir * Speed * 0.89f * GameEngineTime::GetDeltaTime());
+
+		Dir = float4::RadianToDirectionFloat4((11 * GameEngineMath::PIE) / 6);
+		Stars_[33]->SetMove(Dir * Speed * 1.15f * GameEngineTime::GetDeltaTime());
+
+		Dir = float4::RadianToDirectionFloat4(5.9f);
+		Stars_[34]->SetMove(Dir * Speed * 0.98f * GameEngineTime::GetDeltaTime());
+
+		Dir = float4::RadianToDirectionFloat4(6.1f);
+		Stars_[35]->SetMove(Dir * Speed * 1.1f * GameEngineTime::GetDeltaTime());
+
+		int Count = 0;
+
+		for (int i = 0; i < 36; ++i)
+		{
+			if (GameEngineWindow::GetScale().x < Stars_[i]->GetPosition().x
+				&& GameEngineWindow::GetScale().y < Stars_[i]->GetPosition().y)
+			{
+				Count++;
+				Stars_[i]->Off();
+			}
+		}
+
+		if (36 <= Count)
+		{
+			IsStarUpdate_ = true;
 		}
 	}
+
+
 }
 
 
@@ -1430,5 +1452,5 @@ void InGame::UserResetEnd()
 	TwinkleCount_ = 0;
 	ChangeCount_ = 10.f;
 	IsStart_ = false;
-	IsEnemyFlap_ = false;
+	IsSpewStar_ = false;
 }

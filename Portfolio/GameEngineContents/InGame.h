@@ -93,10 +93,6 @@ private:
 	float ChangeCount_;
 	int ResultCount_;
 
-	bool IsStart_;
-	bool IsEnemyFlap_;
-	bool IsStateUp_;
-
 	InGameActor* PlayerGameOver_;
 	InGameActor* PlayerWin_;
 	InGameActor* SDPlayer_;
@@ -108,6 +104,10 @@ private:
 
 	float TwinkleTime_;
 	float WinWaitTime_;
+
+	bool IsStart_;
+	bool IsSpewStar_;
+	bool IsStarUpdate_;
 	bool IsTwinkleOn_;
 };
 	

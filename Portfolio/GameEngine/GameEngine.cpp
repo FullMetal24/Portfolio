@@ -108,7 +108,7 @@ void GameEngine::EngineLoop()
     // 매 프레임마다 시간을 체크해야하는데 그런일을 
     CurrentLevel_->Update();
 
-    CurrentLevel_->ActorUpdate();
+     CurrentLevel_->ActorUpdate();
     CurrentLevel_->ActorRender();
     CurrentLevel_->CollisionDebugRender();
     WindowMainImage_->BitCopy(BackBufferImage_);
