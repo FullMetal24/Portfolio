@@ -569,8 +569,17 @@ void InGame::CarbuncleAnimationInit()
 	GameEngineImage* StartImage = GameEngineImageManager::GetInst()->Find("IG_CARBUNCLE_START.bmp");
 	StartImage->CutCount(9, 1);
 
+	GameEngineImage* IdleImage1 = GameEngineImageManager::GetInst()->Find("IG_CARBUNCLE_IDLE1.bmp");
+	IdleImage1->CutCount(8, 1);
+
+	GameEngineImage* IdleImage2 = GameEngineImageManager::GetInst()->Find("IG_CARBUNCLE_IDLE2.bmp");
+	IdleImage2->CutCount(10, 1);
+
+
 	Carbuncle_->GetMyRenderer()->CreateAnimation("IG_CARBUNCLE_IDLE.bmp", "IG_CARBUNCLE_IDLE", 0, 1, 0.1f, true);
 	Carbuncle_->GetMyRenderer()->CreateAnimation("IG_CARBUNCLE_START.bmp", "IG_CARBUNCLE_START", 0, 8, 0.2f, false);
+	Carbuncle_->GetMyRenderer()->CreateAnimation("IG_CARBUNCLE_IDLE1.bmp", "IG_CARBUNCLE_IDLE1", 0, 7, 0.2f, false);
+	Carbuncle_->GetMyRenderer()->CreateAnimation("IG_CARBUNCLE_IDLE2.bmp", "IG_CARBUNCLE_IDLE2", 0, 9, 0.2f, false);
 	Carbuncle_->GetMyRenderer()->ChangeAnimation("IG_CARBUNCLE_IDLE");
 
 	for (size_t i = 0; i < 36; i++)

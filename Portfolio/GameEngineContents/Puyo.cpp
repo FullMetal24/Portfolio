@@ -1618,7 +1618,8 @@ void Puyo::LandToNormal()
 		}
 		break;
 	case PuyoColor::Hindrance:
-		return;
+		IsLand_ = true;
+		PuyoState_ = PuyoState::Normal;
 		break;
 
 	}
