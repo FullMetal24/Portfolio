@@ -103,7 +103,7 @@ void GameEngineWindow::CreateGameWindow(HINSTANCE _hInst, const std::string& _Ti
     hInst_ = _hInst;
     RegClass(_hInst);
 
-    hWnd_ = CreateWindowExA(0L, "GameEngineWindowClass", Title_.c_str(), WS_OVERLAPPEDWINDOW,
+    hWnd_ = CreateWindowExA(0L, "GameEngineWindowClass", "PuyoPuyo2", WS_OVERLAPPEDWINDOW,
         CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, nullptr, nullptr, _hInst, nullptr);
 
     // 화면에 무언가를 그리기 위한 핸들입니다.
