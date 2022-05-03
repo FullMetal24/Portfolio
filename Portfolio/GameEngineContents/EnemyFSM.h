@@ -151,14 +151,7 @@ private:
 
 	bool IsAction_;
 	bool IsDanger_;
-
-	InGameActor* LoseRenderer_;
-
-	float4 LoseRenderStartPos_;
-	float4 LoseRenderEndPos_;
-
-	float Alpha_;
-	bool IsLoseOn_;
 };
+
 
 

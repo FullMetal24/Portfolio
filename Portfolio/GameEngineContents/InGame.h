@@ -51,6 +51,16 @@ public:
 
 	void ActorsInit();
 
+	void TwinklePlayerWin();
+	void TwinklePlayerGameOver();
+	void ResultScore();
+	void PlayerLose();
+
+	void RenderTime();
+	void RenderBonus(int _Value);
+	void RenderStagePoint(int _Value);
+	void RenderRestPoint(int _Value);
+
 protected:
 
 private:
@@ -58,6 +68,7 @@ private:
 	InGameActor* StageRenderer_;
 	InGameActor* StateBottoms_[2];
 
+	float GameTime_;
 	float Alpha_;
 
 	float4 StageRenderStartPos_;
@@ -80,12 +91,24 @@ private:
 	int StageClear_;
 	int TwinkleCount_; //WinRenderer ±ôºýÀÓ
 	float ChangeCount_;
+	int ResultCount_;
 
 	bool IsStart_;
 	bool IsEnemyFlap_;
 	bool IsStateUp_;
 
+	InGameActor* PlayerGameOver_;
+	InGameActor* PlayerWin_;
+	InGameActor* SDPlayer_;
 
+	float4 GameOverStartPos_;
+	float4 GameOverEndPos_;
+
+	float GameOverAlpha_;
+
+	float TwinkleTime_;
+	float WinWaitTime_;
+	bool IsTwinkleOn_;
 };
 	
 

@@ -15,6 +15,7 @@
 #include "GameOver.h"
 #include "Player.h"
 #include "EnemyProfile.h"
+#include <vector>
 
 InGame::InGame()
 	: Stages_{ }
@@ -42,8 +43,24 @@ void InGame::Loading()
 	EnemyAnimatioInit();
 	ActorsInit();
 	CarbuncleAnimationInit();
-}
 
+	PlayerGameOver_ = CreateActor<InGameActor>();
+	PlayerGameOver_->SetPosition({ 255, 1500 });
+	PlayerGameOver_->SetMyRenderer(PlayerGameOver_->CreateRenderer("IG_PLAYER_GAMEOVER.bmp"));
+
+	GameOverStartPos_ = PlayerGameOver_->GetPosition();
+	GameOverEndPos_ = PlayerGameOver_->GetPosition() + float4{ 0, -1300.f };
+
+	PlayerWin_ = CreateActor<InGameActor>(-1);
+	PlayerWin_->SetPosition({ 255, 150 });
+	PlayerWin_->SetMyRenderer(PlayerWin_->CreateRenderer("IG_YOUWIN.bmp"));
+
+	SDPlayer_ = CreateActor<InGameActor>(-1);
+	SDPlayer_->SetPosition({ 255, 670 });
+	SDPlayer_->SetMyRenderer(SDPlayer_->CreateRenderer("BR_SD_ARLE.bmp"));
+
+
+}
 
 void InGame::InitPlayerEndEnemy()
 {
@@ -628,6 +645,8 @@ void InGame::ActorsInit()
 
 void InGame::Update()
 {
+	GameTime_ += GameEngineTime::GetDeltaTime();
+
 	CarbuncleUpdate();
 
 	if (true == IsStart_)
@@ -655,8 +674,9 @@ void InGame::Update()
 
 void InGame::GameOverCheck()
 {
-	if (Player_->GetState() == PlayerState::Lose)
+	if (true)
 	{
+		PlayerLose();
 		EnemyFSM_->SetState(EnemyState::Win);
 
 		InGameBgm_.Stop();
@@ -683,8 +703,10 @@ void InGame::GameOverCheck()
 		}
 	}
 
-	else if (EnemyFSM_->GetState() == EnemyState::Lose)
+	else if (false)
 	{
+		TwinklePlayerWin();
+		ResultScore();
 		Player_->SetState(PlayerState::Win);
 
 		InGameBgm_.Stop();
@@ -710,6 +732,509 @@ void InGame::GameOverCheck()
 			{
 				EnemySelect_->LockLoseEnemyIcon(EnemyProfile_->GetMyLevel());
 			}
+		}
+	}
+}
+
+
+void InGame::TwinklePlayerWin()
+{
+	TwinkleTime_ += GameEngineTime::GetDeltaTime();
+
+	if (0.5f <= TwinkleTime_ && false == IsTwinkleOn_)
+	{
+		IsTwinkleOn_ = true;
+		PlayerWin_->GetMyRenderer()->SetOrder(10);
+	}
+
+	else if (1.5f <= TwinkleTime_ && true == IsTwinkleOn_)
+	{
+		TwinkleTime_ = 0.f;
+		IsTwinkleOn_ = false;
+		PlayerWin_->GetMyRenderer()->SetOrder(-1);
+	}
+}
+
+void InGame::TwinklePlayerGameOver()
+{
+	TwinkleTime_ += GameEngineTime::GetDeltaTime();
+
+	if (0.25f <= TwinkleTime_ && false == IsTwinkleOn_)
+	{
+		IsTwinkleOn_ = true;
+		PlayerGameOver_->GetMyRenderer()->SetImage("IG_PLAYER_GAMEOVER.bmp");
+	}
+
+	else if (0.5f <= TwinkleTime_ && true == IsTwinkleOn_)
+	{
+		TwinkleTime_ = 0.f;
+		IsTwinkleOn_ = false;
+		PlayerGameOver_->GetMyRenderer()->SetImage("IG_ENEMY_GAMEOVER.bmp");
+	}
+}
+
+void InGame::ResultScore()
+{
+	WinWaitTime_ += GameEngineTime::GetDeltaTime();
+
+	if (0.5f <= WinWaitTime_
+		&& 0 == ResultCount_)
+	{
+		WinWaitTime_ = 0.f;
+		++ResultCount_;
+		SDPlayer_->GetMyRenderer()->SetOrder(15);
+	}
+
+	if (0.5f <= WinWaitTime_
+		&& 1 == ResultCount_)
+	{
+		WinWaitTime_ = 0.f;
+		++ResultCount_;
+		GameEngineRenderer* PlayTime = SDPlayer_->CreateRenderer("IG_PLAYTIME.bmp");
+		GameEngineRenderer* PlayTimeSec = SDPlayer_->CreateRenderer("IG_SEC.bmp");
+
+		PlayTime->SetPivot({ -20, -410 });
+		PlayTimeSec->SetPivot({ 120, -330 });
+		PlayTime->SetOrder(20);
+		PlayTimeSec->SetOrder(20);
+
+		RenderTime();
+	}
+
+	if (0.5f <= WinWaitTime_
+		&& 2 == ResultCount_)
+	{
+		WinWaitTime_ = 0.f;
+		++ResultCount_;
+		GameEngineRenderer* Bonus = SDPlayer_->CreateRenderer("IG_BONUS.bmp");
+		GameEngineRenderer* BonusPts = SDPlayer_->CreateRenderer("IG_PTS.bmp");
+
+		Bonus->SetPivot({ -90, -265 });
+		BonusPts->SetPivot({ 115, -175 });
+		Bonus->SetOrder(20);
+		BonusPts->SetOrder(20);
+
+		RenderBonus(100);
+	}
+
+	if (0.5f <= WinWaitTime_
+		&& 3 == ResultCount_)
+	{
+		++ResultCount_;
+		WinWaitTime_ = 0.f;
+		GameEngineRenderer* Stage = SDPlayer_->CreateRenderer("IG_STAGE.bmp");
+		GameEngineRenderer* Point = SDPlayer_->CreateRenderer("IG_POINT.bmp");
+		GameEngineRenderer* StagePts = SDPlayer_->CreateRenderer("IG_PTS.bmp");
+
+		Stage->SetPivot({ 725, -530 });
+		Point->SetPivot({ 850, -470 });
+		StagePts->SetPivot({ 885, -390 });
+		Stage->SetOrder(20);
+		Point->SetOrder(20);
+		StagePts->SetOrder(20);
+
+		RenderStagePoint(1245);
+	}
+
+	if (0.5f <= WinWaitTime_
+		&& 4 == ResultCount_)
+	{
+		++ResultCount_;
+		WinWaitTime_ = 0.f;
+		GameEngineRenderer* Rest = SDPlayer_->CreateRenderer("IG_REST.bmp");
+		GameEngineRenderer* Point = SDPlayer_->CreateRenderer("IG_POINT.bmp");
+		GameEngineRenderer* RestPts = SDPlayer_->CreateRenderer("IG_PTS.bmp");
+
+		Rest->SetPivot({ 705, -330 });
+		Point->SetPivot({ 855, -270 });
+		RestPts->SetPivot({ 885, -175 });
+		Rest->SetOrder(20);
+		Point->SetOrder(20);
+		RestPts->SetOrder(20);
+
+		RenderRestPoint(12345);
+	}
+}
+
+void InGame::PlayerLose()
+{
+	GameOverAlpha_ += GameEngineTime::GetDeltaTime() * 0.5f;
+
+	if (1.f <= GameOverAlpha_)
+	{
+		GameOverAlpha_ = 1.f;
+	}
+
+	PlayerGameOver_->GetMyRenderer()->SetOrder(10);
+	PlayerGameOver_->SetPosition(float4::Lerp(GameOverStartPos_, GameOverEndPos_, GameOverAlpha_));
+
+	TwinklePlayerGameOver();
+}
+
+void InGame::RenderTime()
+{
+	std::vector<int> TimeDigits_;
+	int Temp = GameTime_;
+
+	while (0 < Temp)
+	{
+		TimeDigits_.push_back(Temp % 10);
+		Temp /= 10;
+	}
+
+	for (int i = 0; i < TimeDigits_.size(); i++)
+	{
+		switch (TimeDigits_[i])
+		{
+		case 0:
+		{
+			GameEngineRenderer* Renderer = SDPlayer_->CreateRenderer("IG_PLAYER_NUMBER_0.bmp");
+			Renderer->SetPivot({ 40.f - (40.f * i), -343 });
+			Renderer->SetOrder(20);
+		}
+		break;
+		case 1:
+		{
+			GameEngineRenderer* Renderer = SDPlayer_->CreateRenderer("IG_PLAYER_NUMBER_1.bmp");
+			Renderer->SetPivot({ 40.f - (40.f * i), -343 });
+			Renderer->SetOrder(20);
+		}
+		break;
+		case 2:
+		{
+			GameEngineRenderer* Renderer = SDPlayer_->CreateRenderer("IG_PLAYER_NUMBER_2.bmp");
+			Renderer->SetPivot({ 40.f - (40.f * i), -343 });
+			Renderer->SetOrder(20);
+		}
+		break;
+		case 3:
+		{
+			GameEngineRenderer* Renderer = SDPlayer_->CreateRenderer("IG_PLAYER_NUMBER_3.bmp");
+			Renderer->SetPivot({ 40.f - (40.f * i), -343 });
+			Renderer->SetOrder(20);
+		}
+		break;
+		case 4:
+		{
+			GameEngineRenderer* Renderer = SDPlayer_->CreateRenderer("IG_PLAYER_NUMBER_4.bmp");
+			Renderer->SetPivot({ 40.f - (40.f * i), -343 });
+			Renderer->SetOrder(20);
+		}
+
+		break;
+		case 5:
+		{
+			GameEngineRenderer* Renderer = SDPlayer_->CreateRenderer("IG_PLAYER_NUMBER_5.bmp");
+			Renderer->SetPivot({ 40.f - (40.f * i), -343 });
+			Renderer->SetOrder(20);
+		}
+
+		break;
+		case 6:
+		{
+			GameEngineRenderer* Renderer = SDPlayer_->CreateRenderer("IG_PLAYER_NUMBER_6.bmp");
+			Renderer->SetPivot({ 40.f - (50.f * i), -343 });
+			Renderer->SetOrder(20);
+		}
+
+		break;
+		case 7:
+		{
+			GameEngineRenderer* Renderer = SDPlayer_->CreateRenderer("IG_PLAYER_NUMBER_7.bmp");
+			Renderer->SetPivot({ 40.f - (40.f * i), -343 });
+			Renderer->SetOrder(20);
+		}
+		break;
+		case 8:
+		{
+			GameEngineRenderer* Renderer = SDPlayer_->CreateRenderer("IG_PLAYER_NUMBER_8.bmp");
+			Renderer->SetPivot({ 40.f - (40.f * i), -343 });
+			Renderer->SetOrder(20);
+		}
+		break;
+		case 9:
+		{
+			GameEngineRenderer* Renderer = SDPlayer_->CreateRenderer("IG_PLAYER_NUMBER_9.bmp");
+			Renderer->SetPivot({ 40.f - (40.f * i), -343 });
+			Renderer->SetOrder(20);
+		}
+		break;
+		}
+	}
+}
+
+void InGame::RenderBonus(int _Value)
+{
+	std::vector<int> TimeDigits_;
+	int Temp = _Value;
+
+	while (0 < Temp)
+	{
+		TimeDigits_.push_back(Temp % 10);
+		Temp /= 10;
+	}
+
+	for (int i = 0; i < TimeDigits_.size(); i++)
+	{
+		switch (TimeDigits_[i])
+		{
+		case 0:
+		{
+			GameEngineRenderer* Renderer = SDPlayer_->CreateRenderer("IG_PLAYER_NUMBER_0.bmp");
+			Renderer->SetPivot({ 40.f - (40.f * i), -190 });
+			Renderer->SetOrder(20);
+		}
+		break;
+		case 1:
+		{
+			GameEngineRenderer* Renderer = SDPlayer_->CreateRenderer("IG_PLAYER_NUMBER_1.bmp");
+			Renderer->SetPivot({ 40.f - (40.f * i), -190 });
+			Renderer->SetOrder(20);
+		}
+		break;
+		case 2:
+		{
+			GameEngineRenderer* Renderer = SDPlayer_->CreateRenderer("IG_PLAYER_NUMBER_2.bmp");
+			Renderer->SetPivot({ 40.f - (40.f * i), -190 });
+			Renderer->SetOrder(20);
+		}
+		break;
+		case 3:
+		{
+			GameEngineRenderer* Renderer = SDPlayer_->CreateRenderer("IG_PLAYER_NUMBER_3.bmp");
+			Renderer->SetPivot({ 40.f - (40.f * i), -190 });
+			Renderer->SetOrder(20);
+		}
+		break;
+		case 4:
+		{
+			GameEngineRenderer* Renderer = SDPlayer_->CreateRenderer("IG_PLAYER_NUMBER_4.bmp");
+			Renderer->SetPivot({ 40.f - (40.f * i), -190 });
+			Renderer->SetOrder(20);
+		}
+
+		break;
+		case 5:
+		{
+			GameEngineRenderer* Renderer = SDPlayer_->CreateRenderer("IG_PLAYER_NUMBER_5.bmp");
+			Renderer->SetPivot({ 40.f - (40.f * i), -190 });
+			Renderer->SetOrder(20);
+		}
+
+		break;
+		case 6:
+		{
+			GameEngineRenderer* Renderer = SDPlayer_->CreateRenderer("IG_PLAYER_NUMBER_6.bmp");
+			Renderer->SetPivot({ 40.f - (50.f * i), -190 });
+			Renderer->SetOrder(20);
+		}
+
+		break;
+		case 7:
+		{
+			GameEngineRenderer* Renderer = SDPlayer_->CreateRenderer("IG_PLAYER_NUMBER_7.bmp");
+			Renderer->SetPivot({ 40.f - (40.f * i), -190 });
+			Renderer->SetOrder(20);
+		}
+		break;
+		case 8:
+		{
+			GameEngineRenderer* Renderer = SDPlayer_->CreateRenderer("IG_PLAYER_NUMBER_8.bmp");
+			Renderer->SetPivot({ 40.f - (40.f * i), -190 });
+			Renderer->SetOrder(20);
+		}
+		break;
+		case 9:
+		{
+			GameEngineRenderer* Renderer = SDPlayer_->CreateRenderer("IG_PLAYER_NUMBER_9.bmp");
+			Renderer->SetPivot({ 40.f - (40.f * i), -190 });
+			Renderer->SetOrder(20);
+		}
+		break;
+		}
+	}
+}
+
+void InGame::RenderStagePoint(int _Value)
+{
+	std::vector<int> TimeDigits_;
+	int Temp = _Value;
+
+	while (0 < Temp)
+	{
+		TimeDigits_.push_back(Temp % 10);
+		Temp /= 10;
+	}
+
+	for (int i = 0; i < TimeDigits_.size(); i++)
+	{
+		switch (TimeDigits_[i])
+		{
+		case 0:
+		{
+			GameEngineRenderer* Renderer = SDPlayer_->CreateRenderer("IG_PLAYER_NUMBER_0.bmp");
+			Renderer->SetPivot({ 810.f - (40.f * i), -400 });
+			Renderer->SetOrder(20);
+		}
+		break;
+		case 1:
+		{
+			GameEngineRenderer* Renderer = SDPlayer_->CreateRenderer("IG_PLAYER_NUMBER_1.bmp");
+			Renderer->SetPivot({ 810.f - (40.f * i), -400 });
+			Renderer->SetOrder(20);
+		}
+		break;
+		case 2:
+		{
+			GameEngineRenderer* Renderer = SDPlayer_->CreateRenderer("IG_PLAYER_NUMBER_2.bmp");
+			Renderer->SetPivot({ 810.f - (40.f * i), -400 });
+			Renderer->SetOrder(20);
+		}
+		break;
+		case 3:
+		{
+			GameEngineRenderer* Renderer = SDPlayer_->CreateRenderer("IG_PLAYER_NUMBER_3.bmp");
+			Renderer->SetPivot({ 810.f - (40.f * i), -400 });
+			Renderer->SetOrder(20);
+		}
+		break;
+		case 4:
+		{
+			GameEngineRenderer* Renderer = SDPlayer_->CreateRenderer("IG_PLAYER_NUMBER_4.bmp");
+			Renderer->SetPivot({ 810.f - (40.f * i), -400 });
+			Renderer->SetOrder(20);
+		}
+
+		break;
+		case 5:
+		{
+			GameEngineRenderer* Renderer = SDPlayer_->CreateRenderer("IG_PLAYER_NUMBER_5.bmp");
+			Renderer->SetPivot({ 810.f - (40.f * i), -400 });
+			Renderer->SetOrder(20);
+		}
+
+		break;
+		case 6:
+		{
+			GameEngineRenderer* Renderer = SDPlayer_->CreateRenderer("IG_PLAYER_NUMBER_6.bmp");
+			Renderer->SetPivot({ 810.f - (50.f * i), -400 });
+			Renderer->SetOrder(20);
+		}
+
+		break;
+		case 7:
+		{
+			GameEngineRenderer* Renderer = SDPlayer_->CreateRenderer("IG_PLAYER_NUMBER_7.bmp");
+			Renderer->SetPivot({ 810.f - (40.f * i), -400 });
+			Renderer->SetOrder(20);
+		}
+		break;
+		case 8:
+		{
+			GameEngineRenderer* Renderer = SDPlayer_->CreateRenderer("IG_PLAYER_NUMBER_8.bmp");
+			Renderer->SetPivot({ 810.f - (40.f * i), -400 });
+			Renderer->SetOrder(20);
+		}
+		break;
+		case 9:
+		{
+			GameEngineRenderer* Renderer = SDPlayer_->CreateRenderer("IG_PLAYER_NUMBER_9.bmp");
+			Renderer->SetPivot({ 810.f - (40.f * i), -400 });
+			Renderer->SetOrder(20);
+		}
+		break;
+		}
+	}
+}
+
+void InGame::RenderRestPoint(int _Value)
+{
+	std::vector<int> TimeDigits_;
+	int Temp = _Value;
+
+	while (0 < Temp)
+	{
+		TimeDigits_.push_back(Temp % 10);
+		Temp /= 10;
+	}
+
+	for (int i = 0; i < TimeDigits_.size(); i++)
+	{
+		switch (TimeDigits_[i])
+		{
+		case 0:
+		{
+			GameEngineRenderer* Renderer = SDPlayer_->CreateRenderer("IG_PLAYER_NUMBER_0.bmp");
+			Renderer->SetPivot({ 810.f - (40.f * i), -190 });
+			Renderer->SetOrder(20);
+		}
+		break;
+		case 1:
+		{
+			GameEngineRenderer* Renderer = SDPlayer_->CreateRenderer("IG_PLAYER_NUMBER_1.bmp");
+			Renderer->SetPivot({ 810.f - (40.f * i), -190 });
+			Renderer->SetOrder(20);
+		}
+		break;
+		case 2:
+		{
+			GameEngineRenderer* Renderer = SDPlayer_->CreateRenderer("IG_PLAYER_NUMBER_2.bmp");
+			Renderer->SetPivot({ 810.f - (40.f * i), -190 });
+			Renderer->SetOrder(20);
+		}
+		break;
+		case 3:
+		{
+			GameEngineRenderer* Renderer = SDPlayer_->CreateRenderer("IG_PLAYER_NUMBER_3.bmp");
+			Renderer->SetPivot({ 810.f - (40.f * i), -190 });
+			Renderer->SetOrder(20);
+		}
+		break;
+		case 4:
+		{
+			GameEngineRenderer* Renderer = SDPlayer_->CreateRenderer("IG_PLAYER_NUMBER_4.bmp");
+			Renderer->SetPivot({ 810.f - (40.f * i), -190 });
+			Renderer->SetOrder(20);
+		}
+
+		break;
+		case 5:
+		{
+			GameEngineRenderer* Renderer = SDPlayer_->CreateRenderer("IG_PLAYER_NUMBER_5.bmp");
+			Renderer->SetPivot({ 810.f - (40.f * i), -190 });
+			Renderer->SetOrder(20);
+		}
+
+		break;
+		case 6:
+		{
+			GameEngineRenderer* Renderer = SDPlayer_->CreateRenderer("IG_PLAYER_NUMBER_6.bmp");
+			Renderer->SetPivot({ 810.f - (50.f * i), -190 });
+			Renderer->SetOrder(20);
+		}
+
+		break;
+		case 7:
+		{
+			GameEngineRenderer* Renderer = SDPlayer_->CreateRenderer("IG_PLAYER_NUMBER_7.bmp");
+			Renderer->SetPivot({ 810.f - (40.f * i), -190 });
+			Renderer->SetOrder(20);
+		}
+		break;
+		case 8:
+		{
+			GameEngineRenderer* Renderer = SDPlayer_->CreateRenderer("IG_PLAYER_NUMBER_8.bmp");
+			Renderer->SetPivot({ 810.f - (40.f * i), -190 });
+			Renderer->SetOrder(20);
+		}
+		break;
+		case 9:
+		{
+			GameEngineRenderer* Renderer = SDPlayer_->CreateRenderer("IG_PLAYER_NUMBER_9.bmp");
+			Renderer->SetPivot({ 810.f - (40.f * i), -190 });
+			Renderer->SetOrder(20);
+		}
+		break;
 		}
 	}
 }

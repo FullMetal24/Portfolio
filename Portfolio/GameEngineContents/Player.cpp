@@ -20,6 +20,10 @@ Player::Player()
 	, LandTime_(0.f)
 	, Score_(0)
 	, Chain_(0)
+	, IsDanger_(false)
+	, Exp_(0)
+	, Next_(0)
+	, Rest_(0)
 {
 }
 
@@ -52,20 +56,9 @@ void Player::Start()
 	Fire_ = GetLevel()->CreateActor<Fire>();
 	Fire_->SetFireOwner(FireOwner::Player);
 
-	GameOverRenderer_ = GetLevel()->CreateActor<InGameActor>();
-	GameOverRenderer_->SetPosition({ 255, 1500 });
-	GameOverRenderer_->SetMyRenderer(GameOverRenderer_->CreateRenderer("IG_PLAYER_GAMEOVER.bmp"));
-
-	GameOverStartPos_ = GameOverRenderer_->GetPosition();
-	GameOverEndPos_ = GameOverRenderer_->GetPosition() + float4{ 0, -1300.f };
-
-	WinRenderer_ = GetLevel()->CreateActor<InGameActor>(-1);
-	WinRenderer_->SetPosition({ 255, 200 });
-	WinRenderer_->SetMyRenderer(WinRenderer_->CreateRenderer("IG_YOUWIN.bmp"));
-
-	SDPlayer_ = GetLevel()->CreateActor<InGameActor>(-1);
-	SDPlayer_->SetPosition({ 255, 650 });
-	SDPlayer_->SetMyRenderer(SDPlayer_->CreateRenderer("BR_SD_ARLE.bmp"));
+	Exp_ = 15000;
+	Next_ = 15000;
+	Rest_ = 0;
 }
 
 void Player::Update()
@@ -110,50 +103,15 @@ void Player::Update()
 		HindrancePuyoCheck();
 		break;
 	case PlayerState::Win:
-		TwinkleWinRenderer();
 		Win();
 		break;
 	case PlayerState::Lose:
 		LoseFallPuyo();
-		Lose();
 		break;
 	}
 
 	DigitScore(Score_);
 	RenderToScore();
-}
-
-
-void Player::TwinkleWinRenderer()
-{
-	WinRenderTime_ += GameEngineTime::GetDeltaTime();
-
-	if (0.5f <= WinRenderTime_ && false == IsWinRenderOn_)
-	{
-		IsWinRenderOn_ = true;
-		WinRenderer_->GetMyRenderer()->SetOrder(10);
-	}
-
-	else if (1.5f <= WinRenderTime_ && true == IsWinRenderOn_)
-	{
-		WinRenderTime_ = 0.f;
-		IsWinRenderOn_ = false;
-		WinRenderer_->GetMyRenderer()->SetOrder(-1);
-	}
-
-}
-
-void Player::Lose()
-{
-	Alpha_ += GameEngineTime::GetDeltaTime() * 0.5f;
-
-	if (1.f <= Alpha_)
-	{
-		Alpha_ = 1.f;
-	}
-
-	GameOverRenderer_->GetMyRenderer()->SetOrder(10);
-	GameOverRenderer_->SetPosition(float4::Lerp(GameOverStartPos_, GameOverEndPos_, Alpha_));
 }
 
 void Player::NewPuyoPair()
@@ -806,8 +764,6 @@ void Player::LoseFallPuyo()
 
 void Player::Win()
 {
-	SDPlayer_->GetMyRenderer()->SetOrder(15);
-
 	for (int Y = 14; Y >= 0; --Y)
 	{
 		for (int X = 0; X < 6; ++X)

@@ -23,8 +23,6 @@ EnemyFSM::EnemyFSM()
 	, Chain_(0)
 	, ActionIndex_(0)
 	, IsDanger_(false)
-	, Alpha_(0)
-	, IsLoseOn_(false)
 {
 }
 
@@ -63,13 +61,6 @@ void EnemyFSM::Start()
 
 	EnemyActors_ = GetLevel()->CreateActor<InGameActor>();
 	EnemyActors_->SetPosition({ GameEngineWindow::GetScale().Half() + float4{0, 75} });
-
-	LoseRenderer_ = GetLevel()->CreateActor<InGameActor>();
-	LoseRenderer_->SetPosition({1025, 2000});
-	LoseRenderer_->SetMyRenderer(LoseRenderer_->CreateRenderer("IG_ENEMY_LOSE.bmp"));
-
-	LoseRenderStartPos_ = LoseRenderer_->GetPosition();
-	LoseRenderEndPos_ = LoseRenderer_->GetPosition() + float4{0, -1700};
 
 	ActionIndex_ = 0;
 
@@ -358,6 +349,11 @@ void EnemyFSM::GreedyPuyoMove()
 					Min = Distance[i];
 					ActionIndex_ = i;
 				}
+			}
+
+			if (0 == ActionIndex_)
+			{
+				ActionIndex_ = Random_.RandomInt(0, 5);
 			}
 		}
 
@@ -1100,20 +1096,6 @@ void EnemyFSM::Lose()
 			}
 		}
 	}
-
-	if (false == IsLoseOn_)
-	{
-		Alpha_ += GameEngineTime::GetDeltaTime();
-		LoseRenderer_->GetMyRenderer()->SetOrder(10);
-		LoseRenderer_->SetPosition(float4::Lerp(LoseRenderStartPos_, LoseRenderEndPos_, Alpha_));
-
-		if (1.f <= Alpha_)
-		{
-			Alpha_ = 0.f;
-			IsLoseOn_ = true;
-		}
-	}
-
 }
 
 void EnemyFSM::IdleAnimation()
