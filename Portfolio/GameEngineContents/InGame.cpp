@@ -611,7 +611,7 @@ void InGame::ActorsInit()
 
 	GameEngineActor* PlayerName_ = CreateActor<Stage>(1);
 	PlayerName_->CreateRenderer("IG_NAME_ARLE.bmp")->SetPivot({ GameEngineWindow::GetScale().Half().x - 96.f, GameEngineWindow::GetScale().Half().y - 290.f });
-	
+
 
 
 }
@@ -885,7 +885,7 @@ void InGame::LevelChangeEnd(GameEngineLevel* _PrevLevel)
 }
 
 void InGame::UserResetEnd()
- {
+{
 	PuyoAnimationInit();
 	InitPlayerEndEnemy();
 	EnemyAnimatioInit();

@@ -3,7 +3,9 @@
 
 const float GameEngineMath::PIE = 3.141592653589793238462643383279502884197169399375105820974944f;
 const float GameEngineMath::DEG = 180.0f;
+const float GameEngineMath::PIE2 = PIE * 2.0f;
 const float GameEngineMath::DegreeToRadian = PIE / DEG;
+const float GameEngineMath::RadianToDegree = DEG / PIE;
 
 GameEngineMath::GameEngineMath()
 {

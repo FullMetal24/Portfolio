@@ -93,6 +93,11 @@ public:
 		IsReset = true;
 	}
 
+	inline void ResetOff()
+	{
+		IsReset = false;
+	}
+
 	inline void MoveCameraPos(const float4& _Value)
 	{
 		CameraPos_ += _Value;

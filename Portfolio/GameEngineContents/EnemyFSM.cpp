@@ -15,7 +15,7 @@ EnemyFSM::EnemyFSM()
 	, EnemyState_(EnemyState::NewPuyo)
 	, MoveTime_(0.f)
 	, RotateTime_(0.f)
-	, AutoDownTime_(1.0f)
+	, AutoDownTime_(0.7f)
 	, InputDownTime_(0.f)
 	, CheckTime_(0.f)
 	, LandTime_(0.f)
@@ -70,6 +70,9 @@ void EnemyFSM::Start()
 
 	LoseRenderStartPos_ = LoseRenderer_->GetPosition();
 	LoseRenderEndPos_ = LoseRenderer_->GetPosition() + float4{0, -1700};
+
+	ActionIndex_ = 0;
+
 }
 
 void EnemyFSM::Update()
@@ -319,18 +322,19 @@ void EnemyFSM::RenderToCenterPuyo()
 	}
 }
 
+
 void EnemyFSM::GreedyPuyoMove()
 {
 	MoveTime_ += GameEngineTime::GetDeltaTime();
 
-	if (2.f < MoveTime_)
+	if (0.5f <= MoveTime_)
 	{
 		MoveTime_ = 0.f;
-		int Distance[6] = { 0 };
 
 		if (false == IsAction_)
 		{
 			IsAction_ = true;
+			int Distance[6] = { 0 };
 
 			for (int X = 0; X < 6; ++X)
 			{
@@ -345,31 +349,14 @@ void EnemyFSM::GreedyPuyoMove()
 				}
 			}
 
-			for (int i = 0; i < 6; i++)
+			int Min = Distance[0];
+			
+			for (int i = 0; i < 6; ++i)
 			{
-				int CurIndex = i;
-				int NextIndex = i + 1;
-
-				if (5 == CurIndex)
+				if (Distance[i] < Min)
 				{
-					NextIndex = 0;
-				}
-
-				if (Distance[CurIndex] < Distance[NextIndex])
-				{
-					ActionIndex_ = CurIndex;
-					break;
-				}
-
-				else if (Distance[CurIndex] > Distance[NextIndex])
-				{
-					ActionIndex_ = NextIndex;
-					break;
-				}
-
-				else
-				{
-					ActionIndex_ = 0;
+					Min = Distance[i];
+					ActionIndex_ = i;
 				}
 			}
 		}
@@ -378,7 +365,7 @@ void EnemyFSM::GreedyPuyoMove()
 		{
 			return;
 		}
- 
+
 		else if (CenterPuyo_->GetX() > ActionIndex_)
 		{
 			if (CenterPuyo_->GetX() >= SecondPuyo_->GetX())
@@ -458,7 +445,7 @@ void EnemyFSM::AutoDown()
 		&& CenterPuyo_->GetY() <= SecondPuyo_->GetY())
 	{
 		++Score_;
-		AutoDownTime_ = 1.0f;
+		AutoDownTime_ = 0.7f;
 		Puyo* DownPuyo = CenterPuyo_->DownPuyo(EnemyMap_, SecondPuyo_);
 		Puyo* DownPuyo1 = SecondPuyo_->DownPuyo(EnemyMap_, CenterPuyo_);
 	}
@@ -467,7 +454,7 @@ void EnemyFSM::AutoDown()
 		&& CenterPuyo_->GetY() >= SecondPuyo_->GetY())
 	{
 		++Score_;
-		AutoDownTime_ = 1.0f;
+		AutoDownTime_ = 0.7f;
 		Puyo* DownPuyo1 = SecondPuyo_->DownPuyo(EnemyMap_, CenterPuyo_);
 		Puyo* DownPuyo = CenterPuyo_->DownPuyo(EnemyMap_, SecondPuyo_);
 	}

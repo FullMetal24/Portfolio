@@ -13,7 +13,7 @@
 Player::Player()
 	: PlayerMap_{ nullptr }
 	, PlayerState_(PlayerState::NewPuyo)
-	, AutoDownTime_(1.0f)
+	, AutoDownTime_(0.7f)
 	, InputDownTime_(0.f)
 	, InputDownAcc_(0.f)
 	, CheckTime_(0.f)
@@ -357,8 +357,8 @@ void Player::AutoDown()
 	if (AutoDownTime_ <= 0.2f
 		&& CenterPuyo_->GetY() <= SecondPuyo_->GetY())
 	{
-		AutoDownTime_ = 1.0f;
 		++Score_;
+		AutoDownTime_ = 0.7f;
 		Puyo* DownPuyo = CenterPuyo_->DownPuyo(PlayerMap_, SecondPuyo_);
 		Puyo* DownPuyo1 = SecondPuyo_->DownPuyo(PlayerMap_, CenterPuyo_);
 	}
@@ -366,8 +366,8 @@ void Player::AutoDown()
 	else if (AutoDownTime_ <= 0.2f
 		&& CenterPuyo_->GetY() >= SecondPuyo_->GetY())
 	{
-		AutoDownTime_ = 1.0f;
 		++Score_;
+		AutoDownTime_ = 0.7f;
 		Puyo* DownPuyo1 = SecondPuyo_->DownPuyo(PlayerMap_, CenterPuyo_);
 		Puyo* DownPuyo = CenterPuyo_->DownPuyo(PlayerMap_, SecondPuyo_);
 	}

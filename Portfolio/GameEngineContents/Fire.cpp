@@ -74,7 +74,7 @@ void Fire::PlayerFire()
 		if (true == IsAttack_)
 		{
 			MyRenderer_->SetOrder(10);
-			Acc_ += GameEngineTime::GetDeltaTime();
+			Acc_ += GameEngineTime::GetDeltaTime() * 2.f;
 
 			float4 Dir = TargetPos_ - GetPosition();
 			SetMove(Dir * GameEngineTime::GetDeltaTime() * 10.f * Acc_);
@@ -98,7 +98,7 @@ void Fire::EnemyFire()
 			MyRenderer_->ChangeAnimation("IG_ENEMY_LIGHT");
 			MyRenderer_->SetOrder(10);
 
-			Acc_ += GameEngineTime::GetDeltaTime();
+			Acc_ += GameEngineTime::GetDeltaTime() * 2.f;
 
 			float4 Dir = TargetPos_ - GetPosition();
 			SetMove(Dir * GameEngineTime::GetDeltaTime() * 10.f * Acc_);

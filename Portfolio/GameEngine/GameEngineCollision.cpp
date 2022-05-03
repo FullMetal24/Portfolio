@@ -81,6 +81,11 @@ bool GameEngineCollision::CollisionCheck(
 			continue;
 		}
 
+		if ((*StartIter) == this)
+		{
+			continue;
+		}
+
 		if (CollisionCheckArray[static_cast<int>(_This)][static_cast<int>(_Target)](this, *StartIter))
 		{
 			return true;
@@ -127,6 +132,11 @@ bool GameEngineCollision::NextPosCollisionCheck(
 	for (; StartIter != EndIter; ++StartIter)
 	{
 		if (false == (*StartIter)->IsUpdate() || true == (*StartIter)->IsDeath())
+		{
+			continue;
+		}
+
+		if ((*StartIter) == this)
 		{
 			continue;
 		}
@@ -186,7 +196,6 @@ bool GameEngineCollision::CollisionResult(
 	if (FindTargetGroup == GetActor()->GetLevel()->AllCollision_.end())
 	{
 		// MsgBoxAssert("존재하지 않는 충돌 그룹과 충돌하려고 했습니다.");
-
 		return false;
 	}
 
@@ -208,6 +217,10 @@ bool GameEngineCollision::CollisionResult(
 			continue;
 		}
 
+		if ((*StartIter) == this)
+		{
+			continue;
+		}
 
 		if (CollisionCheckArray[static_cast<int>(_This)][static_cast<int>(_Target)](this, *StartIter))
 		{

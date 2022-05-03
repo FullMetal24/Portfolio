@@ -7,8 +7,10 @@ class GameEngineMath
 {
 public:
 	static const float PIE;
+	static const float PIE2;
 	static const float DEG;
 	static const float DegreeToRadian;
+	static const float RadianToDegree;
 
 	static float Lerp(float p1, float p2, float Time)
 	{
@@ -43,6 +45,28 @@ private:
 class float4
 {
 public:
+	static float VectorXYtoDegree(float4 _Postion, float4 _Target)
+	{
+		return VectorXYtoRadian(_Postion, _Target) * GameEngineMath::RadianToDegree;
+	}
+
+	static float VectorXYtoRadian(float4 _Postion, float4 _Target)
+	{
+		float4 Dir = _Target - _Postion;
+		Dir.Normal2D();
+		// cos(90) => 1.5
+		// acos(1.5) => 90
+		float Angle = acosf(Dir.x);
+
+		if (_Postion.y > _Target.y)
+		{
+			Angle = GameEngineMath::PIE2 - Angle;
+		}
+
+		return Angle;
+	}
+
+
 	static float4 DegreeToDirectionFloat4(float _Degree)
 	{
 		return RadianToDirectionFloat4(_Degree * GameEngineMath::DegreeToRadian);
