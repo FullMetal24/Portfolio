@@ -36,7 +36,7 @@ void EnemySelect::Loading()
 	//UI
 	{
 		GameEngineActor* ExpUi = CreateActor<EnemySelectActor>(4);
-		ExpUi->SetPosition({ GameEngineWindow::GetScale().Half().x - 540.f, GameEngineWindow::GetScale().Half().y - 125.f});
+		ExpUi->SetPosition({ GameEngineWindow::GetScale().Half().x - 535.f, GameEngineWindow::GetScale().Half().y - 125.f});
 		ExpUi->CreateRenderer("ES_EXP_UI.bmp");
 
 		GameEngineActor* NextUi = CreateActor<EnemySelectActor>(4);
@@ -185,7 +185,7 @@ void EnemySelect::EnemyInit()
 	Enemys_[4]->GetRenderName()->SetOrder(5);
 	Enemys_[4]->GetRenderName()->SetPivot({ GameEngineWindow::GetScale().Half() + float4{430, -70} });
 
-	Offset_ += Enemys_[3]->GetIcon()->GetImage()->GetScale().x - 5.f;
+	Offset_ += Enemys_[3]->GetIcon()->GetImage()->GetScale().x - 2.f;
 
 	Enemys_[5]->SetProfile(Enemys_[5]->CreateRenderer("ES_LV6.bmp"));
 	Enemys_[5]->GetProfile()->SetPivot({ 1070.f, 190.f });
@@ -198,7 +198,7 @@ void EnemySelect::EnemyInit()
 	Enemys_[5]->GetRenderName()->SetOrder(5);
 	Enemys_[5]->GetRenderName()->SetPivot({ GameEngineWindow::GetScale().Half() + float4{430, -70} });
 
-	Offset_ += Enemys_[4]->GetIcon()->GetImage()->GetScale().x;
+	Offset_ += Enemys_[4]->GetIcon()->GetImage()->GetScale().x + 3.f;
 
 	Enemys_[6]->SetProfile(Enemys_[6]->CreateRenderer("ES_LV7.bmp"));
 	Enemys_[6]->GetProfile()->SetPivot({ 1070.f, 190.f });

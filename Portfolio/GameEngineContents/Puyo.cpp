@@ -38,7 +38,7 @@ void Puyo::Start()
 {
 	PuyoState_ = PuyoState::Normal;
 
-	IdleTime_ = Random_.RandomFloat(5.f, 20.f);
+	IdleTime_ = Random_.RandomFloat(5.f, 10.f);
 }
 
 void Puyo::Update()
@@ -1367,11 +1367,11 @@ void Puyo::RandomIdleAnimation()
 		IsIdle_ = true;
 	}
 
-	if    (true == IsIdle_)
+	if (true == IsIdle_)
 	{
 		IsIdle_ = false;
 		NormalTime_ = 0.f;
-		IdleTime_ = Random_.RandomFloat(5.f, 20.f);
+		IdleTime_ = Random_.RandomFloat(5.f, 15.f);
 
 		int Rand = Random_.RandomInt(0, 1);
 
@@ -1692,8 +1692,6 @@ void Puyo::LinkedPuyoAnimtaion(Puyo* Map[15][6])
 	if (0 == Value)
 	{
 		ChangeState(PuyoState::Normal);
-		RenderToNormal();
-
 		return;
 	}
 
