@@ -86,10 +86,10 @@ void EnemyFSM::Update()
 
 	if (IsStart_)
 	{
-		//if (GameEngineInput::GetInst()->IsDown("LoseEnemy"))
-		//{
-		//	EnemyState_ = EnemyState::Lose;
-		//}
+		if (GameEngineInput::GetInst()->IsDown("LoseEnemy"))
+		{
+			EnemyState_ = EnemyState::Lose;
+		}
 
 		switch (EnemyState_)
 		{
@@ -130,10 +130,12 @@ void EnemyFSM::Update()
 			HindrancePuyoCheck();
 			break;
 		case EnemyState::Win:
+			DisappearBubble();
 			AnimationState_ = EnemyAnimationState::Win;
 			break;
 		case EnemyState::Lose:
 			Lose();
+			DisappearBubble();
 			AnimationState_ = EnemyAnimationState::Lose;
 			break;
 		}
@@ -169,7 +171,6 @@ void EnemyFSM::Update()
 
 		DigitScore(Score_);
 		RenderToScore();
-		DisappearBubble();
 		VomitBubble();
 	}
 }
@@ -988,15 +989,12 @@ void EnemyFSM::VomitBubble()
 
 void EnemyFSM::DisappearBubble()
 {
-	if (EnemyAnimationState::Danger != AnimationState_)
+	for (int i = 0; i < 10; ++i)
 	{
-		for (int i = 0; i < 10; ++i)
+		if (true == Bubbles_[i]->GetMyRenderer()->IsEndAnimation())
 		{
-			if (true == Bubbles_[i]->GetMyRenderer()->IsEndAnimation())
-			{
-				Bubbles_[i]->GetMyRenderer()->Off();
-				Bubbles_[i]->GetMyRenderer()->SetOrder(0);
-			}
+			Bubbles_[i]->GetMyRenderer()->Off();
+			Bubbles_[i]->GetMyRenderer()->SetOrder(0);
 		}
 	}
 }
@@ -1064,9 +1062,9 @@ void EnemyFSM::SetMyProfile(EnemyProfile* _Porifle)
 			EnemyAnimations_[3] = EnemyActors_->CreateRenderer();
 			EnemyAnimations_[3]->SetOrder(2);
 			EnemyAnimations_[3]->CreateAnimation("IG_LV4_IDLE.bmp", "IG_LV4_IDLE", 0, 3, 0.2f, true);
-			EnemyAnimations_[3]->CreateAnimation("IG_LV4_EXCITED.bmp", "IG_LV4_EXCITED", 0, 3, 0.2f, true);
+			EnemyAnimations_[3]->CreateAnimation("IG_LV4_EXCITED.bmp", "IG_LV4_EXCITED", 0, 4, 0.2f, true);
 			EnemyAnimations_[3]->CreateAnimation("IG_LV4_LOSE.bmp", "IG_LV4_LOSE", 0, 3, 0.2f, true);
-			EnemyAnimations_[3]->CreateAnimation("IG_LV4_WIN.bmp", "IG_LV4_WIN", 0, 0, 0.0f, false);
+			EnemyAnimations_[3]->CreateAnimation("IG_LV4_WIN.bmp", "IG_LV4_WIN", 0, 6, 0.0f, false);
 			EnemyAnimations_[3]->CreateAnimation("IG_LV4_DANGER.bmp", "IG_LV4_DANGER", 0, 3, 0.2f, true);
 			EnemyAnimations_[3]->ChangeAnimation("IG_LV4_IDLE");
 

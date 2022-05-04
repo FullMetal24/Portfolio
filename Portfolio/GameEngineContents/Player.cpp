@@ -799,6 +799,7 @@ void Player::Win()
 	{
 		IsWinPlay_ = true;
 		PlayerSound_.SoundPlayOneShot("ARLE_WIN.mp3");
+		EffectSound_.SoundPlayOneShot("WIN_EFFECT.mp3");
 	}
 
 	for (int Y = 14; Y >= 0; --Y)

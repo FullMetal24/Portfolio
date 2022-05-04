@@ -247,8 +247,6 @@ void InGame::PuyoAnimationInit()
 		DownImage->CutCount(1, 1);
 
 
-
-
 		GameEngineImage* LefeDownImage = GameEngineImageManager::GetInst()->Find("IG_GREEN_LEFT_DOWN.bmp");
 		LefeDownImage->CutCount(1, 1);
 
@@ -435,19 +433,19 @@ void InGame::PuyoAnimationInit()
 	//이펙트
 	{
 		GameEngineImage* Image = GameEngineImageManager::GetInst()->Find("IG_RED_EFFECT.bmp");
-		Image->CutCount(3, 1);
+		Image->CutCount(6, 1);
 
 		GameEngineImage* Image1 = GameEngineImageManager::GetInst()->Find("IG_BLUE_EFFECT.bmp");
-		Image1->CutCount(3, 1);
+		Image1->CutCount(6, 1);
 
 		GameEngineImage* Image2 = GameEngineImageManager::GetInst()->Find("IG_GREEN_EFFECT.bmp");
-		Image2->CutCount(3, 1);
+		Image2->CutCount(6, 1);
 
 		GameEngineImage* Image3 = GameEngineImageManager::GetInst()->Find("IG_YELLOW_EFFECT.bmp");
-		Image3->CutCount(3, 1);
+		Image3->CutCount(6, 1);
 
 		GameEngineImage* Image4 = GameEngineImageManager::GetInst()->Find("IG_PURPLE_EFFECT.bmp");
-		Image4->CutCount(3, 1);
+		Image4->CutCount(6, 1);
 	}
 }
 
@@ -512,10 +510,10 @@ void InGame::EnemyAnimatioInit()
 		Image1->CutCount(4, 1);
 
 		GameEngineImage* Image2 = GameEngineImageManager::GetInst()->Find("IG_LV4_WIN.bmp");
-		Image2->CutCount(1, 1);
+		Image2->CutCount(7, 1);
 
 		GameEngineImage* Image3 = GameEngineImageManager::GetInst()->Find("IG_LV4_EXCITED.bmp");
-		Image3->CutCount(4, 1);
+		Image3->CutCount(5, 1);
 
 		GameEngineImage* Image4 = GameEngineImageManager::GetInst()->Find("IG_LV4_DANGER.bmp");
 		Image4->CutCount(4, 1);
@@ -1447,7 +1445,7 @@ void InGame::LevelChangeStart(GameEngineLevel* _PrevLevel)
 
 			EnemyFSM_->SetMyProfile(EnemyProfile_);
 		}
-	}
+	}	
 }
 
 void InGame::LevelChangeEnd(GameEngineLevel* _PrevLevel)
@@ -1457,15 +1455,4 @@ void InGame::LevelChangeEnd(GameEngineLevel* _PrevLevel)
 
 void InGame::UserResetEnd()
 {
-	PuyoAnimationInit();
-	InitPlayerEndEnemy();
-	EnemyAnimatioInit();
-	ActorsInit();
-	CarbuncleAnimationInit();
-
-	StageClear_ = 0;
-	TwinkleCount_ = 0;
-	ChangeCount_ = 10.f;
-	IsStart_ = false;
-	IsSpewStar_ = false;
 }

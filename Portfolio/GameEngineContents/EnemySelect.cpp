@@ -342,7 +342,7 @@ void EnemySelect::LockLoseEnemyIcon(int _Level)
 }
 
 void EnemySelect::LevelChangeStart(GameEngineLevel* _PrevLevel)
-{
+  {
 	EnemySelectBgm_ = GameEngineSound::SoundPlayControl("MainMenu.mp3");
 }
   

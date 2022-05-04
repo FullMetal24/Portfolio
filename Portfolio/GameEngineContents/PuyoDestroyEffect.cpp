@@ -25,7 +25,7 @@ void PuyoDestroyEffect::Start()
 }
 
 void PuyoDestroyEffect::Update()
-{
+{  
 	if (true == IsPlay_)
 	{
 		PlayEffect();
@@ -44,7 +44,7 @@ void PuyoDestroyEffect::CreateEffect()
 			{
 				Effects_[i]->SetMyRenderer(Effects_[i]->CreateRenderer());
 
-				Effects_[i]->GetMyRenderer()->CreateAnimation("IG_RED_EFFECT.bmp", "IG_RED_EFFECT", 0, 2, 0.17f, false);
+				Effects_[i]->GetMyRenderer()->CreateAnimation("IG_RED_EFFECT.bmp", "IG_RED_EFFECT", 0, 5, 0.1f, false);
 				Effects_[i]->GetMyRenderer()->ChangeAnimation("IG_RED_EFFECT");
 				Effects_[i]->GetMyRenderer()->PauseOn();
 			}
@@ -54,7 +54,7 @@ void PuyoDestroyEffect::CreateEffect()
 			{
 				Effects_[i]->SetMyRenderer(Effects_[i]->CreateRenderer());
 
-				Effects_[i]->GetMyRenderer()->CreateAnimation("IG_BLUE_EFFECT.bmp", "IG_BLUE_EFFECT", 0, 2, 0.17f, false);
+				Effects_[i]->GetMyRenderer()->CreateAnimation("IG_BLUE_EFFECT.bmp", "IG_BLUE_EFFECT", 0, 5, 0.1f, false);
 				Effects_[i]->GetMyRenderer()->ChangeAnimation("IG_BLUE_EFFECT");
 				Effects_[i]->GetMyRenderer()->PauseOn();
 			}
@@ -64,7 +64,7 @@ void PuyoDestroyEffect::CreateEffect()
 			{
 				Effects_[i]->SetMyRenderer(Effects_[i]->CreateRenderer());
 
-				Effects_[i]->GetMyRenderer()->CreateAnimation("IG_GREEN_EFFECT.bmp", "IG_GREEN_EFFECT", 0, 2, 0.17f, false);
+				Effects_[i]->GetMyRenderer()->CreateAnimation("IG_GREEN_EFFECT.bmp", "IG_GREEN_EFFECT", 0, 5, 0.1f, false);
 				Effects_[i]->GetMyRenderer()->ChangeAnimation("IG_GREEN_EFFECT");
 				Effects_[i]->GetMyRenderer()->PauseOn();
 			}
@@ -74,7 +74,7 @@ void PuyoDestroyEffect::CreateEffect()
 			{
 				Effects_[i]->SetMyRenderer(Effects_[i]->CreateRenderer());
 
-				Effects_[i]->GetMyRenderer()->CreateAnimation("IG_YELLOW_EFFECT.bmp", "IG_YELLOW_EFFECT", 0, 2, 0.17f, false);
+				Effects_[i]->GetMyRenderer()->CreateAnimation("IG_YELLOW_EFFECT.bmp", "IG_YELLOW_EFFECT", 0, 5, 0.1f, false);
 				Effects_[i]->GetMyRenderer()->ChangeAnimation("IG_YELLOW_EFFECT");
 				Effects_[i]->GetMyRenderer()->PauseOn();
 			}
@@ -84,7 +84,7 @@ void PuyoDestroyEffect::CreateEffect()
 			{
 				Effects_[i]->SetMyRenderer(Effects_[i]->CreateRenderer());
 
-				Effects_[i]->GetMyRenderer()->CreateAnimation("IG_PURPLE_EFFECT.bmp", "IG_PURPLE_EFFECT", 0, 2, 0.17f, false);
+				Effects_[i]->GetMyRenderer()->CreateAnimation("IG_PURPLE_EFFECT.bmp", "IG_PURPLE_EFFECT", 0, 5, 0.1f, false);
 				Effects_[i]->GetMyRenderer()->ChangeAnimation("IG_PURPLE_EFFECT");
 				Effects_[i]->GetMyRenderer()->PauseOn();
 			}
@@ -102,7 +102,7 @@ void PuyoDestroyEffect::CreateEffect()
 void PuyoDestroyEffect::PlayEffect()
 {
 	DirForce_ += GameEngineTime::GetDeltaTime();
-	Gravity_ += GameEngineTime::GetDeltaTime() * 2.5f;
+	Gravity_ += GameEngineTime::GetDeltaTime() * 2.f;
 	
 	for (int i = 0; i < 4; i++)
 	{
@@ -122,7 +122,7 @@ void PuyoDestroyEffect::PlayEffect()
 
 		if (1 == i)
 		{
-			float4 Dir = float4::UP + (float4::DOWN * Gravity_) + (float4::LEFT * DirForce_ * 1.5f);
+			float4 Dir = float4::UP + (float4::DOWN * Gravity_) + (float4::LEFT * DirForce_ * 1.25f);
 			Effects_[i]->SetMove(Dir * GameEngineTime::GetDeltaTime() * Speed_);
 		}
 
@@ -134,7 +134,7 @@ void PuyoDestroyEffect::PlayEffect()
 
 		if (3 == i)
 		{
-			float4 Dir = float4::UP + (float4::DOWN * Gravity_) + (float4::RIGHT * DirForce_ * 1.5f);
+			float4 Dir = float4::UP + (float4::DOWN * Gravity_) + (float4::RIGHT * DirForce_ * 1.25f);
 			Effects_[i]->SetMove(Dir * GameEngineTime::GetDeltaTime() * Speed_);
 		}
 	}
