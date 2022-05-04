@@ -23,8 +23,6 @@ Puyo::Puyo()
 	, EndPos_{}
 	, Alpha_(0.f)
 	, IsLand_(false)
-	, IsVisited_(false)
-	, IsLandPlay_(false)
 	, IsDestroy_(false)
 	, IsFall_(false)
 	, IsLoseFall_(false)

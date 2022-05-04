@@ -6,7 +6,6 @@
 #include <GameEngine/GameEngineImageManager.h>
 #include "ContentsEnum.h"
 #include "Puyo.h"
-#include "PuyoPair.h"
 
 void Player::OnePuyoSearch(Puyo* _Puyo, std::vector<Puyo*>& _Out)
 {

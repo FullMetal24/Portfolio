@@ -20,9 +20,6 @@
     <ClCompile Include="Puyo.cpp">
       <Filter>Actor\Level\InGame\Puyo</Filter>
     </ClCompile>
-    <ClCompile Include="PuyoPair.cpp">
-      <Filter>Actor\Level\InGame\Puyo</Filter>
-    </ClCompile>
     <ClCompile Include="EnemyProfile.cpp">
       <Filter>Actor\Level\InGame\Enemy</Filter>
     </ClCompile>
@@ -102,9 +99,6 @@
       <Filter>Level</Filter>
     </ClInclude>
     <ClInclude Include="Puyo.h">
-      <Filter>Actor\Level\InGame\Puyo</Filter>
-    </ClInclude>
-    <ClInclude Include="PuyoPair.h">
       <Filter>Actor\Level\InGame\Puyo</Filter>
     </ClInclude>
     <ClInclude Include="EnemyProfile.h">

@@ -42,16 +42,6 @@ public:
 		return IsFall_;
 	}
 
-	inline void SetLandPlay(bool _IsPlay)
-	{
-		IsLandPlay_ = _IsPlay;
-	}
-
-	inline bool GetLandPlay()
-	{
-		return IsLandPlay_;
-	}
-
 	inline bool GetDestroy()
 	{
 		return IsDestroy_;
@@ -118,21 +108,6 @@ public:
 	inline PuyoColor GetColor()
 	{
 		return MyColor_;
-	}
-
-	inline void Visit()
-	{
-		IsVisited_ = true;
-	}
-
-	inline void Exit()
-	{
-		IsVisited_ = false;
-	}
-
-	inline bool GetVisited()
-	{
-		return IsVisited_;
 	}
 
 	inline void SetDir(PuyoDir _Dir)
@@ -223,6 +198,7 @@ private:
 
 	PuyoColor MyColor_;
 	PuyoDir CurDir_;
+
 	int X_;
 	int Y_;
 
@@ -237,9 +213,7 @@ private:
 	
 	bool IsNewPuyo_;
 	bool IsIdle_;
-	bool IsLandPlay_;
 	bool IsLand_;
-	bool IsVisited_;
 	bool IsDestroy_;
 	bool IsFall_;
 

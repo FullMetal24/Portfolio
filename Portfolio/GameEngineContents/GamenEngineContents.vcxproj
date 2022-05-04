@@ -230,10 +230,6 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="PuyoPair.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
     <ClInclude Include="PuyoPuyo.h">
       <SubType>
       </SubType>
@@ -317,10 +313,6 @@
     <ClCompile Include="Player_SearchPuyo.cpp" />
     <ClCompile Include="Puyo.cpp" />
     <ClCompile Include="PuyoDestroyEffect.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
-    <ClCompile Include="PuyoPair.cpp">
       <SubType>
       </SubType>
     </ClCompile>
