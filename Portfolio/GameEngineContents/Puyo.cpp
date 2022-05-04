@@ -78,7 +78,7 @@ void Puyo::Update()
 		}
 		break;
 	case PuyoState::Land:
-		LandAnimation();
+		RenderToLand();
 		LandToNormal();
 		break;
 	case PuyoState::Fall:
@@ -414,6 +414,11 @@ void Puyo::SetColorImage(PuyoColor _Color)
 
 void Puyo::ChangeState(PuyoState _State)
 {
+	if (PuyoState::Land == _State)
+	{
+		PuyoSound_.SoundPlayOneShot("PUYO_LAND.mp3");
+	}
+
 	PuyoState_ = _State;
 }
 
@@ -1625,30 +1630,6 @@ void Puyo::RenderToLand()
 		break;
 	case PuyoColor::PURPLE:
 		MyRenderer_->ChangeAnimation("IG_PURPLE_LAND");
-		break;
-	}
-}
-
-void Puyo::LandAnimation()
-{
-	switch (MyColor_)
-	{
-	case PuyoColor::RED:
-		MyRenderer_->ChangeAnimation("IG_RED_LAND");
-		break;
-	case PuyoColor::BLUE:
-		MyRenderer_->ChangeAnimation("IG_BLUE_LAND");
-		break;
-	case PuyoColor::GREEN:
-		MyRenderer_->ChangeAnimation("IG_GREEN_LAND");
-		break;
-	case PuyoColor::YELLOW:
-		MyRenderer_->ChangeAnimation("IG_YELLOW_LAND");
-		break;
-	case PuyoColor::PURPLE:
-		MyRenderer_->ChangeAnimation("IG_PURPLE_LAND");
-		break;
-	case PuyoColor::Hindrance:
 		break;
 	}
 }

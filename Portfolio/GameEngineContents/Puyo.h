@@ -170,8 +170,6 @@ public:
 	void RenderToOtherIdle();
 
 	void IdleToNomal();
-
-	void LandAnimation();
 	void LandToNormal();
 
 	void SelfDestroy();

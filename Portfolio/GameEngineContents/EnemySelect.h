@@ -66,5 +66,6 @@ private:
 	FadeInOutBackground* FadeBackground_;
 
 	GameEngineSoundPlayer EnemySelectBgm_;
+	GameEngineSound EffectSound_;
 };
 

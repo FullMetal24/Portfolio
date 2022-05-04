@@ -575,6 +575,8 @@ void MainMenu::MenuUpdate()
 {
 	if (GameEngineInput::GetInst()->IsDown("ManiMenu_Right"))
 	{
+		EffectSound_.SoundPlayOneShot("INPUT_EFFECT.mp3");
+
 		if (MenuCount_ < static_cast<int>(MenuType::OPTION))
 		{
 			//카방클 좌로 이동
@@ -601,7 +603,7 @@ void MainMenu::MenuUpdate()
 			}
 
 			++MenuCount_;
-			FocasMenu();
+			FocusMenu();
 		}
 
 		ChangeArrowAnimation();
@@ -609,6 +611,8 @@ void MainMenu::MenuUpdate()
 
 	if (GameEngineInput::GetInst()->IsDown("ManiMenu_Left"))
 	{
+		EffectSound_.SoundPlayOneShot("INPUT_EFFECT.mp3");
+
 		if (MenuCount_ > static_cast<int>(MenuType::ALONE))
 		{
 			//카방클 우로 이동 
@@ -635,12 +639,11 @@ void MainMenu::MenuUpdate()
 			}
 
 			--MenuCount_;
-			FocasMenu();
+			FocusMenu();
 		}
 
 		ChangeArrowAnimation();
 	}
-
 
 }
 
@@ -862,6 +865,8 @@ void MainMenu::SelectMenu()
 {
 	if (GameEngineInput::GetInst()->IsDown("ManiMenu_Select"))
 	{
+		EffectSound_.SoundPlayOneShot("SELECT_EFFECT.mp3");
+
 		switch (MenuCount_)
 		{
 		case static_cast<int>(MenuType::ALONE): 
@@ -1073,7 +1078,7 @@ void MainMenu::SelectMenu()
 	}
 }
 
-void MainMenu::FocasMenu()
+void MainMenu::FocusMenu()
 {
 	MenuRenderers_[0]->ChangeAnimation("MM_MENU_1_IDLE_DARK");
 	MenuRenderers_[1]->ChangeAnimation("MM_MENU_2_IDLE_DARK");

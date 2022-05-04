@@ -266,6 +266,7 @@ void EnemySelect::Update()
 	if (GameEngineInput::GetInst()->IsDown("EnemySelect"))
 	{
 		IsKeyDown_ = true;
+		EffectSound_.SoundPlayOneShot("SELECT_EFFECT.mp3");
 	}
 
 }
@@ -285,6 +286,8 @@ void EnemySelect::PlayRoulette()
 			Enemys_[RouletteIndex_]->GetProfile()->SetOrder(-1);
 			Enemys_[RouletteIndex_]->GetIcon()->SetOrder(0);
 			Enemys_[RouletteIndex_]->GetRenderName()->SetOrder(0);
+
+			EffectSound_.SoundPlayOneShot("INPUT_EFFECT.mp3");
 
 			RouletteSpeed_ = 0.0f; //∑Í∑øº”µµ∏¶ 0¿∏∑Œ √ ±‚»≠
 			++RouletteIndex_;

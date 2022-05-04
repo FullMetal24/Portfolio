@@ -2,6 +2,7 @@
 #include "InGameActor.h"
 #include "ContentsEnum.h"
 #include "GameEngineBase/GameEngineRandom.h"
+#include <GameEngineBase/GameEngineSound.h>
 #include <set>
 
 class InGame;
@@ -116,6 +117,8 @@ private:
 	Fire* Fire_;
 	float4 PlayerPoint_;
 
+	GameEngineSound EffectSound_;
+
 	GameEngineRandom Random_;
 
 	Puyo* CenterPuyo_;
@@ -155,6 +158,7 @@ private:
 
 	InGame* InGameLevel_;
 	bool IsStart_;
+	bool IsLosePlay_;
 };
 
 

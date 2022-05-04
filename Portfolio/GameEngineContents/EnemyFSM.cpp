@@ -3,6 +3,7 @@
 #include <GameEngine/GameEngineImageManager.h>
 #include "Puyo.h"
 #include <GameEngineBase/GameEngineInput.h>
+#include <GameEngineBase/GameEngineSound.h>
 #include "Fire.h"
 #include "Player.h"
 #include "EnemyProfile.h"
@@ -24,6 +25,7 @@ EnemyFSM::EnemyFSM()
 	, Chain_(0)
 	, ActionIndex_(0)
 	, IsDanger_(false)
+	, IsLosePlay_(false)
 {
 }
 
@@ -139,6 +141,11 @@ void EnemyFSM::Update()
 			Lose();
 			LoseAnimation();
 			IsDanger_ = false;
+			if (false == IsLosePlay_)
+			{
+				IsLosePlay_ = true;
+				EffectSound_.SoundPlayOneShot("LOSE_FALL_PUYO.mp3");
+			}
 			break;
 		}
 
@@ -570,6 +577,28 @@ void EnemyFSM::LandPuyo()
 
 void EnemyFSM::EnemyToPlayerAttack(float4 _FromPos)
 {
+	switch (Chain_)
+	{
+	case 1:
+		EffectSound_.SoundPlayOneShot("CHAIN_EFFECT_1.mp3");
+		break;
+	case 2:
+		EffectSound_.SoundPlayOneShot("CHAIN_EFFECT_2.mp3");
+		break;
+	case 3:
+		EffectSound_.SoundPlayOneShot("CHAIN_EFFECT_3.mp3");
+		break;
+	case 4:
+		EffectSound_.SoundPlayOneShot("CHAIN_EFFECT_4.mp3");
+		break;
+	case 5:
+		EffectSound_.SoundPlayOneShot("CHAIN_EFFECT_5.mp3");
+		break;
+	default:
+		EffectSound_.SoundPlayOneShot("CHAIN_EFFECT_5.mp3");
+		break;
+	}
+
 	if (0 < Hindrances_.size()) //»ó¼â
 	{
 		OffsetEffect();
@@ -631,6 +660,8 @@ void EnemyFSM::HindrancePuyoCheck()
 
 void EnemyFSM::FallHindrancePuyo()
 {
+	EffectSound_.SoundPlayOneShot("FALL_HINDRANCE.mp3");
+	
 	std::vector<Puyo*>::iterator StartIter = Hindrances_.begin();
 	std::vector<Puyo*>::iterator EndIter = Hindrances_.end();
 

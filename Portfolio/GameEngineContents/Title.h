@@ -52,6 +52,7 @@ private:
 	GameEngineActor* Stars_;
 
 	GameEngineSoundPlayer TitleBgm_;
+	GameEngineSound EffectSound_;
 
 	int TransCount_;
 	float TransTime_;

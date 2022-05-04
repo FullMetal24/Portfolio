@@ -40,7 +40,7 @@ public:
 
 	void ChangeArrowAnimation();
 	void SelectMenu();
-	void FocasMenu();
+	void FocusMenu();
 	void BackgroundUpdate();
 
 	void MenuRendererPause();
@@ -65,6 +65,7 @@ private:
 	FadeInOutBackground* FadeBackground_;
 
 	GameEngineSoundPlayer MainMenuBgm_;
+	GameEngineSound EffectSound_;
 
 	float ChangeTime_;
 

@@ -61,6 +61,8 @@ void Title::Update()
 
 	if (GameEngineInput::GetInst()->IsDown("Title") && 0 != TransCount_)
 	{
+		EffectSound_.SoundPlayOneShot("SELECT_EFFECT.mp3");
+
 		LevelChangeBackground_->FadeInOn();
 		LevelChangeBackground_->GetMyRenderer()->SetOrder(20);
 		LevelChangeBackground_->SetFadeSpeed(800.f);

@@ -459,7 +459,7 @@ void Player::LandPuyo()
 		}
 	}
 
-	PlayerState_ = PlayerState::PuyoCheck;
+	 PlayerState_ = PlayerState::PuyoCheck;
 }
 
 void Player::PlayerToEnemyAttack(float4 _FromPos)
@@ -467,19 +467,28 @@ void Player::PlayerToEnemyAttack(float4 _FromPos)
 	switch (Chain_)
 	{
 	case 1:
+		EffectSound_.SoundPlayOneShot("CHAIN_EFFECT_1.mp3");
 		PlayerSound_.SoundPlayOneShot("ARLE_CHAIN_1.mp3");
 		break;
 	case 2:
+		EffectSound_.SoundPlayOneShot("CHAIN_EFFECT_2.mp3");
 		PlayerSound_.SoundPlayOneShot("ARLE_CHAIN_2.mp3");
 		break;
 	case 3:
+		EffectSound_.SoundPlayOneShot("CHAIN_EFFECT_3.mp3");
 		PlayerSound_.SoundPlayOneShot("ARLE_CHAIN_3.mp3");
 		break;
 	case 4:
+		EffectSound_.SoundPlayOneShot("CHAIN_EFFECT_4.mp3");
 		PlayerSound_.SoundPlayOneShot("ARLE_CHAIN_4.mp3");
 		break;
+	case 5:
+		EffectSound_.SoundPlayOneShot("CHAIN_EFFECT_5.mp3");
+		PlayerSound_.SoundPlayOneShot("ARLE_CHAIN_5.mp3");
+		break;
 	default:
-		PlayerSound_.SoundPlayOneShot("ARLE_CHAIN_2.mp3");
+		EffectSound_.SoundPlayOneShot("CHAIN_EFFECT_5.mp3");
+		PlayerSound_.SoundPlayOneShot("ARLE_CHAIN_5.mp3");
 		break;
 	}
 
@@ -625,6 +634,8 @@ void Player::HindrancePuyoCheck()
 
 void Player::FallHindrancePuyo()
 {
+	EffectSound_.SoundPlayOneShot("FALL_HINDRANCE.mp3");
+
 	std::vector<Puyo*>::iterator StartIter = Hindrances_.begin();
 	std::vector<Puyo*>::iterator EndIter = Hindrances_.end();
 
@@ -807,6 +818,7 @@ void Player::Lose()
 	{
 		IsLosePlay_ = true;
 		PlayerSound_.SoundPlayOneShot("ARLE_LOSE.mp3");
+		EffectSound_.SoundPlayOneShot("LOSE_FALL_PUYO.mp3");
 	}
 
 }

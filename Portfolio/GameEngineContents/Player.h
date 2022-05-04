@@ -148,6 +148,7 @@ private:
 	unsigned int Chain_;
 
 	GameEngineSound PlayerSound_;
+	GameEngineSound EffectSound_;
 
 	bool IsDanger_;
 	bool IsWinPlay_;
