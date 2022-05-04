@@ -22,6 +22,8 @@ Player::Player()
 	, Score_(0)
 	, Chain_(0)
 	, IsDanger_(false)
+	, IsWinPlay_(false)
+	, IsLosePlay_(false)
 	, Exp_(0)
 	, Next_(0)
 	, Rest_(0)
@@ -121,6 +123,7 @@ void Player::Update()
 			Win();
 			break;
 		case PlayerState::Lose:
+			Lose();
 			LoseFallPuyo();
 			break;
 		}
@@ -780,14 +783,10 @@ void Player::LoseFallPuyo()
 
 void Player::Win()
 {
-	static bool IsStart = false;
-
-	if (false == IsStart)
+	if (false == IsWinPlay_)
 	{
-		IsStart = true;
+		IsWinPlay_ = true;
 		PlayerSound_.SoundPlayOneShot("ARLE_WIN.mp3");
-
-
 	}
 
 	for (int Y = 14; Y >= 0; --Y)
@@ -800,5 +799,15 @@ void Player::Win()
 			}
 		}
 	}
+}
+
+void Player::Lose()
+{
+	if (false == IsLosePlay_)
+	{
+		IsLosePlay_ = true;
+		PlayerSound_.SoundPlayOneShot("ARLE_LOSE.mp3");
+	}
+
 }
 

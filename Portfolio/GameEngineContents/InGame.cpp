@@ -431,6 +431,24 @@ void InGame::PuyoAnimationInit()
 	GameEngineImage* OffsetStarImage = GameEngineImageManager::GetInst()->Find("IG_OffsetStar.bmp");
 	OffsetStarImage->CutCount(5, 1);
 
+
+	//이펙트
+	{
+		GameEngineImage* Image = GameEngineImageManager::GetInst()->Find("IG_RED_EFFECT.bmp");
+		Image->CutCount(3, 1);
+
+		GameEngineImage* Image1 = GameEngineImageManager::GetInst()->Find("IG_BLUE_EFFECT.bmp");
+		Image1->CutCount(3, 1);
+
+		GameEngineImage* Image2 = GameEngineImageManager::GetInst()->Find("IG_GREEN_EFFECT.bmp");
+		Image2->CutCount(3, 1);
+
+		GameEngineImage* Image3 = GameEngineImageManager::GetInst()->Find("IG_YELLOW_EFFECT.bmp");
+		Image3->CutCount(3, 1);
+
+		GameEngineImage* Image4 = GameEngineImageManager::GetInst()->Find("IG_PURPLE_EFFECT.bmp");
+		Image4->CutCount(3, 1);
+	}
 }
 
 void InGame::EnemyAnimatioInit()
@@ -637,14 +655,11 @@ void InGame::ActorsInit()
 
 	GameEngineActor* PlayerName_ = CreateActor<Stage>(1);
 	PlayerName_->CreateRenderer("IG_NAME_ARLE.bmp")->SetPivot({ GameEngineWindow::GetScale().Half().x - 96.f, GameEngineWindow::GetScale().Half().y - 290.f });
-
-
-
 }
 
 
 void InGame::Update()
-{
+{     
 	GameTime_ += GameEngineTime::GetDeltaTime();
 
 	if (false == IsStart_)

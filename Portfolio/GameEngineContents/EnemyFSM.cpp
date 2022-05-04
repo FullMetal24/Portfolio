@@ -315,11 +315,13 @@ void EnemyFSM::RenderToCenterPuyo()
 		CenterPuyo_->GetMyRenderer()->ChangeAnimation("IG_GREEN_CENTER");
 	}
 	break;
+
 	case PuyoColor::YELLOW:
 	{
 		CenterPuyo_->GetMyRenderer()->ChangeAnimation("IG_YELLOW_CENTER");
 	}
 	break;
+
 	case PuyoColor::PURPLE:
 	{
 		CenterPuyo_->GetMyRenderer()->ChangeAnimation("IG_PURPLE_CENTER");
@@ -333,7 +335,7 @@ void EnemyFSM::GreedyPuyoMove()
 {
 	MoveTime_ += GameEngineTime::GetDeltaTime();
 
-	if (0.15f <= MoveTime_)
+	if (0.2f <= MoveTime_)
 	{
 		MoveTime_ = 0.f;
 

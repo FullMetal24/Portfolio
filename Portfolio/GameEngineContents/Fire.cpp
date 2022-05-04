@@ -48,7 +48,7 @@ void Fire::Update()
 
 	if (true == IsChainUp_)
 	{
-		Alpha_ += GameEngineTime::GetDeltaTime() * 2.5f;
+		Alpha_ += GameEngineTime::GetDeltaTime() * 2.f;
 
 		if (1.f <= Alpha_)
 		{
@@ -137,7 +137,7 @@ void Fire::PlayerRenderChain(int _Count, float4 _From)
 	Alpha_ = 0.f;
 	IsChainUp_ = true;
 	StartPos_ = _From;
-	EndPos_ = StartPos_ + float4{ 0, -300.f};
+	EndPos_ = StartPos_ + float4{ 0, -350.f};
 
 	switch (_Count)
 	{

@@ -4,7 +4,6 @@
 #include <map>
 
 class GameEngineSoundPlayer;
-// Ό³Έν :
 class GameEngineSound : public GameEngineNameObject
 {
 public:

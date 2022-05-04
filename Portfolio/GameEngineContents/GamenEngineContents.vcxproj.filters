@@ -80,6 +80,9 @@
     <ClCompile Include="WarningPuyo.cpp">
       <Filter>Actor\Level\InGame</Filter>
     </ClCompile>
+    <ClCompile Include="PuyoDestroyEffect.cpp">
+      <Filter>Actor\Level\InGame\Puyo</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PuyoPuyo.h" />
@@ -157,6 +160,9 @@
     </ClInclude>
     <ClInclude Include="WarningPuyo.h">
       <Filter>Actor\Level\InGame</Filter>
+    </ClInclude>
+    <ClInclude Include="PuyoDestroyEffect.h">
+      <Filter>Actor\Level\InGame\Puyo</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

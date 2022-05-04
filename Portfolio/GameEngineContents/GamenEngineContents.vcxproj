@@ -226,6 +226,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="Puyo.h" />
+    <ClInclude Include="PuyoDestroyEffect.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="PuyoPair.h">
       <SubType>
       </SubType>
@@ -312,6 +316,10 @@
     </ClCompile>
     <ClCompile Include="Player_SearchPuyo.cpp" />
     <ClCompile Include="Puyo.cpp" />
+    <ClCompile Include="PuyoDestroyEffect.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="PuyoPair.cpp">
       <SubType>
       </SubType>

@@ -7,6 +7,8 @@
 #include <GameEngineBase/GameEngineTime.h>
 #include "Player.h"
 #include "EnemyFSM.h"
+#include "PuyoDestroyEffect.h"
+
 
 Puyo::Puyo()
 	: PuyoState_{}
@@ -27,6 +29,7 @@ Puyo::Puyo()
 	, IsFall_(false)
 	, IsLoseFall_(false)
 	, IsSoundPlay_(false)
+	, IsEffectOn_(false)
 {
 }
 
@@ -84,6 +87,7 @@ void Puyo::Update()
 		FallingPuyo();
 		break;
 	case PuyoState::Destroy:
+		DestroyEffect();
 		RenderToDestroy();
 		SelfDestroy();
 		TwinklePuyo();
@@ -939,7 +943,7 @@ void Puyo::FallingPuyo()
 {
 	if (PuyoColor::Hindrance == MyColor_)
 	{
-		Alpha_ += GameEngineTime::GetDeltaTime() * 2.f;
+		Alpha_ += GameEngineTime::GetDeltaTime() * 1.5f;
 
 		if (1.f <= Alpha_)
 		{
@@ -1861,6 +1865,21 @@ void Puyo::TwinklePuyo()
 	else
 	{
 		MyRenderer_->SetOrder(-1);
+	}
+}
+
+void Puyo::DestroyEffect()
+{
+	if (false == IsEffectOn_ 
+		&& PuyoColor::Hindrance != MyColor_)
+	{
+		IsEffectOn_ = true;
+
+		Effect_ = GetLevel()->CreateActor<PuyoDestroyEffect>();
+		Effect_->SetPosition(GetPosition());
+		Effect_->SetColor(MyColor_);
+		Effect_->CreateEffect();
+		Effect_->SetPlay(true);
 	}
 }
 

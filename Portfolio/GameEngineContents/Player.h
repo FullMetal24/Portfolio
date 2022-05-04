@@ -68,6 +68,7 @@ public:
 	void LoseFallPuyo();
 
 	void Win();
+	void Lose();
 
 	inline void SetEnemyFSM(EnemyFSM* _Enemy)
 	{
@@ -149,6 +150,8 @@ private:
 	GameEngineSound PlayerSound_;
 
 	bool IsDanger_;
+	bool IsWinPlay_;
+	bool IsLosePlay_;
 
 	int Exp_;
 	int Next_;

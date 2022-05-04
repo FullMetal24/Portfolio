@@ -6,6 +6,7 @@
 
 class Player;
 class EnemyFSM;
+class PuyoDestroyEffect;
 class Puyo : public GameEngineActor
 {
 public:
@@ -207,6 +208,8 @@ public:
 	void LoseFall();
 	void TwinklePuyo();
 
+	void DestroyEffect();
+
 protected:
 
 private:
@@ -242,6 +245,9 @@ private:
 
 	bool IsLoseFall_;
 	bool IsSoundPlay_;
+	bool IsEffectOn_;
 
-	GameEngineSound PuyoSound_;
+	GameEngineSound PuyoSound_; //¹æÇØ»Ñ¿ä ³«ÇÏ »ç¿îµå, ÆÄ±« »ç¿îµå
+
+	PuyoDestroyEffect* Effect_;
 };
