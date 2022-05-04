@@ -629,7 +629,7 @@ void InGame::ActorsInit()
 	NextUI->CreateRenderer("IG_NEXT.bmp")->SetPivot({ GameEngineWindow::GetScale().Half().x, GameEngineWindow::GetScale().Half().y - 360.f });
 
 	StageRenderer_ = CreateActor<InGameActor>(15);
-	StageRenderer_->SetPosition({ GameEngineWindow::GetScale().Half().x, 1000.f });
+	StageRenderer_->SetPosition({ GameEngineWindow::GetScale().Half() + float4{0, 250.f } });
 	StageRenderer_->SetMyRenderer(StageRenderer_->CreateRenderer("IG_STAGE_UI.bmp"));
 
 	StageRenderStartPos_ = StageRenderer_->GetPosition();
@@ -649,7 +649,7 @@ void InGame::Update()
 
 	if (false == IsStart_)
 	{
-		Alpha_ += GameEngineTime::GetDeltaTime();
+		Alpha_ += GameEngineTime::GetDeltaTime() * 2.f;
 
 		StageRenderer_->SetPosition(float4::Lerp(StageRenderStartPos_, StageRenderEndPos_, Alpha_));
 

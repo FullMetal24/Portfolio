@@ -61,6 +61,16 @@ public:
 	void RenderStagePoint(int _Value);
 	void RenderRestPoint(int _Value);
 
+	inline bool GetStart()
+	{
+		return IsStart_;
+	}
+
+	inline bool GetSpewStar()
+	{
+		return IsSpewStar_;
+	}
+
 protected:
 
 private:

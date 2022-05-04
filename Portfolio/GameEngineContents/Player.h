@@ -5,6 +5,7 @@
 #include <GameEngineBase/GameEngineSound.h>
 #include <set>
 
+class InGame;
 class Puyo;
 class EnemyFSM;
 class Fire;
@@ -110,6 +111,9 @@ private:
 	PlayerState PlayerState_;
 
 	EnemyFSM* Enemy_;
+
+	InGame* InGameLevel_;
+	bool IsStart_;
 
 	std::vector<std::vector<Puyo*>> AllDestroyPuyo_;
 	std::set<Puyo*> FindAllDestroy_;

@@ -9,6 +9,7 @@
 #include "OffsetStar.h"
 #include "WarningPuyo.h"
 #include "InGameActor.h"
+#include "InGame.h"
 
 Player::Player()
 	: PlayerMap_{ nullptr }
@@ -59,59 +60,74 @@ void Player::Start()
 	Exp_ = 15000;
 	Next_ = 15000;
 	Rest_ = 0;
+
+	InGameLevel_ = dynamic_cast<InGame*>(GetLevel());
 }
 
 void Player::Update()
 {
-	if (GameEngineInput::GetInst()->IsDown("Lose"))
+	if (nullptr == InGameLevel_)
 	{
-		PlayerState_ = PlayerState::Lose;
+		return;
 	}
 
-	switch (PlayerState_)
+	if (false == IsStart_)
 	{
-	case PlayerState::NewPuyo:
-		Chain_ = 0;
-		NewPuyoPair();
-		break;
-	case PlayerState::MovePuyo:
-		InputPuyoMove();
-		AutoDown();
-		LandCheck();
-		OtherPuyoLandCheck();
-		break;
-	case PlayerState::PuyoCheck:
-		CheckTime_ += GameEngineTime::GetDeltaTime();
-		if (0.7f < CheckTime_)
-		{
-			CheckTime_ = 0.f;
-			SearchPuyo();
-		}
-		break;
-	case PlayerState::PuyoDestroy:
-		DestroyPuyo();
-		break;
-	case PlayerState::LandPuyo:
-		LandTime_ += GameEngineTime::GetDeltaTime();
-		if (0.7f < LandTime_)
-		{
-			LandTime_ = 0.f;
-			LandPuyo();
-		}
-		break;
-	case PlayerState::HindranceCheck:
-		HindrancePuyoCheck();
-		break;
-	case PlayerState::Win:
-		Win();
-		break;
-	case PlayerState::Lose:
-		LoseFallPuyo();
-		break;
+		IsStart_ = InGameLevel_->GetSpewStar();
 	}
 
-	DigitScore(Score_);
-	RenderToScore();
+	if (IsStart_)
+	{
+		if (GameEngineInput::GetInst()->IsDown("Lose"))
+		{
+			PlayerState_ = PlayerState::Lose;
+		}
+
+		switch (PlayerState_)
+		{
+		case PlayerState::NewPuyo:
+			Chain_ = 0;
+			NewPuyoPair();
+			break;
+		case PlayerState::MovePuyo:
+			InputPuyoMove();
+			AutoDown();
+			LandCheck();
+			OtherPuyoLandCheck();
+			break;
+		case PlayerState::PuyoCheck:
+			CheckTime_ += GameEngineTime::GetDeltaTime();
+			if (0.7f < CheckTime_)
+			{
+				CheckTime_ = 0.f;
+				SearchPuyo();
+			}
+			break;
+		case PlayerState::PuyoDestroy:
+			DestroyPuyo();
+			break;
+		case PlayerState::LandPuyo:
+			LandTime_ += GameEngineTime::GetDeltaTime();
+			if (0.7f < LandTime_)
+			{
+				LandTime_ = 0.f;
+				LandPuyo();
+			}
+			break;
+		case PlayerState::HindranceCheck:
+			HindrancePuyoCheck();
+			break;
+		case PlayerState::Win:
+			Win();
+			break;
+		case PlayerState::Lose:
+			LoseFallPuyo();
+			break;
+		}
+
+		DigitScore(Score_);
+		RenderToScore();
+	}
 }
 
 void Player::NewPuyoPair()
@@ -764,6 +780,16 @@ void Player::LoseFallPuyo()
 
 void Player::Win()
 {
+	static bool IsStart = false;
+
+	if (false == IsStart)
+	{
+		IsStart = true;
+		PlayerSound_.SoundPlayOneShot("ARLE_WIN.mp3");
+
+
+	}
+
 	for (int Y = 14; Y >= 0; --Y)
 	{
 		for (int X = 0; X < 6; ++X)

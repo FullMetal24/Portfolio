@@ -4,6 +4,7 @@
 #include "GameEngineBase/GameEngineRandom.h"
 #include <set>
 
+class InGame;
 class Player;
 class Fire;
 class Puyo;
@@ -151,6 +152,9 @@ private:
 
 	bool IsAction_;
 	bool IsDanger_;
+
+	InGame* InGameLevel_;
+	bool IsStart_;
 };
 
 

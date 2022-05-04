@@ -9,6 +9,7 @@
 #include "Offset.h"
 #include "OffsetStar.h"
 #include "WarningPuyo.h"
+#include "InGame.h"
 
 EnemyFSM::EnemyFSM()
 	: EnemyMap_{ nullptr }
@@ -64,81 +65,95 @@ void EnemyFSM::Start()
 
 	ActionIndex_ = 0;
 
+	InGameLevel_ = dynamic_cast<InGame*>(GetLevel());
 }
 
 void EnemyFSM::Update()
 {
-	if (GameEngineInput::GetInst()->IsDown("LoseEnemy"))
+	if (nullptr == InGameLevel_)
 	{
-		EnemyState_ = EnemyState::Lose;
+		return;
 	}
 
-	if (true == Player_->GetDanger())
+	if (false == IsStart_)
 	{
-		IsDanger_ = false;
-		ExcitedAnimation();
-	}
-	
-	switch (EnemyState_)
-	{
-	case EnemyState::NewPuyo:
-		Chain_ = 0;
-		ActionIndex_ = 0;
-		IsAction_ = false;
-		NewPuyoPair();
-		break;
-	case EnemyState::MovePuyo: 
-		GreedyPuyoMove();
-		RandomRotate();
-		RandomDown();
-		AutoDown();
-		LandCheck();
-		OtherPuyoLandCheck();
-		break;
-	case EnemyState::PuyoCheck:
-		CheckTime_ += GameEngineTime::GetDeltaTime();
-		if (0.7f < CheckTime_)
-		{
-			CheckTime_ = 0.f;
-			SearchPuyo();
-		}
-		break;
-	case EnemyState::PuyoDestroy:
-		DestroyPuyo();
-		break;
-	case EnemyState::LandPuyo:
-		LandTime_ += GameEngineTime::GetDeltaTime();
-		if (0.7f < LandTime_)
-		{
-			LandTime_ = 0.f;
-			LandPuyo();
-		}
-		break;
-	case EnemyState::HindranceCheck:
-		HindrancePuyoCheck();
-		break;
-	case EnemyState::Win:
-		WinAnimation();
-		IsDanger_ = false;
-		break;
-	case EnemyState::Lose:
-		Lose();
-		LoseAnimation();
-		IsDanger_ = false;
-		break;
+		IsStart_ = InGameLevel_->GetSpewStar();
 	}
 
-	if (true == GameEngineInput::GetInst()->IsDown("Hindrance"))
+	if (IsStart_)
 	{
-		Chain_ += 1;
-		//OffsetEffect();
-		EnemyToPlayerAttack({ GameEngineWindow::GetScale().Half() });
+		if (GameEngineInput::GetInst()->IsDown("LoseEnemy"))
+		{
+			EnemyState_ = EnemyState::Lose;
+		}
+
+		if (true == Player_->GetDanger())
+		{
+			IsDanger_ = false;
+			ExcitedAnimation();
+		}
+
+		switch (EnemyState_)
+		{
+		case EnemyState::NewPuyo:
+			Chain_ = 0;
+			ActionIndex_ = 0;
+			IsAction_ = false;
+			NewPuyoPair();
+			break;
+		case EnemyState::MovePuyo:
+			GreedyPuyoMove();
+			RandomRotate();
+			RandomDown();
+			AutoDown();
+			LandCheck();
+			OtherPuyoLandCheck();
+			break;
+		case EnemyState::PuyoCheck:
+			CheckTime_ += GameEngineTime::GetDeltaTime();
+			if (0.7f < CheckTime_)
+			{
+				CheckTime_ = 0.f;
+				SearchPuyo();
+			}
+			break;
+		case EnemyState::PuyoDestroy:
+			DestroyPuyo();
+			break;
+		case EnemyState::LandPuyo:
+			LandTime_ += GameEngineTime::GetDeltaTime();
+			if (0.7f < LandTime_)
+			{
+				LandTime_ = 0.f;
+				LandPuyo();
+			}
+			break;
+		case EnemyState::HindranceCheck:
+			HindrancePuyoCheck();
+			break;
+		case EnemyState::Win:
+			WinAnimation();
+			IsDanger_ = false;
+			break;
+		case EnemyState::Lose:
+			Lose();
+			LoseAnimation();
+			IsDanger_ = false;
+			break;
+		}
+
+		if (true == GameEngineInput::GetInst()->IsDown("Hindrance"))
+		{
+			Chain_ += 1;
+			//OffsetEffect();
+			EnemyToPlayerAttack({ GameEngineWindow::GetScale().Half() });
+		}
+
+		DigitScore(Score_);
+		RenderToScore();
+		DisappearBubble();
+		VomitBubble();
 	}
-	
-	DigitScore(Score_);
-	RenderToScore();
-	DisappearBubble();
-	VomitBubble();
 }
 
 void EnemyFSM::NewPuyoPair()
@@ -318,7 +333,7 @@ void EnemyFSM::GreedyPuyoMove()
 {
 	MoveTime_ += GameEngineTime::GetDeltaTime();
 
-	if (0.5f <= MoveTime_)
+	if (0.15f <= MoveTime_)
 	{
 		MoveTime_ = 0.f;
 
@@ -526,18 +541,6 @@ void EnemyFSM::DestroyPuyo()
 				EnemyMap_[(*PuyoStartIter)->GetY()][(*PuyoStartIter)->GetX()] = nullptr;
 
 				Score_ += PuyoVector.size() * Chain_ * 10;
-			}
-		}
-	}
-
-	for (int Y = 0; Y < 15; ++Y)
-	{
-		for (int X = 0; X < 6; ++X)
-		{
-			if (nullptr != EnemyMap_[Y][X]
-				&& PuyoColor::Hindrance == EnemyMap_[Y][X]->GetColor())
-			{
-				EnemyMap_[Y][X]->DestroyHindracePuyo(EnemyMap_);
 			}
 		}
 	}
