@@ -412,7 +412,7 @@ void Title::ChangeBackground()
 
 		TitleActors_[(int)TitileOrder::COMPANYLOGO]->Off();
 
-		TitleBgm_ = GameEngineSound::SoundPlayControl("Title.mp3");
+		TitleBgm_ = GameEngineSound::SoundPlayControl("Title.mp3", -1);
 
 		++TransCount_;
 		TransTime_ = 0.0f;

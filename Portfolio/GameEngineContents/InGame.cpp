@@ -1422,7 +1422,7 @@ void InGame::SpewStar()
 
 void InGame::LevelChangeStart(GameEngineLevel* _PrevLevel)
 {
-	InGameBgm_ = GameEngineSound::SoundPlayControl("INGAME.mp3");
+	InGameBgm_ = GameEngineSound::SoundPlayControl("INGAME.mp3", -1);
 
 	EffectSound_.SoundPlayOneShot("ARLE_START.mp3");
 
