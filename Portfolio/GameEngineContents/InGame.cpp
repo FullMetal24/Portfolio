@@ -60,6 +60,16 @@ void InGame::Loading()
 	SDPlayer_ = CreateActor<InGameActor>(-1);
 	SDPlayer_->SetPosition({ 255, 670 });
 	SDPlayer_->SetMyRenderer(SDPlayer_->CreateRenderer("BR_SD_ARLE.bmp"));
+
+	PlayerRestRenderer_ = Player_->CreateRenderer();
+	EnemyRestRenderer_ = EnemyFSM_->CreateRenderer();
+
+
+	if (false == GameEngineInput::GetInst()->IsKey("Rest"))
+	{
+		GameEngineInput::GetInst()->CreateKey("Rest", VK_ESCAPE);
+	}
+
 }
 
 void InGame::InitPlayerEndEnemy()
@@ -414,7 +424,7 @@ void InGame::PuyoAnimationInit()
 		RightUPImage->CutCount(1, 1);
 
 		GameEngineImage* UpDownImage = GameEngineImageManager::GetInst()->Find("IG_PURPLE_UP_DOWN.bmp");
-		UpDownImage->CutCount(1, 1);
+		UpDownImage->CutCount(1, 1); 
 	}
 
 	GameEngineImage* HindrancePuyo = GameEngineImageManager::GetInst()->Find("IG_HINDRANCE_PUYO.bmp");
@@ -510,10 +520,10 @@ void InGame::EnemyAnimatioInit()
 		Image1->CutCount(4, 1);
 
 		GameEngineImage* Image2 = GameEngineImageManager::GetInst()->Find("IG_LV4_WIN.bmp");
-		Image2->CutCount(7, 1);
+		Image2->CutCount(1, 1);
 
 		GameEngineImage* Image3 = GameEngineImageManager::GetInst()->Find("IG_LV4_EXCITED.bmp");
-		Image3->CutCount(5, 1);
+		Image3->CutCount(4, 1);
 
 		GameEngineImage* Image4 = GameEngineImageManager::GetInst()->Find("IG_LV4_DANGER.bmp");
 		Image4->CutCount(4, 1);
@@ -530,7 +540,7 @@ void InGame::EnemyAnimatioInit()
 		Image2->CutCount(7, 1);
 
 		GameEngineImage* Image3 = GameEngineImageManager::GetInst()->Find("IG_LV5_EXCITED.bmp");
-		Image3->CutCount(4, 1);
+		Image3->CutCount(5, 1);
 
 		GameEngineImage* Image4 = GameEngineImageManager::GetInst()->Find("IG_LV5_DANGER.bmp");
 		Image4->CutCount(4, 1);
@@ -691,6 +701,8 @@ void InGame::Update()
 
 		GameOverCheck();
 	}
+
+	RestCheck();
 }
 
 void InGame::GameOverCheck()
@@ -1260,6 +1272,28 @@ void InGame::RenderRestPoint(int _Value)
 	}
 }
 
+void InGame::RestCheck()
+{
+	if (true == GameEngineInput::GetInst()->IsDown("Rest")
+		&& false == IsRest_)
+	{
+		IsRest_ = false;
+
+		Player_->SetState(PlayerState::Rest);
+		EnemyFSM_->SetState(EnemyState::Rest);
+	}
+
+	else if(true == GameEngineInput::GetInst()->IsDown("Rest")
+		&& true == IsRest_)
+	{
+		IsRest_ = false;
+
+		//Player_->SetState(PlayerState::Rest);
+		//EnemyFSM_->SetState(EnemyState::Rest);
+	}
+
+}
+
 void InGame::CarbuncleUpdate()
 {
 	Carbuncle_->GetMyRenderer()->ChangeAnimation("IG_CARBUNCLE_START");
@@ -1450,7 +1484,7 @@ void InGame::LevelChangeStart(GameEngineLevel* _PrevLevel)
 
 void InGame::LevelChangeEnd(GameEngineLevel* _PrevLevel)
 {
-	ResetOn();
+	//ResetOn();
 }
 
 void InGame::UserResetEnd()

@@ -61,6 +61,8 @@ public:
 	void RenderStagePoint(int _Value);
 	void RenderRestPoint(int _Value);
 
+	void RestCheck();
+
 	inline bool GetStart()
 	{
 		return IsStart_;
@@ -110,6 +112,9 @@ private:
 	float4 GameOverStartPos_;
 	float4 GameOverEndPos_;
 
+	GameEngineRenderer* PlayerRestRenderer_;
+	GameEngineRenderer* EnemyRestRenderer_;
+
 	float GameOverAlpha_;
 
 	float TwinkleTime_;
@@ -119,6 +124,7 @@ private:
 	bool IsSpewStar_;
 	bool IsStarUpdate_;
 	bool IsTwinkleOn_;
+	bool IsRest_;
 };
 	
 

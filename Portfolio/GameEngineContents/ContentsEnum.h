@@ -60,7 +60,8 @@ enum class PlayerState
 	LandPuyo,
 	HindranceCheck,
 	Win,
-	Lose
+	Lose,
+	Rest
 };
 
 enum class EnemyState
@@ -72,7 +73,8 @@ enum class EnemyState
 	LandPuyo,
 	HindranceCheck,
 	Win,
-	Lose
+	Lose,
+	Rest
 };
 
 

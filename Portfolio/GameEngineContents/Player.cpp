@@ -126,6 +126,8 @@ void Player::Update()
 			Lose();
 			LoseFallPuyo();
 			break;
+		case PlayerState::Rest:
+			break;
 		}
 
 		DigitScore(Score_);
@@ -316,7 +318,7 @@ void Player::InputPuyoMove()
 
 	if (GameEngineInput::GetInst()->IsPress("Down"))
 	{
-		InputDownAcc_ += GameEngineTime::GetDeltaTime() * 2.0f;
+		InputDownAcc_ += GameEngineTime::GetDeltaTime() * 3.5f;
 		InputDownTime_ += InputDownAcc_;
 
 		if (0.15f <= InputDownTime_)
@@ -332,20 +334,20 @@ void Player::AutoDown()
 {
 	AutoDownTime_ -= GameEngineTime::GetDeltaTime();
 
-	if (AutoDownTime_ <= 0.2f
+	if (AutoDownTime_ <= 0.0f
 		&& CenterPuyo_->GetY() <= SecondPuyo_->GetY())
 	{
 		++Score_;
-		AutoDownTime_ = 0.7f;
+		AutoDownTime_ = 1.0f;
 		Puyo* DownPuyo = CenterPuyo_->DownPuyo(PlayerMap_, SecondPuyo_);
 		Puyo* DownPuyo1 = SecondPuyo_->DownPuyo(PlayerMap_, CenterPuyo_);
 	}
 
-	else if (AutoDownTime_ <= 0.2f
+	else if (AutoDownTime_ <= 0.0f
 		&& CenterPuyo_->GetY() >= SecondPuyo_->GetY())
 	{
 		++Score_;
-		AutoDownTime_ = 0.7f;
+		AutoDownTime_ = 1.0f;
 		Puyo* DownPuyo1 = SecondPuyo_->DownPuyo(PlayerMap_, CenterPuyo_);
 		Puyo* DownPuyo = CenterPuyo_->DownPuyo(PlayerMap_, SecondPuyo_);
 	}

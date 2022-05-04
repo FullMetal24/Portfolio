@@ -138,6 +138,9 @@ void EnemyFSM::Update()
 			DisappearBubble();
 			AnimationState_ = EnemyAnimationState::Lose;
 			break;
+		case EnemyState::Rest:
+			//뿌요 전부 가리는 함수들
+			break;
 		}
 
 		switch (AnimationState_)
@@ -194,26 +197,10 @@ void EnemyFSM::NewPuyoPair()
 	NextSecondPuyo_->SetColorImage(NextSecondPuyo_->GetColor());
 
 	int Color = Random_.RandomInt(0, 4);
-
-	--Color;
-
-	if (0 > Color)
-	{
-		Color = 4;
-	}
-
 	NextNextCenterPuyo_->SetColor(static_cast<PuyoColor>(Color));
 	NextNextCenterPuyo_->SetColorImage(static_cast<PuyoColor>(Color));
 
 	Color = Random_.RandomInt(0, 4);
-
-	--Color;
-
-	if (0 > Color)
-	{
-		Color = 4;
-	}
-
 	NextNextSecondPuyo_->SetColor(static_cast<PuyoColor>(Color));
 	NextNextSecondPuyo_->SetColorImage(static_cast<PuyoColor>(Color));
 
@@ -231,25 +218,11 @@ void EnemyFSM::InitNextPair()
 {
 	int Color = Random_.RandomInt(0, 4);
 
-	--Color;
-
-	if (0 > Color)
-	{
-		Color = 4;
-	}
-
 	NextNextCenterPuyo_ = GetLevel()->CreateActor<Puyo>(1);
 	NextNextCenterPuyo_->InitAllAnimation();
 	NextNextCenterPuyo_->SetColorImage(static_cast<PuyoColor>(Color));
 
 	Color = Random_.RandomInt(0, 4);
-
-	--Color;
-
-	if (0 > Color)
-	{
-		Color = 4;
-	}
 
 	NextNextSecondPuyo_ = GetLevel()->CreateActor<Puyo>(1);
 	NextNextSecondPuyo_->InitAllAnimation();
@@ -257,25 +230,11 @@ void EnemyFSM::InitNextPair()
 
 	Color = Random_.RandomInt(0, 4);
 
-	--Color;
-
-	if (0 > Color)
-	{
-		Color = 4;
-	}
-
 	NextCenterPuyo_ = GetLevel()->CreateActor<Puyo>(1);
 	NextCenterPuyo_->InitAllAnimation();
 	NextCenterPuyo_->SetColorImage(static_cast<PuyoColor>(Color));
 
 	Color = Random_.RandomInt(0, 4);
-
-	--Color;
-
-	if (0 > Color)
-	{
-		Color = 4;
-	}
 
 	NextSecondPuyo_ = GetLevel()->CreateActor<Puyo>(1);
 	NextSecondPuyo_->InitAllAnimation();
@@ -449,7 +408,7 @@ void EnemyFSM::RandomDown()
 {
 	DownTime_ += GameEngineTime::GetDeltaTime();
 
-	if (1.0f <= DownTime_)
+	if (1.5f <= DownTime_)
 	{
 		DownTime_ = 0.f;
 
@@ -473,20 +432,20 @@ void EnemyFSM::AutoDown()
 {
 	AutoDownTime_ -= GameEngineTime::GetDeltaTime();
 
-	if (AutoDownTime_ <= 0.2f
+	if (AutoDownTime_ <= 0.0f
 		&& CenterPuyo_->GetY() <= SecondPuyo_->GetY())
 	{
 		++Score_;
-		AutoDownTime_ = 0.7f;
+		AutoDownTime_ = 1.0f;
 		Puyo* DownPuyo = CenterPuyo_->DownPuyo(EnemyMap_, SecondPuyo_);
 		Puyo* DownPuyo1 = SecondPuyo_->DownPuyo(EnemyMap_, CenterPuyo_);
 	}
 
-	else if (AutoDownTime_ <= 0.2f
+	else if (AutoDownTime_ <= 0.0f
 		&& CenterPuyo_->GetY() >= SecondPuyo_->GetY())
 	{
 		++Score_;
-		AutoDownTime_ = 0.7f;
+		AutoDownTime_ = 1.0f;
 		Puyo* DownPuyo1 = SecondPuyo_->DownPuyo(EnemyMap_, CenterPuyo_);
 		Puyo* DownPuyo = CenterPuyo_->DownPuyo(EnemyMap_, SecondPuyo_);
 	}
@@ -1062,9 +1021,9 @@ void EnemyFSM::SetMyProfile(EnemyProfile* _Porifle)
 			EnemyAnimations_[3] = EnemyActors_->CreateRenderer();
 			EnemyAnimations_[3]->SetOrder(2);
 			EnemyAnimations_[3]->CreateAnimation("IG_LV4_IDLE.bmp", "IG_LV4_IDLE", 0, 3, 0.2f, true);
-			EnemyAnimations_[3]->CreateAnimation("IG_LV4_EXCITED.bmp", "IG_LV4_EXCITED", 0, 4, 0.2f, true);
+			EnemyAnimations_[3]->CreateAnimation("IG_LV4_EXCITED.bmp", "IG_LV4_EXCITED", 0, 3, 0.2f, true);
 			EnemyAnimations_[3]->CreateAnimation("IG_LV4_LOSE.bmp", "IG_LV4_LOSE", 0, 3, 0.2f, true);
-			EnemyAnimations_[3]->CreateAnimation("IG_LV4_WIN.bmp", "IG_LV4_WIN", 0, 6, 0.0f, false);
+			EnemyAnimations_[3]->CreateAnimation("IG_LV4_WIN.bmp", "IG_LV4_WIN", 0, 0, 0.0f, false);
 			EnemyAnimations_[3]->CreateAnimation("IG_LV4_DANGER.bmp", "IG_LV4_DANGER", 0, 3, 0.2f, true);
 			EnemyAnimations_[3]->ChangeAnimation("IG_LV4_IDLE");
 
