@@ -5,6 +5,17 @@
 #include <GameEngineBase/GameEngineSound.h>
 #include <set>
 
+
+enum class EnemyAnimationState
+{
+	Idle,
+	Excited,
+	Danger,
+	Win,
+	Lose
+};
+
+
 class InGame;
 class Player;
 class Fire;
@@ -68,6 +79,7 @@ public:
 
 	//위험 시 거품 이펙트
 	void DangerCheck();
+	void AnimationStateCheck();
 	void InitBubble();
 	void VomitBubble();
 	void DisappearBubble();
@@ -104,6 +116,7 @@ private:
 
 	EnemyProfile* MyPorifle_;
 	EnemyState EnemyState_;
+	EnemyAnimationState AnimationState_;
 
 	Player* Player_;
 

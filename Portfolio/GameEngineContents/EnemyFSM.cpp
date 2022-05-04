@@ -35,6 +35,8 @@ EnemyFSM::~EnemyFSM()
 
 void EnemyFSM::Start()
 {
+	AnimationState_ = EnemyAnimationState::Idle;
+
 	InitNextPair();
 	InitBubble();
 
@@ -84,16 +86,10 @@ void EnemyFSM::Update()
 
 	if (IsStart_)
 	{
-		if (GameEngineInput::GetInst()->IsDown("LoseEnemy"))
-		{
-			EnemyState_ = EnemyState::Lose;
-		}
-
-		if (true == Player_->GetDanger())
-		{
-			IsDanger_ = false;
-			ExcitedAnimation();
-		}
+		//if (GameEngineInput::GetInst()->IsDown("LoseEnemy"))
+		//{
+		//	EnemyState_ = EnemyState::Lose;
+		//}
 
 		switch (EnemyState_)
 		{
@@ -134,18 +130,30 @@ void EnemyFSM::Update()
 			HindrancePuyoCheck();
 			break;
 		case EnemyState::Win:
-			WinAnimation();
-			IsDanger_ = false;
+			AnimationState_ = EnemyAnimationState::Win;
 			break;
 		case EnemyState::Lose:
 			Lose();
+			AnimationState_ = EnemyAnimationState::Lose;
+			break;
+		}
+
+		switch (AnimationState_)
+		{
+		case EnemyAnimationState::Idle:
+			IdleAnimation();
+			break;
+		case EnemyAnimationState::Excited:
+			ExcitedAnimation();
+			break;
+		case EnemyAnimationState::Danger:
+			DangerAnimation();
+			break;
+		case EnemyAnimationState::Win:
+			WinAnimation();
+			break;
+		case EnemyAnimationState::Lose:
 			LoseAnimation();
-			IsDanger_ = false;
-			if (false == IsLosePlay_)
-			{
-				IsLosePlay_ = true;
-				EffectSound_.SoundPlayOneShot("LOSE_FALL_PUYO.mp3");
-			}
 			break;
 		}
 
@@ -155,6 +163,9 @@ void EnemyFSM::Update()
 			//OffsetEffect();
 			EnemyToPlayerAttack({ GameEngineWindow::GetScale().Half() });
 		}
+
+		DangerCheck();
+		AnimationStateCheck();
 
 		DigitScore(Score_);
 		RenderToScore();
@@ -488,8 +499,6 @@ void EnemyFSM::LandCheck()
 	if (true == CenterPuyo_->GetLand()
 		&& true == SecondPuyo_->GetLand())
 	{
-		DangerCheck();
-
 		CenterPuyo_->ChangeState(PuyoState::Land);
 		SecondPuyo_->ChangeState(PuyoState::Land);
 		EnemyState_ = EnemyState::PuyoCheck;
@@ -853,17 +862,32 @@ void EnemyFSM::DangerCheck()
 		}
 	}
 
-	if (Count >= 10)
+	if (Count >= 25)
 	{
 		IsDanger_ = true;
-		DangerAnimation();
+		AnimationState_ = EnemyAnimationState::Danger;
 	}
-
-	else if (Count < 10)
+	
+	else if (Count < 25)
 	{
 		IsDanger_ = false;
-		IdleAnimation();
 	}
+}
+
+void EnemyFSM::AnimationStateCheck()
+{
+	if (true == Player_->GetDanger() 
+		&& false == IsDanger_)
+	{
+		AnimationState_ = EnemyAnimationState::Excited;
+	}
+
+	else if(false == Player_->GetDanger()
+		&& false == IsDanger_)
+	{
+		AnimationState_ = EnemyAnimationState::Idle;
+	}
+
 }
 
 void EnemyFSM::InitBubble()
@@ -892,7 +916,7 @@ void EnemyFSM::InitBubble()
 
 void EnemyFSM::VomitBubble()
 {
-	if (true == IsDanger_)
+	if (EnemyAnimationState::Danger == AnimationState_)
 	{
 		int RanCreate = Random_.RandomInt(0, 15);
 
@@ -964,7 +988,7 @@ void EnemyFSM::VomitBubble()
 
 void EnemyFSM::DisappearBubble()
 {
-	if (false == IsDanger_)
+	if (EnemyAnimationState::Danger != AnimationState_)
 	{
 		for (int i = 0; i < 10; ++i)
 		{
@@ -1122,6 +1146,12 @@ void EnemyFSM::SetMyProfile(EnemyProfile* _Porifle)
 
 void EnemyFSM::Lose()
 {
+	if (false == IsLosePlay_)
+	{
+		IsLosePlay_ = true;
+		EffectSound_.SoundPlayOneShot("LOSE_FALL_PUYO.mp3");
+	}
+
 	for (int Y = 14; Y >= 0; --Y)
 	{
 		for (int X = 0; X < 6; ++X)

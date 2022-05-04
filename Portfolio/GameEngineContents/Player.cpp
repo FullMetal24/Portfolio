@@ -130,6 +130,7 @@ void Player::Update()
 
 		DigitScore(Score_);
 		RenderToScore();
+		DangerCheck();
 	}
 }
 
@@ -767,12 +768,12 @@ void Player::DangerCheck()
 		}
 	}
 
-	if (Count >= 0)
+	if (Count >= 20)
 	{
 		IsDanger_ = true;
 	}
 
-	else if (Count < 10)
+	else if (Count < 20)
 	{
 		IsDanger_ = false;
 	}
