@@ -517,9 +517,18 @@ Puyo* Puyo::LeftPuyo(Puyo* Map[15][6], Puyo* _Other)
 			Map[Y_][X_] = nullptr;
 			Map[Y_][X_ - 1] = this;
 
-			SetMove(float4::LEFT * 65.0f);
-
 			--X_;
+
+			if (nullptr != Player_)
+			{
+				this->CoordinateMove(Player_, X_, Y_);
+			}
+
+			else if (nullptr != Enemy_)
+			{
+				this->CoordinateMove(Enemy_, X_, Y_);
+			}
+
 			return this;
 		}
 
@@ -529,9 +538,18 @@ Puyo* Puyo::LeftPuyo(Puyo* Map[15][6], Puyo* _Other)
 			Map[Y_][X_] = nullptr;
 			Map[Y_][X_ - 1] = this;
 
-			SetMove(float4::LEFT * 65.0f);
-
 			--X_;
+
+			if (nullptr != Player_)
+			{
+				this->CoordinateMove(Player_, X_, Y_);
+			}
+
+			else if (nullptr != Enemy_)
+			{
+				this->CoordinateMove(Enemy_, X_, Y_);
+			}
+
 			return this;
 		}
 
@@ -541,9 +559,18 @@ Puyo* Puyo::LeftPuyo(Puyo* Map[15][6], Puyo* _Other)
 			Map[Y_][X_] = nullptr;
 			Map[Y_][X_ - 1] = this;
 
-			SetMove(float4::LEFT * 65.0f);
-
 			--X_;
+
+			if (nullptr != Player_)
+			{
+				this->CoordinateMove(Player_, X_, Y_);
+			}
+
+			else if (nullptr != Enemy_)
+			{
+				this->CoordinateMove(Enemy_, X_, Y_);
+			}
+
 			return this;
 		}
 	}
@@ -560,9 +587,18 @@ Puyo* Puyo::RightPuyo(Puyo* Map[15][6], Puyo* _Other)
 			Map[Y_][X_] = nullptr;
 			Map[Y_][X_ + 1] = this;
 
-			SetMove(float4::RIGHT * 65.0f);
-
 			++X_;
+
+			if (nullptr != Player_)
+			{
+				this->CoordinateMove(Player_, X_, Y_);
+			}
+
+			else if (nullptr != Enemy_)
+			{
+				this->CoordinateMove(Enemy_, X_, Y_);
+			}
+
 			return this;
 		}
 
@@ -572,9 +608,18 @@ Puyo* Puyo::RightPuyo(Puyo* Map[15][6], Puyo* _Other)
 			Map[Y_][X_] = nullptr;
 			Map[Y_][X_ + 1] = this;
 
-			SetMove(float4::RIGHT * 65.0f);
-
 			++X_;
+
+			if (nullptr != Player_)
+			{
+				this->CoordinateMove(Player_, X_, Y_);
+			}
+
+			else if (nullptr != Enemy_)
+			{
+				this->CoordinateMove(Enemy_, X_, Y_);
+			}
+
 			return this;
 		}
 
@@ -584,9 +629,18 @@ Puyo* Puyo::RightPuyo(Puyo* Map[15][6], Puyo* _Other)
 			Map[Y_][X_] = nullptr;
 			Map[Y_][X_ + 1] = this;
 
-			SetMove(float4::RIGHT * 65.0f);
-
 			++X_;
+
+			if (nullptr != Player_)
+			{
+				this->CoordinateMove(Player_, X_, Y_);
+			}
+
+			else if (nullptr != Enemy_)
+			{
+				this->CoordinateMove(Enemy_, X_, Y_);
+			}
+
 			return this;
 		}
 	}
@@ -641,7 +695,15 @@ Puyo* Puyo::RotatePuyo(Puyo* Map[15][6], Puyo* _Center)
 
 				Map[Y_][X_] = this;
 
-				SetPosition(CenterPuyo->GetPosition() + float4{ -65.0f, 0.0f });
+				if (nullptr != Player_)
+				{
+					this->CoordinateMove(Player_, X_, Y_);
+				}
+
+				else if (nullptr != Enemy_)
+				{
+					this->CoordinateMove(Enemy_, X_, Y_);
+				}
 
 				CenterPuyo->SetDir(PuyoDir::LEFT);
 			}
@@ -689,7 +751,16 @@ Puyo* Puyo::RotatePuyo(Puyo* Map[15][6], Puyo* _Center)
 				X_ = CenterX;
 
 				Map[Y_][X_] = this;
-				SetPosition(CenterPuyo->GetPosition() + float4{ 0.f, 65.0f });
+
+				if (nullptr != Player_)
+				{
+					this->CoordinateMove(Player_, X_, Y_);
+				}
+
+				else if (nullptr != Enemy_)
+				{
+					this->CoordinateMove(Enemy_, X_, Y_);
+				}
 
 				CenterPuyo->SetDir(PuyoDir::DOWN);
 			}
@@ -737,7 +808,16 @@ Puyo* Puyo::RotatePuyo(Puyo* Map[15][6], Puyo* _Center)
 				X_ = CenterX + 1;
 
 				Map[Y_][X_] = this;
-				SetPosition(CenterPuyo->GetPosition() + float4{ 65.f, 0.f });
+
+				if (nullptr != Player_)
+				{
+					this->CoordinateMove(Player_, X_, Y_);
+				}
+
+				else if (nullptr != Enemy_)
+				{
+					this->CoordinateMove(Enemy_, X_, Y_);
+				}
 
 				CenterPuyo->SetDir(PuyoDir::RIGHT);
 			}
@@ -759,7 +839,6 @@ Puyo* Puyo::RotatePuyo(Puyo* Map[15][6], Puyo* _Center)
 
 				Map[Y_][X_] = this;
 				Map[CenterY][CenterX] = CenterPuyo;
-
 
 				if (nullptr != Player_)
 				{
@@ -786,7 +865,16 @@ Puyo* Puyo::RotatePuyo(Puyo* Map[15][6], Puyo* _Center)
 				X_ = CenterX;
 
 				Map[Y_][X_] = this;
-				SetPosition(CenterPuyo->GetPosition() + float4{ 0.f, -65.0f });
+
+				if (nullptr != Player_)
+				{
+					this->CoordinateMove(Player_, X_, Y_);
+				}
+
+				else if (nullptr != Enemy_)
+				{
+					this->CoordinateMove(Enemy_, X_, Y_);
+				}
 
 				CenterPuyo->SetDir(PuyoDir::UP);
 			}

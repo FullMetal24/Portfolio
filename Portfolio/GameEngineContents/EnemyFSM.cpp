@@ -335,7 +335,7 @@ void EnemyFSM::GreedyPuyoMove()
 {
 	MoveTime_ += GameEngineTime::GetDeltaTime();
 
-	if (0.1f <= MoveTime_)
+	if (0.5f <= MoveTime_)
 	{
 		MoveTime_ = 0.f;
 
