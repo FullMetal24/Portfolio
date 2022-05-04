@@ -18,7 +18,7 @@ void OffsetStar::Start()
 {
 	MyAnimation_ = CreateRenderer();
 
-	MyAnimation_->CreateAnimation("IG_OffsetStar.bmp", "IG_OffsetStar", 0, 4, 0.15f, true);
+	MyAnimation_->CreateAnimation("IG_OffsetStar.bmp", "IG_OffsetStar", 0, 4, 0.15f, false);
 	MyAnimation_->ChangeAnimation("IG_OffsetStar");
 	MyAnimation_->PauseOn();
 }
