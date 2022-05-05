@@ -99,15 +99,7 @@ void GameOver::LevelChangeStart(GameEngineLevel* _PrevLevel)
 	}
 
 	GameOverBgm_ = GameEngineSound::SoundPlayControl("GameOver.mp3");
-}
 
-void GameOver::LevelChangeEnd(GameEngineLevel* _NextLevel)
-{
-	ResetOn();
-}
-
-void GameOver::UserResetEnd()
-{
 	FadeBack_ = CreateActor<FadeInOutBackground>();
 	FadeBack_->SetMyRenderer(FadeBack_->CreateRenderer("GO_BACKGROUND.bmp"));
 
@@ -124,4 +116,14 @@ void GameOver::UserResetEnd()
 	IsLevelStart_ = true;
 	Time_ = 0.f;
 	Count_ = 0;
+}
+
+void GameOver::LevelChangeEnd(GameEngineLevel* _NextLevel)
+{
+	ResetOn();
+}
+
+void GameOver::UserResetEnd()
+{
+
 }

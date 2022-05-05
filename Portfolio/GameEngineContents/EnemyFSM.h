@@ -95,6 +95,8 @@ public:
 	void Lose();
 
 	//휴식 관련 함수
+	void BehindEnemy();
+	void FrontEnemy();
 	void BehindPuyo();
 	void FrontPuyo();
 
@@ -182,6 +184,7 @@ private:
 
 	int ActionIndex_;
 
+	bool IsStartPuyoOn_;
 	bool IsAction_;
 	bool IsDanger_;
 

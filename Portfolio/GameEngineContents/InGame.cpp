@@ -663,9 +663,6 @@ void InGame::ActorsInit()
 
 	StageRenderStartPos_ = StageRenderer_->GetPosition();
 	StageRenderEndPos_ = { GameEngineWindow::GetScale().Half().x, GameEngineWindow::GetScale().Half().y - 60.f };
-
-	GameEngineActor* PlayerName_ = CreateActor<Stage>(1);
-	PlayerName_->CreateRenderer("IG_NAME_ARLE.bmp")->SetPivot({ GameEngineWindow::GetScale().Half().x - 96.f, GameEngineWindow::GetScale().Half().y - 290.f });
 }
 
 
@@ -678,6 +675,9 @@ void InGame::Update()
 
 	if (false == IsStart_)
 	{
+		Player_->BehindPlayer();
+		EnemyFSM_->BehindEnemy();
+
 		Alpha_ += GameEngineTime::GetDeltaTime() * 2.f;
 
 		StageRenderer_->SetPosition(float4::Lerp(StageRenderStartPos_, StageRenderEndPos_, Alpha_));
@@ -686,6 +686,8 @@ void InGame::Update()
 		{
 			Alpha_ = 0.f;
 
+			Player_->FrontPlayer();
+			EnemyFSM_->FrontEnemy();
 			StageRenderer_->GetMyRenderer()->SetOrder(3);
 			IsStart_ = true;
 		}

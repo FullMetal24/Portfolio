@@ -21,6 +21,7 @@ Player::Player()
 	, LandTime_(0.f)
 	, Score_(0)
 	, Chain_(0)
+	, IsStartPuyoOn_(false)
 	, IsDanger_(false)
 	, IsWinPlay_(false)
 	, IsLosePlay_(false)
@@ -45,8 +46,16 @@ void Player::Start()
 		GameEngineInput::GetInst()->CreateKey("Lose", 'a');
 	}
 
+	Name_ = CreateRenderer("IG_NAME_ARLE.bmp");
+	Name_->SetPivot({ 450, -590 });
+
 	InitNextPair();
 	ScoreInit();
+
+	NextCenterPuyo_->GetMyRenderer()->SetOrder(-1);
+	NextSecondPuyo_->GetMyRenderer()->SetOrder(-1);
+	NextNextCenterPuyo_->GetMyRenderer()->SetOrder(-1);
+	NextNextSecondPuyo_->GetMyRenderer()->SetOrder(-1);
 
 	GameEngineImage* LightImage = GameEngineImageManager::GetInst()->Find("IG_PLAYER_LIGHT.bmp");
 	LightImage->CutCount(4, 1);
@@ -796,6 +805,21 @@ void Player::LoseFallPuyo()
 			}
 		}
 	}
+}
+
+void Player::BehindPlayer()
+{
+	Name_->SetOrder(-1);
+}
+
+void Player::FrontPlayer()
+{
+	Name_->SetOrder(1);
+
+	NextCenterPuyo_->GetMyRenderer()->SetOrder(1);
+	NextSecondPuyo_->GetMyRenderer()->SetOrder(1);
+	NextNextCenterPuyo_->GetMyRenderer()->SetOrder(1);
+	NextNextSecondPuyo_->GetMyRenderer()->SetOrder(1);
 }
 
 void Player::BehindPuyo()

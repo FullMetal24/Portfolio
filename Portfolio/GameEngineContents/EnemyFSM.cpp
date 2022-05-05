@@ -24,6 +24,8 @@ EnemyFSM::EnemyFSM()
 	, Score_(0)
 	, Chain_(0)
 	, ActionIndex_(0)
+	, IsStartPuyoOn_(false)
+	, IsAction_(false)
 	, IsDanger_(false)
 	, IsLosePlay_(false)
 {
@@ -39,6 +41,11 @@ void EnemyFSM::Start()
 
 	InitNextPair();
 	InitBubble();
+
+	NextCenterPuyo_->GetMyRenderer()->SetOrder(-1);
+	NextSecondPuyo_->GetMyRenderer()->SetOrder(-1);
+	NextNextCenterPuyo_->GetMyRenderer()->SetOrder(-1);
+	NextNextSecondPuyo_->GetMyRenderer()->SetOrder(-1);
 
 	for (int i = 0; i < 9; ++i)
 	{
@@ -1097,6 +1104,104 @@ void EnemyFSM::SetMyProfile(EnemyProfile* _Porifle)
 			EnemyNames_[7]->SetImage("IG_NAME_MINI.bmp");
 			break;
 		}
+	}
+}
+
+
+void EnemyFSM::BehindEnemy()
+{
+	switch (MyPorifle_->GetMyLevel())
+	{
+	case 1:
+		EnemyAnimations_[0]->SetOrder(-1);
+		EnemyNames_[0]->SetOrder(-1);
+		break;
+
+	case 2:
+		EnemyAnimations_[1]->SetOrder(-1);
+		EnemyNames_[1]->SetOrder(-1);
+		break;
+
+	case 3:
+		EnemyAnimations_[2]->SetOrder(-1);
+		EnemyNames_[2]->SetOrder(-1);
+		break;
+
+	case 4:
+		EnemyAnimations_[3]->SetOrder(-1);
+		EnemyNames_[3]->SetOrder(-1);
+		break;
+
+	case 5:
+		EnemyAnimations_[4]->SetOrder(-1);
+		EnemyNames_[4]->SetOrder(-1);
+		break;
+
+	case 6:
+		EnemyAnimations_[5]->SetOrder(-1);
+		EnemyNames_[5]->SetOrder(-1);
+		break;
+
+	case 7:
+		EnemyAnimations_[6]->SetOrder(-1);
+		EnemyNames_[6]->SetOrder(-1);
+		break;
+
+	case 8:
+		EnemyAnimations_[7]->SetOrder(-1);
+		EnemyNames_[7]->SetOrder(-1);
+		break;
+	}
+}
+
+void EnemyFSM::FrontEnemy()
+{
+	NextCenterPuyo_->GetMyRenderer()->SetOrder(1);
+	NextSecondPuyo_->GetMyRenderer()->SetOrder(1);
+	NextNextCenterPuyo_->GetMyRenderer()->SetOrder(1);
+	NextNextSecondPuyo_->GetMyRenderer()->SetOrder(1);
+
+	switch (MyPorifle_->GetMyLevel())
+	{
+	case 1:
+		EnemyAnimations_[0]->SetOrder(2);
+		EnemyNames_[0]->SetOrder(2);
+		break;
+
+	case 2:
+		EnemyAnimations_[1]->SetOrder(2);
+		EnemyNames_[1]->SetOrder(2);
+		break;
+
+	case 3:
+		EnemyAnimations_[2]->SetOrder(2);
+		EnemyNames_[2]->SetOrder(2);
+		break;
+
+	case 4:
+		EnemyAnimations_[3]->SetOrder(2);
+		EnemyNames_[3]->SetOrder(2);
+		break;
+
+	case 5:
+		EnemyAnimations_[4]->SetOrder(2);
+		EnemyNames_[4]->SetOrder(2);
+		break;
+
+	case 6:
+		EnemyAnimations_[5]->SetOrder(2);
+		EnemyNames_[5]->SetOrder(2);
+		break;
+
+	case 7:
+		EnemyAnimations_[6]->SetOrder(2);
+		EnemyNames_[6]->SetOrder(2);
+		break;
+
+	case 8:
+		EnemyAnimations_[7]->SetOrder(2);
+		EnemyNames_[7]->SetOrder(2);
+		break;
 	}
 }
 

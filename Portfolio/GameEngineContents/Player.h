@@ -68,6 +68,8 @@ public:
 	void LoseFallPuyo();
 
 	//휴식 관련 함수
+	void BehindPlayer();
+	void FrontPlayer();
 	void BehindPuyo();
 	void FrontPuyo();
 
@@ -128,6 +130,8 @@ private:
 
 	EnemyFSM* Enemy_;
 
+	GameEngineRenderer* Name_;
+
 	InGame* InGameLevel_;
 	bool IsStart_;
 
@@ -165,6 +169,7 @@ private:
 	GameEngineSound PlayerSound_;
 	GameEngineSound EffectSound_;
 
+	bool IsStartPuyoOn_;
 	bool IsDanger_;
 	bool IsWinPlay_;
 	bool IsLosePlay_;
