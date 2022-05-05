@@ -1253,7 +1253,7 @@ void InGame::RenderRestPoint(int _Value)
 void InGame::RestCheck()
 {
 	if (true == GameEngineInput::GetInst()->IsDown("Rest")
-		&& false == IsRest_)
+		&& false == IsRest_ && true == IsSpewStar_)
 	{
 		IsRest_ = true;
 
@@ -1266,6 +1266,11 @@ void InGame::RestCheck()
 
 		Player_->BehindPuyo();
 		EnemyFSM_->BehindPuyo();
+
+		TwinkleTime_ = 0.f;
+
+		PlayerRestRenderer_->SetOrder(10);
+		EnemyRestRenderer_->SetOrder(10);
 	}
 
 	else if (true == GameEngineInput::GetInst()->IsDown("Rest")

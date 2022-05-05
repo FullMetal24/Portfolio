@@ -47,17 +47,17 @@ void EnemySelect::Loading()
 		RestUi->SetPosition({ GameEngineWindow::GetScale().Half().x - 525.f, GameEngineWindow::GetScale().Half().y });
 		RestUi->CreateRenderer("ES_REST_UI.bmp");
 
-		GameEngineActor* ExpValneUi = CreateActor<EnemySelectActor>(4);
-		ExpValneUi->SetPosition({ GameEngineWindow::GetScale().Half().x - 290.f, GameEngineWindow::GetScale().Half().y - 125.f });
-		ExpValneUi->CreateRenderer("ES_0.bmp");
+		//GameEngineActor* ExpValneUi = CreateActor<EnemySelectActor>(4);
+		//ExpValneUi->SetPosition({ GameEngineWindow::GetScale().Half().x - 290.f, GameEngineWindow::GetScale().Half().y - 125.f });
+		//ExpValneUi->CreateRenderer("ES_0.bmp");
 
-		GameEngineActor* NexValuetUi = CreateActor<EnemySelectActor>(4);
-		NexValuetUi->SetPosition({ GameEngineWindow::GetScale().Half().x - 350.f, GameEngineWindow::GetScale().Half().y - 65.f });
-		NexValuetUi->CreateRenderer("ES_15000.bmp");
+		//GameEngineActor* NexValuetUi = CreateActor<EnemySelectActor>(4);
+		//NexValuetUi->SetPosition({ GameEngineWindow::GetScale().Half().x - 350.f, GameEngineWindow::GetScale().Half().y - 65.f });
+		//NexValuetUi->CreateRenderer("ES_15000.bmp");
 
-		GameEngineActor* ResValuetUi = CreateActor<EnemySelectActor>(4);
-		ResValuetUi->SetPosition({ GameEngineWindow::GetScale().Half().x - 350.f, GameEngineWindow::GetScale().Half().y });
-		ResValuetUi->CreateRenderer("ES_15000.bmp");
+		//GameEngineActor* ResValuetUi = CreateActor<EnemySelectActor>(4);
+		//ResValuetUi->SetPosition({ GameEngineWindow::GetScale().Half().x - 350.f, GameEngineWindow::GetScale().Half().y });
+		//ResValuetUi->CreateRenderer("ES_15000.bmp");
 	}
 
 	if (false == GameEngineInput::GetInst()->IsKey("EnemySelect"))
@@ -335,6 +335,288 @@ void EnemySelect::TwinkleEnemyIcon()
 	}
 }
 
+void EnemySelect::RenderPlayerExp(int _Value)
+{
+	std::vector<int> TimeDigits_;
+	int Temp = 100;
+
+	EnemySelectActor* NewActor = CreateActor<EnemySelectActor>();
+
+	while (0 < Temp)
+	{
+		TimeDigits_.push_back(Temp % 10);
+		Temp /= 10;
+	}
+
+	for (int i = 0; i < TimeDigits_.size(); i++)
+	{
+		switch (TimeDigits_[i])
+		{
+		case 0:
+		{
+			GameEngineRenderer* Renderer = NewActor->CreateRenderer("IG_PLAYER_NUMBER_0.bmp");
+			Renderer->SetPivot({ 350.f - (35.f * (i * 1)), 320.f});
+			Renderer->SetOrder(20);
+		}
+		break;
+		case 1:
+		{
+			GameEngineRenderer* Renderer = NewActor->CreateRenderer("IG_PLAYER_NUMBER_1.bmp");
+			Renderer->SetPivot({ 350.f - (35.f * (i * 1)), 320.f});
+			Renderer->SetOrder(20);
+		}
+		break;
+		case 2:
+		{
+			GameEngineRenderer* Renderer = NewActor->CreateRenderer("IG_PLAYER_NUMBER_2.bmp");
+			Renderer->SetPivot({ 350.f - (35.f * (i * 1)), 320.f });
+			Renderer->SetOrder(20);
+		}
+		break;
+		case 3:
+		{
+			GameEngineRenderer* Renderer = NewActor->CreateRenderer("IG_PLAYER_NUMBER_3.bmp");
+			Renderer->SetPivot({ 350.f - (35.f * (i * 1)), 320.f });
+			Renderer->SetOrder(20);
+		}
+		break;
+		case 4:
+		{
+			GameEngineRenderer* Renderer = NewActor->CreateRenderer("IG_PLAYER_NUMBER_4.bmp");
+			Renderer->SetPivot({ 350.f - (35.f * (i * 1)), 320.f });
+			Renderer->SetOrder(20);
+		}
+
+		break;
+		case 5:
+		{
+			GameEngineRenderer* Renderer = NewActor->CreateRenderer("IG_PLAYER_NUMBER_5.bmp");
+			Renderer->SetPivot({ 350.f - (35.f * (i * 1)), 320.f });
+			Renderer->SetOrder(20);
+		}
+
+		break;
+		case 6:
+		{
+			GameEngineRenderer* Renderer = NewActor->CreateRenderer("IG_PLAYER_NUMBER_6.bmp");
+			Renderer->SetPivot({ 350.f - (35.f * (i * 1)), 320.f });
+			Renderer->SetOrder(20);
+		}
+
+		break;
+		case 7:
+		{
+			GameEngineRenderer* Renderer = NewActor->CreateRenderer("IG_PLAYER_NUMBER_7.bmp");
+			Renderer->SetPivot({ 350.f - (35.f * (i * 1)), 320.f });
+			Renderer->SetOrder(20);
+		}
+		break;
+		case 8:
+		{
+			GameEngineRenderer* Renderer = NewActor->CreateRenderer("IG_PLAYER_NUMBER_8.bmp");
+			Renderer->SetPivot({ 350.f - (35.f * (i * 1)), 320.f });
+			Renderer->SetOrder(20);
+		}
+		break;
+		case 9:
+		{
+			GameEngineRenderer* Renderer = NewActor->CreateRenderer("IG_PLAYER_NUMBER_9.bmp");
+			Renderer->SetPivot({ 350.f - (35.f * (i * 1)), 320.f });
+			Renderer->SetOrder(20);
+		}
+		break;
+		}
+	}
+}
+
+void EnemySelect::RenderPlayerNext(int _Value)
+{
+	std::vector<int> TimeDigits_;
+	int Temp = _Value;
+
+	EnemySelectActor* NewActor = CreateActor<EnemySelectActor>();
+
+	while (0 < Temp)
+	{
+		TimeDigits_.push_back(Temp % 10);
+		Temp /= 10;
+	}
+
+	for (int i = 0; i < TimeDigits_.size(); i++)
+	{
+		switch (TimeDigits_[i])
+		{
+		case 0:
+		{
+			GameEngineRenderer* Renderer = NewActor->CreateRenderer("IG_PLAYER_NUMBER_0.bmp");
+			Renderer->SetPivot({ 350.f - (35.f * (i * 1)), 385.f });
+			Renderer->SetOrder(20);
+		}
+		break;
+		case 1:
+		{
+			GameEngineRenderer* Renderer = NewActor->CreateRenderer("IG_PLAYER_NUMBER_1.bmp");
+			Renderer->SetPivot({ 350.f - (35.f * (i * 1)), 385.f });
+			Renderer->SetOrder(20);
+		}
+		break;
+		case 2:
+		{
+			GameEngineRenderer* Renderer = NewActor->CreateRenderer("IG_PLAYER_NUMBER_2.bmp");
+			Renderer->SetPivot({ 350.f - (35.f * (i * 1)), 385.f });
+			Renderer->SetOrder(20);
+		}
+		break;
+		case 3:
+		{
+			GameEngineRenderer* Renderer = NewActor->CreateRenderer("IG_PLAYER_NUMBER_3.bmp");
+			Renderer->SetPivot({ 350.f - (35.f * (i * 1)), 385.f });
+			Renderer->SetOrder(20);
+		}
+		break;
+		case 4:
+		{
+			GameEngineRenderer* Renderer = NewActor->CreateRenderer("IG_PLAYER_NUMBER_4.bmp");
+			Renderer->SetPivot({ 350.f - (35.f * (i * 1)), 385.f });
+			Renderer->SetOrder(20);
+		}
+
+		break;
+		case 5:
+		{
+			GameEngineRenderer* Renderer = NewActor->CreateRenderer("IG_PLAYER_NUMBER_5.bmp");
+			Renderer->SetPivot({ 350.f - (35.f * (i * 1)), 385.f });
+			Renderer->SetOrder(20);
+		}
+
+		break;
+		case 6:
+		{
+			GameEngineRenderer* Renderer = NewActor->CreateRenderer("IG_PLAYER_NUMBER_6.bmp");
+			Renderer->SetPivot({ 350.f - (35.f * (i * 1)), 385.f });
+			Renderer->SetOrder(20);
+		}
+
+		break;
+		case 7:
+		{
+			GameEngineRenderer* Renderer = NewActor->CreateRenderer("IG_PLAYER_NUMBER_7.bmp");
+			Renderer->SetPivot({ 350.f - (35.f * (i * 1)), 385.f });
+			Renderer->SetOrder(20);
+		}
+		break;
+		case 8:
+		{
+			GameEngineRenderer* Renderer = NewActor->CreateRenderer("IG_PLAYER_NUMBER_8.bmp");
+			Renderer->SetPivot({ 350.f - (35.f * (i * 1)), 385.f });
+			Renderer->SetOrder(20);
+		}
+		break;
+		case 9:
+		{
+			GameEngineRenderer* Renderer = NewActor->CreateRenderer("IG_PLAYER_NUMBER_9.bmp");
+			Renderer->SetPivot({ 350.f - (35.f * (i * 1)), 385.f });
+			Renderer->SetOrder(20);
+		}
+		break;
+		}
+	}
+}
+
+void EnemySelect::RenderPlayerRest(int _Value)
+{
+	std::vector<int> TimeDigits_;
+	int Temp = _Value;
+
+	EnemySelectActor* NewActor = CreateActor<EnemySelectActor>();
+
+	while (0 < Temp)
+	{
+		TimeDigits_.push_back(Temp % 10);
+		Temp /= 10;
+	}
+
+	for (int i = 0; i < TimeDigits_.size(); i++)
+	{
+		switch (TimeDigits_[i])
+		{
+		case 0:
+		{
+			GameEngineRenderer* Renderer = NewActor->CreateRenderer("IG_PLAYER_NUMBER_0.bmp");
+			Renderer->SetPivot({ 350.f - (35.f * (i * 1)), 450.f });
+			Renderer->SetOrder(20);
+		}
+		break;
+		case 1:
+		{
+			GameEngineRenderer* Renderer = NewActor->CreateRenderer("IG_PLAYER_NUMBER_1.bmp");
+			Renderer->SetPivot({ 350.f - (35.f * (i * 1)), 450.f });
+			Renderer->SetOrder(20);
+		}
+		break;
+		case 2:
+		{
+			GameEngineRenderer* Renderer = NewActor->CreateRenderer("IG_PLAYER_NUMBER_2.bmp");
+			Renderer->SetPivot({ 350.f - (35.f * (i * 1)), 450.f });
+			Renderer->SetOrder(20);
+		}
+		break;
+		case 3:
+		{
+			GameEngineRenderer* Renderer = NewActor->CreateRenderer("IG_PLAYER_NUMBER_3.bmp");
+			Renderer->SetPivot({ 350.f - (35.f * (i * 1)), 450.f });
+			Renderer->SetOrder(20);
+		}
+		break;
+		case 4:
+		{
+			GameEngineRenderer* Renderer = NewActor->CreateRenderer("IG_PLAYER_NUMBER_4.bmp");
+			Renderer->SetPivot({ 350.f - (35.f * (i * 1)), 450.f });
+			Renderer->SetOrder(20);
+		}
+
+		break;
+		case 5:
+		{
+			GameEngineRenderer* Renderer = NewActor->CreateRenderer("IG_PLAYER_NUMBER_5.bmp");
+			Renderer->SetPivot({ 350.f - (35.f * (i * 1)), 450.f });
+			Renderer->SetOrder(20);
+		}
+
+		break;
+		case 6:
+		{
+			GameEngineRenderer* Renderer = NewActor->CreateRenderer("IG_PLAYER_NUMBER_6.bmp");
+			Renderer->SetPivot({ 350.f - (35.f * (i * 1)), 450.f });
+			Renderer->SetOrder(20);
+		}
+
+		break;
+		case 7:
+		{
+			GameEngineRenderer* Renderer = NewActor->CreateRenderer("IG_PLAYER_NUMBER_7.bmp");
+			Renderer->SetPivot({ 350.f - (35.f * (i * 1)), 450.f });
+			Renderer->SetOrder(20);
+		}
+		break;
+		case 8:
+		{
+			GameEngineRenderer* Renderer = NewActor->CreateRenderer("IG_PLAYER_NUMBER_8.bmp");
+			Renderer->SetPivot({ 350.f - (35.f * (i * 1)), 450.f });
+			Renderer->SetOrder(20);
+		}
+		break;
+		case 9:
+		{
+			GameEngineRenderer* Renderer = NewActor->CreateRenderer("IG_PLAYER_NUMBER_9.bmp");
+			Renderer->SetPivot({ 350.f - (35.f * (i * 1)), 450.f });
+			Renderer->SetOrder(20);
+		}
+		break;
+		}
+	}
+}
+
 void EnemySelect::LockLoseEnemyIcon(int _Level)
 {
 	int Index = _Level - 1;
@@ -379,6 +661,10 @@ void EnemySelect::LevelChangeStart(GameEngineLevel* _PrevLevel)
 	TopPositionInit();
 	EnemyInit();
 	FrameInit();
+
+	RenderPlayerExp(0);
+	RenderPlayerNext(15000);
+	RenderPlayerRest(15000);
 
 
 	for (int i = 0; i < 8; i++)

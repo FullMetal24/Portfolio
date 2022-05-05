@@ -32,6 +32,10 @@ public:
 	void PlayRoulette();
 	void TwinkleEnemyIcon();
 
+	void RenderPlayerExp(int _Value);
+	void RenderPlayerNext(int _Value);
+	void RenderPlayerRest(int _Value);
+
 	void LockLoseEnemyIcon(int _Level);
 
 	inline EnemyProfile* GetEnemyProfile()
@@ -68,5 +72,6 @@ private:
 
 	GameEngineSoundPlayer EnemySelectBgm_;
 	GameEngineSound EffectSound_;
+
 };
 

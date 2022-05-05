@@ -141,7 +141,12 @@ void EnemyFSM::Update()
 			AnimationState_ = EnemyAnimationState::Win;
 			break;
 		case EnemyState::Lose:
-			Lose();
+			if (false == IsLosePlay_)
+			{
+				IsLosePlay_ = true;
+				EffectSound_.SoundPlayOneShot("LOSE_FALL_PUYO.mp3");
+			}
+			LoseFallPuyo();
 			DisappearBubble();
 			AnimationState_ = EnemyAnimationState::Lose;
 			break;
@@ -1206,14 +1211,8 @@ void EnemyFSM::FrontEnemy()
 }
 
 
-void EnemyFSM::Lose()
+void EnemyFSM::LoseFallPuyo()
 {
-	if (false == IsLosePlay_)
-	{
-		IsLosePlay_ = true;
-		EffectSound_.SoundPlayOneShot("LOSE_FALL_PUYO.mp3");
-	}
-
 	for (int Y = 14; Y >= 0; --Y)
 	{
 		for (int X = 0; X < 6; ++X)
