@@ -60,9 +60,19 @@ public:
 		MyLevel_ = _Level;
 	}
 
-	int GetMyLevel()
+	inline int GetMyLevel()
 	{
 		return MyLevel_;
+	}
+
+	inline bool GetLose()
+	{
+		return IsLose_;
+	}
+
+	inline void SetLose(bool _IsLose)
+	{
+		IsLose_ = _IsLose;
 	}
 
 	GameEngineRenderer* GetSD()
@@ -80,6 +90,7 @@ private:
 
 	int MyLevel_;
 
+	bool IsLose_;
 
 };
 

@@ -253,18 +253,24 @@ void EnemySelect::PlayRoulette()
 {
 	while (false == IsSelect_) //상대가 선택되지 않았다면
 	{
-		Enemys_[RouletteIndex_]->GetProfile()->SetOrder(8);
-		Enemys_[RouletteIndex_]->GetIcon()->SetOrder(8);
-		Enemys_[RouletteIndex_]->GetRenderName()->SetOrder(8);
+		if (false == Enemys_[RouletteIndex_]->GetLose())
+		{
+			Enemys_[RouletteIndex_]->GetProfile()->SetOrder(8);
+			Enemys_[RouletteIndex_]->GetIcon()->SetOrder(8);
+			Enemys_[RouletteIndex_]->GetRenderName()->SetOrder(8);
+		}
 
 		if (SpeedLimit_ < RouletteSpeed_) //제한속도보다 값이 크다면 제한 속도를 올린다.
 		{
 			//지금 선택된 캐릭터는 가리고
-			Enemys_[RouletteIndex_]->GetProfile()->SetOrder(-1);
-			Enemys_[RouletteIndex_]->GetIcon()->SetOrder(0);
-			Enemys_[RouletteIndex_]->GetRenderName()->SetOrder(0);
+			if (false == Enemys_[RouletteIndex_]->GetLose())
+			{
+				EffectSound_.SoundPlayOneShot("INPUT_EFFECT.mp3");
 
-			EffectSound_.SoundPlayOneShot("INPUT_EFFECT.mp3");
+				Enemys_[RouletteIndex_]->GetProfile()->SetOrder(-1);
+				Enemys_[RouletteIndex_]->GetIcon()->SetOrder(0);
+				Enemys_[RouletteIndex_]->GetRenderName()->SetOrder(0);
+			}
 
 			RouletteSpeed_ = 0.0f; //룰렛속도를 0으로 초기화
 			++RouletteIndex_;
@@ -279,12 +285,29 @@ void EnemySelect::PlayRoulette()
 
 			if (0.2f < SpeedLimit_ || true == IsKeyDown_)
 			{
-				IsSelect_ = true;
+				if (true == Enemys_[RouletteIndex_]->GetLose())
+				{
+					RouletteIndex_ += 1;
+
+					if (RouletteIndex_ == 8)
+					{
+						RouletteIndex_ = 0;
+						continue;
+					}
+
+					else if (true == Enemys_[RouletteIndex_]->GetLose())
+					{
+						continue;
+					}
+				}
+
 				Enemys_[RouletteIndex_]->GetProfile()->SetOrder(8);
 				Enemys_[RouletteIndex_]->GetIcon()->SetOrder(8);
 				Enemys_[RouletteIndex_]->GetRenderName()->SetOrder(8);
 
 				MyEnemy_ = Enemys_[RouletteIndex_];
+
+				IsSelect_ = true;
 			}
 
 			break;
@@ -314,8 +337,14 @@ void EnemySelect::TwinkleEnemyIcon()
 
 void EnemySelect::LockLoseEnemyIcon(int _Level)
 {
-	//Enemys_[_Level]->GetIcon()->SetImage("ES_SELECT_LOCK.bmp");
-	//Enemys_[_Level]->GetIcon()->SetOrder(8);
+	int Index = _Level - 1;
+
+	if (0 > Index)
+	{
+		Index = 0;
+	}
+
+	LoseArr_[Index] = 1;
 }
 
 void EnemySelect::LevelChangeStart(GameEngineLevel* _PrevLevel)
@@ -351,6 +380,19 @@ void EnemySelect::LevelChangeStart(GameEngineLevel* _PrevLevel)
 	EnemyInit();
 	FrameInit();
 
+
+	for (int i = 0; i < 8; i++)
+	{
+		if (1 == LoseArr_[i])
+		{
+			Enemys_[i]->GetIcon()->SetImage("ES_SELECT_LOCK.bmp");
+			Enemys_[i]->GetIcon()->SetOrder(10);
+			Enemys_[i]->SetLose(true);
+
+			Enemys_[i]->GetRenderName()->SetOrder(-1);
+			Enemys_[i]->GetProfile()->SetOrder(-1);
+		}
+	}
 }
 
 void EnemySelect::LevelChangeEnd(GameEngineLevel* _NextLevel)

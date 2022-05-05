@@ -46,6 +46,8 @@ private:
 	EnemyProfile* Enemys_[8];
 	EnemyProfile* MyEnemy_;
 
+	int LoseArr_[8];
+
 	float RouletteSpeed_;
 	float SpeedLimit_;
 	float LevelChangeCount_;
