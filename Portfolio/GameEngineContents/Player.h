@@ -73,6 +73,8 @@ public:
 	void BehindPuyo();
 	void FrontPuyo();
 
+	void DestroyPlayer();
+
 	void Win();
 	void Lose();
 

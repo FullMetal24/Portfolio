@@ -842,6 +842,35 @@ void Player::FrontPuyo()
 	NextNextSecondPuyo_->GetMyRenderer()->SetOrder(1);
 }
 
+void Player::DestroyPlayer()
+{
+	for (int Y = 0; Y < 15; Y++)
+	{
+		for (int X = 0; X < 6; X++)
+		{
+			if (nullptr != PlayerMap_[Y][X])
+			{
+				PlayerMap_[Y][X]->Death();
+				PlayerMap_[Y][X] = nullptr;
+			}
+		}
+	}
+
+	NextCenterPuyo_->Death();
+	NextCenterPuyo_ = nullptr;
+	NextSecondPuyo_->Death();
+	NextSecondPuyo_ = nullptr;
+	NextNextCenterPuyo_->Death();
+	NextNextCenterPuyo_ = nullptr;
+	NextNextSecondPuyo_->Death();
+	NextNextCenterPuyo_ = nullptr;
+
+	Name_->Death();
+	Name_ = nullptr;
+
+	InGameLevel_ = nullptr;
+}
+
 void Player::Win()
 {
 	if (false == IsWinPlay_)

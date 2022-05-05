@@ -1580,9 +1580,11 @@ void InGame::LevelChangeEnd(GameEngineLevel* _PrevLevel)
 	PlayerRestRenderer_->Death();
 	EnemyRestRenderer_->Death();
 
+	Player_->DestroyPlayer();
 	Player_->Death();
 	Player_ = nullptr;
 
+	EnemyFSM_->DestroyEnemy();
 	EnemyFSM_->Death();
 	EnemyFSM_ = nullptr;
 

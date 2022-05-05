@@ -969,7 +969,7 @@ void EnemyFSM::SetMyProfile(EnemyProfile* _Porifle)
 {
 	MyPorifle_ = _Porifle;
 
-	if (nullptr != MyPorifle_)
+	if (nullptr != MyPorifle_) 
 	{
 		float XPos = 95.f;
 		float YPos = 365.f;
@@ -1244,6 +1244,38 @@ void EnemyFSM::FrontPuyo()
 	NextSecondPuyo_->GetMyRenderer()->SetOrder(1);
 	NextNextCenterPuyo_->GetMyRenderer()->SetOrder(1);
 	NextNextSecondPuyo_->GetMyRenderer()->SetOrder(1);
+}
+
+void EnemyFSM::DestroyEnemy()
+{
+	for (int Y = 0; Y < 15; Y++)
+	{
+		for (int X = 0; X < 6; X++)
+		{
+			if (nullptr != EnemyMap_[Y][X])
+			{
+				EnemyMap_[Y][X]->Death();
+				EnemyMap_[Y][X] = nullptr;
+			}
+		}
+	}
+
+	NextCenterPuyo_->Death();
+	NextCenterPuyo_ = nullptr;
+	NextSecondPuyo_->Death();
+	NextSecondPuyo_ = nullptr;
+	NextNextCenterPuyo_->Death();
+	NextNextCenterPuyo_ = nullptr;
+	NextNextSecondPuyo_->Death();
+	NextNextCenterPuyo_ = nullptr;
+
+	EnemyActors_->Death();
+	EnemyActors_ = nullptr;
+
+	MyPorifle_->Death();
+	MyPorifle_ = nullptr;
+
+	InGameLevel_ = nullptr;
 }
 
 

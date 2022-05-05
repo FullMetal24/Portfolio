@@ -100,6 +100,8 @@ public:
 	void BehindPuyo();
 	void FrontPuyo();
 
+	void DestroyEnemy();
+
 	inline void SetPlayer(Player* _Player)
 	{
 		Player_ = _Player;
