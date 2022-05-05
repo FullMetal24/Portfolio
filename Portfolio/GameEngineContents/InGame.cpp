@@ -61,9 +61,12 @@ void InGame::Loading()
 	SDPlayer_->SetPosition({ 255, 670 });
 	SDPlayer_->SetMyRenderer(SDPlayer_->CreateRenderer("BR_SD_ARLE.bmp"));
 
-	PlayerRestRenderer_ = Player_->CreateRenderer();
-	EnemyRestRenderer_ = EnemyFSM_->CreateRenderer();
-
+	PlayerRestRenderer_ = Player_->CreateRenderer("IG_PLAER_REST.bmp"); 
+	PlayerRestRenderer_->SetPivot({160, -500});
+	PlayerRestRenderer_->SetOrder(-1);
+	EnemyRestRenderer_ = EnemyFSM_->CreateRenderer("IG_ENEMY_REST.bmp");
+	EnemyRestRenderer_->SetPivot({ 160, -500});
+	EnemyRestRenderer_->SetOrder(-1);
 
 	if (false == GameEngineInput::GetInst()->IsKey("Rest"))
 	{
@@ -424,7 +427,7 @@ void InGame::PuyoAnimationInit()
 		RightUPImage->CutCount(1, 1);
 
 		GameEngineImage* UpDownImage = GameEngineImageManager::GetInst()->Find("IG_PURPLE_UP_DOWN.bmp");
-		UpDownImage->CutCount(1, 1); 
+		UpDownImage->CutCount(1, 1);
 	}
 
 	GameEngineImage* HindrancePuyo = GameEngineImageManager::GetInst()->Find("IG_HINDRANCE_PUYO.bmp");
@@ -667,8 +670,11 @@ void InGame::ActorsInit()
 
 
 void InGame::Update()
-{     
-	GameTime_ += GameEngineTime::GetDeltaTime();
+{
+	if (false == IsRest_)
+	{
+		GameTime_ += GameEngineTime::GetDeltaTime();
+	}
 
 	if (false == IsStart_)
 	{
@@ -687,7 +693,7 @@ void InGame::Update()
 
 	if (true == IsStart_)
 	{
-		if (false == IsSpewStar_ 
+		if (false == IsSpewStar_
 			&& false == IsStarUpdate_)
 		{
 			CarbuncleUpdate();
@@ -707,10 +713,10 @@ void InGame::Update()
 
 void InGame::GameOverCheck()
 {
-	if (PlayerState::Lose == Player_->GetState())
+	if (PlayerState::Lose == Player_->GetCurrentState())
 	{
 		PlayerLose();
-		EnemyFSM_->SetState(EnemyState::Win);
+		EnemyFSM_->SetCurrentState(EnemyState::Win);
 
 		InGameBgm_.Stop();
 		StateBottoms_[0]->SetMove(float4::DOWN * GameEngineTime::GetDeltaTime() * 300.f);
@@ -736,11 +742,11 @@ void InGame::GameOverCheck()
 		}
 	}
 
-	else if (EnemyState::Lose == EnemyFSM_->GetState())
+	else if (EnemyState::Lose == EnemyFSM_->GetCurrentState())
 	{
 		TwinklePlayerWin();
 		ResultScore();
-		Player_->SetState(PlayerState::Win);
+		Player_->SetCurrentState(PlayerState::Win);
 
 		InGameBgm_.Stop();
 		ChangeCount_ -= GameEngineTime::GetDeltaTime();
@@ -1277,21 +1283,58 @@ void InGame::RestCheck()
 	if (true == GameEngineInput::GetInst()->IsDown("Rest")
 		&& false == IsRest_)
 	{
-		IsRest_ = false;
+		IsRest_ = true;
 
-		Player_->SetState(PlayerState::Rest);
-		EnemyFSM_->SetState(EnemyState::Rest);
+		//휴식 전 상태 기억
+		Player_->SetPrevState(Player_->GetCurrentState());
+		EnemyFSM_->SetPrevState(EnemyFSM_->GetCurrentState());
+
+		Player_->SetCurrentState(PlayerState::Rest);
+		EnemyFSM_->SetCurrentState(EnemyState::Rest);
+
+		Player_->BehindPuyo();
+		EnemyFSM_->BehindPuyo();
 	}
 
-	else if(true == GameEngineInput::GetInst()->IsDown("Rest")
+	else if (true == GameEngineInput::GetInst()->IsDown("Rest")
 		&& true == IsRest_)
 	{
 		IsRest_ = false;
 
-		//Player_->SetState(PlayerState::Rest);
-		//EnemyFSM_->SetState(EnemyState::Rest);
+		Player_->SetCurrentState(Player_->GetPrevState());
+		EnemyFSM_->SetCurrentState(EnemyFSM_->GetPrevState());
+
+		Player_->FrontPuyo();
+		EnemyFSM_->FrontPuyo();
+
+		PlayerRestRenderer_->SetOrder(-1);
+		EnemyRestRenderer_->SetOrder(-1);
 	}
 
+	if (true == IsRest_)
+	{
+		TwinkleRest();
+	}
+}
+
+void InGame::TwinkleRest()
+{
+	TwinkleTime_ += GameEngineTime::GetDeltaTime();
+
+	if (0.5f <= TwinkleTime_ && false == IsTwinkleOn_)
+	{
+		IsTwinkleOn_ = true;
+		PlayerRestRenderer_->SetOrder(10);
+		EnemyRestRenderer_->SetOrder(10);
+	}
+
+	else if (1.5f <= TwinkleTime_ && true == IsTwinkleOn_)
+	{
+		TwinkleTime_ = 0.f;
+		IsTwinkleOn_ = false;
+		PlayerRestRenderer_->SetOrder(-1);
+		EnemyRestRenderer_->SetOrder(-1);
+	}
 }
 
 void InGame::CarbuncleUpdate()
@@ -1479,7 +1522,7 @@ void InGame::LevelChangeStart(GameEngineLevel* _PrevLevel)
 
 			EnemyFSM_->SetMyProfile(EnemyProfile_);
 		}
-	}	
+	}
 }
 
 void InGame::LevelChangeEnd(GameEngineLevel* _PrevLevel)

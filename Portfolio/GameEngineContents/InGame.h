@@ -62,6 +62,7 @@ public:
 	void RenderRestPoint(int _Value);
 
 	void RestCheck();
+	void TwinkleRest();
 
 	inline bool GetStart()
 	{

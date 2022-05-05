@@ -127,6 +127,9 @@ void Player::Update()
 			LoseFallPuyo();
 			break;
 		case PlayerState::Rest:
+		{
+
+		}
 			break;
 		}
 
@@ -793,6 +796,26 @@ void Player::LoseFallPuyo()
 			}
 		}
 	}
+}
+
+void Player::BehindPuyo()
+{
+	CenterPuyo_->GetMyRenderer()->SetOrder(-1);
+	SecondPuyo_->GetMyRenderer()->SetOrder(-1);
+	NextCenterPuyo_->GetMyRenderer()->SetOrder(-1);
+	NextSecondPuyo_->GetMyRenderer()->SetOrder(-1);
+	NextNextCenterPuyo_->GetMyRenderer()->SetOrder(-1);
+	NextNextSecondPuyo_->GetMyRenderer()->SetOrder(-1);
+}
+
+void Player::FrontPuyo()
+{
+	CenterPuyo_->GetMyRenderer()->SetOrder(0);
+	SecondPuyo_->GetMyRenderer()->SetOrder(0);
+	NextCenterPuyo_->GetMyRenderer()->SetOrder(1);
+	NextSecondPuyo_->GetMyRenderer()->SetOrder(1);
+	NextNextCenterPuyo_->GetMyRenderer()->SetOrder(1);
+	NextNextSecondPuyo_->GetMyRenderer()->SetOrder(1);
 }
 
 void Player::Win()

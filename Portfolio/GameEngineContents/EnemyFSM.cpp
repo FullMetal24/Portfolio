@@ -1121,6 +1121,27 @@ void EnemyFSM::Lose()
 	}
 }
 
+void EnemyFSM::BehindPuyo()
+{
+	CenterPuyo_->GetMyRenderer()->SetOrder(-1);
+	SecondPuyo_->GetMyRenderer()->SetOrder(-1);
+	NextCenterPuyo_->GetMyRenderer()->SetOrder(-1);
+	NextSecondPuyo_->GetMyRenderer()->SetOrder(-1);
+	NextNextCenterPuyo_->GetMyRenderer()->SetOrder(-1);
+	NextNextSecondPuyo_->GetMyRenderer()->SetOrder(-1);
+}
+
+void EnemyFSM::FrontPuyo()
+{
+	CenterPuyo_->GetMyRenderer()->SetOrder(0);
+	SecondPuyo_->GetMyRenderer()->SetOrder(0);
+	NextCenterPuyo_->GetMyRenderer()->SetOrder(1);
+	NextSecondPuyo_->GetMyRenderer()->SetOrder(1);
+	NextNextCenterPuyo_->GetMyRenderer()->SetOrder(1);
+	NextNextSecondPuyo_->GetMyRenderer()->SetOrder(1);
+}
+
+
 void EnemyFSM::IdleAnimation()
 {
 	if (nullptr == MyPorifle_)

@@ -94,19 +94,33 @@ public:
 	
 	void Lose();
 
+	//휴식 관련 함수
+	void BehindPuyo();
+	void FrontPuyo();
+
 	inline void SetPlayer(Player* _Player)
 	{
 		Player_ = _Player;
 	}
 
-	inline void SetState(EnemyState _EnemyState)
+	inline void SetCurrentState(EnemyState _EnemyState)
 	{
 		EnemyState_ = _EnemyState;
 	}
 
-	inline EnemyState GetState()
+	inline EnemyState GetCurrentState()
 	{
 		return EnemyState_;
+	}
+
+	inline EnemyState GetPrevState()
+	{
+		return PrevState_;
+	}
+
+	inline void SetPrevState(EnemyState _PrevState)
+	{
+		PrevState_ = _PrevState;
 	}
 
 protected:
@@ -115,7 +129,9 @@ private:
 	Puyo* EnemyMap_[15][6];
 
 	EnemyProfile* MyPorifle_;
+
 	EnemyState EnemyState_;
+	EnemyState PrevState_;
 	EnemyAnimationState AnimationState_;
 
 	Player* Player_;

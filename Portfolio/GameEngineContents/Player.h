@@ -67,6 +67,10 @@ public:
 	void DangerCheck();
 	void LoseFallPuyo();
 
+	//휴식 관련 함수
+	void BehindPuyo();
+	void FrontPuyo();
+
 	void Win();
 	void Lose();
 
@@ -75,14 +79,24 @@ public:
 		Enemy_ = _Enemy;
 	}
 
-	inline PlayerState GetState()
+	inline PlayerState GetCurrentState()
 	{
 		return PlayerState_;
 	}
 
-	inline void SetState(PlayerState _PlayerState)
+	inline void SetCurrentState(PlayerState _PlayerState)
 	{
 		PlayerState_ = _PlayerState;
+	}
+
+	inline PlayerState GetPrevState()
+	{
+		return PrevState_;
+	}
+
+	inline void SetPrevState(PlayerState _PrevState)
+	{
+		PrevState_ = _PrevState;
 	}
 
 	inline int GetRandomInt(int _At, int _Untill)
@@ -109,6 +123,7 @@ protected:
 private:
 	Puyo* PlayerMap_[15][6];
 
+	PlayerState PrevState_;
 	PlayerState PlayerState_;
 
 	EnemyFSM* Enemy_;
