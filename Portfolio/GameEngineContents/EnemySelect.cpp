@@ -12,7 +12,7 @@
 #include "InGame.h"
 #include "EnemyProfile.h"
 
-EnemySelect::EnemySelect() 
+EnemySelect::EnemySelect()
 	: Enemys_{}
 	, MyEnemy_(nullptr)
 	, TwinkleTime_(0.f)
@@ -36,7 +36,7 @@ void EnemySelect::Loading()
 	//UI
 	{
 		GameEngineActor* ExpUi = CreateActor<EnemySelectActor>(4);
-		ExpUi->SetPosition({ GameEngineWindow::GetScale().Half().x - 535.f, GameEngineWindow::GetScale().Half().y - 125.f});
+		ExpUi->SetPosition({ GameEngineWindow::GetScale().Half().x - 535.f, GameEngineWindow::GetScale().Half().y - 125.f });
 		ExpUi->CreateRenderer("ES_EXP_UI.bmp");
 
 		GameEngineActor* NextUi = CreateActor<EnemySelectActor>(4);
@@ -44,7 +44,7 @@ void EnemySelect::Loading()
 		NextUi->CreateRenderer("ES_NEXT_UI.bmp");
 
 		GameEngineActor* RestUi = CreateActor<EnemySelectActor>(4);
-		RestUi->SetPosition({ GameEngineWindow::GetScale().Half().x - 525.f, GameEngineWindow::GetScale().Half().y});
+		RestUi->SetPosition({ GameEngineWindow::GetScale().Half().x - 525.f, GameEngineWindow::GetScale().Half().y });
 		RestUi->CreateRenderer("ES_REST_UI.bmp");
 
 		GameEngineActor* ExpValneUi = CreateActor<EnemySelectActor>(4);
@@ -59,35 +59,6 @@ void EnemySelect::Loading()
 		ResValuetUi->SetPosition({ GameEngineWindow::GetScale().Half().x - 350.f, GameEngineWindow::GetScale().Half().y });
 		ResValuetUi->CreateRenderer("ES_15000.bmp");
 	}
-
-	GameEngineActor* Level = CreateActor<EnemySelectActor>(5);
-	Level->SetPosition({ GameEngineWindow::GetScale().Half().x, GameEngineWindow::GetScale().Half().y - 200.f });
-	Level->CreateRenderer("ES_LEVEL1.bmp");
-
-	GameEngineActor* Enemys = CreateActor<EnemySelectActor>(4);
-	Enemys->SetPosition({ GameEngineWindow::GetScale().Half().x, GameEngineWindow::GetScale().Half().y + 300.f });
-	Enemys->CreateRenderer("ES_ENEMIES.bmp");
-
-	GameEngineActor* ArleProfile = CreateActor<EnemySelectActor>(4);
-	ArleProfile->CreateRenderer("ES_ARLE_PROFILE.bmp")->SetPivot({ 210.f, 190.f });
-
-	GameEngineActor* SelectEnemy = CreateActor<EnemySelectActor>(4);
-	SelectEnemy->CreateRenderer("ES_SELECT_ENEMY.bmp")->SetPivot(GameEngineWindow::GetScale().Half());
-
-	FadeBackground_ = CreateActor<FadeInOutBackground>();
-
-	for (int i = 0; i < 8; ++i)
-	{
-		Enemys_[i] = CreateActor<EnemyProfile>(0);
-	}
-
-	EnemySelectActor* Background = CreateActor<EnemySelectActor>(1);
-	Background->SetMyRenderer(Background->CreateRenderer("ES_BACK.bmp"));
-	Background->SetPosition(GameEngineWindow::GetScale().Half());
-
-	TopPositionInit();
-	EnemyInit();
-	FrameInit();
 
 	if (false == GameEngineInput::GetInst()->IsKey("EnemySelect"))
 	{
@@ -120,7 +91,7 @@ void EnemySelect::TopPositionInit()
 }
 
 void EnemySelect::EnemyInit()
-{	
+{
 	float Offset_;
 	Offset_ = GameEngineWindow::GetScale().Half().x - 320.f;
 
@@ -138,7 +109,7 @@ void EnemySelect::EnemyInit()
 	Enemys_[1]->SetProfile(Enemys_[1]->CreateRenderer("ES_LV2.bmp"));
 	Enemys_[1]->GetProfile()->SetPivot({ 1070.f, 190.f });
 	Enemys_[1]->SetIcon(Enemys_[1]->CreateRenderer("ES_SELECT_L1.bmp"));
-	Enemys_[1]->GetIcon()->SetPivot({ Offset_ + Enemys_[0]->GetIcon()->GetImage()->GetScale().x, 749.f});
+	Enemys_[1]->GetIcon()->SetPivot({ Offset_ + Enemys_[0]->GetIcon()->GetImage()->GetScale().x, 749.f });
 	Enemys_[1]->SetSD(Enemys_[1]->CreateRenderer("BR_SD02.bmp"));
 	Enemys_[1]->SetRenderName(Enemys_[1]->CreateRenderer("ES_ENEMY_NAME1.bmp"));
 	Enemys_[1]->SetMyLevel(2);
@@ -242,7 +213,7 @@ void EnemySelect::FrameInit()
 void EnemySelect::Update()
 {
 	PlayRoulette();
-	
+
 	if (true == IsSelect_)
 	{
 		LevelChangeCount_ -= GameEngineTime::GetDeltaTime();
@@ -259,10 +230,17 @@ void EnemySelect::Update()
 				IsSelect_ = false;
 				GameEngine::GetInst().ChangeLevel("InGame");
 				EnemySelectBgm_.Stop();
+
+				InGame* InGame_ = nullptr;
+
+				GameEngineLevel* NextLevel = GameEngine::GetNextLevel();
+				InGame_ = dynamic_cast<InGame*>(NextLevel);
+
+				InGame_->SetEnemyProfile(MyEnemy_);
 			}
 		}
 	}
-	
+
 	if (GameEngineInput::GetInst()->IsDown("EnemySelect"))
 	{
 		IsKeyDown_ = true;
@@ -270,7 +248,6 @@ void EnemySelect::Update()
 	}
 
 }
-
 
 void EnemySelect::PlayRoulette()
 {
@@ -302,7 +279,7 @@ void EnemySelect::PlayRoulette()
 
 			if (0.2f < SpeedLimit_ || true == IsKeyDown_)
 			{
-  				IsSelect_ = true;
+				IsSelect_ = true;
 				Enemys_[RouletteIndex_]->GetProfile()->SetOrder(8);
 				Enemys_[RouletteIndex_]->GetIcon()->SetOrder(8);
 				Enemys_[RouletteIndex_]->GetRenderName()->SetOrder(8);
@@ -320,7 +297,7 @@ void EnemySelect::PlayRoulette()
 }
 
 void EnemySelect::TwinkleEnemyIcon()
- {
+{
 	TwinkleTime_ += GameEngineTime::GetDeltaTime() * 150.f;
 
 	if (5.f <= TwinkleTime_)
@@ -337,22 +314,19 @@ void EnemySelect::TwinkleEnemyIcon()
 
 void EnemySelect::LockLoseEnemyIcon(int _Level)
 {
-	Enemys_[_Level]->GetIcon()->SetImage("ES_SELECT_LOCK.bmp");
-	Enemys_[_Level]->GetIcon()->SetOrder(8);
+	//Enemys_[_Level]->GetIcon()->SetImage("ES_SELECT_LOCK.bmp");
+	//Enemys_[_Level]->GetIcon()->SetOrder(8);
 }
 
 void EnemySelect::LevelChangeStart(GameEngineLevel* _PrevLevel)
-  {
+{
 	EnemySelectBgm_ = GameEngineSound::SoundPlayControl("MainMenu.mp3");
-}
-  
-void EnemySelect::LevelChangeEnd(GameEngineLevel* _NextLevel)
-{
-	ResetOn();
-}
 
-void EnemySelect::UserResetEnd()
-{
+	for (int i = 0; i < 8; ++i)
+	{
+		Enemys_[i] = CreateActor<EnemyProfile>(0);
+	}
+
 	GameEngineActor* Level = CreateActor<EnemySelectActor>(5);
 	Level->SetPosition({ GameEngineWindow::GetScale().Half().x, GameEngineWindow::GetScale().Half().y - 200.f });
 	Level->CreateRenderer("ES_LEVEL1.bmp");
@@ -368,12 +342,7 @@ void EnemySelect::UserResetEnd()
 	SelectEnemy->CreateRenderer("ES_SELECT_ENEMY.bmp")->SetPivot(GameEngineWindow::GetScale().Half());
 
 	FadeBackground_ = CreateActor<FadeInOutBackground>();
-
-	for (int i = 0; i < 8; ++i)
-	{
-		Enemys_[i] = CreateActor<EnemyProfile>(0);
-	}
-
+	
 	EnemySelectActor* Background = CreateActor<EnemySelectActor>(1);
 	Background->SetMyRenderer(Background->CreateRenderer("ES_BACK.bmp"));
 	Background->SetPosition(GameEngineWindow::GetScale().Half());
@@ -382,23 +351,41 @@ void EnemySelect::UserResetEnd()
 	EnemyInit();
 	FrameInit();
 
-	if (false == GameEngineInput::GetInst()->IsKey("EnemySelect"))
+}
+
+void EnemySelect::LevelChangeEnd(GameEngineLevel* _NextLevel)
+{
+	for (int i = 0; i < 8; ++i)
 	{
-		GameEngineInput::GetInst()->CreateKey("EnemySelect", VK_SPACE);
+		Enemys_[i]->Death();
+		Enemys_[i] = nullptr;
 	}
 
+	MyEnemy_->Death();
+	MyEnemy_ = nullptr;
+
+	for (int i = 0; i < 6; i++)
+	{
+		Top_[i]->Death();
+		Top_[i] = nullptr;
+
+		TopRenderer_[i]->Death();
+		TopRenderer_[i] = nullptr;
+	}
+
+	FadeBackground_->Death();
+	FadeBackground_ = nullptr;
+
 	RouletteSpeed_ = 1.0f;
+	TwinkleTime_ = 0.f;
 	SpeedLimit_ = 0.01f;
 	LevelChangeCount_ = 2.5f;
-
-	TwinkleTime_ = 0.f;
-
 	RouletteIndex_ = 0;
 	LimitForce_ = 0;
-
 	IsSelect_ = false;
 	IsKeyDown_ = false;
 }
 
 
- 
+
+

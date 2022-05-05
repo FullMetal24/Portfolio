@@ -28,7 +28,6 @@ public:
 
 	void LevelChangeStart(GameEngineLevel* _PrevLevel) override;
 	void LevelChangeEnd(GameEngineLevel* _NextLevel) override;
-	void UserResetEnd() override;
 
 	inline void SetEnemyProfile(EnemyProfile* _Enemy)
 	{

@@ -39,40 +39,11 @@ InGame::~InGame()
 }
 
 void InGame::Loading()
-{
-	PuyoAnimationInit();
-	InitPlayerEndEnemy();
-	EnemyAnimatioInit();
-	ActorsInit();
-	CarbuncleAnimationInit();
-
-	PlayerGameOver_ = CreateActor<InGameActor>();
-	PlayerGameOver_->SetPosition({ 255, 1500 });
-	PlayerGameOver_->SetMyRenderer(PlayerGameOver_->CreateRenderer("IG_PLAYER_GAMEOVER.bmp"));
-
-	GameOverStartPos_ = PlayerGameOver_->GetPosition();
-	GameOverEndPos_ = PlayerGameOver_->GetPosition() + float4{ 0, -1300.f };
-
-	PlayerWin_ = CreateActor<InGameActor>(-1);
-	PlayerWin_->SetPosition({ 255, 150 });
-	PlayerWin_->SetMyRenderer(PlayerWin_->CreateRenderer("IG_YOUWIN.bmp"));
-
-	SDPlayer_ = CreateActor<InGameActor>(-1);
-	SDPlayer_->SetPosition({ 255, 670 });
-	SDPlayer_->SetMyRenderer(SDPlayer_->CreateRenderer("BR_SD_ARLE.bmp"));
-
-	PlayerRestRenderer_ = Player_->CreateRenderer("IG_PLAER_REST.bmp"); 
-	PlayerRestRenderer_->SetPivot({160, -500});
-	PlayerRestRenderer_->SetOrder(-1);
-	EnemyRestRenderer_ = EnemyFSM_->CreateRenderer("IG_ENEMY_REST.bmp");
-	EnemyRestRenderer_->SetPivot({ 160, -500});
-	EnemyRestRenderer_->SetOrder(-1);
-
+{	
 	if (false == GameEngineInput::GetInst()->IsKey("Rest"))
 	{
 		GameEngineInput::GetInst()->CreateKey("Rest", VK_ESCAPE);
 	}
-
 }
 
 void InGame::InitPlayerEndEnemy()
@@ -896,7 +867,6 @@ void InGame::ResultScore()
 		RenderRestPoint(12345);
 	}
 }
-
 void InGame::PlayerLose()
 {
 	GameOverAlpha_ += GameEngineTime::GetDeltaTime() * 0.5f;
@@ -1499,39 +1469,144 @@ void InGame::SpewStar()
 
 void InGame::LevelChangeStart(GameEngineLevel* _PrevLevel)
 {
-	InGameBgm_ = GameEngineSound::SoundPlayControl("INGAME.mp3", -1);
+	PuyoAnimationInit();
+	InitPlayerEndEnemy();
+	EnemyAnimatioInit();
+	ActorsInit();
+	CarbuncleAnimationInit();
 
+	PlayerGameOver_ = CreateActor<InGameActor>();
+	PlayerGameOver_->SetPosition({ 255, 1500 });
+	PlayerGameOver_->SetMyRenderer(PlayerGameOver_->CreateRenderer("IG_PLAYER_GAMEOVER.bmp"));
+
+	GameOverStartPos_ = PlayerGameOver_->GetPosition();
+	GameOverEndPos_ = PlayerGameOver_->GetPosition() + float4{ 0, -1300.f };
+
+	PlayerWin_ = CreateActor<InGameActor>(-1);
+	PlayerWin_->SetPosition({ 255, 150 });
+	PlayerWin_->SetMyRenderer(PlayerWin_->CreateRenderer("IG_YOUWIN.bmp"));
+
+	SDPlayer_ = CreateActor<InGameActor>(-1);
+	SDPlayer_->SetPosition({ 255, 670 });
+	SDPlayer_->SetMyRenderer(SDPlayer_->CreateRenderer("BR_SD_ARLE.bmp"));
+
+	PlayerRestRenderer_ = Player_->CreateRenderer("IG_PLAER_REST.bmp");
+	PlayerRestRenderer_->SetPivot({ 160, -500 });
+	PlayerRestRenderer_->SetOrder(-1);
+	EnemyRestRenderer_ = EnemyFSM_->CreateRenderer("IG_ENEMY_REST.bmp");
+	EnemyRestRenderer_->SetPivot({ 160, -500 });
+	EnemyRestRenderer_->SetOrder(-1);
+
+	InGameBgm_ = GameEngineSound::SoundPlayControl("INGAME.mp3", -1);
 	EffectSound_.SoundPlayOneShot("ARLE_START.mp3");
 
-	if (nullptr != _PrevLevel)
-	{
-		if ("EnemySelect" == _PrevLevel->GetNameConstRef())
-		{
-			GameEngineLevel* PrevLevel = _PrevLevel;
-			EnemySelect* EnemySelect_ = dynamic_cast<EnemySelect*>(PrevLevel);
-			EnemyProfile_ = EnemySelect_->GetEnemyProfile();
-			EnemyProfile_->SetPosition({ GameEngineWindow::GetScale().Half() });
+	EnemyFSM_->SetMyProfile(EnemyProfile_);
 
-			EnemyFSM_->SetMyProfile(EnemyProfile_);
-		}
+	//if (nullptr != _PrevLevel)
+	//{
+	//	if ("EnemySelect" == _PrevLevel->GetNameConstRef())
+	//	{
+	//		GameEngineLevel* PrevLevel = _PrevLevel;
+	//		EnemySelect* EnemySelect_ = dynamic_cast<EnemySelect*>(PrevLevel);
+	//		EnemyProfile_ = EnemySelect_->GetEnemyProfile();
+	//		EnemyProfile_->SetPosition({ GameEngineWindow::GetScale().Half() });
 
-		else if ("GameOver" == _PrevLevel->GetNameConstRef())
-		{
-			GameEngineLevel* PrevLevel = _PrevLevel;
-			GameOver* GameOver_ = dynamic_cast<GameOver*>(PrevLevel);
-			EnemyProfile_ = GameOver_->GetEnemyProfile();
-			EnemyProfile_->SetPosition({ GameEngineWindow::GetScale().Half() });
+	//		EnemyFSM_->SetMyProfile(EnemyProfile_);
+	//	} 
 
-			EnemyFSM_->SetMyProfile(EnemyProfile_);
-		}
-	}
+	//	else if ("GameOver" == _PrevLevel->GetNameConstRef())
+	//	{
+	//		GameEngineLevel* PrevLevel = _PrevLevel;
+	//		GameOver* GameOver_ = dynamic_cast<GameOver*>(PrevLevel);
+	//		EnemyProfile_ = GameOver_->GetEnemyProfile();
+	//		EnemyProfile_->SetPosition({ GameEngineWindow::GetScale().Half() });
+
+	//		EnemyFSM_->SetMyProfile(EnemyProfile_);
+	//	}
+	//}
 }
 
 void InGame::LevelChangeEnd(GameEngineLevel* _PrevLevel)
 {
-	//ResetOn();
+	for (int i = 0; i < 3; i++)
+	{
+		if (nullptr != Stages_[i])
+		{
+			Stages_[i]->Death();
+			Stages_[i] = nullptr;
+		}
+	}
+
+	StageRenderer_->Death();
+	StageRenderer_ = nullptr;
+
+	StateBottoms_[0]->Death();
+	StateBottoms_[1]->Death();
+
+	StateBottoms_[0] = nullptr;
+	StateBottoms_[1] = nullptr;
+
+	GameTime_ = 0.f;
+	Alpha_ = 0.f;
+
+	StageRenderStartPos_ = float4::ZERO;
+	StageRenderEndPos_ = float4::ZERO;
+
+	Carbuncle_->Death();
+	Carbuncle_ = nullptr;
+
+	for (int i = 0; i < 36; i++)
+	{
+		if (nullptr != Stars_[i])
+		{
+			Stars_[i]->Death();
+			Stars_[i] = nullptr;
+		}
+	}
+
+	FadeBackground_->Death();
+	FadeBackground_ = nullptr;
+
+	PlayerGameOver_->Death();
+	PlayerGameOver_ = nullptr;
+	PlayerWin_->Death();
+	PlayerWin_ = nullptr;
+	SDPlayer_->Death();
+	SDPlayer_ = nullptr;
+
+	GameOverEndPos_ = float4::ZERO;
+	GameOverStartPos_ = float4::ZERO;
+
+	PlayerRestRenderer_->Death();
+	EnemyRestRenderer_->Death();
+
+	Player_->Death();
+	Player_ = nullptr;
+
+	EnemyFSM_->Death();
+	EnemyFSM_ = nullptr;
+
+	EnemyProfile_->Death();
+	EnemyProfile_ = nullptr;
+
+	if (nullptr != Stage_)
+	{
+		Stage_->Death();
+		Stage_ = nullptr;
+	}
+
+	ChangeCount_ = 10.f;
+	ResultCount_ = 0;
+
+	GameOverAlpha_ = 0.f;
+
+	WinWaitTime_ = 0.f;
+	WinWaitTime_ = 0.f;
+
+	IsStart_ = false;
+	IsSpewStar_ = false;
+	IsStarUpdate_ = false;
+	IsTwinkleOn_ = false;
+	IsRest_ = false;
 }
 
-void InGame::UserResetEnd()
-{
-}
