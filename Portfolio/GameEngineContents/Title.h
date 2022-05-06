@@ -14,8 +14,6 @@ public:
 	Title& operator=(const Title& _Other) = delete;
 	Title& operator=(Title&& _Other) noexcept = delete;
 
-	void UserResetEnd() override;
-
 	void Loading() override;
 	void Update()  override;
 	void LevelChangeStart(GameEngineLevel* _PrevLevel) override;

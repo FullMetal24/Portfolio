@@ -13,41 +13,21 @@
 MainMenu::MainMenu()
 	: Arrows_{}
 	, RandomTime_(0.3f)
-	, ChangeTime_{0.f}
+	, ChangeTime_{ 0.f }
 	, MenuCount_(0)
 	, RightIndex_(0)
 	, LeftIndex_(0)
-	, MenuSelect_{}
+	, MenuSelect_{ false }
 {
 }
 
-MainMenu::~MainMenu() 
+MainMenu::~MainMenu()
 {
 }
 
 
 void MainMenu::Loading()
 {
-	FadeBackground_ = CreateActor<FadeInOutBackground>();
-
-	MenuImageInit();
-	MenuInit();
-	BackgourndInit();
-
-	if (false == GameEngineInput::GetInst()->IsKey("ManiMenu_Right"))
-	{
-		GameEngineInput::GetInst()->CreateKey("ManiMenu_Right", VK_RIGHT);
-		GameEngineInput::GetInst()->CreateKey("ManiMenu_Left", VK_LEFT);
-		GameEngineInput::GetInst()->CreateKey("ManiMenu_Select", VK_RETURN);
-	}
-}
-
-void MainMenu::MenuImageInit()
-{
-	GameEngineActor* SelectMenu = CreateActor<MainMenuActor>(4);
-	SelectMenu->SetPosition({ GameEngineWindow::GetScale().Half().x, 150 });
-	GameEngineRenderer* SelectMenuRenderer = SelectMenu->CreateRenderer("MM_SELECT_1.bmp");
-
 	//밝은 카방클 
 	{
 		GameEngineImage* Image = GameEngineImageManager::GetInst()->Find("MM_MENU_1_IDLE.bmp");
@@ -128,6 +108,27 @@ void MainMenu::MenuImageInit()
 
 	GameEngineImage* PuyoDestroyImage = GameEngineImageManager::GetInst()->Find("MM_PUYO_DESTROY.bmp");
 	PuyoDestroyImage->CutCount(3, 1);
+
+
+	GameEngineImage* Image = GameEngineImageManager::GetInst()->Find("MM_SD0R.bmp");
+	Image->CutCount(4, 1);
+
+	GameEngineImage* Image1 = GameEngineImageManager::GetInst()->Find("MM_SD7L.bmp");
+	Image1->CutCount(4, 1);
+
+	GameEngineImage* Image2 = GameEngineImageManager::GetInst()->Find("MM_SD3R.bmp");
+	Image2->CutCount(4, 1);
+
+	GameEngineImage* Image3 = GameEngineImageManager::GetInst()->Find("MM_SD5L.bmp");
+	Image3->CutCount(4, 1);
+
+
+	if (false == GameEngineInput::GetInst()->IsKey("ManiMenu_Right"))
+	{
+		GameEngineInput::GetInst()->CreateKey("ManiMenu_Right", VK_RIGHT);
+		GameEngineInput::GetInst()->CreateKey("ManiMenu_Left", VK_LEFT);
+		GameEngineInput::GetInst()->CreateKey("ManiMenu_Select", VK_RETURN);
+	}
 }
 
 void MainMenu::MenuInit()
@@ -142,6 +143,10 @@ void MainMenu::MenuInit()
 	Menu1_Renerer->ChangeAnimation("MM_MENU_1_IDLE");
 
 	Menu1->SetMyRenderer(Menu1_Renerer);
+
+	GameEngineActor* SelectMenu = CreateActor<MainMenuActor>(4);
+	SelectMenu->SetPosition({ GameEngineWindow::GetScale().Half().x, 150 });
+	GameEngineRenderer* SelectMenuRenderer = SelectMenu->CreateRenderer("MM_SELECT_1.bmp");
 
 	//화살표
 	{
@@ -343,7 +348,7 @@ void MainMenu::MenuInit()
 		RightRenderers_.push_back(RightRenderer);
 		Arrows_.push_back(LeftArrow);
 		LeftRenderers_.push_back(LeftRenderer);
-	} 
+	}
 
 	{
 		MainMenuActor* Puyo = CreateActor<MainMenuActor>(5);
@@ -468,18 +473,6 @@ void MainMenu::MenuInit()
 
 void MainMenu::BackgourndInit()
 {
-	GameEngineImage* Image = GameEngineImageManager::GetInst()->Find("MM_SD0R.bmp");
-	Image->CutCount(4, 1);
-
-	GameEngineImage* Image1 = GameEngineImageManager::GetInst()->Find("MM_SD7L.bmp");
-	Image1->CutCount(4, 1);
-
-	GameEngineImage* Image2 = GameEngineImageManager::GetInst()->Find("MM_SD3R.bmp");
-	Image2->CutCount(4, 1);
-
-	GameEngineImage* Image3 = GameEngineImageManager::GetInst()->Find("MM_SD5L.bmp");
-	Image3->CutCount(4, 1);
-
 	std::vector<MainMenuActor*> FirstLine;
 	std::vector<MainMenuActor*> SecondLine;
 	std::vector<MainMenuActor*> ThirdLine;
@@ -582,7 +575,7 @@ void MainMenu::MenuUpdate()
 			//카방클 좌로 이동
 			for (int i = 0; i < Menus_.size(); ++i)
 			{
-				Menus_[i]->SetPosition(Menus_[i]->GetPosition() + (float4::LEFT * 200.f));				
+				Menus_[i]->SetPosition(Menus_[i]->GetPosition() + (float4::LEFT * 200.f));
 			}
 
 			for (int i = 0; i < Puyos_.size(); i++)
@@ -869,7 +862,7 @@ void MainMenu::SelectMenu()
 
 		switch (MenuCount_)
 		{
-		case static_cast<int>(MenuType::ALONE): 
+		case static_cast<int>(MenuType::ALONE):
 
 			MenuRendererPause();
 
@@ -881,7 +874,7 @@ void MainMenu::SelectMenu()
 			MenuSelect_[0] = true;
 			break;
 
-		case static_cast<int>(MenuType::TOGETHER): 
+		case static_cast<int>(MenuType::TOGETHER):
 
 			MenuRendererPause();
 
@@ -943,7 +936,7 @@ void MainMenu::SelectMenu()
 		Puyos_[0]->GetMyRenderer()->PauseOff();
 		Puyos_[0]->GetMyRenderer()->ChangeAnimation("MM_PUYO_DESTROY");
 
-		if ( true == Puyos_[0]->GetMyRenderer()->IsEndAnimation())
+		if (true == Puyos_[0]->GetMyRenderer()->IsEndAnimation())
 		{
 			Puyos_[0]->Off();
 		}
@@ -1072,7 +1065,7 @@ void MainMenu::SelectMenu()
 		ChangeTime_ += GameEngineTime::GetDeltaTime();
 
 		if (2.f < ChangeTime_ && true == FadeBackground_->GetIsInChange())
-		{ 
+		{
 			GameEngine::GetInst().ChangeLevel("Title");
 		}
 	}
@@ -1171,28 +1164,156 @@ void MainMenu::MenuRendererPause()
 
 
 
-void MainMenu::LevelChangeStart(GameEngineLevel* _PrevLevel) 
+void MainMenu::LevelChangeStart(GameEngineLevel* _PrevLevel)
 {
+	FadeBackground_ = CreateActor<FadeInOutBackground>();
+
+	MenuInit();
+	BackgourndInit();
+
 	MainMenuBgm_ = GameEngineSound::SoundPlayControl("MainMenu.mp3", -1);
 }
 
 void MainMenu::LevelChangeEnd(GameEngineLevel* _NextLevel)
 {
-	Reset();
-}
+	FadeBackground_->Death();
+	FadeBackground_ = nullptr;
 
-void MainMenu::UserResetEnd()
-{
-	FadeBackground_ = CreateActor<FadeInOutBackground>();
+	{
+		std::vector<MainMenuActor*>::iterator StartIter = Menus_.begin();
+		std::vector<MainMenuActor*>::iterator EndIter = Menus_.end();
 
-	MenuImageInit();
-	MenuInit();
-	BackgourndInit();
+		for (; StartIter != EndIter; ++StartIter)
+		{
+			if (nullptr != (*StartIter))
+			{
+				(*StartIter)->Death();
+				(*StartIter) = nullptr;
+			}
+		}
+	}
+
+	Menus_.clear();
+
+	{
+		std::vector<GameEngineRenderer*>::iterator StartIter = MenuRenderers_.begin();
+		std::vector<GameEngineRenderer*>::iterator EndIter = MenuRenderers_.end();
+
+		for (; StartIter != EndIter; ++StartIter)
+		{
+			if (nullptr != (*StartIter))
+			{
+				(*StartIter)->Death();
+				(*StartIter) = nullptr;
+			}
+		}
+	}
+
+	MenuRenderers_.clear();
+
+	{
+		std::vector<MainMenuActor*>::iterator StartIter = Puyos_.begin();
+		std::vector<MainMenuActor*>::iterator EndIter = Puyos_.end();
+
+		for (; StartIter != EndIter; ++StartIter)
+		{
+			if (nullptr != (*StartIter))
+			{
+				(*StartIter)->Death();
+				(*StartIter) = nullptr;
+			}
+		}
+	}
+
+	Puyos_.clear();
+
+	{
+		std::vector<GameEngineActor*>::iterator StartIter = Arrows_.begin();
+		std::vector<GameEngineActor*>::iterator EndIter = Arrows_.end();
+
+		for (; StartIter != EndIter; ++StartIter)
+		{
+			if (nullptr != (*StartIter))
+			{
+				(*StartIter)->Death();
+				(*StartIter) = nullptr;
+			}
+		}
+	}
+
+	Arrows_.clear();
+
+	{
+		std::vector<GameEngineRenderer*>::iterator StartIter = RightRenderers_.begin();
+		std::vector<GameEngineRenderer*>::iterator EndIter = RightRenderers_.end();
+
+		for (; StartIter != EndIter; ++StartIter)
+		{
+			if (nullptr != (*StartIter))
+			{
+				(*StartIter)->Death();
+				(*StartIter) = nullptr;
+			}
+		}
+	}
+
+	RightRenderers_.clear();
+
+	{
+		std::vector<GameEngineRenderer*>::iterator StartIter = LeftRenderers_.begin();
+		std::vector<GameEngineRenderer*>::iterator EndIter = LeftRenderers_.end();
+
+		for (; StartIter != EndIter; ++StartIter)
+		{
+			if (nullptr != (*StartIter))
+			{
+				(*StartIter)->Death();
+				(*StartIter) = nullptr;
+			}
+		}
+	}
+
+	LeftRenderers_.clear();
+
+	{
+		std::vector<std::vector<MainMenuActor*>>::iterator StartIter = BackGrounds_.begin();
+		std::vector<std::vector<MainMenuActor*>>::iterator EndIter = BackGrounds_.end();
+
+		for (; StartIter != EndIter; ++StartIter)
+		{
+			std::vector<MainMenuActor*>::iterator StartBack = (*StartIter).begin();
+			std::vector<MainMenuActor*>::iterator EndBack = (*StartIter).end();
+
+			for (; StartBack != EndBack; ++StartBack)
+			{
+				if (nullptr != (*StartBack))
+				{
+					(*StartBack)->Death();
+					(*StartBack) = nullptr;
+				}
+			}
+		}
+	}
+
+	BackGrounds_.clear();
+
+	if (nullptr != FadeBackground_)
+	{
+		FadeBackground_->Death();
+		FadeBackground_ = nullptr;
+	}
 
 	MenuCount_ = 0;
 	ChangeTime_ = 0.f;
 	RandomTime_ = 1.f;
 	RightIndex_ = 0;
 	LeftIndex_ = 0;
+
+	for (int i = 0; i < 5; i++)
+	{
+		MenuSelect_[i] = false;
+	}
+
 }
+
 

@@ -46,8 +46,6 @@ Title::~Title()
 
 void Title::Loading()
 {
-	BackgroundInit();
-
 	if (false == GameEngineInput::GetInst()->IsKey("Title"))
 	{
 		GameEngineInput::GetInst()->CreateKey("Title", VK_SPACE);
@@ -259,20 +257,80 @@ void Title::Update()
 
 void Title::LevelChangeStart(GameEngineLevel* _PrevLevel)
 {
+	BackgroundInit();
 }
 
 void Title::LevelChangeEnd(GameEngineLevel* _NextLevel)
 {
-	ResetOn();
-}
-
-void Title::UserResetEnd()
-{
-	BackgroundInit();
-
-	if (false == GameEngineInput::GetInst()->IsKey("Title"))
+	for (int i = 0; i < 20; i++)
 	{
-		GameEngineInput::GetInst()->CreateKey("Title", VK_SPACE);
+		if (nullptr != TitleActors_[i])
+		{
+			TitleActors_[i]->Death();
+			TitleActors_[i] = nullptr;
+		}
+	}
+	
+	for (int i = 0; i < 20; i++)
+	{
+		if (nullptr != TitleRenderers_[i])
+		{
+			TitleRenderers_[i]->Death();
+			TitleRenderers_[i] = nullptr;
+		}
+	}
+
+	for (int i = 0; i < 4; i++)
+	{
+		if (nullptr != NameActor_[i])
+		{
+			NameActor_[i]->Death();
+			NameActor_[i] = nullptr;
+		}
+	}
+
+	for (int i = 0; i < 4; i++)
+	{
+		if (nullptr != NameRenderer_)
+		{
+			NameRenderer_[i]->Death();
+			NameRenderer_[i] = nullptr;
+		}
+	}
+
+	CoinRenderer_->Death();
+	CoinRenderer_ = nullptr;
+
+	ChineseChracter_->Death();
+	CoinRenderer_ = nullptr;
+
+	ChineseChracterRenderer_->Death();
+	ChineseChracterRenderer_ = nullptr;
+
+	RedPuyo_->Death();
+	RedPuyo_ = nullptr;
+
+	RedRenderer_->Death();
+	RedRenderer_ = nullptr;
+
+	RedRenderer1_->Death();
+	RedRenderer1_ = nullptr;
+
+	GreenPuyo_->Death();
+	GreenPuyo_ = nullptr;
+
+	GreenRenderer_->Death();
+	GreenRenderer_ = nullptr;
+
+	FadeInOutBackground_->Death();
+	FadeInOutBackground_ = nullptr;
+	LevelChangeBackground_->Death();
+	LevelChangeBackground_ = nullptr;
+
+	if (nullptr != Stars_)
+	{
+		Stars_->Death();
+		Stars_ = nullptr;
 	}
 
 	TransCount_ = 0;

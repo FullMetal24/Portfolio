@@ -3,7 +3,10 @@
 #include "FadeInOutBackground.h"
 #include <GameEngineBase/GameEngineInput.h>
 #include "GameOverActor.h"
+#include "BestRecords.h"
 #include "InGame.h"
+#include "EnemyProfile.h"
+
 
 GameOver::GameOver()
 	:BackRenderer_(nullptr)
@@ -21,13 +24,6 @@ GameOver::~GameOver()
 
 void GameOver::Loading()
 {
-	FadeBack_ = CreateActor<FadeInOutBackground>();
-	FadeBack_->SetMyRenderer(FadeBack_->CreateRenderer("GO_BACKGROUND.bmp"));
-
-	Background_ = CreateActor<GameOverActor>(1);
-	Background_->SetPosition({GameEngineWindow::GetScale().Half()});
-	BackRenderer_ = Background_->CreateRenderer("GO_IMAGE0.bmp");
-
 	if (false == GameEngineInput::GetInst()->IsKey("ReTry"))
 	{
 		GameEngineInput::GetInst()->CreateKey("ReTry", VK_SPACE);
@@ -55,6 +51,13 @@ void GameOver::Update()
 		if (true == FadeBack_->GetIsInChange())
 		{
 			GameEngine::GetInst().ChangeLevel("BestRecords");
+
+			BestRecords* BestRecords_ = nullptr;
+
+			GameEngineLevel* NextLevel = GameEngine::GetNextLevel();
+			BestRecords_ = dynamic_cast<BestRecords*>(NextLevel);
+
+			BestRecords_->SetEnemyProfile(EnemyProfile_);
 		}
 	}
 
@@ -63,6 +66,13 @@ void GameOver::Update()
 	{
 		GameOverBgm_.Stop();
 		GameEngine::GetInst().ChangeLevel("InGame");
+
+		InGame* InGame_ = nullptr;
+
+		GameEngineLevel* NextLevel = GameEngine::GetNextLevel();
+		InGame_ = dynamic_cast<InGame*>(NextLevel);
+
+		InGame_->SetEnemyProfile(EnemyProfile_);
 	}
 	
 
@@ -70,6 +80,13 @@ void GameOver::Update()
 	{
 		GameOverBgm_.Stop();
 		GameEngine::GetInst().ChangeLevel("BestRecords");
+
+		BestRecords* BestRecords_ = nullptr;
+
+		GameEngineLevel* NextLevel = GameEngine::GetNextLevel();
+		BestRecords_ = dynamic_cast<BestRecords*>(NextLevel);
+
+		BestRecords_->SetEnemyProfile(EnemyProfile_);
 	}
 
 
@@ -90,13 +107,13 @@ void GameOver::Update()
 
 void GameOver::LevelChangeStart(GameEngineLevel* _PrevLevel)
 {
-	if (nullptr != _PrevLevel)
-	{
-		GameEngineLevel* PrevLevel = _PrevLevel;
-		InGame* InGame_ = dynamic_cast<InGame*>(PrevLevel);
+	//if (nullptr != _PrevLevel)
+	//{
+	//	GameEngineLevel* PrevLevel = _PrevLevel;
+	//	InGame* InGame_ = dynamic_cast<InGame*>(PrevLevel);
 
-		EnemyProfile* CurEnemy = InGame_->GetEnemyProfile();
-	}
+	//	EnemyProfile_ = InGame_->GetEnemyProfile();
+	//}
 
 	GameOverBgm_ = GameEngineSound::SoundPlayControl("GameOver.mp3");
 
@@ -106,24 +123,23 @@ void GameOver::LevelChangeStart(GameEngineLevel* _PrevLevel)
 	Background_ = CreateActor<GameOverActor>(1);
 	Background_->SetPosition({ GameEngineWindow::GetScale().Half() });
 	BackRenderer_ = Background_->CreateRenderer("GO_IMAGE0.bmp");
-
-	if (false == GameEngineInput::GetInst()->IsKey("ReTry"))
-	{
-		GameEngineInput::GetInst()->CreateKey("ReTry", VK_SPACE);
-		GameEngineInput::GetInst()->CreateKey("Next", VK_LSHIFT);
-	}
-
-	IsLevelStart_ = true;
-	Time_ = 0.f;
-	Count_ = 0;
 }
 
 void GameOver::LevelChangeEnd(GameEngineLevel* _NextLevel)
 {
-	ResetOn();
-}
+	Background_->Death();
+	Background_ = nullptr;
 
-void GameOver::UserResetEnd()
-{
+	BackRenderer_->Death();
+	BackRenderer_ = nullptr;
 
+	FadeBack_->Death();
+	FadeBack_ = nullptr;
+
+	EnemyProfile_->Death();
+	EnemyProfile_ = nullptr;
+
+	IsLevelStart_ = true;
+	Time_ = 0.f;
+	Count_ = 0;
 }

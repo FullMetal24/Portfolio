@@ -24,13 +24,11 @@ public:
 
 	void Loading() override; 
 	void Update()  override;
-	void UserResetEnd() override;
 
 	void LevelChangeStart(GameEngineLevel* _PrevLevel) override;
 	void LevelChangeEnd(GameEngineLevel* _NextLevel) override;
 
 	void MenuInit();
-	void MenuImageInit();
 	void BackgourndInit();
 
 	void MenuUpdate();

@@ -29,7 +29,6 @@ protected:
 
 	void LevelChangeStart(GameEngineLevel* _PrevLevel) override;
 	void LevelChangeEnd(GameEngineLevel* _NextLevel) override;
-	void UserResetEnd() override;
 
 private:
 	GameEngineSoundPlayer MainMenuBgm_;
