@@ -90,6 +90,9 @@ void Puyo::Update()
 		SelfDestroy();
 		TwinklePuyo();
 		break;
+	case PuyoState::LoseFall:
+		LoseFall();
+		break;
 	}
 }
 
@@ -1914,6 +1917,7 @@ void Puyo::LoseFall()
 	if (1.f <= Alpha_)
 	{
 		Alpha_ = 1.f;
+		Death();
 	}
 
 	SetPosition(float4::Lerp(StartPos_, EndPos_, Alpha_));
@@ -1931,7 +1935,7 @@ void Puyo::TwinklePuyo()
 
 	else
 	{
-		MyRenderer_->SetOrder(-1);
+	 	MyRenderer_->SetOrder(-1);
 	}
 }
 
@@ -1939,7 +1943,7 @@ void Puyo::DestroyEffect()
 {
 	if (false == IsEffectOn_ 
 		&& PuyoColor::Hindrance != MyColor_)
-	{
+	{ 
 		IsEffectOn_ = true;
 
 		Effect_ = GetLevel()->CreateActor<PuyoDestroyEffect>();

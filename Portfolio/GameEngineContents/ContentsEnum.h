@@ -28,7 +28,8 @@ enum class PuyoState
 	Linked, //연결 상태
 	Land, //떨어진
 	Fall, //떨어지는
-	Destroy //파괴될
+	Destroy, //파괴될
+	LoseFall //패배 시 낙하
 };
 
 enum class PuyoColor

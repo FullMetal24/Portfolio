@@ -43,6 +43,7 @@ void Player::Start()
 		GameEngineInput::GetInst()->CreateKey("Left", VK_LEFT);
 		GameEngineInput::GetInst()->CreateKey("Down", VK_DOWN);
 		GameEngineInput::GetInst()->CreateKey("Rotate", VK_SPACE);
+		GameEngineInput::GetInst()->CreateKey("Hindrance", VK_LSHIFT);
 		GameEngineInput::GetInst()->CreateKey("Lose", 'a');
 	}
 
@@ -77,6 +78,13 @@ void Player::Start()
 
 void Player::Update()
 {
+	if (true == GameEngineInput::GetInst()->IsDown("Hindrance"))
+	{
+		Chain_ += 1;
+		//OffsetEffect();
+		PlayerToEnemyAttack({ GameEngineWindow::GetScale().Half() });
+	}
+
 	if (nullptr == InGameLevel_)
 	{
 		return;
@@ -801,7 +809,8 @@ void Player::LoseFallPuyo()
 		{
 			if (nullptr != PlayerMap_[Y][X])
 			{
-				PlayerMap_[Y][X]->LoseFall();
+				PlayerMap_[Y][X]->ChangeState(PuyoState::LoseFall);
+				PlayerMap_[Y][X] = nullptr;
 			}
 		}
 	}
@@ -887,6 +896,7 @@ void Player::Win()
 			if (nullptr != PlayerMap_[Y][X])
 			{
 				PlayerMap_[Y][X]->Death();
+				PlayerMap_[Y][X] = nullptr;
 			}
 		}
 	}

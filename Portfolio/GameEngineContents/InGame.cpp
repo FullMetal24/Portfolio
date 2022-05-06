@@ -1253,7 +1253,9 @@ void InGame::RenderRestPoint(int _Value)
 void InGame::RestCheck()
 {
 	if (true == GameEngineInput::GetInst()->IsDown("Rest")
-		&& false == IsRest_ && true == IsSpewStar_)
+		&& false == IsRest_ && true == IsSpewStar_
+		&& EnemyState::Lose != EnemyFSM_->GetCurrentState()
+		&& PlayerState::Lose != Player_->GetCurrentState())
 	{
 		IsRest_ = true;
 

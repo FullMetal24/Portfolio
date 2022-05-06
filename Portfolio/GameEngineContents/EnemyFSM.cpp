@@ -65,9 +65,9 @@ void EnemyFSM::Start()
 	Fire_ = GetLevel()->CreateActor<Fire>();
 	Fire_->SetFireOwner(FireOwner::Enemy);
 
-	if (false == GameEngineInput::GetInst()->IsKey("Hindrance"))
+	if (false == GameEngineInput::GetInst()->IsKey("LoseEnemy"))
 	{
-		GameEngineInput::GetInst()->CreateKey("Hindrance", VK_LSHIFT);
+		GameEngineInput::GetInst()->CreateKey("HindranceEnemy", VK_RSHIFT);
 		GameEngineInput::GetInst()->CreateKey("LoseEnemy", 'b');
 	}
 
@@ -174,7 +174,7 @@ void EnemyFSM::Update()
 			break;
 		}
 
-		if (true == GameEngineInput::GetInst()->IsDown("Hindrance"))
+		if (true == GameEngineInput::GetInst()->IsDown("HindranceEnemy"))
 		{
 			Chain_ += 1;
 			//OffsetEffect();
@@ -1219,7 +1219,8 @@ void EnemyFSM::LoseFallPuyo()
 		{
 			if (nullptr != EnemyMap_[Y][X])
 			{
-				EnemyMap_[Y][X]->LoseFall();
+				EnemyMap_[Y][X]->ChangeState(PuyoState::LoseFall);
+				EnemyMap_[Y][X] = nullptr;
 			}
 		}
 	}
