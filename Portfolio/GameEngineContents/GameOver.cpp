@@ -136,8 +136,11 @@ void GameOver::LevelChangeEnd(GameEngineLevel* _NextLevel)
 	FadeBack_->Death();
 	FadeBack_ = nullptr;
 
-	EnemyProfile_->Death();
-	EnemyProfile_ = nullptr;
+	if (nullptr != EnemyProfile_)
+	{
+		EnemyProfile_->Death();
+		EnemyProfile_ = nullptr;
+	}
 
 	IsLevelStart_ = true;
 	Time_ = 0.f;

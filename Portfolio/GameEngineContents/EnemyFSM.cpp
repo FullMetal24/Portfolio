@@ -681,6 +681,11 @@ void EnemyFSM::AddWarningPuyo(int _Count)
 
 		WarningPuyos_.push_back(NewPuyo);
 	}
+
+	/*if (3 <= WarningPuyos_.size())
+	{
+
+	}*/
 }
 
 void EnemyFSM::PopWarningPuyo()
@@ -1115,6 +1120,11 @@ void EnemyFSM::SetMyProfile(EnemyProfile* _Porifle)
 
 void EnemyFSM::BehindEnemy()
 {
+	if (nullptr == MyPorifle_)
+	{
+		return;
+	}
+
 	switch (MyPorifle_->GetMyLevel())
 	{
 	case 1:
@@ -1165,6 +1175,11 @@ void EnemyFSM::FrontEnemy()
 	NextSecondPuyo_->GetMyRenderer()->SetOrder(1);
 	NextNextCenterPuyo_->GetMyRenderer()->SetOrder(1);
 	NextNextSecondPuyo_->GetMyRenderer()->SetOrder(1);
+
+	if (nullptr == MyPorifle_)
+	{
+		return;
+	}
 
 	switch (MyPorifle_->GetMyLevel())
 	{
@@ -1272,8 +1287,11 @@ void EnemyFSM::DestroyEnemy()
 	EnemyActors_->Death();
 	EnemyActors_ = nullptr;
 
-	MyPorifle_->Death();
-	MyPorifle_ = nullptr;
+	if (nullptr != MyPorifle_)
+	{
+		MyPorifle_->Death();
+		MyPorifle_ = nullptr;
+	}
 
 	InGameLevel_ = nullptr;
 }

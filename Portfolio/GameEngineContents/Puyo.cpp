@@ -19,6 +19,7 @@ Puyo::Puyo()
 	, Y_(0)
 	, OffsetX_(0)
 	, TwinkleCount_(0)
+	, AloneCount_(0)
 	, StartPos_{}
 	, EndPos_{}
 	, Alpha_(0.f)
@@ -918,21 +919,28 @@ void Puyo::LandPuyo(Puyo* Map[15][6], Puyo* _Other)
 
 void Puyo::AloneFallPuyo(Puyo* Map[15][6])
 {
-	if (0 <= Y_ - 1 && nullptr == Map[Y_ - 1][X_])
+	++AloneCount_;
+
+	if (0 == AloneCount_ % 10)
 	{
-		Map[Y_][X_] = nullptr;
-		Map[Y_ - 1][X_] = this;
+		AloneCount_ = 0;
 
-		Y_ -= 1;
-
-		if (nullptr != Player_)
+		if (0 <= Y_ - 1 && nullptr == Map[Y_ - 1][X_])
 		{
-			CoordinateMove(Player_, X_, Y_);
-		}
+			Map[Y_][X_] = nullptr;
+			Map[Y_ - 1][X_] = this;
 
-		else if (nullptr != Enemy_)
-		{
-			CoordinateMove(Enemy_, X_, Y_);
+			Y_ -= 1;
+
+			if (nullptr != Player_)
+			{
+				CoordinateMove(Player_, X_, Y_);
+			}
+
+			else if (nullptr != Enemy_)
+			{
+				CoordinateMove(Enemy_, X_, Y_);
+			}
 		}
 	}
 }
@@ -1935,15 +1943,15 @@ void Puyo::TwinklePuyo()
 
 	else
 	{
-	 	MyRenderer_->SetOrder(-1);
+		MyRenderer_->SetOrder(-1);
 	}
 }
 
 void Puyo::DestroyEffect()
 {
-	if (false == IsEffectOn_ 
+	if (false == IsEffectOn_
 		&& PuyoColor::Hindrance != MyColor_)
-	{ 
+	{
 		IsEffectOn_ = true;
 
 		Effect_ = GetLevel()->CreateActor<PuyoDestroyEffect>();

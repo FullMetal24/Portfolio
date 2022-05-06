@@ -203,8 +203,11 @@ private:
 	int OffsetX_;
 	int TwinkleCount_;
 
+	int AloneCount_;
+
 	float4 StartPos_;
 	float4 EndPos_;
+
 	float Alpha_;
 	float IdleTime_;
 	float NormalTime_;

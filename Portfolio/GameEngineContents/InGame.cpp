@@ -1595,8 +1595,11 @@ void InGame::LevelChangeEnd(GameEngineLevel* _PrevLevel)
 	EnemyFSM_->Death();
 	EnemyFSM_ = nullptr;
 
-	EnemyProfile_->Death();
-	EnemyProfile_ = nullptr;
+	if (nullptr != EnemyProfile_)
+	{
+		EnemyProfile_->Death();
+		EnemyProfile_ = nullptr;
+	}
 
 	if (nullptr != Stage_)
 	{
