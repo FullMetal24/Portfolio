@@ -516,10 +516,11 @@ float4 Puyo::CoordinatePos(EnemyFSM* _Enemy, int x, int y)
 
 
 //이동 관련 함수
-Puyo* Puyo::LeftPuyo(Puyo* Map[15][6], Puyo* _Other)
+bool Puyo::LeftPuyo(Puyo* Map[15][6], Puyo* _Other)
 {
 	if (0 <= X_ - 1)
 	{
+		//둘 다 null일 경우
 		if (nullptr == Map[Y_][X_ - 1]
 			&& nullptr == Map[_Other->GetY()][_Other->GetX() - 1])
 		{
@@ -538,11 +539,11 @@ Puyo* Puyo::LeftPuyo(Puyo* Map[15][6], Puyo* _Other)
 				this->CoordinateMove(Enemy_, X_, Y_);
 			}
 
-			return this;
+			return true;
 		}
 
 		else if (nullptr == Map[Y_][X_ - 1]
-			&& nullptr != Map[_Other->GetY()][_Other->GetX() - 1])
+			&& this == Map[_Other->GetY()][_Other->GetX() - 1])	
 		{
 			Map[Y_][X_] = nullptr;
 			Map[Y_][X_ - 1] = this;
@@ -559,7 +560,33 @@ Puyo* Puyo::LeftPuyo(Puyo* Map[15][6], Puyo* _Other)
 				this->CoordinateMove(Enemy_, X_, Y_);
 			}
 
-			return this;
+			return true;
+		}
+	}
+
+	return false;
+}
+
+void Puyo::JustLeftMove(Puyo* Map[15][6], Puyo* _Other)
+{
+	if (0 <= X_ - 1)
+	{
+		if (nullptr == Map[Y_][X_ - 1])
+		{
+			Map[Y_][X_] = nullptr;
+			Map[Y_][X_ - 1] = this;
+
+			--X_;
+
+			if (nullptr != Player_)
+			{
+				this->CoordinateMove(Player_, X_, Y_);
+			}
+
+			else if (nullptr != Enemy_)
+			{
+				this->CoordinateMove(Enemy_, X_, Y_);
+			}
 		}
 
 		else if (nullptr == Map[Y_][X_ - 1]
@@ -579,14 +606,12 @@ Puyo* Puyo::LeftPuyo(Puyo* Map[15][6], Puyo* _Other)
 			{
 				this->CoordinateMove(Enemy_, X_, Y_);
 			}
-
-			return this;
 		}
 	}
 }
 
 
-Puyo* Puyo::RightPuyo(Puyo* Map[15][6], Puyo* _Other)
+bool Puyo::RightPuyo(Puyo* Map[15][6], Puyo* _Other)
 {
 	if (5 >= X_ + 1)
 	{
@@ -608,28 +633,7 @@ Puyo* Puyo::RightPuyo(Puyo* Map[15][6], Puyo* _Other)
 				this->CoordinateMove(Enemy_, X_, Y_);
 			}
 
-			return this;
-		}
-
-		else if (nullptr == Map[Y_][X_ + 1]
-			&& nullptr != Map[_Other->GetY()][_Other->GetX() + 1])
-		{
-			Map[Y_][X_] = nullptr;
-			Map[Y_][X_ + 1] = this;
-
-			++X_;
-
-			if (nullptr != Player_)
-			{
-				this->CoordinateMove(Player_, X_, Y_);
-			}
-
-			else if (nullptr != Enemy_)
-			{
-				this->CoordinateMove(Enemy_, X_, Y_);
-			}
-
-			return this;
+			return true;
 		}
 
 		else if (nullptr == Map[Y_][X_ + 1]
@@ -650,11 +654,55 @@ Puyo* Puyo::RightPuyo(Puyo* Map[15][6], Puyo* _Other)
 				this->CoordinateMove(Enemy_, X_, Y_);
 			}
 
-			return this;
+			return true;
 		}
 	}
 
-	return nullptr;
+	return false;
+}
+
+void Puyo::JustRightMove(Puyo* Map[15][6], Puyo* _Other)
+{
+	if (5 >= X_ + 1)
+	{
+		if (nullptr == Map[Y_][X_ + 1])
+		{
+			Map[Y_][X_] = nullptr;
+			Map[Y_][X_ + 1] = this;
+
+			++X_;
+
+			if (nullptr != Player_)
+			{
+				this->CoordinateMove(Player_, X_, Y_);
+			}
+
+			else if (nullptr != Enemy_)
+			{
+				this->CoordinateMove(Enemy_, X_, Y_);
+			}
+		}
+
+		else if (nullptr == Map[Y_][X_ + 1]
+			&& this == Map[_Other->GetY()][_Other->GetX() + 1])
+		{
+			Map[Y_][X_] = nullptr;
+			Map[Y_][X_ + 1] = this;
+
+			++X_;
+
+			if (nullptr != Player_)
+			{
+				this->CoordinateMove(Player_, X_, Y_);
+			}
+
+			else if (nullptr != Enemy_)
+			{
+				this->CoordinateMove(Enemy_, X_, Y_);
+			}
+		}
+	}
+
 }
 
 

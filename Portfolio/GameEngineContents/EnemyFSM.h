@@ -71,6 +71,7 @@ public:
 	void AddWarningPuyo(int _Count);
 	void PopWarningPuyo();
 	void CountPopWarningPuyo(int _Count);
+	void DivisionWarningPuyo();
 	
 	void OffsetEffect();
 

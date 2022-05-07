@@ -841,8 +841,10 @@ void InGame::ResultScore()
 		&& 0 < BonusPoint_)
 	{
 		--BonusPoint_;
-		Player_->PlusScore(1);
+		Player_->PlusScore(2);
 		RenderBonusPoint(BonusPoint_);
+
+		Alpha_ += GameEngineTime::GetDeltaTime();
 
 		if (0 == BonusPoint_)
 		{
@@ -871,9 +873,15 @@ void InGame::ResultScore()
 		&& Player_->GetScore() > StagePoint_)
 	{
 		++StagePoint_;
+
+		if (500 < Player_->GetScore())
+		{
+			StagePoint_ += 10;
+		}
+
 		RenderStagePoint(StagePoint_);
 
-		if (Player_->GetScore() == StagePoint_)
+		if (Player_->GetScore() <= StagePoint_)
 		{
 			++ResultCount_;
 			Player_->SetNext(Player_->GetNext() + StagePoint_);
@@ -898,12 +906,12 @@ void InGame::ResultScore()
 	}
 
 	if (7 == ResultCount_
-		&& 100 > RestPoint_)
+		&& 300 > RestPoint_)
 	{
 		++RestPoint_;
 		RenderRestPoint(RestPoint_);
 
-		if (100 == RestPoint_)
+		if (300 <= RestPoint_)
 		{
 			++ResultCount_;
 			Player_->SetRest(Player_->GetRest() + RestPoint_);
@@ -1084,35 +1092,35 @@ void InGame::RenderBonusPoint(int _Value)
 		case 0:
 		{
 			GameEngineRenderer* Renderer = BonusActor_->CreateRenderer("IG_PLAYER_NUMBER_0.bmp");
-			Renderer->SetPivot({ 40.f - (40.f * i), -190 });
+			Renderer->SetPivot({ 40.f - (35.f * i), -190 });
 			Renderer->SetOrder(20);
 		}
 		break;
 		case 1:
 		{
 			GameEngineRenderer* Renderer = BonusActor_->CreateRenderer("IG_PLAYER_NUMBER_1.bmp");
-			Renderer->SetPivot({ 40.f - (40.f * i), -190 });
+			Renderer->SetPivot({ 40.f - (35.f * i), -190 });
 			Renderer->SetOrder(20);
 		}
 		break;
 		case 2:
 		{
 			GameEngineRenderer* Renderer = BonusActor_->CreateRenderer("IG_PLAYER_NUMBER_2.bmp");
-			Renderer->SetPivot({ 40.f - (40.f * i), -190 });
+			Renderer->SetPivot({ 40.f - (35.f * i), -190 });
 			Renderer->SetOrder(20);
 		}
 		break;
 		case 3:
 		{
 			GameEngineRenderer* Renderer = BonusActor_->CreateRenderer("IG_PLAYER_NUMBER_3.bmp");
-			Renderer->SetPivot({ 40.f - (40.f * i), -190 });
+			Renderer->SetPivot({ 40.f - (35.f * i), -190 });
 			Renderer->SetOrder(20);
 		}
 		break;
 		case 4:
 		{
 			GameEngineRenderer* Renderer = BonusActor_->CreateRenderer("IG_PLAYER_NUMBER_4.bmp");
-			Renderer->SetPivot({ 40.f - (40.f * i), -190 });
+			Renderer->SetPivot({ 40.f - (35.f * i), -190 });
 			Renderer->SetOrder(20);
 		}
 
@@ -1120,7 +1128,7 @@ void InGame::RenderBonusPoint(int _Value)
 		case 5:
 		{
 			GameEngineRenderer* Renderer = BonusActor_->CreateRenderer("IG_PLAYER_NUMBER_5.bmp");
-			Renderer->SetPivot({ 40.f - (40.f * i), -190 });
+			Renderer->SetPivot({ 40.f - (35.f * i), -190 });
 			Renderer->SetOrder(20);
 		}
 
@@ -1128,7 +1136,7 @@ void InGame::RenderBonusPoint(int _Value)
 		case 6:
 		{
 			GameEngineRenderer* Renderer = BonusActor_->CreateRenderer("IG_PLAYER_NUMBER_6.bmp");
-			Renderer->SetPivot({ 40.f - (50.f * i), -190 });
+			Renderer->SetPivot({ 40.f - (35.f * i), -190 });
 			Renderer->SetOrder(20);
 		}
 
@@ -1136,21 +1144,21 @@ void InGame::RenderBonusPoint(int _Value)
 		case 7:
 		{
 			GameEngineRenderer* Renderer = BonusActor_->CreateRenderer("IG_PLAYER_NUMBER_7.bmp");
-			Renderer->SetPivot({ 40.f - (40.f * i), -190 });
+			Renderer->SetPivot({ 40.f - (35.f * i), -190 });
 			Renderer->SetOrder(20);
 		}
 		break;
 		case 8:
 		{
 			GameEngineRenderer* Renderer = BonusActor_->CreateRenderer("IG_PLAYER_NUMBER_8.bmp");
-			Renderer->SetPivot({ 40.f - (40.f * i), -190 });
+			Renderer->SetPivot({ 40.f - (35.f * i), -190 });
 			Renderer->SetOrder(20);
 		}
 		break;
 		case 9:
 		{
 			GameEngineRenderer* Renderer = BonusActor_->CreateRenderer("IG_PLAYER_NUMBER_9.bmp");
-			Renderer->SetPivot({ 40.f - (40.f * i), -190 });
+			Renderer->SetPivot({ 40.f - (35.f * i), -190 });
 			Renderer->SetOrder(20);
 		}
 		break;
@@ -1189,35 +1197,35 @@ void InGame::RenderStagePoint(int _Value)
 		case 0:
 		{
 			GameEngineRenderer* Renderer = StageActor_->CreateRenderer("IG_PLAYER_NUMBER_0.bmp");
-			Renderer->SetPivot({ 810.f - (40.f * i), -400 });
+			Renderer->SetPivot({ 810.f - (35.f * i), -400 });
 			Renderer->SetOrder(20);
 		}
 		break;
 		case 1:
 		{
 			GameEngineRenderer* Renderer = StageActor_->CreateRenderer("IG_PLAYER_NUMBER_1.bmp");
-			Renderer->SetPivot({ 810.f - (40.f * i), -400 });
+			Renderer->SetPivot({ 810.f - (35.f * i), -400 });
 			Renderer->SetOrder(20);
 		}
 		break;
 		case 2:
 		{
 			GameEngineRenderer* Renderer = StageActor_->CreateRenderer("IG_PLAYER_NUMBER_2.bmp");
-			Renderer->SetPivot({ 810.f - (40.f * i), -400 });
+			Renderer->SetPivot({ 810.f - (35.f * i), -400 });
 			Renderer->SetOrder(20);
 		}
 		break;
 		case 3:
 		{
 			GameEngineRenderer* Renderer = StageActor_->CreateRenderer("IG_PLAYER_NUMBER_3.bmp");
-			Renderer->SetPivot({ 810.f - (40.f * i), -400 });
+			Renderer->SetPivot({ 810.f - (35.f * i), -400 });
 			Renderer->SetOrder(20);
 		}
 		break;
 		case 4:
 		{
 			GameEngineRenderer* Renderer = StageActor_->CreateRenderer("IG_PLAYER_NUMBER_4.bmp");
-			Renderer->SetPivot({ 810.f - (40.f * i), -400 });
+			Renderer->SetPivot({ 810.f - (35.f * i), -400 });
 			Renderer->SetOrder(20);
 		}
 
@@ -1225,7 +1233,7 @@ void InGame::RenderStagePoint(int _Value)
 		case 5:
 		{
 			GameEngineRenderer* Renderer = StageActor_->CreateRenderer("IG_PLAYER_NUMBER_5.bmp");
-			Renderer->SetPivot({ 810.f - (40.f * i), -400 });
+			Renderer->SetPivot({ 810.f - (35.f * i), -400 });
 			Renderer->SetOrder(20);
 		}
 
@@ -1233,7 +1241,7 @@ void InGame::RenderStagePoint(int _Value)
 		case 6:
 		{
 			GameEngineRenderer* Renderer = StageActor_->CreateRenderer("IG_PLAYER_NUMBER_6.bmp");
-			Renderer->SetPivot({ 810.f - (50.f * i), -400 });
+			Renderer->SetPivot({ 810.f - (35.f * i), -400 });
 			Renderer->SetOrder(20);
 		}
 
@@ -1241,21 +1249,21 @@ void InGame::RenderStagePoint(int _Value)
 		case 7:
 		{
 			GameEngineRenderer* Renderer = StageActor_->CreateRenderer("IG_PLAYER_NUMBER_7.bmp");
-			Renderer->SetPivot({ 810.f - (40.f * i), -400 });
+			Renderer->SetPivot({ 810.f - (35.f * i), -400 });
 			Renderer->SetOrder(20);
 		}
 		break;
 		case 8:
 		{
 			GameEngineRenderer* Renderer = StageActor_->CreateRenderer("IG_PLAYER_NUMBER_8.bmp");
-			Renderer->SetPivot({ 810.f - (40.f * i), -400 });
+			Renderer->SetPivot({ 810.f - (35.f * i), -400 });
 			Renderer->SetOrder(20);
 		}
 		break;
 		case 9:
 		{
 			GameEngineRenderer* Renderer = StageActor_->CreateRenderer("IG_PLAYER_NUMBER_9.bmp");
-			Renderer->SetPivot({ 810.f - (40.f * i), -400 });
+			Renderer->SetPivot({ 810.f - (35.f * i), -400 });
 			Renderer->SetOrder(20);
 		}
 		break;
@@ -1294,35 +1302,35 @@ void InGame::RenderRestPoint(int _Value)
 		case 0:
 		{
 			GameEngineRenderer* Renderer = RestActor_->CreateRenderer("IG_PLAYER_NUMBER_0.bmp");
-			Renderer->SetPivot({ 810.f - (40.f * i), -190 });
+			Renderer->SetPivot({ 810.f - (35.f * i), -190 });
 			Renderer->SetOrder(20);
 		}
 		break;
 		case 1:
 		{
 			GameEngineRenderer* Renderer = RestActor_->CreateRenderer("IG_PLAYER_NUMBER_1.bmp");
-			Renderer->SetPivot({ 810.f - (40.f * i), -190 });
+			Renderer->SetPivot({ 810.f - (35.f * i), -190 });
 			Renderer->SetOrder(20);
 		}
 		break;
 		case 2:
 		{
 			GameEngineRenderer* Renderer = RestActor_->CreateRenderer("IG_PLAYER_NUMBER_2.bmp");
-			Renderer->SetPivot({ 810.f - (40.f * i), -190 });
+			Renderer->SetPivot({ 810.f - (35.f * i), -190 });
 			Renderer->SetOrder(20);
 		}
 		break;
 		case 3:
 		{
 			GameEngineRenderer* Renderer = RestActor_->CreateRenderer("IG_PLAYER_NUMBER_3.bmp");
-			Renderer->SetPivot({ 810.f - (40.f * i), -190 });
+			Renderer->SetPivot({ 810.f - (35.f * i), -190 });
 			Renderer->SetOrder(20);
 		}
 		break;
 		case 4:
 		{
 			GameEngineRenderer* Renderer = RestActor_->CreateRenderer("IG_PLAYER_NUMBER_4.bmp");
-			Renderer->SetPivot({ 810.f - (40.f * i), -190 });
+			Renderer->SetPivot({ 810.f - (35.f * i), -190 });
 			Renderer->SetOrder(20);
 		}
 
@@ -1330,7 +1338,7 @@ void InGame::RenderRestPoint(int _Value)
 		case 5:
 		{
 			GameEngineRenderer* Renderer = RestActor_->CreateRenderer("IG_PLAYER_NUMBER_5.bmp");
-			Renderer->SetPivot({ 810.f - (40.f * i), -190 });
+			Renderer->SetPivot({ 810.f - (35.f * i), -190 });
 			Renderer->SetOrder(20);
 		}
 
@@ -1338,7 +1346,7 @@ void InGame::RenderRestPoint(int _Value)
 		case 6:
 		{
 			GameEngineRenderer* Renderer = RestActor_->CreateRenderer("IG_PLAYER_NUMBER_6.bmp");
-			Renderer->SetPivot({ 810.f - (50.f * i), -190 });
+			Renderer->SetPivot({ 810.f - (35.f * i), -190 });
 			Renderer->SetOrder(20);
 		}
 
@@ -1346,21 +1354,21 @@ void InGame::RenderRestPoint(int _Value)
 		case 7:
 		{
 			GameEngineRenderer* Renderer = RestActor_->CreateRenderer("IG_PLAYER_NUMBER_7.bmp");
-			Renderer->SetPivot({ 810.f - (40.f * i), -190 });
+			Renderer->SetPivot({ 810.f - (35.f * i), -190 });
 			Renderer->SetOrder(20);
 		}
 		break;
 		case 8:
 		{
 			GameEngineRenderer* Renderer = RestActor_->CreateRenderer("IG_PLAYER_NUMBER_8.bmp");
-			Renderer->SetPivot({ 810.f - (40.f * i), -190 });
+			Renderer->SetPivot({ 810.f - (35.f * i), -190 });
 			Renderer->SetOrder(20);
 		}
 		break;
 		case 9:
 		{
 			GameEngineRenderer* Renderer = RestActor_->CreateRenderer("IG_PLAYER_NUMBER_9.bmp");
-			Renderer->SetPivot({ 810.f - (40.f * i), -190 });
+			Renderer->SetPivot({ 810.f - (35.f * i), -190 });
 			Renderer->SetOrder(20);
 		}
 		break;

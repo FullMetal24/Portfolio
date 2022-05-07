@@ -131,8 +131,12 @@ public:
 	}
 
 	//이동 관련 함수
-	Puyo* LeftPuyo(Puyo* Map[15][6], Puyo* _Other);
-	Puyo* RightPuyo(Puyo* Map[15][6], Puyo* _Other);
+	bool LeftPuyo(Puyo* Map[15][6], Puyo* _Other);
+	void JustLeftMove(Puyo* Map[15][6], Puyo* _Other);
+
+	bool RightPuyo(Puyo* Map[15][6], Puyo* _Other);
+	void JustRightMove(Puyo* Map[15][6], Puyo* _Other);
+
 	Puyo* DownPuyo(Puyo* Map[15][6], Puyo* _Other);
 	Puyo* RotatePuyo(Puyo* Map[15][6], Puyo* _Center);
 	void LandPuyo(Puyo* Map[15][6], Puyo* _Other);

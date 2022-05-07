@@ -682,10 +682,7 @@ void EnemyFSM::AddWarningPuyo(int _Count)
 		WarningPuyos_.push_back(NewPuyo);
 	}
 
-	/*if (3 <= WarningPuyos_.size())
-	{
-
-	}*/
+	DivisionWarningPuyo();
 }
 
 void EnemyFSM::PopWarningPuyo()
@@ -720,6 +717,56 @@ void EnemyFSM::CountPopWarningPuyo(int _Count)
 			NewPuyo->MoveRight();
 			WarningPuyos_.pop_back();
 		}
+	}
+}
+
+void EnemyFSM::DivisionWarningPuyo()
+{
+	int Quot = WarningPuyos_.size() / 3; //¹æÇØ»Ñ¿ä ¸ò
+	int Rema = WarningPuyos_.size() % 3; //¹æÇØ»Ñ¿ä ³ª¸ÓÁö
+
+	if (0 >= Quot)
+	{
+		return;
+	}
+
+	std::vector<WarningPuyo*>::iterator StartIter = WarningPuyos_.begin();
+	std::vector<WarningPuyo*>::iterator EndIter = WarningPuyos_.end();
+
+	for (; StartIter != EndIter; ++StartIter)
+	{
+		if (nullptr != (*StartIter))
+		{
+			(*StartIter)->Death();
+			(*StartIter) = nullptr;
+
+		}
+	}
+
+	WarningPuyos_.clear();
+
+	for (int i = 0; i < Quot; ++i)
+	{
+		WarningPuyo* NewPuyo = GetLevel()->CreateActor<WarningPuyo>(10);
+		NewPuyo->SetStartPos({ 1000.f, 35.f });
+		NewPuyo->SetEndPos({ 850.f + WarningPuyos_.size() * 35.f, 35.f });
+		NewPuyo->MoveLeft();
+
+		NewPuyo->GetMyRenderer()->SetImage("IG_WARNING_PUYO_2.bmp");
+
+		WarningPuyos_.push_back(NewPuyo);
+	}
+
+	for (int i = 0; i < Rema; i++)
+	{
+		WarningPuyo* NewPuyo = GetLevel()->CreateActor<WarningPuyo>(10);
+		NewPuyo->SetStartPos({ 1000.f, 35.f });
+		NewPuyo->SetEndPos({ 850.f + WarningPuyos_.size() * 35.f, 35.f });
+		NewPuyo->MoveLeft();
+
+		NewPuyo->GetMyRenderer()->SetImage("IG_WARNING_PUYO_1.bmp");
+
+		WarningPuyos_.push_back(NewPuyo);
 	}
 }
 
@@ -884,7 +931,7 @@ void EnemyFSM::InitBubble()
 		float RanRadian = Random_.RandomFloat(0, 3.14256f);
 		BubbleDir_[i] = float4::RadianToDirectionFloat4(RanRadian * -1.f);
 
-		int RanSpeed = Random_.RandomInt(100, 150);
+		int RanSpeed = Random_.RandomInt(150, 200);
 		BubbleSpeed_[i] = RanSpeed;
 
 		Bubbles_[i]->SetPosition(GameEngineWindow::GetScale().Half() + float4{0.f, 50.f + (10 * (i * -1.f)) });
@@ -1318,6 +1365,17 @@ void EnemyFSM::LoseFallPuyo()
 
 void EnemyFSM::BehindPuyo()
 {
+	for (int Y = 0; Y < 15; Y++)
+	{
+		for (int X = 0; X < 6; X++)
+		{
+			if (nullptr != EnemyMap_[Y][X])
+			{
+				EnemyMap_[Y][X]->GetMyRenderer()->SetOrder(-1);
+			}
+		}
+	}
+
 	CenterPuyo_->GetMyRenderer()->SetOrder(-1);
 	SecondPuyo_->GetMyRenderer()->SetOrder(-1);
 	NextCenterPuyo_->GetMyRenderer()->SetOrder(-1);
@@ -1328,6 +1386,17 @@ void EnemyFSM::BehindPuyo()
 
 void EnemyFSM::FrontPuyo()
 {
+	for (int Y = 0; Y < 15; Y++)
+	{
+		for (int X = 0; X < 6; X++)
+		{
+			if (nullptr != EnemyMap_[Y][X])
+			{
+				EnemyMap_[Y][X]->GetMyRenderer()->SetOrder(1);
+			}
+		}
+	}
+
 	CenterPuyo_->GetMyRenderer()->SetOrder(0);
 	SecondPuyo_->GetMyRenderer()->SetOrder(0);
 	NextCenterPuyo_->GetMyRenderer()->SetOrder(1);

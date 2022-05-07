@@ -145,7 +145,6 @@ void Player::Update()
 			break;
 		case PlayerState::Rest:
 			break;
-
 		}
 
 		DigitScore(Score_);
@@ -294,33 +293,31 @@ void Player::InputPuyoMove()
 
 	if (GameEngineInput::GetInst()->IsDown("Left"))
 	{
-		//OffsetEffect();
-
-		if (CenterPuyo_->GetX() >= SecondPuyo_->GetX())
+		if (CenterPuyo_->GetX() > SecondPuyo_->GetX())
 		{
-			SecondPuyo_->LeftPuyo(PlayerMap_, CenterPuyo_);
 			CenterPuyo_->LeftPuyo(PlayerMap_, SecondPuyo_);
+			SecondPuyo_->JustLeftMove(PlayerMap_, CenterPuyo_);
 		}
 
 		else if (CenterPuyo_->GetX() <= SecondPuyo_->GetX())
 		{
-			CenterPuyo_->LeftPuyo(PlayerMap_, SecondPuyo_);
 			SecondPuyo_->LeftPuyo(PlayerMap_, CenterPuyo_);
+			CenterPuyo_->JustLeftMove(PlayerMap_, SecondPuyo_);
 		}
 	}
 
 	if (GameEngineInput::GetInst()->IsDown("Right"))
 	{
-		if (CenterPuyo_->GetX() >= SecondPuyo_->GetX())
+		if (CenterPuyo_->GetX() > SecondPuyo_->GetX())
 		{
 			CenterPuyo_->RightPuyo(PlayerMap_, SecondPuyo_);
-			SecondPuyo_->RightPuyo(PlayerMap_, CenterPuyo_);
+			SecondPuyo_->JustRightMove(PlayerMap_, CenterPuyo_);
 		}
 
 		else if (CenterPuyo_->GetX() <= SecondPuyo_->GetX())
 		{
 			SecondPuyo_->RightPuyo(PlayerMap_, CenterPuyo_);
-			CenterPuyo_->RightPuyo(PlayerMap_, SecondPuyo_);
+			CenterPuyo_->JustRightMove(PlayerMap_, SecondPuyo_);
 		}
 	}
 
@@ -643,11 +640,6 @@ void Player::CountPopWarningPuyo(int _Count)
 
 void Player::DivisionWarningPuyo()
 {
-	if (3 > WarningPuyos_.size())
-	{
-		return;
-	}
-	
 	int Quot = WarningPuyos_.size() / 3; //¹æÇØ»Ñ¿ä ¸ò
 	int Rema = WarningPuyos_.size() % 3; //¹æÇØ»Ñ¿ä ³ª¸ÓÁö
 
@@ -883,6 +875,17 @@ void Player::FrontPlayer()
 
 void Player::BehindPuyo()
 {
+	for (int Y = 0; Y < 15; Y++)
+	{
+		for (int X = 0; X < 6; X++)
+		{
+			if (nullptr != PlayerMap_[Y][X])
+			{
+				PlayerMap_[Y][X]->GetMyRenderer()->SetOrder(-1);
+			}
+		}
+	}
+
 	CenterPuyo_->GetMyRenderer()->SetOrder(-1);
 	SecondPuyo_->GetMyRenderer()->SetOrder(-1);
 	NextCenterPuyo_->GetMyRenderer()->SetOrder(-1);
@@ -893,6 +896,17 @@ void Player::BehindPuyo()
 
 void Player::FrontPuyo()
 {
+	for (int Y = 0; Y < 15; Y++)
+	{
+		for (int X = 0; X < 6; X++)
+		{
+			if (nullptr != PlayerMap_[Y][X])
+			{
+				PlayerMap_[Y][X]->GetMyRenderer()->SetOrder(1);
+			}
+		}
+	}
+
 	CenterPuyo_->GetMyRenderer()->SetOrder(0);
 	SecondPuyo_->GetMyRenderer()->SetOrder(0);
 	NextCenterPuyo_->GetMyRenderer()->SetOrder(1);
@@ -1082,7 +1096,6 @@ void Player::Lose()
 			{
 				(*StartIter)->Death();
 				(*StartIter) = nullptr;
-
 			}
 		}
 
@@ -1103,7 +1116,7 @@ void Player::Lose()
 			}
 		}
 
-		Hindrances_.clear();
+		WarningPuyos_.clear();
 	}
 }
 
