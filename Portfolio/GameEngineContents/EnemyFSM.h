@@ -92,6 +92,7 @@ public:
 	void LoseAnimation();
 	void WinAnimation();
 	
+	void Lose();
 	void LoseFallPuyo();
 
 	//휴식 관련 함수

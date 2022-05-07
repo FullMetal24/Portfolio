@@ -1605,7 +1605,7 @@ void InGame::LevelChangeStart(GameEngineLevel* _PrevLevel)
 	PlayerGameOver_->SetMyRenderer(PlayerGameOver_->CreateRenderer("IG_PLAYER_GAMEOVER.bmp"));
 
 	GameOverStartPos_ = PlayerGameOver_->GetPosition();
-	GameOverEndPos_ = PlayerGameOver_->GetPosition() + float4{ 0, -1300.f };
+	GameOverEndPos_ = PlayerGameOver_->GetPosition() + float4{ 0, -1250.f };
 
 	PlayerWin_ = CreateActor<InGameActor>(-1);
 	PlayerWin_->SetPosition({ 255, 150 });

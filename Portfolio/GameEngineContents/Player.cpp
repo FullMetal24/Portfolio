@@ -863,6 +863,78 @@ void Player::DestroyPlayer()
 		}
 	}
 
+	{
+		std::vector<std::vector<Puyo*>>::iterator StartIter = AllDestroyPuyo_.begin();
+		std::vector<std::vector<Puyo*>>::iterator EndIter = AllDestroyPuyo_.end();
+
+		for (; StartIter != EndIter; ++StartIter)
+		{
+			std::vector<Puyo*>::iterator StartPuyos = (*StartIter).begin();
+			std::vector<Puyo*>::iterator EndPuyos = (*StartIter).end();
+
+			for (; StartPuyos != EndPuyos; ++StartPuyos)
+			{
+				if (nullptr != (*StartPuyos))
+				{
+					(*StartPuyos)->Death();
+					(*StartPuyos) = nullptr;
+				}
+			}
+		}
+
+		AllDestroyPuyo_.clear();
+	}
+
+	{
+		std::set<Puyo*>::iterator StartIter = FindAllDestroy_.begin();
+		std::set<Puyo*>::iterator EndIter = FindAllDestroy_.end();
+
+		for (; StartIter != EndIter; ++StartIter)
+		{
+			if (nullptr != (*StartIter))
+			{
+				(*StartIter)->Death();
+			}
+		}
+
+		FindAllDestroy_.clear();
+	}
+
+
+	{
+		std::vector<Puyo*>::iterator StartIter = Hindrances_.begin();
+		std::vector<Puyo*>::iterator EndIter = Hindrances_.end();
+
+		for (; StartIter != EndIter; ++StartIter)
+		{
+			if (nullptr != (*StartIter))
+			{
+				(*StartIter)->Death();
+				(*StartIter) = nullptr;
+
+			}
+		}
+
+		Hindrances_.clear();
+	}
+
+	{
+		std::vector<WarningPuyo*>::iterator StartIter = WarningPuyos_.begin();
+		std::vector<WarningPuyo*>::iterator EndIter = WarningPuyos_.end();
+
+		for (; StartIter != EndIter; ++StartIter)
+		{
+			if (nullptr != (*StartIter))
+			{
+				(*StartIter)->Death();
+				(*StartIter) = nullptr;
+
+			}
+		}
+
+		Hindrances_.clear();
+	}
+
 	NextCenterPuyo_->Death();
 	NextCenterPuyo_ = nullptr;
 	NextSecondPuyo_->Death();
@@ -909,5 +981,77 @@ void Player::Lose()
 		EffectSound_.SoundPlayOneShot("LOSE_FALL_PUYO.mp3");
 	}
 
+
+	{
+		std::vector<std::vector<Puyo*>>::iterator StartIter = AllDestroyPuyo_.begin();
+		std::vector<std::vector<Puyo*>>::iterator EndIter = AllDestroyPuyo_.end();
+
+		for (; StartIter != EndIter; ++StartIter)
+		{
+			std::vector<Puyo*>::iterator StartPuyos = (*StartIter).begin();
+			std::vector<Puyo*>::iterator EndPuyos = (*StartIter).end();
+
+			for (; StartPuyos != EndPuyos; ++StartPuyos)
+			{
+				if (nullptr != (*StartPuyos))
+				{
+					(*StartPuyos)->Death();
+					(*StartPuyos) = nullptr;
+				}
+			}
+		}
+
+		AllDestroyPuyo_.clear();
+	}
+
+	{
+		std::set<Puyo*>::iterator StartIter = FindAllDestroy_.begin();
+		std::set<Puyo*>::iterator EndIter = FindAllDestroy_.end();
+
+		for (; StartIter != EndIter; ++StartIter)
+		{
+			if (nullptr != (*StartIter))
+			{
+				(*StartIter)->Death();
+			}
+		}
+
+		FindAllDestroy_.clear();
+	}
+
+
+	{
+		std::vector<Puyo*>::iterator StartIter = Hindrances_.begin();
+		std::vector<Puyo*>::iterator EndIter = Hindrances_.end();
+
+		for (; StartIter != EndIter; ++StartIter)
+		{
+			if (nullptr != (*StartIter))
+			{
+				(*StartIter)->Death();
+				(*StartIter) = nullptr;
+
+			}
+		}
+
+		Hindrances_.clear();
+	}
+
+	{
+		std::vector<WarningPuyo*>::iterator StartIter = WarningPuyos_.begin();
+		std::vector<WarningPuyo*>::iterator EndIter = WarningPuyos_.end();
+
+		for (; StartIter != EndIter; ++StartIter)
+		{
+			if (nullptr != (*StartIter))
+			{
+				(*StartIter)->Death();
+				(*StartIter) = nullptr;
+
+			}
+		}
+
+		Hindrances_.clear();
+	}
 }
 
