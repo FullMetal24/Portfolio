@@ -292,33 +292,101 @@ void Player::InputPuyoMove()
 	}
 
 	if (GameEngineInput::GetInst()->IsDown("Left"))
-	{
-		if (CenterPuyo_->GetX() > SecondPuyo_->GetX())
+	{		
+		if (CenterPuyo_->GetY() < SecondPuyo_->GetY())
 		{
-			CenterPuyo_->LeftPuyo(PlayerMap_, SecondPuyo_);
-			SecondPuyo_->JustLeftMove(PlayerMap_, CenterPuyo_);
+			if (CenterPuyo_->GetX() < SecondPuyo_->GetX())
+			{
+				CenterPuyo_->LeftPuyo(PlayerMap_, SecondPuyo_);
+				SecondPuyo_->JustLeftMove(PlayerMap_, CenterPuyo_);
+			}
+
+			else if (CenterPuyo_->GetX() >= SecondPuyo_->GetX())
+			{
+				SecondPuyo_->LeftPuyo(PlayerMap_, CenterPuyo_);
+				CenterPuyo_->JustLeftMove(PlayerMap_, SecondPuyo_);
+			}
 		}
 
-		else if (CenterPuyo_->GetX() <= SecondPuyo_->GetX())
+		else if (CenterPuyo_->GetY() > SecondPuyo_->GetY())
 		{
-			SecondPuyo_->LeftPuyo(PlayerMap_, CenterPuyo_);
-			CenterPuyo_->JustLeftMove(PlayerMap_, SecondPuyo_);
+			if (CenterPuyo_->GetX() < SecondPuyo_->GetX())
+			{
+				SecondPuyo_->LeftPuyo(PlayerMap_, CenterPuyo_);
+				CenterPuyo_->JustLeftMove(PlayerMap_, SecondPuyo_);
+			}
+
+			else if (CenterPuyo_->GetX() >= SecondPuyo_->GetX())
+			{
+				CenterPuyo_->LeftPuyo(PlayerMap_, SecondPuyo_);
+				SecondPuyo_->JustLeftMove(PlayerMap_, CenterPuyo_);
+			}
 		}
+
+		else if (CenterPuyo_->GetY() == SecondPuyo_->GetY())
+		{
+			if (CenterPuyo_->GetX() < SecondPuyo_->GetX())
+			{
+				CenterPuyo_->LeftPuyo(PlayerMap_, SecondPuyo_);
+				SecondPuyo_->JustLeftMove(PlayerMap_, CenterPuyo_);
+			}
+
+			else if (CenterPuyo_->GetX() >= SecondPuyo_->GetX())
+			{
+				SecondPuyo_->LeftPuyo(PlayerMap_, CenterPuyo_);
+				CenterPuyo_->JustLeftMove(PlayerMap_, SecondPuyo_);
+			}
+		}
+
 	}
 
 	if (GameEngineInput::GetInst()->IsDown("Right"))
 	{
-		if (CenterPuyo_->GetX() > SecondPuyo_->GetX())
+		if (CenterPuyo_->GetY() < SecondPuyo_->GetY())
 		{
-			CenterPuyo_->RightPuyo(PlayerMap_, SecondPuyo_);
-			SecondPuyo_->JustRightMove(PlayerMap_, CenterPuyo_);
+			if (CenterPuyo_->GetX() > SecondPuyo_->GetX())
+			{
+				CenterPuyo_->RightPuyo(PlayerMap_, SecondPuyo_);
+				SecondPuyo_->JustRightMove(PlayerMap_, CenterPuyo_);
+			}
+
+			else if (CenterPuyo_->GetX() <= SecondPuyo_->GetX())
+			{
+				SecondPuyo_->RightPuyo(PlayerMap_, CenterPuyo_);
+				CenterPuyo_->JustRightMove(PlayerMap_, SecondPuyo_);
+			}
 		}
 
-		else if (CenterPuyo_->GetX() <= SecondPuyo_->GetX())
+		else if (CenterPuyo_->GetY() > SecondPuyo_->GetY())
 		{
-			SecondPuyo_->RightPuyo(PlayerMap_, CenterPuyo_);
-			CenterPuyo_->JustRightMove(PlayerMap_, SecondPuyo_);
+			if (CenterPuyo_->GetX() > SecondPuyo_->GetX())
+			{
+				SecondPuyo_->RightPuyo(PlayerMap_, CenterPuyo_);
+				CenterPuyo_->JustRightMove(PlayerMap_, SecondPuyo_);
+			}
+
+			else if (CenterPuyo_->GetX() <= SecondPuyo_->GetX())
+			{
+				CenterPuyo_->RightPuyo(PlayerMap_, SecondPuyo_);
+				SecondPuyo_->JustRightMove(PlayerMap_, CenterPuyo_);
+			}
 		}
+
+		else if (CenterPuyo_->GetY() == SecondPuyo_->GetY())
+		{
+			if (CenterPuyo_->GetX() > SecondPuyo_->GetX())
+			{
+				CenterPuyo_->RightPuyo(PlayerMap_, SecondPuyo_);
+				SecondPuyo_->JustRightMove(PlayerMap_, CenterPuyo_);
+			}
+
+			else if (CenterPuyo_->GetX() <= SecondPuyo_->GetX())
+			{
+				SecondPuyo_->RightPuyo(PlayerMap_, CenterPuyo_);
+				CenterPuyo_->JustRightMove(PlayerMap_, SecondPuyo_);
+			}
+		}
+
 	}
 
 	if (GameEngineInput::GetInst()->IsDown("Rotate"))
