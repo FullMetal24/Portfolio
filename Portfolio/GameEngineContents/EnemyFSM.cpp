@@ -151,7 +151,6 @@ void EnemyFSM::Update()
 			AnimationState_ = EnemyAnimationState::Lose;
 			break;
 		case EnemyState::Rest:
-			//뿌요 전부 가리는 함수들
 			break;
 		}
 

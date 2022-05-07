@@ -56,7 +56,7 @@ public:
 	void PlayerLose();
 
 	void RenderTime();
-	void RenderBonus(int _Value);
+	void RenderBonusPoint(int _Value);
 	void RenderStagePoint(int _Value);
 	void RenderRestPoint(int _Value);
 
@@ -105,9 +105,17 @@ private:
 	float ChangeCount_;
 	int ResultCount_;
 
+	int BonusPoint_;
+	int StagePoint_;
+	int RestPoint_;
+
 	InGameActor* PlayerGameOver_;
 	InGameActor* PlayerWin_;
 	InGameActor* SDPlayer_;
+
+	InGameActor* BonusActor_;
+	InGameActor* StageActor_;
+	InGameActor* RestActor_;
 
 	float4 GameOverStartPos_;
 	float4 GameOverEndPos_;

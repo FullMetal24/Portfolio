@@ -120,6 +120,51 @@ public:
 		return IsDanger_;
 	}
 
+	inline void SetExp(int _Value)
+	{
+		Exp_ = _Value;
+	}
+
+	inline void SetNext(int _Value)
+	{
+		Next_ = _Value;
+	}
+
+	inline void SetRest(int _Value)
+	{
+		Rest_ = _Value;
+	}
+
+	inline int GetExp()
+	{
+		return Exp_;
+	}
+
+	inline int GetNext()
+	{
+		return Next_;
+	}
+
+	inline int GetRest()
+	{
+		return Rest_;
+	}
+
+	inline int GetScore()
+	{
+		return Score_;
+	}
+
+	inline void SetScore(int _Score)
+	{
+		Score_ = _Score;
+	}
+
+	inline void PlusScore(int _Score)
+	{
+		Score_ += _Score;
+	}
+
 protected:
 	void Start() override;
 	void Update() override;

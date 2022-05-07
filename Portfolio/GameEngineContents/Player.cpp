@@ -69,9 +69,9 @@ void Player::Start()
 	Fire_ = GetLevel()->CreateActor<Fire>();
 	Fire_->SetFireOwner(FireOwner::Player);
 
-	Exp_ = 15000;
+	Exp_ = 0;
 	Next_ = 15000;
-	Rest_ = 0;
+	Rest_ = 15000;
 
 	InGameLevel_ = dynamic_cast<InGame*>(GetLevel());
 }
@@ -144,10 +144,8 @@ void Player::Update()
 			LoseFallPuyo();
 			break;
 		case PlayerState::Rest:
-		{
-
-		}
 			break;
+
 		}
 
 		DigitScore(Score_);

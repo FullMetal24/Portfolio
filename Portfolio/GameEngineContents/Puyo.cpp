@@ -1014,7 +1014,6 @@ void Puyo::FallPuyo(Puyo* Map[15][6], EnemyFSM* _Enemy)
 		return;
 	}
 
-
 	Alpha_ = 0.f;
 
 	Map[Y_][X_] = nullptr;

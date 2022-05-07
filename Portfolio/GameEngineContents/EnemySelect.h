@@ -73,5 +73,7 @@ private:
 	GameEngineSoundPlayer EnemySelectBgm_;
 	GameEngineSound EffectSound_;
 
+	std::vector<EnemySelectActor*> PointActors_;
+
 };
 
