@@ -159,7 +159,7 @@ void Player::NewPuyoPair()
 	SecondPuyo_ = CreatePuyo(2, 14, NextSecondPuyo_->GetColor());
 	CenterPuyo_ = CreatePuyo(2, 13, NextCenterPuyo_->GetColor());
 
-	if (nullptr != CenterPuyo_ 
+	if (nullptr != CenterPuyo_
 		&& nullptr != SecondPuyo_)
 	{
 		CenterPuyo_->SetIsNewPuyo(true);
@@ -480,7 +480,7 @@ void Player::LandPuyo()
 		}
 	}
 
-	 PlayerState_ = PlayerState::PuyoCheck;
+	PlayerState_ = PlayerState::PuyoCheck;
 }
 
 void Player::PlayerToEnemyAttack(float4 _FromPos)
@@ -597,11 +597,13 @@ void Player::AddWarningPuyo(int _Count)
 	{
 		WarningPuyo* NewPuyo = GetLevel()->CreateActor<WarningPuyo>(10);
 		NewPuyo->SetStartPos({ 250.f, 35.f });
-		NewPuyo->SetEndPos({ 70.f + WarningPuyos_.size() * 35.f, 35.f});
+		NewPuyo->SetEndPos({ 70.f + WarningPuyos_.size() * 35.f, 35.f });
 		NewPuyo->MoveLeft();
 
 		WarningPuyos_.push_back(NewPuyo);
 	}
+
+	DivisionWarningPuyo();
 }
 
 void Player::PopWarningPuyo()
@@ -636,6 +638,56 @@ void Player::CountPopWarningPuyo(int _Count)
 			NewPuyo->MoveRight();
 			WarningPuyos_.pop_back();
 		}
+	}
+}
+
+void Player::DivisionWarningPuyo()
+{
+	if (3 > WarningPuyos_.size())
+	{
+		return;
+	}
+	
+	int Quot = WarningPuyos_.size() / 3; //¹æÇØ»Ñ¿ä ¸ò
+	int Rema = WarningPuyos_.size() % 3; //¹æÇØ»Ñ¿ä ³ª¸ÓÁö
+
+	std::vector<WarningPuyo*>::iterator StartIter = WarningPuyos_.begin();
+	std::vector<WarningPuyo*>::iterator EndIter = WarningPuyos_.end();
+
+	for (; StartIter != EndIter; ++StartIter)
+	{
+		if (nullptr != (*StartIter))
+		{
+			(*StartIter)->Death();
+			(*StartIter) = nullptr;
+
+		}
+	}
+
+	WarningPuyos_.clear();
+
+	for (int i = 0; i < Quot; ++i)
+	{
+		WarningPuyo* NewPuyo = GetLevel()->CreateActor<WarningPuyo>(10);
+		NewPuyo->SetStartPos({ 250.f, 35.f });
+		NewPuyo->SetEndPos({ 70.f + WarningPuyos_.size() * 35.f, 35.f });
+		NewPuyo->MoveLeft();
+
+		NewPuyo->GetMyRenderer()->SetImage("IG_WARNING_PUYO_2.bmp");
+
+		WarningPuyos_.push_back(NewPuyo);
+	}
+
+	for (int i = 0; i < Rema; i++)
+	{
+		WarningPuyo* NewPuyo = GetLevel()->CreateActor<WarningPuyo>(10);
+		NewPuyo->SetStartPos({ 250.f, 35.f });
+		NewPuyo->SetEndPos({ 70.f + WarningPuyos_.size() * 35.f, 35.f });
+		NewPuyo->MoveLeft();
+
+		NewPuyo->GetMyRenderer()->SetImage("IG_WARNING_PUYO_1.bmp");
+
+		WarningPuyos_.push_back(NewPuyo);
 	}
 }
 
@@ -932,7 +984,7 @@ void Player::DestroyPlayer()
 			}
 		}
 
-		Hindrances_.clear();
+		WarningPuyos_.clear();
 	}
 
 	NextCenterPuyo_->Death();

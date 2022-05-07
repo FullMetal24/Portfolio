@@ -58,6 +58,7 @@ public:
 	void AddWarningPuyo(int _Count);
 	void PopWarningPuyo();
 	void CountPopWarningPuyo(int _Count);
+	void DivisionWarningPuyo();
 
 	//스코어 관련 함수
 	void ScoreInit();
@@ -74,6 +75,7 @@ public:
 	void FrontPuyo();
 
 	void DestroyPlayer();
+
 
 	void Win();
 	void Lose();
