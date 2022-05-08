@@ -607,11 +607,6 @@ void Player::PlayerToEnemyAttack(float4 _FromPos)
 		Fire_->SetIsAttack(true);
 	}
 
-	if (0 == Chain_)
-	{
-		return;
-	}
-
 	Enemy_->CreateHindrancePuyo(Chain_ * Chain_);
 }
 
@@ -726,24 +721,11 @@ void Player::CountPopWarningPuyo(int _Count)
 
 void Player::DivisionWarningPuyo()
 {
-	int Size = WarningPuyos_.size();
+	int Quot = WarningPuyos_.size() / 3; //¹æÇØ»Ñ¿ä ¸ò
+	int Rema = WarningPuyos_.size() % 3; //¹æÇØ»Ñ¿ä ³ª¸ÓÁö
 
 	std::vector<WarningPuyo*>::iterator StartIter = WarningPuyos_.begin();
 	std::vector<WarningPuyo*>::iterator EndIter = WarningPuyos_.end();
-
-	//for (; StartIter != EndIter; ++StartIter)
-	//{
-	//	if (nullptr != (*StartIter))
-	//	{
-	//		if ("IG_WARNING_PUYO_2.BMP" == (*StartIter)->GetMyRenderer()->GetImage()->GetNameConstRef())
-	//		{
-	//			Size += 2;
-	//		}
-	//	}
-	//}
-
-	int Quot = Size / 3; //¹æÇØ»Ñ¿ä ¸ò
-	int Rema = Size % 3; //¹æÇØ»Ñ¿ä ³ª¸ÓÁö
 
 	for (; StartIter != EndIter; ++StartIter)
 	{
@@ -751,6 +733,7 @@ void Player::DivisionWarningPuyo()
 		{
 			(*StartIter)->Death();
 			(*StartIter) = nullptr;
+
 		}
 	}
 
@@ -821,22 +804,6 @@ void Player::FallHindrancePuyo()
 		PlayerMap_[Y][X] = (*StartIter);
 	}
 
-	{
-		std::vector<WarningPuyo*>::iterator StartIter = WarningPuyos_.begin();
-		std::vector<WarningPuyo*>::iterator EndIter = WarningPuyos_.end();
-
-		for (; StartIter != EndIter; ++StartIter)
-		{
-			if (nullptr != (*StartIter))
-			{
-				(*StartIter)->Death();
-				(*StartIter) = nullptr;
-
-			}
-		}
-	}
-
-	WarningPuyos_.clear();
 	Hindrances_.clear();
 	PlayerState_ = PlayerState::NewPuyo;
 }

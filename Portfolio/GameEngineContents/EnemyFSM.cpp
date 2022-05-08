@@ -161,6 +161,7 @@ void EnemyFSM::Update()
 			IdleAnimation();
 			break;
 		case EnemyAnimationState::Excited:
+			DisappearBubble();
 			ExcitedAnimation();
 			break;
 		case EnemyAnimationState::Danger:
@@ -348,7 +349,7 @@ void EnemyFSM::GreedyPuyoMove()
 			}
 
 			int Min = Distance[0];
-			
+
 			for (int i = 0; i < 6; ++i)
 			{
 				if (Distance[i] < Min)
@@ -371,109 +372,33 @@ void EnemyFSM::GreedyPuyoMove()
 
 		else if (CenterPuyo_->GetX() > ActionIndex_)
 		{
-			LeftMove();
+			if (CenterPuyo_->GetX() >= SecondPuyo_->GetX())
+			{
+				SecondPuyo_->LeftPuyo(EnemyMap_, CenterPuyo_);
+				CenterPuyo_->LeftPuyo(EnemyMap_, SecondPuyo_);
+			}
+
+			else if (CenterPuyo_->GetX() <= SecondPuyo_->GetX())
+			{
+				CenterPuyo_->LeftPuyo(EnemyMap_, SecondPuyo_);
+				SecondPuyo_->LeftPuyo(EnemyMap_, CenterPuyo_);
+			}
 		}
 
 
 		else if (CenterPuyo_->GetX() < ActionIndex_)
 		{
-			RightMove();
-		}
-	}
-}
+			if (CenterPuyo_->GetX() >= SecondPuyo_->GetX())
+			{
+				CenterPuyo_->RightPuyo(EnemyMap_, SecondPuyo_);
+				SecondPuyo_->RightPuyo(EnemyMap_, CenterPuyo_);
+			}
 
-void EnemyFSM::LeftMove()
-{
-	if (CenterPuyo_->GetY() < SecondPuyo_->GetY())
-	{
-		if (CenterPuyo_->GetX() < SecondPuyo_->GetX())
-		{
-			CenterPuyo_->LeftPuyo(EnemyMap_, SecondPuyo_);
-			SecondPuyo_->JustLeftMove(EnemyMap_, CenterPuyo_);
-		}
-
-		else if (CenterPuyo_->GetX() >= SecondPuyo_->GetX())
-		{
-			SecondPuyo_->LeftPuyo(EnemyMap_, CenterPuyo_);
-			CenterPuyo_->JustLeftMove(EnemyMap_, SecondPuyo_);
-		}
-	}
-
-	else if (CenterPuyo_->GetY() > SecondPuyo_->GetY())
-	{
-		if (CenterPuyo_->GetX() < SecondPuyo_->GetX())
-		{
-			SecondPuyo_->LeftPuyo(EnemyMap_, CenterPuyo_);
-			CenterPuyo_->JustLeftMove(EnemyMap_, SecondPuyo_);
-		}
-
-		else if (CenterPuyo_->GetX() >= SecondPuyo_->GetX())
-		{
-			CenterPuyo_->LeftPuyo(EnemyMap_, SecondPuyo_);
-			SecondPuyo_->JustLeftMove(EnemyMap_, CenterPuyo_);
-		}
-	}
-
-	else if (CenterPuyo_->GetY() == SecondPuyo_->GetY())
-	{
-		if (CenterPuyo_->GetX() < SecondPuyo_->GetX())
-		{
-			CenterPuyo_->LeftPuyo(EnemyMap_, SecondPuyo_);
-			SecondPuyo_->JustLeftMove(EnemyMap_, CenterPuyo_);
-		}
-
-		else if (CenterPuyo_->GetX() >= SecondPuyo_->GetX())
-		{
-			SecondPuyo_->LeftPuyo(EnemyMap_, CenterPuyo_);
-			CenterPuyo_->JustLeftMove(EnemyMap_, SecondPuyo_);
-		}
-	}
-}
-
-void EnemyFSM::RightMove()
-{
-	if (CenterPuyo_->GetY() < SecondPuyo_->GetY())
-	{
-		if (CenterPuyo_->GetX() > SecondPuyo_->GetX())
-		{
-			CenterPuyo_->RightPuyo(EnemyMap_, SecondPuyo_);
-			SecondPuyo_->JustRightMove(EnemyMap_, CenterPuyo_);
-		}
-
-		else if (CenterPuyo_->GetX() <= SecondPuyo_->GetX())
-		{
-			SecondPuyo_->RightPuyo(EnemyMap_, CenterPuyo_);
-			CenterPuyo_->JustRightMove(EnemyMap_, SecondPuyo_);
-		}
-	}
-
-	else if (CenterPuyo_->GetY() > SecondPuyo_->GetY())
-	{
-		if (CenterPuyo_->GetX() > SecondPuyo_->GetX())
-		{
-			SecondPuyo_->RightPuyo(EnemyMap_, CenterPuyo_);
-			CenterPuyo_->JustRightMove(EnemyMap_, SecondPuyo_);
-		}
-
-		else if (CenterPuyo_->GetX() <= SecondPuyo_->GetX())
-		{
-			CenterPuyo_->RightPuyo(EnemyMap_, SecondPuyo_);
-			SecondPuyo_->JustRightMove(EnemyMap_, CenterPuyo_);
-		}
-	}
-
-	else if (CenterPuyo_->GetY() == SecondPuyo_->GetY())
-	{
-		if (CenterPuyo_->GetX() > SecondPuyo_->GetX())
-		{
-			CenterPuyo_->RightPuyo(EnemyMap_, SecondPuyo_);
-			SecondPuyo_->JustRightMove(EnemyMap_, CenterPuyo_);
-		}
-
-		else if (CenterPuyo_->GetX() <= SecondPuyo_->GetX())
-		{
-			SecondPuyo_->RightPuyo(EnemyMap_, CenterPuyo_);
-			CenterPuyo_->JustRightMove(EnemyMap_, SecondPuyo_);
+			else if (CenterPuyo_->GetX() <= SecondPuyo_->GetX())
+			{
+				SecondPuyo_->RightPuyo(EnemyMap_, CenterPuyo_);
+				CenterPuyo_->RightPuyo(EnemyMap_, SecondPuyo_);
+			}
 		}
 	}
 }
@@ -507,7 +432,7 @@ void EnemyFSM::RandomDown()
 			Puyo* DownPuyo1 = SecondPuyo_->DownPuyo(EnemyMap_, CenterPuyo_);
 		}
 
-		else if ( CenterPuyo_->GetY() >= SecondPuyo_->GetY())
+		else if (CenterPuyo_->GetY() >= SecondPuyo_->GetY())
 		{
 			++Score_;
 			Puyo* DownPuyo1 = SecondPuyo_->DownPuyo(EnemyMap_, CenterPuyo_);
@@ -515,7 +440,7 @@ void EnemyFSM::RandomDown()
 		}
 	}
 }
- 
+
 void EnemyFSM::AutoDown()
 {
 	AutoDownTime_ -= GameEngineTime::GetDeltaTime();
@@ -685,11 +610,6 @@ void EnemyFSM::EnemyToPlayerAttack(float4 _FromPos)
 		Fire_->SetIsAttack(true);
 	}
 
-	if (0 == Chain_)
-	{
-		return;
-	}
-
 	Player_->CreateHindrancePuyo(Chain_ * Chain_);
 }
 
@@ -723,7 +643,7 @@ void EnemyFSM::HindrancePuyoCheck()
 void EnemyFSM::FallHindrancePuyo()
 {
 	EffectSound_.SoundPlayOneShot("FALL_HINDRANCE.mp3");
-	
+
 	std::vector<Puyo*>::iterator StartIter = Hindrances_.begin();
 	std::vector<Puyo*>::iterator EndIter = Hindrances_.end();
 
@@ -746,22 +666,6 @@ void EnemyFSM::FallHindrancePuyo()
 		EnemyMap_[Y][X] = (*StartIter);
 	}
 
-	{
-		std::vector<WarningPuyo*>::iterator StartIter = WarningPuyos_.begin();
-		std::vector<WarningPuyo*>::iterator EndIter = WarningPuyos_.end();
-
-		for (; StartIter != EndIter; ++StartIter)
-		{
-			if (nullptr != (*StartIter))
-			{
-				(*StartIter)->Death();
-				(*StartIter) = nullptr;
-
-			}
-		}
-	}
-
-	WarningPuyos_.clear();
 	Hindrances_.clear();
 	EnemyState_ = EnemyState::NewPuyo;
 }
@@ -813,19 +717,6 @@ void EnemyFSM::CountPopWarningPuyo(int _Count)
 		{
 			NewPuyo->MoveRight();
 			WarningPuyos_.pop_back();
-
-			if ("IG_WARNING_PUYO_2.BMP" == NewPuyo->GetMyRenderer()->GetImage()->GetNameConstRef())
-			{
-				for (int i = 0; i < 2; i++)
-				{
-					WarningPuyo* NewPuyo = GetLevel()->CreateActor<WarningPuyo>(10);
-					NewPuyo->SetStartPos({ 1000.f, 35.f });
-					NewPuyo->SetEndPos({ 850.f + WarningPuyos_.size() * 35.f, 35.f });
-					NewPuyo->MoveLeft();
-
-					WarningPuyos_.push_back(NewPuyo);
-				}
-			}
 		}
 	}
 }
@@ -897,7 +788,7 @@ void EnemyFSM::OffsetEffect()
 	OffsetRenderer_->GetMyRenderer()->SetOrder(20);
 }
 
- 
+
 
 void EnemyFSM::DigitScore(int _Score)
 {
@@ -996,7 +887,7 @@ void EnemyFSM::DangerCheck()
 		IsDanger_ = true;
 		AnimationState_ = EnemyAnimationState::Danger;
 	}
-	
+
 	else if (Count < 25)
 	{
 		IsDanger_ = false;
@@ -1005,13 +896,13 @@ void EnemyFSM::DangerCheck()
 
 void EnemyFSM::AnimationStateCheck()
 {
-	if (true == Player_->GetDanger() 
+	if (true == Player_->GetDanger()
 		&& false == IsDanger_)
 	{
 		AnimationState_ = EnemyAnimationState::Excited;
 	}
 
-	else if(false == Player_->GetDanger()
+	else if (false == Player_->GetDanger()
 		&& false == IsDanger_)
 	{
 		AnimationState_ = EnemyAnimationState::Idle;
@@ -1039,7 +930,7 @@ void EnemyFSM::InitBubble()
 		int RanSpeed = Random_.RandomInt(150, 200);
 		BubbleSpeed_[i] = RanSpeed;
 
-		Bubbles_[i]->SetPosition(GameEngineWindow::GetScale().Half() + float4{0.f, 50.f + (10 * (i * -1.f)) });
+		Bubbles_[i]->SetPosition(GameEngineWindow::GetScale().Half() + float4{ 0.f, 50.f + (10 * (i * -1.f)) });
 	}
 }
 
@@ -1059,7 +950,7 @@ void EnemyFSM::VomitBubble()
 			if (false == Bubbles_[i]->IsUpdate())
 			{
 				Bubbles_[i]->GetMyRenderer()->PauseOff();
-				Bubbles_[i]->SetPosition(GameEngineWindow::GetScale().Half() + float4{0.f, 50.f + (10 * (i * -1.f)) });
+				Bubbles_[i]->SetPosition(GameEngineWindow::GetScale().Half() + float4{ 0.f, 50.f + (10 * (i * -1.f)) });
 				Bubbles_[i]->GetMyRenderer()->SetOrder(5);
 				Bubbles_[i]->On();
 			}
@@ -1131,7 +1022,7 @@ void EnemyFSM::SetMyProfile(EnemyProfile* _Porifle)
 {
 	MyPorifle_ = _Porifle;
 
-	if (nullptr != MyPorifle_) 
+	if (nullptr != MyPorifle_)
 	{
 		float XPos = 95.f;
 		float YPos = 365.f;
@@ -1158,7 +1049,7 @@ void EnemyFSM::SetMyProfile(EnemyProfile* _Porifle)
 			EnemyAnimations_[1] = EnemyActors_->CreateRenderer();
 			EnemyAnimations_[1]->SetOrder(2);
 			EnemyAnimations_[1]->CreateAnimation("IG_LV2_IDLE.bmp", "IG_LV2_IDLE", 0, 0, 0.0f, false);
-			EnemyAnimations_[1]->CreateAnimation("IG_LV2_LOSE.bmp", "IG_LV2_LOSE", 0, 3, 0.2f,true);
+			EnemyAnimations_[1]->CreateAnimation("IG_LV2_LOSE.bmp", "IG_LV2_LOSE", 0, 3, 0.2f, true);
 			EnemyAnimations_[1]->CreateAnimation("IG_LV2_WIN.bmp", "IG_LV2_WIN", 0, 0, 0.0f, false);
 			EnemyAnimations_[1]->CreateAnimation("IG_LV2_EXCITED.bmp", "IG_LV2_EXCITED", 0, 0, 0.0f, false);
 			EnemyAnimations_[1]->CreateAnimation("IG_LV2_DANGER.bmp", "IG_LV2_DANGER", 0, 0, 0.0f, false);
@@ -1233,10 +1124,10 @@ void EnemyFSM::SetMyProfile(EnemyProfile* _Porifle)
 			EnemyNames_[5]->SetPivot({ XPos, -YPos });
 			EnemyNames_[5]->SetImage("IG_NAME_MOMO.bmp");
 			break;
-			 
+
 		case 7:
 			EnemyAnimations_[6] = EnemyActors_->CreateRenderer();
-			EnemyAnimations_[6]->SetOrder (2);
+			EnemyAnimations_[6]->SetOrder(2);
 			EnemyAnimations_[6]->CreateAnimation("IG_LV7_IDLE.bmp", "IG_LV7_IDLE", 0, 4, 0.2f, true);
 			EnemyAnimations_[6]->CreateAnimation("IG_LV7_LOSE.bmp", "IG_LV7_LOSE", 0, 0, 0.0f, false);
 			EnemyAnimations_[6]->CreateAnimation("IG_LV7_WIN.bmp", "IG_LV7_WIN", 0, 2, 0.2f, true);
