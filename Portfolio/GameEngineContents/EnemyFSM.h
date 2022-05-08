@@ -46,6 +46,8 @@ public:
 
 	//MovePuyo 관련 함수
 	void GreedyPuyoMove();
+	void LeftMove();
+	void RightMove();
 	void RandomRotate();
 	void RandomDown();
 	void AutoDown();

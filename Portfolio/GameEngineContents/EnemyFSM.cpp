@@ -371,33 +371,109 @@ void EnemyFSM::GreedyPuyoMove()
 
 		else if (CenterPuyo_->GetX() > ActionIndex_)
 		{
-			if (CenterPuyo_->GetX() >= SecondPuyo_->GetX())
-			{
-				SecondPuyo_->LeftPuyo(EnemyMap_, CenterPuyo_);
-				CenterPuyo_->LeftPuyo(EnemyMap_, SecondPuyo_);
-			}
-
-			else if (CenterPuyo_->GetX() <= SecondPuyo_->GetX())
-			{
-				CenterPuyo_->LeftPuyo(EnemyMap_, SecondPuyo_);
-				SecondPuyo_->LeftPuyo(EnemyMap_, CenterPuyo_);
-			}
+			LeftMove();
 		}
 
 
 		else if (CenterPuyo_->GetX() < ActionIndex_)
 		{
-			if (CenterPuyo_->GetX() >= SecondPuyo_->GetX())
-			{
-				CenterPuyo_->RightPuyo(EnemyMap_, SecondPuyo_);
-				SecondPuyo_->RightPuyo(EnemyMap_, CenterPuyo_);
-			}
+			RightMove();
+		}
+	}
+}
 
-			else if (CenterPuyo_->GetX() <= SecondPuyo_->GetX())
-			{
-				SecondPuyo_->RightPuyo(EnemyMap_, CenterPuyo_);
-				CenterPuyo_->RightPuyo(EnemyMap_, SecondPuyo_);
-			}
+void EnemyFSM::LeftMove()
+{
+	if (CenterPuyo_->GetY() < SecondPuyo_->GetY())
+	{
+		if (CenterPuyo_->GetX() < SecondPuyo_->GetX())
+		{
+			CenterPuyo_->LeftPuyo(EnemyMap_, SecondPuyo_);
+			SecondPuyo_->JustLeftMove(EnemyMap_, CenterPuyo_);
+		}
+
+		else if (CenterPuyo_->GetX() >= SecondPuyo_->GetX())
+		{
+			SecondPuyo_->LeftPuyo(EnemyMap_, CenterPuyo_);
+			CenterPuyo_->JustLeftMove(EnemyMap_, SecondPuyo_);
+		}
+	}
+
+	else if (CenterPuyo_->GetY() > SecondPuyo_->GetY())
+	{
+		if (CenterPuyo_->GetX() < SecondPuyo_->GetX())
+		{
+			SecondPuyo_->LeftPuyo(EnemyMap_, CenterPuyo_);
+			CenterPuyo_->JustLeftMove(EnemyMap_, SecondPuyo_);
+		}
+
+		else if (CenterPuyo_->GetX() >= SecondPuyo_->GetX())
+		{
+			CenterPuyo_->LeftPuyo(EnemyMap_, SecondPuyo_);
+			SecondPuyo_->JustLeftMove(EnemyMap_, CenterPuyo_);
+		}
+	}
+
+	else if (CenterPuyo_->GetY() == SecondPuyo_->GetY())
+	{
+		if (CenterPuyo_->GetX() < SecondPuyo_->GetX())
+		{
+			CenterPuyo_->LeftPuyo(EnemyMap_, SecondPuyo_);
+			SecondPuyo_->JustLeftMove(EnemyMap_, CenterPuyo_);
+		}
+
+		else if (CenterPuyo_->GetX() >= SecondPuyo_->GetX())
+		{
+			SecondPuyo_->LeftPuyo(EnemyMap_, CenterPuyo_);
+			CenterPuyo_->JustLeftMove(EnemyMap_, SecondPuyo_);
+		}
+	}
+}
+
+void EnemyFSM::RightMove()
+{
+	if (CenterPuyo_->GetY() < SecondPuyo_->GetY())
+	{
+		if (CenterPuyo_->GetX() > SecondPuyo_->GetX())
+		{
+			CenterPuyo_->RightPuyo(EnemyMap_, SecondPuyo_);
+			SecondPuyo_->JustRightMove(EnemyMap_, CenterPuyo_);
+		}
+
+		else if (CenterPuyo_->GetX() <= SecondPuyo_->GetX())
+		{
+			SecondPuyo_->RightPuyo(EnemyMap_, CenterPuyo_);
+			CenterPuyo_->JustRightMove(EnemyMap_, SecondPuyo_);
+		}
+	}
+
+	else if (CenterPuyo_->GetY() > SecondPuyo_->GetY())
+	{
+		if (CenterPuyo_->GetX() > SecondPuyo_->GetX())
+		{
+			SecondPuyo_->RightPuyo(EnemyMap_, CenterPuyo_);
+			CenterPuyo_->JustRightMove(EnemyMap_, SecondPuyo_);
+		}
+
+		else if (CenterPuyo_->GetX() <= SecondPuyo_->GetX())
+		{
+			CenterPuyo_->RightPuyo(EnemyMap_, SecondPuyo_);
+			SecondPuyo_->JustRightMove(EnemyMap_, CenterPuyo_);
+		}
+	}
+
+	else if (CenterPuyo_->GetY() == SecondPuyo_->GetY())
+	{
+		if (CenterPuyo_->GetX() > SecondPuyo_->GetX())
+		{
+			CenterPuyo_->RightPuyo(EnemyMap_, SecondPuyo_);
+			SecondPuyo_->JustRightMove(EnemyMap_, CenterPuyo_);
+		}
+
+		else if (CenterPuyo_->GetX() <= SecondPuyo_->GetX())
+		{
+			SecondPuyo_->RightPuyo(EnemyMap_, CenterPuyo_);
+			CenterPuyo_->JustRightMove(EnemyMap_, SecondPuyo_);
 		}
 	}
 }
@@ -609,6 +685,11 @@ void EnemyFSM::EnemyToPlayerAttack(float4 _FromPos)
 		Fire_->SetIsAttack(true);
 	}
 
+	if (0 == Chain_)
+	{
+		return;
+	}
+
 	Player_->CreateHindrancePuyo(Chain_ * Chain_);
 }
 
@@ -665,6 +746,22 @@ void EnemyFSM::FallHindrancePuyo()
 		EnemyMap_[Y][X] = (*StartIter);
 	}
 
+	{
+		std::vector<WarningPuyo*>::iterator StartIter = WarningPuyos_.begin();
+		std::vector<WarningPuyo*>::iterator EndIter = WarningPuyos_.end();
+
+		for (; StartIter != EndIter; ++StartIter)
+		{
+			if (nullptr != (*StartIter))
+			{
+				(*StartIter)->Death();
+				(*StartIter) = nullptr;
+
+			}
+		}
+	}
+
+	WarningPuyos_.clear();
 	Hindrances_.clear();
 	EnemyState_ = EnemyState::NewPuyo;
 }
@@ -716,6 +813,19 @@ void EnemyFSM::CountPopWarningPuyo(int _Count)
 		{
 			NewPuyo->MoveRight();
 			WarningPuyos_.pop_back();
+
+			if ("IG_WARNING_PUYO_2.BMP" == NewPuyo->GetMyRenderer()->GetImage()->GetNameConstRef())
+			{
+				for (int i = 0; i < 2; i++)
+				{
+					WarningPuyo* NewPuyo = GetLevel()->CreateActor<WarningPuyo>(10);
+					NewPuyo->SetStartPos({ 1000.f, 35.f });
+					NewPuyo->SetEndPos({ 850.f + WarningPuyos_.size() * 35.f, 35.f });
+					NewPuyo->MoveLeft();
+
+					WarningPuyos_.push_back(NewPuyo);
+				}
+			}
 		}
 	}
 }
@@ -724,11 +834,6 @@ void EnemyFSM::DivisionWarningPuyo()
 {
 	int Quot = WarningPuyos_.size() / 3; //¹æÇØ»Ñ¿ä ¸ò
 	int Rema = WarningPuyos_.size() % 3; //¹æÇØ»Ñ¿ä ³ª¸ÓÁö
-
-	if (0 >= Quot)
-	{
-		return;
-	}
 
 	std::vector<WarningPuyo*>::iterator StartIter = WarningPuyos_.begin();
 	std::vector<WarningPuyo*>::iterator EndIter = WarningPuyos_.end();

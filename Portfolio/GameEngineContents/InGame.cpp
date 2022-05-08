@@ -989,42 +989,42 @@ void InGame::RenderTime()
 		case 0:
 		{
 			GameEngineRenderer* Renderer = SDPlayer_->CreateRenderer("IG_PLAYER_NUMBER_0.bmp");
-			Renderer->SetPivot({ 40.f - (40.f * i), -343 });
+			Renderer->SetPivot({ 40.f - (35.f * i), -343 });
 			Renderer->SetOrder(20);
 		}
 		break;
 		case 1:
 		{
 			GameEngineRenderer* Renderer = SDPlayer_->CreateRenderer("IG_PLAYER_NUMBER_1.bmp");
-			Renderer->SetPivot({ 40.f - (40.f * i), -343 });
+			Renderer->SetPivot({ 40.f - (35.f * i), -343 });
 			Renderer->SetOrder(20);
 		}
 		break;
 		case 2:
 		{
 			GameEngineRenderer* Renderer = SDPlayer_->CreateRenderer("IG_PLAYER_NUMBER_2.bmp");
-			Renderer->SetPivot({ 40.f - (40.f * i), -343 });
+			Renderer->SetPivot({ 40.f - (35.f * i), -343 });
 			Renderer->SetOrder(20);
 		}
 		break;
 		case 3:
 		{
 			GameEngineRenderer* Renderer = SDPlayer_->CreateRenderer("IG_PLAYER_NUMBER_3.bmp");
-			Renderer->SetPivot({ 40.f - (40.f * i), -343 });
+			Renderer->SetPivot({ 40.f - (35.f * i), -343 });
 			Renderer->SetOrder(20);
 		}
 		break;
 		case 4:
 		{
 			GameEngineRenderer* Renderer = SDPlayer_->CreateRenderer("IG_PLAYER_NUMBER_4.bmp");
-			Renderer->SetPivot({ 40.f - (40.f * i), -343 });
+			Renderer->SetPivot({ 40.f - (35.f * i), -343 });
 			Renderer->SetOrder(20);
 		}
 		break;
 		case 5:
 		{
 			GameEngineRenderer* Renderer = SDPlayer_->CreateRenderer("IG_PLAYER_NUMBER_5.bmp");
-			Renderer->SetPivot({ 40.f - (40.f * i), -343 });
+			Renderer->SetPivot({ 40.f - (35.f * i), -343 });
 			Renderer->SetOrder(20);
 		}
 
@@ -1032,28 +1032,28 @@ void InGame::RenderTime()
 		case 6:
 		{
 			GameEngineRenderer* Renderer = SDPlayer_->CreateRenderer("IG_PLAYER_NUMBER_6.bmp");
-			Renderer->SetPivot({ 40.f - (50.f * i), -343 });
+			Renderer->SetPivot({ 40.f - (35.f * i), -343 });
 			Renderer->SetOrder(20);
 		}
 		break;
 		case 7:
 		{
 			GameEngineRenderer* Renderer = SDPlayer_->CreateRenderer("IG_PLAYER_NUMBER_7.bmp");
-			Renderer->SetPivot({ 40.f - (40.f * i), -343 });
+			Renderer->SetPivot({ 40.f - (35.f * i), -343 });
 			Renderer->SetOrder(20);
 		}
 		break;
 		case 8:
 		{
 			GameEngineRenderer* Renderer = SDPlayer_->CreateRenderer("IG_PLAYER_NUMBER_8.bmp");
-			Renderer->SetPivot({ 40.f - (40.f * i), -343 });
+			Renderer->SetPivot({ 40.f - (35.f * i), -343 });
 			Renderer->SetOrder(20);
 		}
 		break;
 		case 9:
 		{
 			GameEngineRenderer* Renderer = SDPlayer_->CreateRenderer("IG_PLAYER_NUMBER_9.bmp");
-			Renderer->SetPivot({ 40.f - (40.f * i), -343 });
+			Renderer->SetPivot({ 40.f - (35.f * i), -343 });
 			Renderer->SetOrder(20);
 		}
 		break;
