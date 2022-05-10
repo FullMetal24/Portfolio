@@ -78,12 +78,12 @@ void Player::Start()
 
 void Player::Update()
 {
-	if (true == GameEngineInput::GetInst()->IsDown("Hindrance"))
-	{
-		Chain_ += 1;
-		//OffsetEffect();
-		PlayerToEnemyAttack({ GameEngineWindow::GetScale().Half() });
-	}
+	//if (true == GameEngineInput::GetInst()->IsDown("Hindrance"))
+	//{
+	//	Chain_ += 1;
+	//	//OffsetEffect();
+	//	PlayerToEnemyAttack({ GameEngineWindow::GetScale().Half() });
+	//}
 
 	if (nullptr == InGameLevel_)
 	{

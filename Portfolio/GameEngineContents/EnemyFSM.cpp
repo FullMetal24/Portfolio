@@ -141,12 +141,7 @@ void EnemyFSM::Update()
 			AnimationState_ = EnemyAnimationState::Win;
 			break;
 		case EnemyState::Lose:
-			if (false == IsLosePlay_)
-			{
-				IsLosePlay_ = true;
-				Lose();
-				EffectSound_.SoundPlayOneShot("LOSE_FALL_PUYO.mp3");
-			}
+			Lose();
 			LoseFallPuyo();
 			DisappearBubble();
 			AnimationState_ = EnemyAnimationState::Lose;
@@ -175,12 +170,12 @@ void EnemyFSM::Update()
 			break;
 		}
 
-		if (true == GameEngineInput::GetInst()->IsDown("HindranceEnemy"))
-		{
-			Chain_ += 1;
-			//OffsetEffect();
-			EnemyToPlayerAttack({ GameEngineWindow::GetScale().Half() });
-		}
+		//if (true == GameEngineInput::GetInst()->IsDown("HindranceEnemy"))
+		//{
+		//	Chain_ += 1;
+		//	//OffsetEffect();
+		//	EnemyToPlayerAttack({ GameEngineWindow::GetScale().Half() });
+		//}
 
 		DangerCheck();
 		AnimationStateCheck();
@@ -372,32 +367,98 @@ void EnemyFSM::GreedyPuyoMove()
 
 		else if (CenterPuyo_->GetX() > ActionIndex_)
 		{
-			if (CenterPuyo_->GetX() >= SecondPuyo_->GetX())
+			if (CenterPuyo_->GetY() < SecondPuyo_->GetY())
 			{
-				SecondPuyo_->LeftPuyo(EnemyMap_, CenterPuyo_);
-				CenterPuyo_->LeftPuyo(EnemyMap_, SecondPuyo_);
+				if (CenterPuyo_->GetX() < SecondPuyo_->GetX())
+				{
+					CenterPuyo_->LeftPuyo(EnemyMap_, SecondPuyo_);
+					SecondPuyo_->JustLeftMove(EnemyMap_, CenterPuyo_);
+				}
+
+				else if (CenterPuyo_->GetX() >= SecondPuyo_->GetX())
+				{
+					SecondPuyo_->LeftPuyo(EnemyMap_, CenterPuyo_);
+					CenterPuyo_->JustLeftMove(EnemyMap_, SecondPuyo_);
+				}
 			}
 
-			else if (CenterPuyo_->GetX() <= SecondPuyo_->GetX())
+			else if (CenterPuyo_->GetY() > SecondPuyo_->GetY())
 			{
-				CenterPuyo_->LeftPuyo(EnemyMap_, SecondPuyo_);
-				SecondPuyo_->LeftPuyo(EnemyMap_, CenterPuyo_);
+				if (CenterPuyo_->GetX() < SecondPuyo_->GetX())
+				{
+					SecondPuyo_->LeftPuyo(EnemyMap_, CenterPuyo_);
+					CenterPuyo_->JustLeftMove(EnemyMap_, SecondPuyo_);
+				}
+
+				else if (CenterPuyo_->GetX() >= SecondPuyo_->GetX())
+				{
+					CenterPuyo_->LeftPuyo(EnemyMap_, SecondPuyo_);
+					SecondPuyo_->JustLeftMove(EnemyMap_, CenterPuyo_);
+				}
+			}
+
+			else if (CenterPuyo_->GetY() == SecondPuyo_->GetY())
+			{
+				if (CenterPuyo_->GetX() < SecondPuyo_->GetX())
+				{
+					CenterPuyo_->LeftPuyo(EnemyMap_, SecondPuyo_);
+					SecondPuyo_->JustLeftMove(EnemyMap_, CenterPuyo_);
+				}
+
+				else if (CenterPuyo_->GetX() >= SecondPuyo_->GetX())
+				{
+					SecondPuyo_->LeftPuyo(EnemyMap_, CenterPuyo_);
+					CenterPuyo_->JustLeftMove(EnemyMap_, SecondPuyo_);
+				}
 			}
 		}
 
 
 		else if (CenterPuyo_->GetX() < ActionIndex_)
 		{
-			if (CenterPuyo_->GetX() >= SecondPuyo_->GetX())
+			if (CenterPuyo_->GetY() < SecondPuyo_->GetY())
 			{
-				CenterPuyo_->RightPuyo(EnemyMap_, SecondPuyo_);
-				SecondPuyo_->RightPuyo(EnemyMap_, CenterPuyo_);
+				if (CenterPuyo_->GetX() > SecondPuyo_->GetX())
+				{
+					CenterPuyo_->RightPuyo(EnemyMap_, SecondPuyo_);
+					SecondPuyo_->JustRightMove(EnemyMap_, CenterPuyo_);
+				}
+
+				else if (CenterPuyo_->GetX() <= SecondPuyo_->GetX())
+				{
+					SecondPuyo_->RightPuyo(EnemyMap_, CenterPuyo_);
+					CenterPuyo_->JustRightMove(EnemyMap_, SecondPuyo_);
+				}
 			}
 
-			else if (CenterPuyo_->GetX() <= SecondPuyo_->GetX())
+			else if (CenterPuyo_->GetY() > SecondPuyo_->GetY())
 			{
-				SecondPuyo_->RightPuyo(EnemyMap_, CenterPuyo_);
-				CenterPuyo_->RightPuyo(EnemyMap_, SecondPuyo_);
+				if (CenterPuyo_->GetX() > SecondPuyo_->GetX())
+				{
+					SecondPuyo_->RightPuyo(EnemyMap_, CenterPuyo_);
+					CenterPuyo_->JustRightMove(EnemyMap_, SecondPuyo_);
+				}
+
+				else if (CenterPuyo_->GetX() <= SecondPuyo_->GetX())
+				{
+					CenterPuyo_->RightPuyo(EnemyMap_, SecondPuyo_);
+					SecondPuyo_->JustRightMove(EnemyMap_, CenterPuyo_);
+				}
+			}
+
+			else if (CenterPuyo_->GetY() == SecondPuyo_->GetY())
+			{
+				if (CenterPuyo_->GetX() > SecondPuyo_->GetX())
+				{
+					CenterPuyo_->RightPuyo(EnemyMap_, SecondPuyo_);
+					SecondPuyo_->JustRightMove(EnemyMap_, CenterPuyo_);
+				}
+
+				else if (CenterPuyo_->GetX() <= SecondPuyo_->GetX())
+				{
+					SecondPuyo_->RightPuyo(EnemyMap_, CenterPuyo_);
+					CenterPuyo_->JustRightMove(EnemyMap_, SecondPuyo_);
+				}
 			}
 		}
 	}
@@ -1271,77 +1332,84 @@ void EnemyFSM::FrontEnemy()
 
 void EnemyFSM::Lose()
 {
+	if (false == IsLosePlay_)
 	{
-		std::vector<std::vector<Puyo*>>::iterator StartIter = AllDestroyPuyo_.begin();
-		std::vector<std::vector<Puyo*>>::iterator EndIter = AllDestroyPuyo_.end();
+		IsLosePlay_ = true;
+		EffectSound_.SoundPlayOneShot("LOSE_FALL_PUYO.mp3");
 
-		for (; StartIter != EndIter; ++StartIter)
 		{
-			std::vector<Puyo*>::iterator StartPuyos = (*StartIter).begin();
-			std::vector<Puyo*>::iterator EndPuyos = (*StartIter).end();
+			std::vector<std::vector<Puyo*>>::iterator StartIter = AllDestroyPuyo_.begin();
+			std::vector<std::vector<Puyo*>>::iterator EndIter = AllDestroyPuyo_.end();
 
-			for (; StartPuyos != EndPuyos; ++StartPuyos)
+			for (; StartIter != EndIter; ++StartIter)
 			{
-				if (nullptr != (*StartPuyos))
+				std::vector<Puyo*>::iterator StartPuyos = (*StartIter).begin();
+				std::vector<Puyo*>::iterator EndPuyos = (*StartIter).end();
+
+				for (; StartPuyos != EndPuyos; ++StartPuyos)
 				{
-					(*StartPuyos)->Death();
-					(*StartPuyos) = nullptr;
+					if (nullptr != (*StartPuyos))
+					{
+						(*StartPuyos)->Death();
+						(*StartPuyos) = nullptr;
+					}
 				}
 			}
+
+			AllDestroyPuyo_.clear();
 		}
 
-		AllDestroyPuyo_.clear();
-	}
-
-	{
-		std::set<Puyo*>::iterator StartIter = FindAllDestroy_.begin();
-		std::set<Puyo*>::iterator EndIter = FindAllDestroy_.end();
-
-		for (; StartIter != EndIter; ++StartIter)
 		{
-			if (nullptr != (*StartIter))
+			std::set<Puyo*>::iterator StartIter = FindAllDestroy_.begin();
+			std::set<Puyo*>::iterator EndIter = FindAllDestroy_.end();
+
+			for (; StartIter != EndIter; ++StartIter)
 			{
-				(*StartIter)->Death();
+				if (nullptr != (*StartIter))
+				{
+					(*StartIter)->Death();
+				}
 			}
+
+			FindAllDestroy_.clear();
 		}
 
-		FindAllDestroy_.clear();
-	}
 
-
-	{
-		std::vector<Puyo*>::iterator StartIter = Hindrances_.begin();
-		std::vector<Puyo*>::iterator EndIter = Hindrances_.end();
-
-		for (; StartIter != EndIter; ++StartIter)
 		{
-			if (nullptr != (*StartIter))
-			{
-				(*StartIter)->Death();
-				(*StartIter) = nullptr;
+			std::vector<Puyo*>::iterator StartIter = Hindrances_.begin();
+			std::vector<Puyo*>::iterator EndIter = Hindrances_.end();
 
+			for (; StartIter != EndIter; ++StartIter)
+			{
+				if (nullptr != (*StartIter))
+				{
+					(*StartIter)->Death();
+					(*StartIter) = nullptr;
+
+				}
 			}
+
+			Hindrances_.clear();
 		}
 
-		Hindrances_.clear();
-	}
-
-	{
-		std::vector<WarningPuyo*>::iterator StartIter = WarningPuyos_.begin();
-		std::vector<WarningPuyo*>::iterator EndIter = WarningPuyos_.end();
-
-		for (; StartIter != EndIter; ++StartIter)
 		{
-			if (nullptr != (*StartIter))
+			std::vector<WarningPuyo*>::iterator StartIter = WarningPuyos_.begin();
+			std::vector<WarningPuyo*>::iterator EndIter = WarningPuyos_.end();
+
+			for (; StartIter != EndIter; ++StartIter)
 			{
-				(*StartIter)->Death();
-				(*StartIter) = nullptr;
+				if (nullptr != (*StartIter))
+				{
+					(*StartIter)->Death();
+					(*StartIter) = nullptr;
 
+				}
 			}
-		}
 
-		WarningPuyos_.clear();
+			WarningPuyos_.clear();
+		}
 	}
+	
 }
 
 void EnemyFSM::LoseFallPuyo()
