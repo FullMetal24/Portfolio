@@ -19,6 +19,9 @@
 
 InGame::InGame()
 	: Stages_{ }
+	, StageRenderer_(nullptr)
+	, StateBottoms_{nullptr}
+	, GameTime_(0.f)
 	, Player_(nullptr)
 	, EnemyFSM_(nullptr)
 	, EnemyProfile_(nullptr)

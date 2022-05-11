@@ -14,7 +14,7 @@ enum class TitileOrder
 	FADE_3,
 	ROLL_3,
 	COIN_2,
-	COIN_1, //애니메이션
+	COIN_1,
 	ARLE_BACK,
 	ARLE_FACE,
 	ARLE_FINGER,
@@ -31,11 +31,15 @@ enum class TitileOrder
 };
 
 Title::Title()
-	: TitleActors_{}
-	, TransTime_(0.0f)
-	, TransCount_(0)
-	, EyeMove_(false)
+	: LevelChangeBackground_(nullptr)
+	, Stars_(nullptr)
+	, TitleActors_{}
 	, TitleBgm_{}
+	, EffectSound_{}
+	, TransCount_(0)
+	, TransTime_(0.0f)
+	, EyeMove_(false)
+
 {
 
 }
@@ -105,7 +109,6 @@ void Title::Update()
 	if (6 == TransCount_
 		&& TitleActors_[(int)TitileOrder::ROLL_3]->GetPosition().y < GameEngineWindow::GetScale().y - 130.f)
 	{
-		//페이드 인 아웃해야함
 		TitleActors_[(int)TitileOrder::ROLL_3]->SetMove(float4::DOWN * 230.f * GameEngineTime::GetDeltaTime());
 		TitleActors_[(int)TitileOrder::LINE_3]->SetMove(float4::DOWN * 1300.f * GameEngineTime::GetDeltaTime());
 	}
@@ -199,7 +202,7 @@ void Title::Update()
 
 
 	}
-	
+
 	if (10 == TransCount_)
 	{
 		RedRenderer_->SetOrder(11);
@@ -270,7 +273,7 @@ void Title::LevelChangeEnd(GameEngineLevel* _NextLevel)
 			TitleActors_[i] = nullptr;
 		}
 	}
-	
+
 	for (int i = 0; i < 20; i++)
 	{
 		if (nullptr != TitleRenderers_[i])

@@ -195,6 +195,7 @@ private:
 	GameEngineRandom Random_;
 
 	GameEngineRenderer* MyRenderer_;
+
 	Player* Player_;
 	EnemyFSM* Enemy_;
 

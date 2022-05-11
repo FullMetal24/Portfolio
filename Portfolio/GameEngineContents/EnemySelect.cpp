@@ -15,15 +15,20 @@
 EnemySelect::EnemySelect()
 	: Enemys_{}
 	, MyEnemy_(nullptr)
-	, TwinkleTime_(0.f)
+	, LoseArr_{}
 	, RouletteSpeed_(1.0f)
 	, SpeedLimit_(0.01f)
 	, LevelChangeCount_(2.5f)
+	, TwinkleTime_(0.f)
 	, RouletteIndex_(0)
 	, LimitForce_(0)
 	, IsSelect_(false)
 	, IsKeyDown_(false)
-
+	, TopRenderer_{nullptr}
+	, FadeBackground_(nullptr)
+	, EnemySelectBgm_{}
+	, EffectSound_ {}
+	, PointActors_{nullptr}
 {
 }
 
@@ -46,18 +51,6 @@ void EnemySelect::Loading()
 		GameEngineActor* RestUi = CreateActor<EnemySelectActor>(4);
 		RestUi->SetPosition({ GameEngineWindow::GetScale().Half().x - 525.f, GameEngineWindow::GetScale().Half().y });
 		RestUi->CreateRenderer("ES_REST_UI.bmp");
-
-		//GameEngineActor* ExpValneUi = CreateActor<EnemySelectActor>(4);
-		//ExpValneUi->SetPosition({ GameEngineWindow::GetScale().Half().x - 290.f, GameEngineWindow::GetScale().Half().y - 125.f });
-		//ExpValneUi->CreateRenderer("ES_0.bmp");
-
-		//GameEngineActor* NexValuetUi = CreateActor<EnemySelectActor>(4);
-		//NexValuetUi->SetPosition({ GameEngineWindow::GetScale().Half().x - 350.f, GameEngineWindow::GetScale().Half().y - 65.f });
-		//NexValuetUi->CreateRenderer("ES_15000.bmp");
-
-		//GameEngineActor* ResValuetUi = CreateActor<EnemySelectActor>(4);
-		//ResValuetUi->SetPosition({ GameEngineWindow::GetScale().Half().x - 350.f, GameEngineWindow::GetScale().Half().y });
-		//ResValuetUi->CreateRenderer("ES_15000.bmp");
 	}
 
 	if (false == GameEngineInput::GetInst()->IsKey("EnemySelect"))

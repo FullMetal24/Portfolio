@@ -23,8 +23,8 @@ PuyoPuyo::~PuyoPuyo()
 void PuyoPuyo::GameInit()
 {
 	GameEngineWindow::GetInst().SetWindowScaleAndPosition({ 100, 100 }, {1280, 896});
-
-	//이미지 파일 저장
+	
+	//이미지 파일 불러오기
 	{
 		GameEngineDirectory ResourecesDir;
 		ResourecesDir.MoveParent("Portfolio");
@@ -39,20 +39,6 @@ void PuyoPuyo::GameInit()
 		};
 	}
 
-	{
-		GameEngineDirectory ResourecesDir;
-		ResourecesDir.MoveParent("Portfolio");
-		ResourecesDir.Move("APIResources");
-		ResourecesDir.Move("Level");
-		ResourecesDir.Move("GO_IMAGES");
-
-		std::vector<GameEngineFile> AllImageFileList = ResourecesDir.GetAllFile("Bmp");
-
-		for (size_t i = 0; i < AllImageFileList.size(); i++)
-		{
-			GameEngineImageManager::GetInst()->Load(AllImageFileList[i].GetFullPath());
-		};
-	}
 
 	{
 		GameEngineDirectory ResourecesDir;
@@ -68,6 +54,23 @@ void PuyoPuyo::GameInit()
 		};
 	}
 
+	//게임오버 화면 이미지 불러오기
+	{
+		GameEngineDirectory ResourecesDir;
+		ResourecesDir.MoveParent("Portfolio");
+		ResourecesDir.Move("APIResources");
+		ResourecesDir.Move("Level");
+		ResourecesDir.Move("GO_IMAGES");
+
+		std::vector<GameEngineFile> AllImageFileList = ResourecesDir.GetAllFile("Bmp");
+
+		for (size_t i = 0; i < AllImageFileList.size(); i++)
+		{
+			GameEngineImageManager::GetInst()->Load(AllImageFileList[i].GetFullPath());
+		};
+	}
+
+	//게임 사운드 불러오기
 	{
 		GameEngineDirectory ResourcesDir;
 		ResourcesDir.MoveParent("Portfolio");
@@ -81,7 +84,6 @@ void PuyoPuyo::GameInit()
 			GameEngineSound::LoadRes(AllImageFileList[i].GetFullPath());
 		}
 	}
-
 
 	CreateLevel<Title>("Title"); 
 	CreateLevel<MainMenu>("MainMenu");

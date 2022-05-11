@@ -16,7 +16,7 @@ public:
 	GameEnginePath& operator=(const GameEnginePath& _Other) = delete;
 	GameEnginePath& operator=(GameEnginePath&& _Other) noexcept = delete;
 
-	void SetCurrnetPath();
+	void SetCurrentPath();
 
 	bool IsExits();
 
@@ -30,6 +30,5 @@ protected:
 	std::filesystem::path Path_;
 
 private:
-
 };
 

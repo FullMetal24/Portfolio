@@ -64,6 +64,7 @@ void BestRecords::LevelChangeStart(GameEngineLevel* _PrevLevel)
 	MainMenuBgm_ = GameEngineSound::SoundPlayControl("MainMenu.mp3");
 }
 
+
 void BestRecords::LevelChangeEnd(GameEngineLevel* _NextLevel)
 {
 	FadeInOutBackground_->Death();

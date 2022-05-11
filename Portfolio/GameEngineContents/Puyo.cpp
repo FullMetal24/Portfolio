@@ -13,6 +13,8 @@
 Puyo::Puyo()
 	: PuyoState_{}
 	, MyRenderer_(nullptr)
+	, Player_(nullptr)
+	, Enemy_(nullptr)
 	, MyColor_(PuyoColor::RED)
 	, CurDir_(PuyoDir::UP)
 	, X_(0)
@@ -23,12 +25,18 @@ Puyo::Puyo()
 	, StartPos_{}
 	, EndPos_{}
 	, Alpha_(0.f)
+	, IdleTime_(0.f)
+	, NormalTime_(0.f)
+	, IsNewPuyo_(false)
+	, IsIdle_(false)
 	, IsLand_(false)
 	, IsDestroy_(false)
 	, IsFall_(false)
 	, IsLoseFall_(false)
 	, IsSoundPlay_(false)
 	, IsEffectOn_(false)
+	, PuyoSound_{}
+	, Effect_{nullptr}
 {
 }
 
@@ -1925,6 +1933,7 @@ int Puyo::GradeLinkAnimation(Puyo* Map[15][6])
 
 		if (nullptr == Map[Y][X])
 		{
+			RenderToNormal();
 			continue;
 		}
 
