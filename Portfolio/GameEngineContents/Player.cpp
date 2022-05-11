@@ -293,7 +293,7 @@ void Player::InputPuyoMove()
 
 	if (GameEngineInput::GetInst()->IsDown("Left"))
 	{		
-		AutoDownTime_ += 1.0f;
+		AutoDownTime_ = 1.0f;
 
 		if (CenterPuyo_->GetY() < SecondPuyo_->GetY())
 		{
@@ -344,7 +344,7 @@ void Player::InputPuyoMove()
 
 	if (GameEngineInput::GetInst()->IsDown("Right"))
 	{
-		AutoDownTime_ += 1.0f;
+		AutoDownTime_ = 1.0f;
 
 		if (CenterPuyo_->GetY() < SecondPuyo_->GetY())
 		{

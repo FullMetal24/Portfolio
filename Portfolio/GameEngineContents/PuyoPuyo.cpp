@@ -1,6 +1,7 @@
 #include "PuyoPuyo.h"
 #include "Title.h"
 #include "MainMenu.h"
+#include "Option.h"
 #include "InGame.h"
 #include "EnemySelect.h"
 #include "GameOver.h"
@@ -87,6 +88,7 @@ void PuyoPuyo::GameInit()
 
 	CreateLevel<Title>("Title"); 
 	CreateLevel<MainMenu>("MainMenu");
+	CreateLevel<Option>("Option");
 	CreateLevel<EnemySelect>("EnemySelect");
 	CreateLevel<InGame>("InGame");
 	CreateLevel<GameOver>("GameOver");
