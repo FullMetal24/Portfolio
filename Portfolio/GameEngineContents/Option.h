@@ -12,6 +12,9 @@ public:
 	Option& operator=(const Option& _Other) = delete;
 	Option& operator=(Option&& _Other) noexcept = delete;
 
+	void Loading() override;
+	void Update() override;
+
 protected:
 
 private:

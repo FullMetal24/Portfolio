@@ -83,6 +83,9 @@
     <ClCompile Include="Option.cpp">
       <Filter>Level</Filter>
     </ClCompile>
+    <ClCompile Include="OptionActor.cpp">
+      <Filter>Actor\Level\Option</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PuyoPuyo.h" />
@@ -164,6 +167,9 @@
     <ClInclude Include="Option.h">
       <Filter>Level</Filter>
     </ClInclude>
+    <ClInclude Include="OptionActor.h">
+      <Filter>Actor\Level\Option</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Actor">
@@ -210,6 +216,9 @@
     </Filter>
     <Filter Include="Actor\Level\InGame\Player">
       <UniqueIdentifier>{5af8637f-ce58-456c-a2e1-30715f6f18bd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor\Level\Option">
+      <UniqueIdentifier>{ff839a00-f669-475f-9eec-6ba81fb26eb9}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
