@@ -94,7 +94,7 @@ void PuyoPuyo::GameInit()
 	CreateLevel<GameOver>("GameOver");
 	CreateLevel<BestRecords>("BestRecords");
 
-	ChangeLevel("Option");
+	ChangeLevel("Title");
 }
 
 void PuyoPuyo::GameLoop()

@@ -399,8 +399,6 @@ void Title::BackgroundInit()
 	GameEngineRenderer* EyeRenderer = TitleActors_[(int)TitileOrder::PUYO_EYE]->CreateRenderer("TT_PUYO_EYE.bmp", (int)TitileOrder::PUYO_EYE, RenderPivot::CENTER, { 150, 150 });
 	GameEngineRenderer* EyeRenderer1 = TitleActors_[(int)TitileOrder::PUYO_EYE]->CreateRenderer("TT_PUYO_EYE.bmp", (int)TitileOrder::PUYO_EYE, RenderPivot::CENTER, { 580, 420 });
 
-	TitleActors_[(int)TitileOrder::PUYO_BACK]->CreateRenderer("TT_BACK.bmp");
-
 	{
 		GameEngineImage* Image = GameEngineImageManager::GetInst()->Find("TT_BACK1.bmp");
 		Image->CutCount(6, 1);
