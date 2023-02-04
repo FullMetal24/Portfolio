@@ -5,8 +5,8 @@
 #include <vector>
 #include <GameEngineBase/GameEngineNameObject.h>
 #include <GameEngineBase/GameEngineMath.h>
+#include "GameEngineActor.h"
 
-class GameEngineActor;
 struct ChangeOrderItem
 {
 	GameEngineActor* TargetObject; // ¿Ã≥‡ºÆ¿ª
@@ -14,7 +14,6 @@ struct ChangeOrderItem
 };
 
 class GameEngine;
-class GameEngineActor;
 class GameEngineCollision;
 class GameEngineRenderer;
 class GameEngineLevel : public GameEngineNameObject
@@ -55,12 +54,11 @@ public:
 	template<typename ActorType>
 	ActorType* CreateActor(int _Order = 0, const std::string& _Name = "")
 	{
-		ActorType* NewActor = new ActorType();
-		GameEngineActor* StartActor = NewActor;
+		GameEngineActor* NewActor = new ActorType();
 		NewActor->GameEngineUpdateObject::SetOrder(_Order);
 		NewActor->SetName(_Name);
 		NewActor->SetLevel(this);
-		StartActor->Start();
+		NewActor->Start();
 		std::list<GameEngineActor*>& Group = AllActor_[_Order];
 		Group.push_back(NewActor);
 
@@ -80,7 +78,7 @@ public:
 		//	FindGroup = AllActor_.find(_Order);
 		//}
 
-		return NewActor;
+		return  dynamic_cast<ActorType*>(NewActor);
 	}
 
 	inline float4 GetCameraPos()

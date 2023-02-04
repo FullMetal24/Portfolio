@@ -45,6 +45,11 @@ GameEngineActor::~GameEngineActor()
 	}
 }
 
+float4 GameEngineActor::GetCameraEffectPosition()
+{
+	return Position_ - GetLevel()->GetCameraPos();
+}
+
 void GameEngineActor::DebugRectRender()
 {
 	// 선생님은 기본적으로 중앙을 기준으로하는걸 좋아합니다.

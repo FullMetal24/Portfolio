@@ -1,6 +1,7 @@
 #include "Fire.h"
 #include <GameEngine/GameEngineRenderer.h>
 #include <GameEngineBase/GameEngineInput.h>
+#include <GameEngine/GameEngineLevel.h>
 
 Fire::Fire()
 	: FireOwner_(FireOwner::NONE)

@@ -1,6 +1,7 @@
 #include "PuyoDestroyEffect.h"
 #include <GameEngine/GameEngineRenderer.h>
 #include "InGameActor.h"
+#include <GameEngine/GameEngineLevel.h>
 
 PuyoDestroyEffect::PuyoDestroyEffect()
 	: Count_(0)
