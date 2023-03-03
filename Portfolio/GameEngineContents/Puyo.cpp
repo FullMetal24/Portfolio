@@ -36,7 +36,7 @@ Puyo::Puyo()
 	, IsSoundPlay_(false)
 	, IsEffectOn_(false)
 	, PuyoSound_{}
-	, Effect_{nullptr}
+	, Effect_{ nullptr }
 {
 }
 
@@ -551,7 +551,7 @@ bool Puyo::LeftPuyo(Puyo* Map[15][6], Puyo* _Other)
 		}
 
 		else if (nullptr == Map[Y_][X_ - 1]
-			&& this == Map[_Other->GetY()][_Other->GetX() - 1])	
+			&& this == Map[_Other->GetY()][_Other->GetX() - 1])
 		{
 			Map[Y_][X_] = nullptr;
 			Map[Y_][X_ - 1] = this;
@@ -1836,77 +1836,79 @@ void Puyo::LinkedPuyoAnimtaion(Puyo* Map[15][6])
 	switch (Value)
 	{
 		//©Л
-	case 1:
+	case 0b0001:
 		RenderToRight();
 		break;
 
 		//аб
-	case 10:
+	case 0b0010:
 		RenderToLeft();
 		break;
 
 		//аб©Л
-	case 11:
+	case 0b0011:
 		RenderToLeftRight();
 		break;
 
 		//го
-	case 100:
+	case 0b0100:
 		RenderToDown();
 		break;
 
 		//гоаб
-	case 110:
+	case 0b0110:
 		RenderToLeftDown();
 		break;
 
+		//...
+
 		//го©Л
-	case 101:
+	case 0b0101:
 		RenderToRightDown();
 		break;
 
 		//гоаб©Л
-	case 111:
+	case 0b0111:
 		RenderToLeftRightDown();
 		break;
 
 		//╩С
-	case 1000:
+	case 0b1000:
 		RenderToUp();
 		break;
 
 		//╩Сго
-	case 1100:
+	case 0b1100:
 		RenderToUpDown();
 		break;
 
 		//╩Сгоаб
-	case 1110:
+	case 0b1110:
 		RenderToLeftUpDown();
 		break;
 
 		//╩Сго©Л
-	case 1101:
+	case 0b1101:
 		RenderToRightUpDown();
 		break;
 
 		//╩Саб
-	case 1010:
+	case 0b1010:
 		RenderToLefttUp();
 		break;
 
 		//╩С©Л
-	case 1001:
+	case 0b1001:
 		RenderToRightUp();
 		break;
 
 		//╩Саб©Л
-	case 1011:
+	case 0b1011:
 		RenderToLeftRightUp();
 		break;
 
 		//╩Сгоаб©Л
-	case 1111:
+	case 0b1111:
 		RenderToLeftRightUpDown();
 		break;
 	}
@@ -1942,22 +1944,22 @@ int Puyo::GradeLinkAnimation(Puyo* Map[15][6])
 		{
 			if (1 == Dx[i])
 			{
-				Value += 1;
+				Value += 0b0001;
 			}
 
 			if (-1 == Dx[i])
 			{
-				Value += 10;
+				Value += 0b0010;
 			}
 
 			if (-1 == Dy[i])
 			{
-				Value += 100;
+				Value += 0b0100;
 			}
 
 			if (1 == Dy[i])
 			{
-				Value += 1000;
+				Value += 0b1000;
 			}
 		}
 	}
